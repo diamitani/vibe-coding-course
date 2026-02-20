@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Coding Tools Directory | Vibe Coding Masterclass</title>
+    <meta name="description"
+        content="Explore and compare the best AI-powered vibe coding tools: Lovable, v0.dev, Replit, Bolt.new, Claude Code, Codex, Antigravity, and more.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <nav class="nav">
+        <div class="nav-inner"><a href="index.html" class="nav-logo">⚡ Vibe Coding</a><button class="nav-toggle"
+                aria-label="Toggle navigation">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="module1.html">Modules</a></li>
+                <li><a href="tools.html">Tools</a></li>
+                <li><a href="news.html">News</a></li>
+                <li><a href="lab1.html">Labs</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li id="auth-nav-slot"></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div class="container">
+            <section class="hero" style="padding-bottom:var(--space-xl);">
+                <span class="hero-badge"><span class="dot"></span> Clickable Directory</span>
+                <h1>Vibe Coding <span class="gradient-text">Tools</span></h1>
+                <p>Every tool you need to build with AI. Click any card to visit the tool directly.</p>
+            </section>
+
+            <!-- Search & Filter -->
+            <div class="tools-search">
+                <input type="text" id="tool-search" class="form-input" placeholder="Search tools..."
+                    oninput="filterTools()">
+            </div>
+            <div class="showcase-filters" style="margin-bottom:var(--space-xl);">
+                <button class="filter-btn active" onclick="filterTools('all')">All</button>
+                <button class="filter-btn" onclick="filterTools('Hosted Builder')">Hosted Builders</button>
+                <button class="filter-btn" onclick="filterTools('AI IDE')">AI IDEs</button>
+                <button class="filter-btn" onclick="filterTools('CLI Agent')">CLI Agents</button>
+                <button class="filter-btn" onclick="filterTools('Design')">Design</button>
+                <button class="filter-btn" onclick="filterTools('Automation')">Automation</button>
+            </div>
+
+            <!-- Tools Grid -->
+            <div class="cards-grid cards-grid-3" id="tools-grid"></div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>⚡ Vibe Coding Masterclass &copy; 2025</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+        const TOOLS = [
+            { name: 'Lovable', icon: '💜', url: 'https://lovable.dev', category: 'Hosted Builder', pricing: 'Free tier + paid', desc: 'AI full-stack app builder. Describe your project and Lovable generates a complete app with React frontend, Supabase backend, auth, and database — with live preview as it builds.', tags: ['Full-Stack', 'Supabase', 'One-Click Deploy'] },
+            { name: 'v0.dev', icon: '▲', url: 'https://v0.dev', category: 'Hosted Builder', pricing: 'Free tier + paid', desc: 'Vercel\'s AI UI generator. Creates production-ready React + Tailwind components from text descriptions. Perfect for front-end design and rapid prototyping.', tags: ['UI Components', 'React', 'Tailwind'] },
+            { name: 'Bolt.new', icon: '⚡', url: 'https://bolt.new', category: 'Hosted Builder', pricing: 'Free tier + paid', desc: 'StackBlitz instant full-stack builder. Runs Node.js entirely in the browser via WebContainers — no server needed. Build and preview apps in real time.', tags: ['Full-Stack', 'WebContainers', 'Instant'] },
+            { name: 'Replit', icon: '🔄', url: 'https://replit.com', category: 'AI IDE', pricing: 'Free tier + paid', desc: 'Cloud IDE with an AI agent that builds entire apps from descriptions. Covers IDE, hosting, deployment, and databases — the most all-in-one platform available.', tags: ['All-in-One', 'Cloud IDE', 'Hosting'] },
+            { name: 'Cursor', icon: '📐', url: 'https://cursor.com', category: 'AI IDE', pricing: 'Free tier + $20/mo', desc: 'AI-first code editor built on VS Code. Features tab completion, multi-file edits, and chat — a favorite among developers transitioning to AI-assisted coding.', tags: ['VS Code', 'Tab Complete', 'Chat'] },
+            { name: 'Windsurf', icon: '🏄', url: 'https://windsurf.com', category: 'AI IDE', pricing: 'Free tier + paid', desc: 'AI IDE by Codeium with agentic "Cascade" flows. Understands your entire codebase and makes multi-step changes autonomously while you watch.', tags: ['Agentic', 'Cascade', 'Codebase-Aware'] },
+            { name: 'Claude Code', icon: '🟠', url: 'https://docs.anthropic.com/en/docs/claude-code', category: 'CLI Agent', pricing: 'API usage', desc: 'Anthropic\'s agentic terminal tool. Reads your entire codebase, understands project structure, creates and edits files, runs commands, and handles complex multi-file refactors.', tags: ['Terminal', 'Multi-File', 'Deep Context'] },
+            { name: 'Codex', icon: '🟢', url: 'https://openai.com/index/introducing-codex/', category: 'CLI Agent', pricing: 'API usage', desc: 'OpenAI\'s cloud-based coding agent. Runs tasks in a sandboxed environment, reads repositories, executes code, runs tests, and can submit pull requests.', tags: ['Sandboxed', 'GitHub', 'Pull Requests'] },
+            { name: 'OpenCode', icon: '🔓', url: 'https://github.com/opencode-ai/opencode', category: 'CLI Agent', pricing: 'Free + LLM costs', desc: 'Open-source terminal AI assistant. Provider-agnostic — works with OpenAI, Anthropic, or local models. Full transparency and control over your tooling.', tags: ['Open Source', 'Any LLM', 'Transparent'] },
+            { name: 'Antigravity', icon: '🚀', url: 'https://deepmind.google', category: 'AI IDE', pricing: 'Varies', desc: 'Google DeepMind\'s advanced agentic coding assistant. Operates inside an IDE with terminal, browser, and file system access. Plans, executes, and verifies changes autonomously.', tags: ['Agentic', 'Browser+Terminal', 'DeepMind'] },
+            { name: 'GitHub Copilot', icon: '🐙', url: 'https://github.com/features/copilot', category: 'AI IDE', pricing: 'Free tier + $10/mo', desc: 'GitHub\'s AI pair programmer. Integrates into VS Code, JetBrains, and more. Features code completion, chat, and the new agent mode for autonomous coding.', tags: ['VS Code', 'Autocomplete', 'Agent Mode'] },
+            { name: 'Vercel', icon: '▲', url: 'https://vercel.com', category: 'Hosting', pricing: 'Free tier + paid', desc: 'The leading platform for frontend deployment. One-click deploys from GitHub, edge functions, serverless APIs, and built-in analytics. Pairs perfectly with v0.dev.', tags: ['Deploy', 'Edge', 'Serverless'] },
+            { name: 'Supabase', icon: '⚡', url: 'https://supabase.com', category: 'Backend', pricing: 'Free tier + paid', desc: 'Open-source Firebase alternative. Provides PostgreSQL database, auth, realtime subscriptions, storage, and edge functions. The backend of choice for vibe-coded apps.', tags: ['Database', 'Auth', 'Realtime'] },
+            { name: 'Midjourney', icon: '🎨', url: 'https://midjourney.com', category: 'Design', pricing: '$10/mo+', desc: 'AI image generation powerhouse. Create stunning visuals, mockups, hero images, and brand assets from text descriptions. Essential for marketing sites.', tags: ['Images', 'Branding', 'Mockups'] },
+            { name: 'Figma + AI', icon: '🖌️', url: 'https://figma.com', category: 'Design', pricing: 'Free tier + paid', desc: 'The standard for UI/UX design, now with AI features. Generate designs, auto-layout components, and hand off pixel-perfect specs to your vibe coding tools.', tags: ['UI/UX', 'Components', 'Handoff'] },
+            { name: 'Make (Integromat)', icon: '🔗', url: 'https://make.com', category: 'Automation', pricing: 'Free tier + paid', desc: 'Visual automation platform. Connect apps, APIs, and AI models into automated workflows. Build email sequences, data pipelines, and business processes without code.', tags: ['Workflows', 'API', 'No-Code'] },
+            { name: 'n8n', icon: '🔧', url: 'https://n8n.io', category: 'Automation', pricing: 'Free (self-hosted)', desc: 'Open-source workflow automation. Self-hostable, code-optional, and AI-native. Build complex automations with 400+ integrations and custom AI agent workflows.', tags: ['Open Source', 'Self-Host', 'AI Agents'] },
+            { name: 'Zapier', icon: '⚡', url: 'https://zapier.com', category: 'Automation', pricing: 'Free tier + paid', desc: 'The OG automation platform. Connect 6000+ apps with simple trigger-action workflows. Now features AI actions and Copilot for building automations with natural language.', tags: ['6000+ Apps', 'AI Copilot', 'Simple'] }
+        ];
+
+        function filterTools(cat) {
+            const q = document.getElementById('tool-search').value.toLowerCase();
+            document.querySelectorAll('.showcase-filters .filter-btn').forEach(b => {
+                b.classList.toggle('active', (cat || 'all') === (b.textContent.trim() === 'All' ? 'all' : b.textContent.trim()));
+            });
+            const filtered = TOOLS.filter(t => {
+                const matchCat = !cat || cat === 'all' || t.category === cat;
+                const matchQ = !q || t.name.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q) || t.category.toLowerCase().includes(q);
+                return matchCat && matchQ;
+            });
+            const grid = document.getElementById('tools-grid');
+            grid.innerHTML = filtered.map(t => `
+        <a href="${t.url}" target="_blank" rel="noopener" class="tool-link-card fade-in visible">
+          <div class="tool-icon">${t.icon}</div>
+          <div class="tool-category">${t.category}</div>
+          <div class="tool-name">${t.name}</div>
+          <div class="tool-url">${t.url.replace('https://', '')}</div>
+          <div class="tool-desc">${t.desc}</div>
+          <div class="tool-footer">
+            <div class="tool-tags">${t.tags.map((tg, i) => `<span class="tag ${['', 'cyan', 'emerald'][i % 3]}">${tg}</span>`).join('')}</div>
+            <span class="visit-link">Visit →</span>
+          </div>
+        </a>`).join('');
+        }
+        filterTools('all');
+    </script>
+</body>
+
+</html>

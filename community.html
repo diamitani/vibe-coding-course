@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community | Vibe Coding Masterclass</title>
+    <meta name="description"
+        content="Browse the vibe coding community. Find other builders, designers, and automators and check out their projects.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <nav class="nav">
+        <div class="nav-inner"><a href="index.html" class="nav-logo">⚡ Vibe Coding</a><button class="nav-toggle"
+                aria-label="Toggle navigation">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="module1.html">Modules</a></li>
+                <li><a href="tools.html">Tools</a></li>
+                <li><a href="news.html">News</a></li>
+                <li><a href="lab1.html">Labs</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li id="auth-nav-slot"></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div class="container">
+            <section class="hero" style="padding-bottom:var(--space-xl);">
+                <h1>Vibe Coder <span class="gradient-text">Community</span></h1>
+                <p>Connect with fellow vibe coders. Browse profiles, check out projects, and find collaborators.</p>
+            </section>
+
+            <!-- Search & Filters -->
+            <div class="tools-search">
+                <input type="text" id="community-search" class="form-input" placeholder="Search by name..."
+                    oninput="renderCommunity()">
+            </div>
+            <div class="showcase-filters" id="vibe-filters">
+                <button class="filter-btn active" data-vibe="all">All</button>
+                <button class="filter-btn" data-vibe="Explorer">🌍 Explorers</button>
+                <button class="filter-btn" data-vibe="Builder">🔨 Builders</button>
+                <button class="filter-btn" data-vibe="Designer">🎨 Designers</button>
+                <button class="filter-btn" data-vibe="Automator">⚙️ Automators</button>
+                <button class="filter-btn" data-vibe="Hacker">💻 Hackers</button>
+                <button class="filter-btn" data-vibe="Full-Stack Vibe Lord">👑 Vibe Lords</button>
+            </div>
+
+            <!-- Community Grid -->
+            <div class="community-grid" id="community-grid"></div>
+
+            <!-- CTA -->
+            <section class="section" style="text-align:center;" id="join-cta">
+                <h2 class="section-title">Join the Community</h2>
+                <p class="section-desc" style="margin-bottom:var(--space-xl);">Create your profile, showcase your
+                    projects, and connect with other vibe coders.</p>
+                <a href="auth.html" class="btn btn-primary" id="join-btn">Create Your Profile →</a>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>⚡ Vibe Coding Masterclass &copy; 2025</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+        let currentVibeFilter = 'all';
+
+        // Update CTA if logged in
+        if (getCurrentUser()) {
+            document.getElementById('join-btn').textContent = 'Go to Dashboard →';
+            document.getElementById('join-btn').href = 'dashboard.html';
+        }
+
+        // Filter buttons
+        document.querySelectorAll('#vibe-filters .filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#vibe-filters .filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentVibeFilter = btn.dataset.vibe;
+                renderCommunity();
+            });
+        });
+
+        function renderCommunity() {
+            const grid = document.getElementById('community-grid');
+            const q = document.getElementById('community-search').value.toLowerCase();
+            const users = getUsers();
+
+            const filtered = users.filter(u => {
+                const matchVibe = currentVibeFilter === 'all' || u.vibeType === currentVibeFilter;
+                const matchQ = !q || u.name.toLowerCase().includes(q);
+                return matchVibe && matchQ;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+          <div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--text-muted);">
+            <p style="font-size:3rem;margin-bottom:1rem;">👥</p>
+            <p style="font-size:1.125rem;margin-bottom:0.5rem;">No community members yet</p>
+            <p style="font-size:0.875rem;">Be the first to <a href="auth.html">create a profile</a>!</p>
+          </div>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(u => `
+        <a href="profile.html?id=${u.id}" class="user-card fade-in visible">
+          <div class="avatar-large">${u.avatar || '🧑‍💻'}</div>
+          <h3>${esc(u.name)}</h3>
+          <span class="vibe-type">${esc(u.vibeType || 'Explorer')}</span>
+          ${u.tools?.length ? `<div class="profile-tools" style="justify-content:center;margin-top:var(--space-sm);">${u.tools.slice(0, 3).map(t => `<span class="tag">${esc(t)}</span>`).join('')}${u.tools.length > 3 ? `<span class="tag">+${u.tools.length - 3}</span>` : ''}</div>` : ''}
+          <div class="user-stats">${(u.projects || []).length} project${(u.projects || []).length !== 1 ? 's' : ''}</div>
+        </a>`).join('');
+        }
+
+        renderCommunity();
+
+        function esc(str) {
+            if (!str) return '';
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+    </script>
+</body>
+
+</html>

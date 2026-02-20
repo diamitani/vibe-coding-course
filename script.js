@@ -50,6 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
     spy();
   }
 
+  // ---- Update auth UI across all pages ----
+  updateAuthNav();
+
   // ---- Showcase: Load from localStorage ----
   renderShowcase();
 
@@ -78,9 +81,140 @@ document.addEventListener('DOMContentLoaded', () => {
       showToast('Project submitted successfully!');
     });
   }
+
+  // ---- Signup form ----
+  const signupForm = document.getElementById('signup-form');
+  if (signupForm) {
+    signupForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const email = signupForm.querySelector('input[type=email]').value;
+      const list = JSON.parse(localStorage.getItem('signupList') || '[]');
+      if (list.includes(email)) { showToast('You\'re already on the list!'); return; }
+      list.push(email);
+      localStorage.setItem('signupList', JSON.stringify(list));
+      signupForm.reset();
+      showToast('You\'re on the list! 🎉');
+    });
+  }
 });
 
-// ---- Render showcase cards ----
+// ========================================
+// AUTH SYSTEM
+// ========================================
+
+function simpleHash(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash |= 0;
+  }
+  return 'h_' + Math.abs(hash).toString(36);
+}
+
+function getUsers() {
+  return JSON.parse(localStorage.getItem('vc_users') || '[]');
+}
+
+function saveUsers(users) {
+  localStorage.setItem('vc_users', JSON.stringify(users));
+}
+
+function getCurrentUser() {
+  const id = localStorage.getItem('vc_session');
+  if (!id) return null;
+  return getUsers().find(u => u.id === id) || null;
+}
+
+function registerUser(name, email, password) {
+  const users = getUsers();
+  if (users.find(u => u.email === email)) return { error: 'Email already registered' };
+  const user = {
+    id: 'u_' + Date.now().toString(36),
+    name,
+    email,
+    passwordHash: simpleHash(password),
+    avatar: ['🧑‍💻', '👩‍💻', '🧙', '🚀', '🎨', '🤖', '⚡', '🔮', '🌟', '💎'][Math.floor(Math.random() * 10)],
+    bio: '',
+    vibeType: 'Explorer',
+    tools: [],
+    projects: [],
+    joinDate: new Date().toLocaleDateString()
+  };
+  users.push(user);
+  saveUsers(users);
+  localStorage.setItem('vc_session', user.id);
+  return { user };
+}
+
+function loginUser(email, password) {
+  const users = getUsers();
+  const user = users.find(u => u.email === email);
+  if (!user) return { error: 'No account found with this email' };
+  if (user.passwordHash !== simpleHash(password)) return { error: 'Incorrect password' };
+  localStorage.setItem('vc_session', user.id);
+  return { user };
+}
+
+function logoutUser() {
+  localStorage.removeItem('vc_session');
+  window.location.href = 'index.html';
+}
+
+function updateUser(updates) {
+  const users = getUsers();
+  const idx = users.findIndex(u => u.id === getCurrentUser()?.id);
+  if (idx === -1) return;
+  users[idx] = { ...users[idx], ...updates };
+  saveUsers(users);
+}
+
+function getUserById(id) {
+  return getUsers().find(u => u.id === id) || null;
+}
+
+function addProject(project) {
+  const user = getCurrentUser();
+  if (!user) return;
+  const users = getUsers();
+  const idx = users.findIndex(u => u.id === user.id);
+  project.id = 'p_' + Date.now().toString(36);
+  project.date = new Date().toLocaleDateString();
+  users[idx].projects = users[idx].projects || [];
+  users[idx].projects.unshift(project);
+  saveUsers(users);
+}
+
+function deleteProject(projectId) {
+  const user = getCurrentUser();
+  if (!user) return;
+  const users = getUsers();
+  const idx = users.findIndex(u => u.id === user.id);
+  users[idx].projects = (users[idx].projects || []).filter(p => p.id !== projectId);
+  saveUsers(users);
+}
+
+// ---- Auth Nav Update ----
+function updateAuthNav() {
+  const user = getCurrentUser();
+  const authSlot = document.getElementById('auth-nav-slot');
+  if (!authSlot) return;
+
+  if (user) {
+    authSlot.innerHTML = `
+      <a href="dashboard.html" class="nav-links-item" style="display:flex;align-items:center;gap:6px;">
+        <span class="user-avatar-small">${user.avatar}</span>
+        <span style="font-size:0.8125rem;">${escapeHTML(user.name.split(' ')[0])}</span>
+      </a>`;
+  } else {
+    authSlot.innerHTML = `<a href="auth.html" style="font-size:0.8125rem;">Sign In</a>`;
+  }
+}
+
+// ========================================
+// SHOWCASE
+// ========================================
+
 function renderShowcase(filter = 'all') {
   const grid = document.getElementById('showcase-grid');
   if (!grid) return;
@@ -115,9 +249,13 @@ function renderShowcase(filter = 'all') {
     </div>`).join('');
 }
 
+// ========================================
+// UTILITIES
+// ========================================
+
 function escapeHTML(str) {
   if (!str) return '';
-  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 }
 
 function showToast(msg) {

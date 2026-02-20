@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In | Vibe Coding Masterclass</title>
+    <meta name="description"
+        content="Sign in or create an account to join the Vibe Coding community, build your profile, and showcase your projects.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <nav class="nav">
+        <div class="nav-inner"><a href="index.html" class="nav-logo">⚡ Vibe Coding</a><button class="nav-toggle"
+                aria-label="Toggle navigation">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="module1.html">Modules</a></li>
+                <li><a href="tools.html">Tools</a></li>
+                <li><a href="news.html">News</a></li>
+                <li><a href="lab1.html">Labs</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li id="auth-nav-slot"></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="auth-container">
+                <div class="auth-card">
+                    <h2>Welcome Back</h2>
+                    <p class="auth-subtitle">Sign in to your account or create a new one</p>
+
+                    <!-- Tabs -->
+                    <div class="auth-tabs">
+                        <button class="auth-tab active" onclick="showAuthTab('login')">Sign In</button>
+                        <button class="auth-tab" onclick="showAuthTab('register')">Create Account</button>
+                    </div>
+
+                    <!-- Login Form -->
+                    <form id="login-form" onsubmit="handleLogin(event)">
+                        <div class="form-group">
+                            <label for="login-email">Email</label>
+                            <input type="email" id="login-email" class="form-input" placeholder="you@example.com"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" class="form-input" placeholder="Your password"
+                                required>
+                        </div>
+                        <div id="login-error" class="form-error"></div>
+                        <button type="submit" class="btn btn-primary"
+                            style="width:100%;justify-content:center;margin-top:var(--space-md);">Sign In →</button>
+                    </form>
+
+                    <!-- Register Form -->
+                    <form id="register-form" style="display:none;" onsubmit="handleRegister(event)">
+                        <div class="form-group">
+                            <label for="reg-name">Full Name</label>
+                            <input type="text" id="reg-name" class="form-input" placeholder="Your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-email">Email</label>
+                            <input type="email" id="reg-email" class="form-input" placeholder="you@example.com"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-password">Password</label>
+                            <input type="password" id="reg-password" class="form-input" placeholder="Min 6 characters"
+                                required minlength="6">
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-vibe">What kind of vibe coder are you?</label>
+                            <select id="reg-vibe" class="form-input" required>
+                                <option value="Explorer">🌍 Explorer — just getting started</option>
+                                <option value="Builder">🔨 Builder — love making things</option>
+                                <option value="Designer">🎨 Designer — visuals first</option>
+                                <option value="Automator">⚙️ Automator — workflows & systems</option>
+                                <option value="Hacker">💻 Hacker — pushing boundaries</option>
+                            </select>
+                        </div>
+                        <div id="register-error" class="form-error"></div>
+                        <button type="submit" class="btn btn-primary"
+                            style="width:100%;justify-content:center;margin-top:var(--space-md);">Create Account
+                            →</button>
+                    </form>
+
+                    <div class="auth-footer">
+                        By signing in, you agree to learn awesome things ⚡
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>⚡ Vibe Coding Masterclass &copy; 2025</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+        // Redirect if already logged in
+        if (getCurrentUser()) window.location.href = 'dashboard.html';
+
+        function showAuthTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('login-form').style.display = tab === 'login' ? 'block' : 'none';
+            document.getElementById('register-form').style.display = tab === 'register' ? 'block' : 'none';
+            document.querySelector(`.auth-tab:${tab === 'login' ? 'first-child' : 'last-child'}`).classList.add('active');
+            document.querySelectorAll('.form-error').forEach(e => { e.textContent = ''; e.classList.remove('visible'); });
+        }
+
+        function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const pw = document.getElementById('login-password').value;
+            const result = loginUser(email, pw);
+            if (result.error) {
+                const el = document.getElementById('login-error');
+                el.textContent = result.error;
+                el.classList.add('visible');
+            } else {
+                showToast('Welcome back, ' + result.user.name.split(' ')[0] + '!');
+                setTimeout(() => window.location.href = 'dashboard.html', 500);
+            }
+        }
+
+        function handleRegister(e) {
+            e.preventDefault();
+            const name = document.getElementById('reg-name').value;
+            const email = document.getElementById('reg-email').value;
+            const pw = document.getElementById('reg-password').value;
+            const vibeType = document.getElementById('reg-vibe').value;
+            const result = registerUser(name, email, pw);
+            if (result.error) {
+                const el = document.getElementById('register-error');
+                el.textContent = result.error;
+                el.classList.add('visible');
+            } else {
+                updateUser({ vibeType });
+                showToast('Account created! Welcome, ' + name.split(' ')[0] + '! 🎉');
+                setTimeout(() => window.location.href = 'dashboard.html', 500);
+            }
+        }
+    </script>
+</body>
+
+</html>
