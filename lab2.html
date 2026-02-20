@@ -100,44 +100,116 @@
 
                     <h2 id="walkthrough" style="margin-top:var(--space-3xl);">Step-by-Step Walkthrough</h2>
 
-                    <ol class="step-list">
-                        <li>
-                            <h4>Choose Your Product Category</h4>
-                            <p>Pick something you're interested in. Create 8–12 products with names, descriptions,
-                                prices, and categories. You can use AI to generate the product data.</p>
-                        </li>
-                        <li>
-                            <h4>Create Your Context Package</h4>
-                            <p>Write a PRD that defines: product schema (name, price, description, category, image),
-                                page structure, cart behavior, and checkout fields. Include your design system.</p>
-                        </li>
-                        <li>
-                            <h4>Chain Your Master Prompt</h4>
-                            <p>Use prompt chaining to refine a detailed prompt. Include product data, layout
-                                requirements, color scheme, and interactive behaviors (cart slide-out, quantity buttons,
-                                etc.).</p>
-                        </li>
-                        <li>
-                            <h4>Generate the Store</h4>
-                            <p>Use your chosen tool. Start with the homepage and product grid, then iterate on the
-                                detail page, cart, and checkout.</p>
-                        </li>
-                        <li>
-                            <h4>Add Product Data</h4>
-                            <p>If the tool supports databases (Lovable+Supabase, Replit), use a real data store.
-                                Otherwise, use JSON data or localStorage.</p>
-                        </li>
-                        <li>
-                            <h4>Polish the Cart & Checkout</h4>
-                            <p>The cart should feel smooth: slide-in/out animation, real-time total calculation,
-                                quantity +/- buttons. Checkout should validate fields and show a confirmation.</p>
-                        </li>
-                        <li>
-                            <h4>Test & Deploy</h4>
-                            <p>Test the full flow: browse → add to cart → adjust quantity → checkout. Test on mobile.
-                                Deploy.</p>
-                        </li>
-                    </ol>
+                    <div class="wizard-container" id="lab2-wizard">
+                        <div class="wizard-progress"></div>
+
+                        <!-- Step 1 -->
+                        <div class="wizard-step active">
+                            <div class="wizard-header">
+                                <div class="wizard-step-number">1</div>
+                                <h4 class="wizard-title">Design Your Data & Logic</h4>
+                            </div>
+                            <div class="wizard-content">
+                                <p>Before touching the front-end, define your product schema (the data structure) and
+                                    the logical flow of the cart. Use AI to generate realistic product data to use as
+                                    seeds.</p>
+                                <div class="wizard-interactive">
+                                    <h5>🧠 Data Schema PRD Prompt</h5>
+                                    <pre>I am building an e-commerce store for [My Niche]. 
+Please generate a JSON array containing 8 realistic mock products.
+Each product must have:
+- id (string)
+- name (string)
+- price (number)
+- category (string)
+- description (1 sentence)
+- imageUrl (use realistic Unsplash placeholders)</pre>
+                                </div>
+                            </div>
+                            <div class="wizard-nav" style="justify-content:flex-end;">
+                                <button class="btn btn-primary" onclick="nextWizardStep('lab2-wizard', 1)">Next: The
+                                    Architecture Prompt →</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="wizard-step">
+                            <div class="wizard-header">
+                                <div class="wizard-step-number">2</div>
+                                <h4 class="wizard-title">Chain The Architecture Prompt</h4>
+                            </div>
+                            <div class="wizard-content">
+                                <p>Merge your data and design preferences into a rigid architectural prompt that tells
+                                    the AI exactly how state should be managed (e.g., using React Context or
+                                    LocalStorage).</p>
+                                <div class="wizard-interactive">
+                                    <h5>🏗️ Architecture Prompt Template</h5>
+                                    <pre>Build a full-stack e-commerce app. 
+1. Use React and TailwindCSS.
+2. State Management: Create a global CartContext that persists to LocalStorage.
+3. Feature 1: A product grid showing the 8 mock products I provide below.
+4. Feature 2: A sliding cart drawer on the right side.
+5. Feature 3: Cart must calculate subtotal, tax (8%), and final total in real-time.
+6. Design: Minimalist monochrome with [Hex] accent color.</pre>
+                                </div>
+                            </div>
+                            <div class="wizard-nav">
+                                <button class="btn btn-secondary" onclick="nextWizardStep('lab2-wizard', 0)">←
+                                    Back</button>
+                                <button class="btn btn-primary" onclick="nextWizardStep('lab2-wizard', 2)">Next:
+                                    Generate & Refine →</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="wizard-step">
+                            <div class="wizard-header">
+                                <div class="wizard-step-number">3</div>
+                                <h4 class="wizard-title">Generate & Polish The Cart</h4>
+                            </div>
+                            <div class="wizard-content">
+                                <p>Generate the v1 app. The shopping cart is often the trickiest part. Don't let the AI
+                                    guess; force it to refine the UI of the cart specifically.</p>
+                                <div class="callout tip">
+                                    <div class="callout-title">💡 How to Fix Cart Logic</div>
+                                    <p>If the cart behaves strangely, isolate the problem with a specific prompt: "The
+                                        quantity increment button is resetting the total array instead of updating the
+                                        specific item ID. Fix the 'updateQuantity' function in CartContext to map over
+                                        existing items correctly."</p>
+                                </div>
+                            </div>
+                            <div class="wizard-nav">
+                                <button class="btn btn-secondary" onclick="nextWizardStep('lab2-wizard', 1)">←
+                                    Back</button>
+                                <button class="btn btn-primary" onclick="nextWizardStep('lab2-wizard', 3)">Next: The
+                                    Checkout Flow →</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="wizard-step">
+                            <div class="wizard-header">
+                                <div class="wizard-step-number">4</div>
+                                <h4 class="wizard-title">Build The Checkout Flow</h4>
+                            </div>
+                            <div class="wizard-content">
+                                <p>Finally, instruct the AI to build a multi-step checkout form. Ensure it includes
+                                    validation (red borders for missing fields) and a delightful success state.</p>
+                                <div class="wizard-interactive">
+                                    <h5>✨ Checkout Polish Prompts</h5>
+                                    <pre>- Add form validation: the "Pay" button should be disabled until Name, Email, and Card are filled.
+- When payment is "successful", trigger a full-screen confetti effect and clear the cart.
+- Add a loading spinner to the Pay button that lasts for 2 seconds to simulate processing.</pre>
+                                </div>
+                            </div>
+                            <div class="wizard-nav">
+                                <button class="btn btn-secondary" onclick="nextWizardStep('lab2-wizard', 2)">←
+                                    Back</button>
+                                <a href="#checklist" class="btn btn-primary"
+                                    onclick="nextWizardStep('lab2-wizard', 0)">Finish Walkthrough 🎉</a>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="prompt-example">
                         <div class="label prompt">Example Refined Prompt (After Chaining)</div>

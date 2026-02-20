@@ -87,6 +87,9 @@ document.addEventListener('DOMContentLoaded', () => {
       showToast('You\'re on the list! 🎉');
     });
   }
+
+  // ---- Wizards ----
+  initWizard();
 });
 
 // ========================================
@@ -387,3 +390,51 @@ function copyPrompt() {
     showToast('Prompt copied to clipboard! 📋');
   });
 }
+
+// ========================================
+// WIZARD
+// ========================================
+
+function initWizard() {
+  const containers = document.querySelectorAll('.wizard-container');
+  containers.forEach(container => {
+    const steps = container.querySelectorAll('.wizard-step');
+    const dotsContainer = container.querySelector('.wizard-progress');
+    if (!steps.length) return;
+
+    // Create dots
+    if (dotsContainer) {
+      dotsContainer.innerHTML = '';
+      steps.forEach((_, i) => {
+        const dot = document.createElement('div');
+        dot.className = 'progress-dot' + (i === 0 ? ' active' : '');
+        dotsContainer.appendChild(dot);
+      });
+    }
+
+    // Set first active
+    steps.forEach(s => s.classList.remove('active'));
+    steps[0].classList.add('active');
+  });
+}
+
+window.nextWizardStep = function (containerId, nextIndex) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  const steps = container.querySelectorAll('.wizard-step');
+  const dots = container.querySelectorAll('.progress-dot');
+
+  steps.forEach((s, idx) => {
+    s.classList.remove('active');
+    if (idx === nextIndex) s.classList.add('active');
+  });
+
+  if (dots.length > 0) {
+    dots.forEach((d, idx) => {
+      d.classList.remove('active');
+      if (idx < nextIndex) d.classList.add('completed');
+      if (idx === nextIndex) d.classList.add('active');
+    });
+  }
+};
+

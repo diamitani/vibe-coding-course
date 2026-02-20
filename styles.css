@@ -1090,6 +1090,127 @@ textarea.form-input {
   margin-left: auto;
 }
 
+/* ---------- Wizard Flow ---------- */
+.wizard-container {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin: var(--space-xl) 0;
+}
+
+.wizard-step {
+  padding: var(--space-xl);
+  border-bottom: 1px solid var(--border-subtle);
+  display: none;
+  animation: fadeIn 0.4s var(--ease-out);
+}
+
+.wizard-step.active {
+  display: block;
+}
+
+.wizard-step:last-child {
+  border-bottom: none;
+}
+
+.wizard-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.wizard-step-number {
+  width: 2.5rem;
+  height: 2.5rem;
+  background: var(--gradient-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--accent-violet);
+}
+
+.wizard-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.wizard-content p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  margin-bottom: var(--space-md);
+  line-height: 1.6;
+}
+
+.wizard-interactive {
+  background: rgba(139, 92, 246, 0.05);
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  margin: var(--space-lg) 0;
+}
+
+.wizard-interactive h5 {
+  color: var(--text-primary);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin-bottom: var(--space-sm);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.wizard-interactive pre {
+  background: rgba(0,0,0,0.3);
+  padding: 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-subtle);
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+  margin: 0;
+}
+
+.wizard-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: var(--space-xl);
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.wizard-progress {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: center;
+  padding: var(--space-md);
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.progress-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border-subtle);
+  transition: all var(--duration-fast);
+}
+
+.progress-dot.active {
+  background: var(--accent-violet);
+  transform: scale(1.2);
+}
+
+.progress-dot.completed {
+  background: var(--accent-emerald);
+}
+
 /* ---------- Animations on scroll ---------- */
 .fade-in {
   opacity: 0;

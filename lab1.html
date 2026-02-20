@@ -100,41 +100,117 @@
 
                     <h2 id="walkthrough" style="margin-top:var(--space-3xl);">Step-by-Step Walkthrough</h2>
 
-                    <ol class="step-list">
-                        <li>
-                            <h4>Prepare Your Context Documents</h4>
-                            <p>Before touching any builder tool, create a mini PRD and design system using the templates
-                                from Module 5. Define your product name, color palette, typography, and voice.</p>
-                        </li>
-                        <li>
-                            <h4>Chain Your Initial Prompt</h4>
-                            <p>Write a rough description of your marketing site. Then use prompt chaining (Module 4) to
-                                refine it into a detailed, specific prompt. Include colors, fonts, section layout, and
-                                copy direction.</p>
-                        </li>
-                        <li>
-                            <h4>Generate v1 with Your Builder</h4>
-                            <p>Paste your refined prompt into your chosen tool (Lovable, Bolt, v0, etc.) and let it
-                                generate the first version. Don't worry about perfection yet.</p>
-                        </li>
-                        <li>
-                            <h4>Review & Iterate</h4>
-                            <p>Look at the output critically. What's wrong? What's missing? Use follow-up prompts to fix
-                                specific issues. Be precise: "Change the hero background gradient from blue to purple
-                                (#8B5CF6 → #6D28D9)."</p>
-                        </li>
-                        <li>
-                            <h4>Add Polish</h4>
-                            <p>Request animations, hover states, responsive adjustments, and micro-interactions. These
-                                are what separate amateur from professional output.</p>
-                        </li>
-                        <li>
-                            <h4>Test & Deploy</h4>
-                            <p>Test on mobile (use browser DevTools to simulate). Check all links, buttons, and
-                                interactions. Deploy via your tool's built-in hosting or services like Vercel/Netlify.
-                            </p>
-                        </li>
-                    </ol>
+                    <div class="wizard-container" id="lab1-wizard">
+                        <div class="wizard-progress"></div>
+
+                        <!-- Step 1 -->
+                        <div class="wizard-step active">
+                            <div class="wizard-header">
+                                <div class="wizard-step-number">1</div>
+                                <h4 class="wizard-title">Prepare Your Context</h4>
+                            </div>
+                            <div class="wizard-content">
+                                <p>Before touching any builder tool, you need a compass. Define your product's core
+                                    identity using the Context Engineering templates from Module 5.</p>
+                                <div class="wizard-interactive">
+                                    <h5>🎯 Mini-PRD Prompt builder</h5>
+                                    <p>Can't think of a PRD? Ask an AI to generate one for you using this prompt
+                                        chaining technique:</p>
+                                    <pre>I am building a marketing website for [My Product/Service]. 
+Act as an expert Product Manager. Please generate a concise 1-page PRD including:
+1. Target Audience
+2. Core Value Proposition
+3. Key Features (Top 3)
+4. Recommended Color Palette (Hex codes) & Typography</pre>
+                                </div>
+                            </div>
+                            <div class="wizard-nav" style="justify-content:flex-end;">
+                                <button class="btn btn-primary" onclick="nextWizardStep('lab1-wizard', 1)">Next: The
+                                    Initial Prompt →</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="wizard-step">
+                            <div class="wizard-header">
+                                <div class="wizard-step-number">2</div>
+                                <h4 class="wizard-title">Chain Your Initial Prompt</h4>
+                            </div>
+                            <div class="wizard-content">
+                                <p>Now, take the output from your PRD and merge it into a highly specific architectural
+                                    prompt for your builder (Lovable, Bolt, etc.).</p>
+                                <div class="wizard-interactive">
+                                    <h5>🔗 Master Prompt Template</h5>
+                                    <pre>Build a modern, responsive landing page for [Product].
+                                    
+DESIGN SYSTEM:
+- Primary Color: [Hex]
+- Font: Inter (or similar modern sans-serif)
+- Style: Dark mode, glassmorphic elements, glowing borders.
+
+REQUIRED SECTIONS:
+1. Hero: Headline, subheadline, 2 CTA buttons.
+2. Features: 3-column grid with hover animations.
+3. Pricing: 2 tiers, highlight the "Pro" tier.
+4. Footer: Links and copyright.</pre>
+                                </div>
+                            </div>
+                            <div class="wizard-nav">
+                                <button class="btn btn-secondary" onclick="nextWizardStep('lab1-wizard', 0)">←
+                                    Back</button>
+                                <button class="btn btn-primary" onclick="nextWizardStep('lab1-wizard', 2)">Next:
+                                    Generate & Iterate →</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="wizard-step">
+                            <div class="wizard-header">
+                                <div class="wizard-step-number">3</div>
+                                <h4 class="wizard-title">Generate & Iterate</h4>
+                            </div>
+                            <div class="wizard-content">
+                                <p>Paste your Master Prompt into your chosen builder tool. Don't worry about perfection
+                                    on the first try. The magic of vibe coding is in the iteration.</p>
+                                <div class="callout tip">
+                                    <div class="callout-title">💡 How to Fix Errors</div>
+                                    <p>If a layout looks weird or the colors are off, be highly specific in your
+                                        follow-up prompt: "Make the feature cards equal height. Change the hero
+                                        background gradient from blue to purple (#8B5CF6 → #6D28D9)."</p>
+                                </div>
+                            </div>
+                            <div class="wizard-nav">
+                                <button class="btn btn-secondary" onclick="nextWizardStep('lab1-wizard', 1)">←
+                                    Back</button>
+                                <button class="btn btn-primary" onclick="nextWizardStep('lab1-wizard', 3)">Next: The
+                                    Final Polish →</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="wizard-step">
+                            <div class="wizard-header">
+                                <div class="wizard-step-number">4</div>
+                                <h4 class="wizard-title">Add Polish & Deploy</h4>
+                            </div>
+                            <div class="wizard-content">
+                                <p>Request animations, hover states, and responsive adjustments. Test on mobile views
+                                    using browser DevTools. Once it looks professional, hit Deploy.</p>
+                                <div class="wizard-interactive">
+                                    <h5>✨ Magic Polish Prompts</h5>
+                                    <pre>- Add a subtle staggering fade-in animation to the feature cards on scroll.
+- Ensure the hero typography scales down appropriately for mobile screens.
+- Make the primary CTA button pulsate softly to draw attention.</pre>
+                                </div>
+                            </div>
+                            <div class="wizard-nav">
+                                <button class="btn btn-secondary" onclick="nextWizardStep('lab1-wizard', 2)">←
+                                    Back</button>
+                                <a href="#checklist" class="btn btn-primary"
+                                    onclick="nextWizardStep('lab1-wizard', 0)">Finish Walkthrough 🎉</a>
+                            </div>
+                        </div>
+                    </div>
 
                     <div class="callout tip">
                         <div class="callout-title">💡 Hint</div>
