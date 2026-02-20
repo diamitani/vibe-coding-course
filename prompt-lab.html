@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Lab — Reprompt Agent | Vibe Coding Masterclass</title>
+    <meta name="description"
+        content="Turn your raw ideas into elite AI prompts. Use the 4-step system: Extract Intent, Analyze, Generate, and Assign.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <nav class="nav">
+        <div class="nav-inner"><a href="index.html" class="nav-logo">⚡ Vibe Coding</a><button class="nav-toggle"
+                aria-label="Toggle navigation">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="module1.html">Modules</a></li>
+                <li><a href="tools.html">Tools</a></li>
+                <li><a href="news.html">News</a></li>
+                <li><a href="lab1.html">Labs</a></li>
+                <li><a href="prompt-lab.html">Prompt Lab</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li id="auth-nav-slot"></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div class="container">
+            <section class="hero" style="padding-bottom:var(--space-xl);">
+                <span class="hero-badge"><span class="dot"></span> Beta Feature</span>
+                <h1>The <span class="gradient-text">Prompt Lab</span></h1>
+                <p>Paste your raw "vibe" or idea. Our Reprompt Agent will distill the intent, generate a master prompt
+                    using industry best practices, and match you with the right expert tool.</p>
+            </section>
+
+            <div class="prompt-lab-grid">
+                <!-- Left Column: Input -->
+                <div class="lab-input-area">
+                    <h2 style="font-size:1.25rem; margin-bottom:var(--space-md);">1. Input Prompt</h2>
+                    <textarea id="prompt-input" class="prompt-textarea"
+                        placeholder="e.g. I want to build a newsletter for developers that uses my podcast style and highlights weekly AI tools..."></textarea>
+
+                    <button onclick="startReprompt()" class="btn btn-primary"
+                        style="width:100%; justify-content:center;">Run Reprompt Agent ⚡</button>
+
+                    <div id="lab-status" class="lab-steps">
+                        <div class="step-indicator" data-step="1">
+                            <div class="step-number">1</div>
+                            <div class="step-text">Extract Intent</div>
+                        </div>
+                        <div class="step-indicator" data-step="2">
+                            <div class="step-number">2</div>
+                            <div class="step-text">Analyze & Hypothesis</div>
+                        </div>
+                        <div class="step-indicator" data-step="3">
+                            <div class="step-number">3</div>
+                            <div class="step-text">Generate Prompt</div>
+                        </div>
+                        <div class="step-indicator" data-step="4">
+                            <div class="step-number">4</div>
+                            <div class="step-text">Assign Tools</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column: Result -->
+                <div id="lab-result" class="lab-result-area">
+                    <div class="result-box">
+                        <div
+                            style="display:flex; justify-content:space-between; align-items:center; margin-bottom:var(--space-md);">
+                            <h2 style="font-size:1.25rem;">3. Generated Master Prompt</h2>
+                            <button onclick="copyPrompt()" class="btn btn-secondary"
+                                style="padding:0.4rem 0.8rem; font-size:0.8rem;">Copy Prompt 📋</button>
+                        </div>
+                        <textarea id="prompt-output" class="prompt-textarea"
+                            style="min-height:300px; font-size:0.875rem; background:rgba(255,255,255,0.02);"
+                            readonly></textarea>
+
+                        <h2 style="font-size:1.25rem; margin-top:var(--space-xl);">4. Recommended Expert Tools</h2>
+                        <div id="recommended-gpts" class="gpt-recommendations">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>⚡ Vibe Coding Masterclass &copy; 2025</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>

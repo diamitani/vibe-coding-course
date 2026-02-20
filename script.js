@@ -2,6 +2,23 @@
    VIBE CODING MASTERCLASS — Shared JS
    ======================================== */
 
+const CUSTOM_GPTS = [
+  { name: 'Instruction Architect', desc: 'Setting the gold standard for AI system instruction design.', url: 'https://chatgpt.com/g/g-676964c88b088191b70dcd4133ae2595-1-system-instruction-architect', category: 'Expert GPT', tags: ['System Prompts', 'Logic'] },
+  { name: '(PRD) Builder', desc: 'Generates PRDs, instructions, and custom resources.', url: 'https://chatgpt.com/g/g-67a465d99950819186563b257bac0d88-prd-product-requirements-document-builder', category: 'Expert GPT', tags: ['PRD', 'Planning'] },
+  { name: 'SOP Architect', desc: 'Builds expert standard operating procedures.', url: 'https://chatgpt.com/g/g-68ae5f21a1608191bd68ed88850d7ab1-sop-architect-gpt', category: 'Expert GPT', tags: ['SOP', 'Operations'] },
+  { name: 'GTM Engineer', desc: 'Builds secure GTM automations with Make/n8n blueprints.', url: 'https://chatgpt.com/g/g-68ae5687c9b881919c923a432f1fd086-gtm-engineer-automation-architect-gpt', category: 'Expert GPT', tags: ['Automation', 'Marketing'] },
+  { name: 'KPI Architect', desc: 'Generates KPIs and activity metrics from business goals.', url: 'https://chatgpt.com/g/g-68ae5416b9848191831ef9943306451d-kpi-architect-gpt', category: 'Expert GPT', tags: ['KPI', 'Metrics'] },
+  { name: 'Automation Architect', desc: 'Expert in Make, Zapier, n8n; builds custom automations.', url: 'https://chatgpt.com/g/g-681e8b22123881919856dcbd09b1765c-automation-architect', category: 'Expert GPT', tags: ['Make', 'n8n', 'Zapier'] },
+  { name: 'v0.dev App Builder', desc: 'Delivers exactly 10 v0.dev prompts to build full stack app MVPs.', url: 'https://chatgpt.com/g/g-681685f291a48191a687c6dac28f4412-v0-dev-full-stack-app-builder', category: 'Expert GPT', tags: ['v0', 'App Builder'] },
+  { name: 'Replit Builder', desc: 'Formats and refines prompts for efficient Replit project building.', url: 'https://chatgpt.com/g/g-67ebbfd9befc819187ed1174fd1d8289-replit-builder', category: 'Expert GPT', tags: ['Replit', 'Prompts'] },
+  { name: 'PromptBuilder V2', desc: 'Breaks down app ideas into modular prompts for lovable.dev.', url: 'https://chatgpt.com/g/g-67ebbfd7c70c8191b0842c96d89af2ac-promptbuilder-architect-v2', category: 'Expert GPT', tags: ['Lovable', 'Architecture'] },
+  { name: 'Site Mapper', desc: 'Converts app ideas into site maps, page specs, and prompts.', url: 'https://chatgpt.com/g/g-6865e200d8008191a43209a30d350ad2-site-mapper', category: 'Expert GPT', tags: ['Sitemap', 'UX'] },
+  { name: 'Jobs to be Done', desc: 'Transforms prompts into AI-ready JTBD blueprints.', url: 'https://chatgpt.com/g/g-6802c7da3c688191875f67a5468d82e2-jobs-to-be-done', category: 'Expert GPT', tags: ['JTBD', 'Strategy'] },
+  { name: 'Custom GPT Guide', desc: 'A step-by-step tutorial guide for building custom GPTs.', url: 'https://chatgpt.com/g/g-681003e70b4081919f5c7accc1096e21-custom-gpt-guide', category: 'Expert GPT', tags: ['Guides'] },
+  { name: 'Full Stack Copilot', desc: 'Scaffolds components using React, Tailwind, and full-stack logic.', url: 'https://chatgpt.com/g/g-681003e70b4081919f5c7accc1096e21-custom-gpt-guide', category: 'Expert GPT', tags: ['React', 'Fullstack'] },
+  { name: 'GPT Creator Pro', desc: 'Advanced GPT architect specializing in prompt optimization.', url: 'https://chatgpt.com/g/g-s9YtL560v-gpt-creator-pro', category: 'Expert GPT', tags: ['Optimizer', 'Advanced'] }
+];
+
 document.addEventListener('DOMContentLoaded', () => {
   // ---- Mobile Nav Toggle ----
   const toggle = document.querySelector('.nav-toggle');
@@ -40,7 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const scrollY = window.scrollY + 150;
       let current = '';
       sections.forEach(s => {
-        if (s.offsetTop <= scrollY) current = s.id;
+        if (s && s.offsetTop <= scrollY) current = s.id;
       });
       sidebarLinks.forEach(a => {
         a.classList.toggle('active', a.getAttribute('href') === `#${current}`);
@@ -55,32 +72,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ---- Showcase: Load from localStorage ----
   renderShowcase();
-
-  // ---- Showcase: Filter buttons ----
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      renderShowcase(btn.dataset.filter);
-    });
-  });
-
-  // ---- Showcase: form submit ----
-  const form = document.getElementById('showcase-form');
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const data = Object.fromEntries(new FormData(form));
-      data.id = Date.now();
-      data.date = new Date().toLocaleDateString();
-      const items = JSON.parse(localStorage.getItem('showcase') || '[]');
-      items.unshift(data);
-      localStorage.setItem('showcase', JSON.stringify(items));
-      form.reset();
-      renderShowcase();
-      showToast('Project submitted successfully!');
-    });
-  }
 
   // ---- Signup form ----
   const signupForm = document.getElementById('signup-form');
@@ -97,6 +88,125 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// ========================================
+// REPROMPT AGENT LOGIC
+// ========================================
+
+function startReprompt() {
+  const input = document.getElementById('prompt-input').value;
+  if (!input) { showToast('Please enter your idea first!'); return; }
+
+  const statusEl = document.getElementById('lab-status');
+  const resultEl = document.getElementById('lab-result');
+  const outputEl = document.getElementById('prompt-output');
+  const toolsEl = document.getElementById('recommended-gpts');
+
+  statusEl.classList.add('visible');
+  resultEl.style.display = 'none';
+
+  // Step 1: Extract Intent
+  updateStep(1, 'Extracting Intent...');
+
+  setTimeout(() => {
+    const intent = analyzeIntent(input);
+    updateStep(1, 'Intent Extracted: ' + intent.type, true);
+
+    // Step 2: Reference & Hypothesis
+    updateStep(2, 'Generating Hypothesis...');
+    setTimeout(() => {
+      updateStep(2, 'Hypothesis: ' + intent.hypothesis, true);
+
+      // Step 3: Generate Prompt
+      updateStep(3, 'Building Master Prompt...');
+      setTimeout(() => {
+        const masterPrompt = buildMasterPrompt(input, intent);
+        outputEl.value = masterPrompt;
+        updateStep(3, 'Master Prompt Generated', true);
+
+        // Step 4: Assign Prompt
+        updateStep(4, 'Matching Expert Tools...');
+        setTimeout(() => {
+          const recs = matchGpts(intent);
+          toolsEl.innerHTML = recs.map(g => `
+            <a href="${g.url}" target="_blank" class="gpt-rec-card">
+              <strong>${g.name}</strong>
+              <p>${g.desc}</p>
+            </a>
+          `).join('');
+          updateStep(4, 'Tools Assigned', true);
+
+          resultEl.style.display = 'block';
+          resultEl.classList.add('fade-in', 'visible');
+          showToast('Reprompt Agent Complete! ⚡');
+        }, 800);
+      }, 1000);
+    }, 800);
+  }, 1000);
+}
+
+function updateStep(step, text, finished = false) {
+  const el = document.querySelector(`.step-indicator[data-step="${step}"]`);
+  if (!el) return;
+  el.querySelector('.step-text').textContent = text;
+  if (finished) el.classList.add('finished');
+}
+
+function analyzeIntent(input) {
+  const low = input.toLowerCase();
+  let type = 'Generic App';
+  let hypothesis = 'Build a modern web application with polished UI.';
+  let category = 'Development';
+
+  if (low.includes('sale') || low.includes('gtm') || low.includes('market')) {
+    type = 'Marketing/GTM';
+    hypothesis = 'Create a growth strategy and landing page to drive conversions.';
+    category = 'Marketing';
+  } else if (low.includes('bot') || low.includes('agent') || low.includes('automate')) {
+    type = 'AI Automation';
+    hypothesis = 'Build an autonomous agent or workflow for efficiency.';
+    category = 'Automation';
+  } else if (low.includes('store') || low.includes('ecommerce') || low.includes('shop')) {
+    type = 'E-Commerce';
+    hypothesis = 'Develop a secure store with product listings and checkout flow.';
+    category = 'E-Commerce';
+  }
+
+  return { type, hypothesis, category };
+}
+
+function buildMasterPrompt(input, intent) {
+  return `### AI AGENT INSTRUCTION
+Role: Principal Product Engineer & Prompt Architect
+Context: ${input}
+
+GOAL: Build a high-fidelity ${intent.type} that follows the "Vibe Coding" paradigm.
+
+GUIDELINES:
+1. Extract core functionality: ${intent.hypothesis}
+2. Apply tool-specific best practices (OpenAI/Claude/Gemini).
+3. Use situation-specific patterns for ${intent.category}.
+
+SPECIFIC REQUIREMENTS:
+- Mobile-first, responsive design.
+- Clean code architecture following modern standards.
+- Interactive elements and smooth transitions.
+
+NEXT ACTIONS:
+1. Brainstorm the technical stack.
+2. Outline the PRD (Product Requirements Document).
+3. Generate the implementation code.`;
+}
+
+function matchGpts(intent) {
+  const filtered = CUSTOM_GPTS.filter(g => {
+    if (intent.category === 'Marketing') return g.tags.includes('Marketing') || g.tags.includes('Strategy');
+    if (intent.category === 'Automation') return g.tags.includes('Automation') || g.tags.includes('Make');
+    if (intent.category === 'Development') return g.tags.includes('v0') || g.tags.includes('Fullstack');
+    return g.tags.includes('Planning') || g.tags.includes('Strategy');
+  });
+  return (filtered.length > 0 ? filtered : CUSTOM_GPTS).slice(0, 3);
+}
 
 // ========================================
 // AUTH SYSTEM
@@ -269,4 +379,11 @@ function showToast(msg) {
   });
   document.body.appendChild(t);
   setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 0.3s'; setTimeout(() => t.remove(), 300); }, 3000);
+}
+
+function copyPrompt() {
+  const text = document.getElementById('prompt-output').value;
+  navigator.clipboard.writeText(text).then(() => {
+    showToast('Prompt copied to clipboard! 📋');
+  });
 }

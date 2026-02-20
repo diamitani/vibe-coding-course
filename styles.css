@@ -1741,3 +1741,164 @@ textarea.form-input {
     grid-template-columns: 1fr;
   }
 }
+
+/* ========================================
+   PROMPT LAB & REPROMPT AGENT
+   ======================================== */
+
+.prompt-lab-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2xl);
+  align-items: start;
+}
+
+@media (max-width: 992px) {
+  .prompt-lab-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.lab-input-area {
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  position: sticky;
+  top: 100px;
+}
+
+.prompt-textarea {
+  width: 100%;
+  min-height: 200px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  color: var(--text-primary);
+  padding: var(--space-md);
+  font-family: var(--font-mono);
+  font-size: 0.9375rem;
+  resize: vertical;
+  margin-bottom: var(--space-md);
+}
+
+.prompt-textarea:focus {
+  outline: none;
+  border-color: var(--accent-violet);
+  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.2);
+}
+
+.lab-steps {
+  margin-top: var(--space-xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-normal) var(--ease-out);
+}
+
+.lab-steps.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.step-indicator {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: var(--bg-glass);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  transition: all var(--duration-normal) var(--ease-out);
+}
+
+.step-indicator .step-number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+.step-indicator.finished {
+  border-color: var(--accent-emerald);
+  background: rgba(16, 185, 129, 0.05);
+}
+
+.step-indicator.finished .step-number {
+  background: var(--accent-emerald);
+  border-color: var(--accent-emerald);
+  color: #fff;
+}
+
+.step-indicator.finished .step-text {
+  color: var(--text-primary);
+}
+
+.lab-result-area {
+  display: none;
+  margin-top: var(--space-2xl);
+  animation: slideUp 0.5s var(--ease-out);
+}
+
+.result-box {
+  background: var(--bg-secondary);
+  border: 1px solid var(--accent-violet);
+  border-radius: var(--radius-lg);
+  padding: var(--space-xl);
+  box-shadow: var(--shadow-glow);
+}
+
+.gpt-recommendations {
+  margin-top: var(--space-xl);
+  display: grid;
+  gap: var(--space-md);
+}
+
+.gpt-rec-card {
+  display: block;
+  padding: var(--space-md);
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  text-decoration: none !important;
+  transition: all var(--duration-fast) var(--ease-out);
+}
+
+.gpt-rec-card:hover {
+  border-color: var(--accent-cyan);
+  transform: translateX(4px);
+  background: var(--bg-card-hover);
+}
+
+.gpt-rec-card strong {
+  display: block;
+  color: var(--accent-cyan);
+  margin-bottom: 2px;
+}
+
+.gpt-rec-card p {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

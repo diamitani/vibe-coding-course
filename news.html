@@ -20,6 +20,7 @@
                 <li><a href="tools.html">Tools</a></li>
                 <li><a href="news.html">News</a></li>
                 <li><a href="lab1.html">Labs</a></li>
+                <li><a href="prompt-lab.html">Prompt Lab</a></li>
                 <li><a href="community.html">Community</a></li>
                 <li id="auth-nav-slot"></li>
             </ul>
@@ -70,11 +71,36 @@
 
         async function fetchFeed(key, feed) {
             try {
-                const proxy = `https://api.allorigins.win/raw?url=${encodeURIComponent(feed.url)}`;
-                const res = await fetch(proxy);
-                const text = await res.text();
+                // Try rss2json first (handles CORS + XML parsing reliably)
+                const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`;
+                const res = await fetch(apiUrl);
+                const data = await res.json();
+
+                if (data.status === 'ok') {
+                    return data.items.slice(0, 8).map(item => {
+                        const tmp = document.createElement('div');
+                        tmp.innerHTML = item.description || item.content || '';
+                        let cleanDesc = tmp.textContent.replace(/\s+/g, ' ').trim();
+                        if (cleanDesc.length > 200) cleanDesc = cleanDesc.substring(0, 200) + '...';
+
+                        return {
+                            source: feed.name,
+                            sourceKey: key,
+                            title: (item.title || '').replace(/<!\[CDATA\[|\]\]>/g, '').trim(),
+                            link: (item.link || '').trim(),
+                            desc: cleanDesc,
+                            date: item.pubDate ? new Date(item.pubDate.replace(/-/g, '/')) : new Date(),
+                            dateStr: item.pubDate ? new Date(item.pubDate.replace(/-/g, '/')).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : 'Recent'
+                        };
+                    });
+                }
+
+                // Fallback to allorigins if rss2json fails
+                const proxy = `https://api.allorigins.win/get?url=${encodeURIComponent(feed.url)}`;
+                const fallbackRes = await fetch(proxy);
+                const fallbackData = await fallbackRes.json();
                 const parser = new DOMParser();
-                const xml = parser.parseFromString(text, 'text/xml');
+                const xml = parser.parseFromString(fallbackData.contents, 'text/xml');
 
                 const items = xml.querySelectorAll('item, entry');
                 const articles = [];
@@ -85,10 +111,10 @@
                     const desc = item.querySelector('description, summary, content')?.textContent || '';
                     const pubDate = item.querySelector('pubDate, published, updated')?.textContent || '';
 
-                    // Strip HTML from description
                     const tmp = document.createElement('div');
                     tmp.innerHTML = desc;
-                    const cleanDesc = tmp.textContent.substring(0, 200);
+                    let cleanDesc = tmp.textContent.replace(/\s+/g, ' ').trim();
+                    if (cleanDesc.length > 200) cleanDesc = cleanDesc.substring(0, 200) + '...';
 
                     articles.push({
                         source: feed.name,
