@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 5 — Context Engineering | Vibe Coding Masterclass</title>
+    <meta name="description"
+        content="Learn context engineering: how to provide AI with the right files, data, PRDs, and design systems to get precisely the output you need.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <nav class="nav">
+        <div class="nav-inner"><a href="index.html" class="nav-logo">⚡ Vibe Coding</a><button class="nav-toggle"
+                aria-label="Toggle navigation">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="module1.html">Modules</a></li>
+                <li><a href="lab1.html">Labs</a></li>
+                <li><a href="showcase.html">Showcase</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="module-hero">
+                <span class="module-number">Module 5</span>
+                <h1>Context Engineering</h1>
+                <p>If prompt chaining is about asking the right question, context engineering is about giving AI the
+                    right information. The more relevant context you provide, the more accurate and aligned the output
+                    becomes.</p>
+            </div>
+
+            <div class="module-body">
+                <aside class="sidebar">
+                    <ul class="sidebar-nav">
+                        <li><a href="#why-context">Why Context Matters</a></li>
+                        <li><a href="#what-to-provide">What to Provide</a></li>
+                        <li><a href="#documents">Key Documents</a></li>
+                        <li><a href="#strategies">Strategies</a></li>
+                        <li><a href="#practice">Practice</a></li>
+                    </ul>
+                </aside>
+
+                <div class="content">
+                    <h2 id="why-context">Why Context is Everything</h2>
+                    <p>Think of an AI tool as a brilliant new hire on their first day. They're incredibly talented, but
+                        they know <em>nothing</em> about your project, brand, preferences, or constraints. Without
+                        context, they'll make assumptions — and those assumptions will be wrong.</p>
+
+                    <div class="cards-grid cards-grid-2" style="margin: var(--space-xl) 0;">
+                        <div class="card">
+                            <h3>❌ Without Context</h3>
+                            <p>"Build me a website" → AI picks random colors, generic fonts, placeholder copy, and
+                                guesses at architecture. Result: generic, off-brand, requires heavy revision.</p>
+                        </div>
+                        <div class="card">
+                            <h3>✅ With Context</h3>
+                            <p>"Build me a website" + brand guide + design system + PRD + competitor examples → AI
+                                matches your brand, follows your patterns, uses correct copy. Result: production-ready
+                                output.</p>
+                        </div>
+                    </div>
+
+                    <div class="callout">
+                        <div class="callout-title">📐 The Context Equation</div>
+                        <p><strong>Better Context = Better Output.</strong> This is the single most impactful thing you
+                            can learn in this course. Spending 30 minutes preparing context will save you hours of
+                            iteration.</p>
+                    </div>
+
+                    <h2 id="what-to-provide">Types of Context You Can Provide</h2>
+
+                    <h3>📁 Files & Data</h3>
+                    <ul>
+                        <li><strong>Existing code</strong> — Upload your current codebase so AI understands your stack,
+                            patterns, and conventions</li>
+                        <li><strong>Databases/schemas</strong> — Table definitions, relations, sample data</li>
+                        <li><strong>Content</strong> — Real copy, product descriptions, user data (anonymized)</li>
+                        <li><strong>Assets</strong> — Logos, images, icons for visual reference</li>
+                    </ul>
+
+                    <h3>📝 Documents</h3>
+                    <ul>
+                        <li><strong>PRDs</strong> (Product Requirements Documents) — What to build, why, and acceptance
+                            criteria</li>
+                        <li><strong>Product Specs</strong> — Feature details, user stories, edge cases</li>
+                        <li><strong>Design Systems</strong> — Colors, typography, spacing, component patterns</li>
+                        <li><strong>Brand Guidelines</strong> — Voice, tone, visual identity, do's and don'ts</li>
+                    </ul>
+
+                    <h3>🖼️ Visual References</h3>
+                    <ul>
+                        <li><strong>Screenshots</strong> — of existing UI, competitor sites, inspiration</li>
+                        <li><strong>Wireframes/Mockups</strong> — rough sketches or Figma exports</li>
+                        <li><strong>Style references</strong> — "I want it to look like this site" (with link or
+                            screenshot)</li>
+                    </ul>
+
+                    <h2 id="documents">Creating Key Documents</h2>
+
+                    <h3>The PRD (Product Requirements Document)</h3>
+                    <p>A PRD tells the AI <em>what</em> to build and <em>why</em>. Here's a template:</p>
+
+                    <div class="code-block">
+                        <div class="code-label">PRD Template</div>
+                        <code>
+<span class="keyword"># Product:</span> [Name]<br>
+<span class="keyword"># Goal:</span> [What this product/feature does]<br>
+<span class="keyword"># Target User:</span> [Who is this for]<br><br>
+<span class="keyword">## Features</span><br>
+<span class="string">1. [Feature name] — [description, priority]</span><br>
+<span class="string">2. [Feature name] — [description, priority]</span><br>
+<span class="string">3. [Feature name] — [description, priority]</span><br><br>
+<span class="keyword">## User Stories</span><br>
+<span class="string">- As a [user], I want to [action] so that [benefit]</span><br>
+<span class="string">- As a [user], I want to [action] so that [benefit]</span><br><br>
+<span class="keyword">## Acceptance Criteria</span><br>
+<span class="string">- [ ] [Criteria 1]</span><br>
+<span class="string">- [ ] [Criteria 2]</span><br><br>
+<span class="keyword">## Out of Scope</span><br>
+<span class="string">- [What we're NOT building]</span>
+            </code>
+                    </div>
+
+                    <h3>The Design System Document</h3>
+                    <p>A design system tells the AI <em>how things should look</em>:</p>
+
+                    <div class="code-block">
+                        <div class="code-label">Design System Template</div>
+                        <code>
+<span class="keyword"># Design System</span><br><br>
+<span class="keyword">## Colors</span><br>
+<span class="string">Primary: #8B5CF6</span><br>
+<span class="string">Secondary: #06B6D4</span><br>
+<span class="string">Background: #0A0A0F</span><br>
+<span class="string">Text: #F0F0F5</span><br>
+<span class="string">Muted: #9494A8</span><br><br>
+<span class="keyword">## Typography</span><br>
+<span class="string">Font: Inter</span><br>
+<span class="string">Headings: 700-900 weight</span><br>
+<span class="string">Body: 400 weight, 16px, 1.7 line-height</span><br><br>
+<span class="keyword">## Spacing</span><br>
+<span class="string">Base unit: 8px</span><br>
+<span class="string">Card padding: 24px</span><br>
+<span class="string">Section gap: 64px</span><br><br>
+<span class="keyword">## Components</span><br>
+<span class="string">Border radius: 12px (cards), 9999px (buttons)</span><br>
+<span class="string">Shadows: soft, dark, subtle glow on hover</span><br>
+<span class="string">Transitions: 300ms ease-out</span>
+            </code>
+                    </div>
+
+                    <h3>Brand Guidelines Document</h3>
+                    <p>Brand guidelines tell the AI <em>who you are</em>:</p>
+
+                    <div class="code-block">
+                        <div class="code-label">Brand Guidelines Template</div>
+                        <code>
+<span class="keyword"># Brand: [Name]</span><br><br>
+<span class="keyword">## Voice & Tone</span><br>
+<span class="string">- Professional but approachable</span><br>
+<span class="string">- Confident, not arrogant</span><br>
+<span class="string">- Clear and concise, no jargon</span><br><br>
+<span class="keyword">## Visual Identity</span><br>
+<span class="string">- Modern, clean, minimal</span><br>
+<span class="string">- Dark mode preferred</span><br>
+<span class="string">- Purple/cyan accent palette</span><br><br>
+<span class="keyword">## Do's</span><br>
+<span class="string">- Use action verbs in CTAs</span><br>
+<span class="string">- Include social proof</span><br><br>
+<span class="keyword">## Don'ts</span><br>
+<span class="string">- No stock photos of handshakes</span><br>
+<span class="string">- No walls of text</span><br>
+<span class="string">- Never use Comic Sans</span>
+            </code>
+                    </div>
+
+                    <h2 id="strategies">Context Management Strategies</h2>
+
+                    <h3>1. The Context Stack</h3>
+                    <p>Layer your context from most general to most specific:</p>
+                    <ol>
+                        <li><strong>Brand guidelines</strong> (rarely changes)</li>
+                        <li><strong>Design system</strong> (changes occasionally)</li>
+                        <li><strong>PRD</strong> (changes per project)</li>
+                        <li><strong>Specific prompt</strong> (changes per interaction)</li>
+                    </ol>
+
+                    <h3>2. Context Window Management</h3>
+                    <p>AI models have limited context windows. When working with large codebases:</p>
+                    <ul>
+                        <li><strong>Be selective</strong> — Don't dump everything. Provide only the relevant files.</li>
+                        <li><strong>Summarize</strong> — For large documents, provide a summary + the specific sections
+                            that matter.</li>
+                        <li><strong>Use references</strong> — Instead of including full files, reference them: "Follow
+                            the same pattern as the UserCard component."</li>
+                    </ul>
+
+                    <h3>3. The Example Technique</h3>
+                    <p>One of the most powerful context strategies: <strong>show, don't just tell.</strong></p>
+
+                    <div class="prompt-example">
+                        <div class="label prompt">Example-Based Prompt</div>
+                        <div class="prompt-text">"Build a feature card component. Here's an example of our existing card
+                            style:<br><br>[paste screenshot or code of existing card]<br><br>Match this exact style:
+                            same border radius, same padding, same hover animation. The new card should have an icon,
+                            title, description, and a tag."</div>
+                    </div>
+
+                    <h2 id="practice">Practice Exercise</h2>
+                    <div class="callout">
+                        <div class="callout-title">🎯 Try This Now</div>
+                        <p>Create the three key documents (PRD, Design System, Brand Guidelines) for a project you want
+                            to build. Then use all three as context when prompting an AI tool.</p>
+                    </div>
+
+                    <p>Notice how dramatically different the output is compared to prompting without any context
+                        documents.</p>
+
+                    <div class="page-nav">
+                        <a href="module4.html">
+                            <span class="nav-label">← Previous</span>
+                            <span class="nav-title">Prompt Chaining</span>
+                        </a>
+                        <a href="module6.html" class="next">
+                            <span class="nav-label">Next →</span>
+                            <span class="nav-title">Process Engineering</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>⚡ Vibe Coding Masterclass &copy; 2025</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>

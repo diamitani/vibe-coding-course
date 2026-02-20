@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 3 — The Vibe Coding Toolkit | Vibe Coding Masterclass</title>
+    <meta name="description"
+        content="Explore the best AI-powered tools for vibe coding: Lovable, v0.dev, Replit, Bolt.new, Claude Code, Codex, Antigravity and more.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <nav class="nav">
+        <div class="nav-inner"><a href="index.html" class="nav-logo">⚡ Vibe Coding</a><button class="nav-toggle"
+                aria-label="Toggle navigation">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="module1.html">Modules</a></li>
+                <li><a href="lab1.html">Labs</a></li>
+                <li><a href="showcase.html">Showcase</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="module-hero">
+                <span class="module-number">Module 3</span>
+                <h1>The Vibe Coding Toolkit</h1>
+                <p>The ecosystem of AI-powered development tools is exploding. In this module, we'll explore the major
+                    categories, deep-dive into each tool, and help you pick the right ones for your workflow.</p>
+            </div>
+
+            <div class="module-body">
+                <aside class="sidebar">
+                    <ul class="sidebar-nav">
+                        <li><a href="#categories">Categories</a></li>
+                        <li><a href="#hosted-builders">Hosted Builders</a></li>
+                        <li><a href="#ai-agents">AI Agents & IDEs</a></li>
+                        <li><a href="#comparison">Comparison</a></li>
+                        <li><a href="#choosing">Choosing a Tool</a></li>
+                    </ul>
+                </aside>
+
+                <div class="content">
+                    <h2 id="categories">Tool Categories</h2>
+                    <p>Vibe coding tools fall into three main categories, each suited for different workflows and skill
+                        levels:</p>
+
+                    <div class="cards-grid" style="margin: var(--space-xl) 0;">
+                        <div class="card">
+                            <div class="card-icon">🌐</div>
+                            <h3>Hosted App Builders</h3>
+                            <p>Browser-based tools with visual previews. Describe your app, see it built live, and
+                                deploy with one click. Best for beginners and rapid prototyping.</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon">💻</div>
+                            <h3>AI-Powered IDEs</h3>
+                            <p>Full development environments enhanced with AI. Write prompts inside your editor, see
+                                changes in real time. Best for mid-level users.</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon">⌨️</div>
+                            <h3>CLI Agents</h3>
+                            <p>Terminal-based AI that reads your codebase and makes changes directly. Maximum power and
+                                control. Best for advanced workflows.</p>
+                        </div>
+                    </div>
+
+                    <h2 id="hosted-builders">Hosted App Builders</h2>
+
+                    <div class="cards-grid" style="margin: var(--space-xl) 0;">
+                        <div class="tool-card">
+                            <div class="tool-name">Lovable</div>
+                            <div class="tool-category">Hosted Builder</div>
+                            <div class="tool-desc">Lovable is an AI full-stack app builder. Describe your project in
+                                natural language and Lovable generates a complete application with frontend, backend,
+                                database, and authentication. It uses React + Supabase under the hood and gives you a
+                                live preview as it builds.</div>
+                            <div class="tool-tags">
+                                <span class="tag">Full-Stack</span>
+                                <span class="tag cyan">Supabase</span>
+                                <span class="tag emerald">One-Click Deploy</span>
+                            </div>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-name">v0.dev</div>
+                            <div class="tool-category">Hosted Builder · by Vercel</div>
+                            <div class="tool-desc">v0 generates production-ready UI components from text descriptions.
+                                Built by Vercel, it outputs React + Tailwind code that's ready to drop into any Next.js
+                                project. Ideal for front-end design and component generation.</div>
+                            <div class="tool-tags">
+                                <span class="tag">UI Components</span>
+                                <span class="tag cyan">React</span>
+                                <span class="tag magenta">Tailwind</span>
+                            </div>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-name">Bolt.new</div>
+                            <div class="tool-category">Hosted Builder · by StackBlitz</div>
+                            <div class="tool-desc">Bolt.new gives you an instant full-stack development environment in
+                                the browser. Powered by WebContainers, it runs Node.js entirely in your browser — no
+                                server needed. Describe your app and watch it get built in real time with instant
+                                previews.</div>
+                            <div class="tool-tags">
+                                <span class="tag">Full-Stack</span>
+                                <span class="tag cyan">WebContainers</span>
+                                <span class="tag emerald">No Server</span>
+                            </div>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-name">Replit</div>
+                            <div class="tool-category">AI IDE · Cloud-Based</div>
+                            <div class="tool-desc">Replit combines a cloud IDE with an AI agent that can build entire
+                                applications from a description. It handles the development environment, hosting, and
+                                deployment — making it the most "all-in-one" option available. Great for both learning
+                                and production.</div>
+                            <div class="tool-tags">
+                                <span class="tag">All-in-One</span>
+                                <span class="tag cyan">Cloud IDE</span>
+                                <span class="tag magenta">Built-in Hosting</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 id="ai-agents">AI Agents &amp; CLI Tools</h2>
+
+                    <div class="cards-grid" style="margin: var(--space-xl) 0;">
+                        <div class="tool-card">
+                            <div class="tool-name">Claude Code</div>
+                            <div class="tool-category">CLI Agent · by Anthropic</div>
+                            <div class="tool-desc">Claude Code is Anthropic's agentic coding tool that lives in your
+                                terminal. It reads your entire codebase, understands project structure, and makes
+                                multi-file changes directly. Powerful for complex projects where you need deep context
+                                awareness.</div>
+                            <div class="tool-tags">
+                                <span class="tag">Terminal</span>
+                                <span class="tag cyan">Multi-File</span>
+                                <span class="tag emerald">Deep Context</span>
+                            </div>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-name">Codex</div>
+                            <div class="tool-category">CLI Agent · by OpenAI</div>
+                            <div class="tool-desc">OpenAI's Codex is a cloud-based coding agent that runs tasks in a
+                                sandboxed environment. It can read your repository, execute code, run tests, and submit
+                                pull requests. Designed for integration into professional development workflows.</div>
+                            <div class="tool-tags">
+                                <span class="tag">Sandboxed</span>
+                                <span class="tag cyan">GitHub Integration</span>
+                                <span class="tag magenta">Pull Requests</span>
+                            </div>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-name">OpenCode</div>
+                            <div class="tool-category">CLI Agent · Open Source</div>
+                            <div class="tool-desc">OpenCode is an open-source terminal-based AI coding assistant. It's
+                                provider-agnostic, meaning you can plug in any LLM (OpenAI, Anthropic, local models).
+                                Great for developers who want full control and transparency over their tooling.</div>
+                            <div class="tool-tags">
+                                <span class="tag emerald">Open Source</span>
+                                <span class="tag">Any LLM</span>
+                                <span class="tag cyan">Transparent</span>
+                            </div>
+                        </div>
+
+                        <div class="tool-card">
+                            <div class="tool-name">Antigravity</div>
+                            <div class="tool-category">Agentic IDE · by Google DeepMind</div>
+                            <div class="tool-desc">Antigravity is Google DeepMind's advanced agentic coding assistant.
+                                It operates inside an IDE with full access to terminal, browser, and file system. It
+                                plans, executes, and verifies changes — making it one of the most powerful agentic tools
+                                available.</div>
+                            <div class="tool-tags">
+                                <span class="tag magenta">Agentic</span>
+                                <span class="tag">Browser + Terminal</span>
+                                <span class="tag emerald">Full IDE</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h2 id="comparison">Tool Comparison</h2>
+
+                    <div style="overflow-x:auto;">
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Tool</th>
+                                    <th>Type</th>
+                                    <th>Best For</th>
+                                    <th>Skill Level</th>
+                                    <th>Pricing</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Lovable</strong></td>
+                                    <td>Hosted Builder</td>
+                                    <td>Full-stack apps, MVPs</td>
+                                    <td>Beginner</td>
+                                    <td>Free tier + paid plans</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>v0.dev</strong></td>
+                                    <td>UI Generator</td>
+                                    <td>UI components, design</td>
+                                    <td>Beginner–Mid</td>
+                                    <td>Free tier + paid</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Bolt.new</strong></td>
+                                    <td>Hosted Builder</td>
+                                    <td>Full-stack prototypes</td>
+                                    <td>Beginner</td>
+                                    <td>Free tier + paid</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Replit</strong></td>
+                                    <td>Cloud IDE</td>
+                                    <td>All-in-one development</td>
+                                    <td>Beginner–Mid</td>
+                                    <td>Free tier + paid</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Claude Code</strong></td>
+                                    <td>CLI Agent</td>
+                                    <td>Complex codebases</td>
+                                    <td>Mid–Advanced</td>
+                                    <td>API usage</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Codex</strong></td>
+                                    <td>CLI Agent</td>
+                                    <td>PR workflows, testing</td>
+                                    <td>Mid–Advanced</td>
+                                    <td>API usage</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>OpenCode</strong></td>
+                                    <td>CLI Agent</td>
+                                    <td>Open-source, custom setups</td>
+                                    <td>Advanced</td>
+                                    <td>Free (+ LLM costs)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Antigravity</strong></td>
+                                    <td>Agentic IDE</td>
+                                    <td>Complex projects, full agent</td>
+                                    <td>All levels</td>
+                                    <td>Varies</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h2 id="choosing">How to Choose the Right Tool</h2>
+                    <p>There's no single "best" tool — it depends on your goals, skill level, and what you're building:
+                    </p>
+
+                    <ul>
+                        <li><strong>Just getting started?</strong> → Start with <strong>Lovable</strong> or
+                            <strong>Bolt.new</strong>. They have the gentlest learning curve.</li>
+                        <li><strong>Want beautiful UI?</strong> → Use <strong>v0.dev</strong> for component design, then
+                            bring the code into your project.</li>
+                        <li><strong>Need everything in one place?</strong> → <strong>Replit</strong> covers IDE,
+                            hosting, and deployment.</li>
+                        <li><strong>Working on an existing codebase?</strong> → <strong>Claude Code</strong> or
+                            <strong>Antigravity</strong> can read your whole project and make intelligent changes.</li>
+                        <li><strong>Want maximum control?</strong> → <strong>OpenCode</strong> is fully open source and
+                            works with any model.</li>
+                    </ul>
+
+                    <div class="callout tip">
+                        <div class="callout-title">💡 Pro Tip</div>
+                        <p>Don't commit to just one tool. Expert vibe coders often <strong>chain tools together</strong>
+                            — use v0 to generate a component, Lovable to scaffold the app, and Claude Code to refine the
+                            details.</p>
+                    </div>
+
+                    <div class="page-nav">
+                        <a href="module2.html">
+                            <span class="nav-label">← Previous</span>
+                            <span class="nav-title">What is Vibe Coding</span>
+                        </a>
+                        <a href="module4.html" class="next">
+                            <span class="nav-label">Next →</span>
+                            <span class="nav-title">Prompt Chaining</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>⚡ Vibe Coding Masterclass &copy; 2025</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>

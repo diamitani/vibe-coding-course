@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 3 — Build a Directory / Marketplace | Vibe Coding Masterclass</title>
+    <meta name="description"
+        content="Hands-on lab: build a directory or marketplace site with search, filters, listings, and user interactions using vibe coding tools.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <nav class="nav">
+        <div class="nav-inner"><a href="index.html" class="nav-logo">⚡ Vibe Coding</a><button class="nav-toggle"
+                aria-label="Toggle navigation">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="module1.html">Modules</a></li>
+                <li><a href="lab1.html">Labs</a></li>
+                <li><a href="showcase.html">Showcase</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="module-hero">
+                <span class="module-number">Lab 3</span>
+                <h1>Build a Directory / Marketplace</h1>
+                <p>The capstone lab. Build a multi-listing platform like a directory, marketplace, or aggregator — the
+                    most complex and rewarding project type in vibe coding. Think Yelp, Product Hunt, or a freelancer
+                    marketplace.</p>
+            </div>
+
+            <div class="module-body">
+                <aside class="sidebar">
+                    <ul class="sidebar-nav">
+                        <li><a href="#brief">Project Brief</a></li>
+                        <li><a href="#walkthrough">Walkthrough</a></li>
+                        <li><a href="#checklist">Checklist</a></li>
+                        <li><a href="#submit">Submit Work</a></li>
+                    </ul>
+                </aside>
+
+                <div class="content">
+                    <h2 id="brief">Project Brief</h2>
+
+                    <div class="lab-brief">
+                        <h3>🏪 Directory / Marketplace Platform</h3>
+                        <p>Build a multi-listing platform for a niche of your choice. This could be a local restaurant
+                            directory, a freelancer marketplace, a SaaS tools directory, an AI tools aggregator, or
+                            anything with multiple listings that users can browse, search, and filter.</p>
+
+                        <h3 style="margin-top:var(--space-lg);">Requirements</h3>
+                        <ul>
+                            <li><strong>Homepage</strong> — Hero with search bar, featured/popular listings, category
+                                navigation</li>
+                            <li><strong>Listing Grid</strong> — Cards showing key info (name, category, rating,
+                                image/icon, short description)</li>
+                            <li><strong>Search</strong> — Real-time text search across listing names and descriptions
+                            </li>
+                            <li><strong>Filters</strong> — Filter by category, rating, price range, or other relevant
+                                criteria</li>
+                            <li><strong>Detail Page</strong> — Full listing profile: description, features, contact/CTA,
+                                reviews or ratings</li>
+                            <li><strong>Submit Listing</strong> — A form for new listings to be added</li>
+                            <li><strong>Responsive</strong> — Works on mobile and desktop</li>
+                        </ul>
+
+                        <h3 style="margin-top:var(--space-lg);">Recommended Tools</h3>
+                        <p>Lovable (best for full-stack + database), Replit, or the advanced combo of Claude Code /
+                            Antigravity + a framework.</p>
+                    </div>
+
+                    <h2 id="walkthrough">Step-by-Step Walkthrough</h2>
+
+                    <ol class="step-list">
+                        <li>
+                            <h4>Define Your Niche & Data Model</h4>
+                            <p>Choose your directory type. Define the listing schema: name, category, description,
+                                location, price, rating, image URL, contact info, tags. Create 15–20 sample listings
+                                (use AI to generate them).</p>
+                        </li>
+                        <li>
+                            <h4>Create Your Full Context Package</h4>
+                            <p>This is the most complex lab, so thorough context engineering is essential. Create: PRD
+                                (features, user stories, acceptance criteria), design system (colors, typography, card
+                                layouts), and sample data (JSON or CSV).</p>
+                        </li>
+                        <li>
+                            <h4>Chain a Detailed Architecture Prompt</h4>
+                            <p>Use prompt chaining to define: page structure, data flow, search/filter behavior, listing
+                                card layout, detail page sections, and submission form fields.</p>
+                        </li>
+                        <li>
+                            <h4>Build the Core: Homepage + Listings</h4>
+                            <p>Start with the homepage and listing grid. Get the card layout right, make sure images
+                                look good, and verify the grid is responsive.</p>
+                        </li>
+                        <li>
+                            <h4>Add Search & Filters</h4>
+                            <p>Implement real-time search (filter as user types) and category/criteria filters. These
+                                are the features that make a directory feel professional.</p>
+                        </li>
+                        <li>
+                            <h4>Build the Detail Page</h4>
+                            <p>Create a rich detail page for each listing: full description, photo gallery, feature
+                                list, map or location, contact CTA, and user reviews/ratings.</p>
+                        </li>
+                        <li>
+                            <h4>Add the Submission Form</h4>
+                            <p>Build a form that lets users submit new listings. Include validation, category selection,
+                                image upload (or URL), and a success confirmation.</p>
+                        </li>
+                        <li>
+                            <h4>Polish & Deploy</h4>
+                            <p>Add animations, loading states, empty states ("No results found"), and error handling.
+                                Test the full flow, then deploy.</p>
+                        </li>
+                    </ol>
+
+                    <div class="prompt-example">
+                        <div class="label prompt">Example Refined Prompt (After Chaining)</div>
+                        <div class="prompt-text">"Build a directory of AI tools. Data model: { name, category
+                            (Chatbot/Image/Code/Video/Audio), description, pricing (Free/Freemium/Paid), url, rating
+                            (1-5), tags[] }. Homepage: search bar at top, category pills below, featured grid of
+                            top-rated tools. Listing grid: cards with tool name, category pill, rating stars, pricing
+                            badge, one-line description. Clicking a card opens a detail page with full description,
+                            feature list, pricing details, link to tool, and similar tools section. Filter sidebar:
+                            category checkboxes, pricing radio buttons, minimum rating slider. Submit form: all fields +
+                            tag input. Persist in localStorage. Dark theme, Inter font, #8B5CF6 accent, glassmorphism
+                            cards, hover animations."</div>
+                    </div>
+
+                    <h2 id="checklist">Completion Checklist</h2>
+                    <ul class="checklist">
+                        <li>Homepage with search bar and category navigation</li>
+                        <li>Listing grid with at least 10 listings</li>
+                        <li>Real-time search functionality</li>
+                        <li>At least 2 filter criteria (category, price, rating, etc.)</li>
+                        <li>Detail page for individual listings</li>
+                        <li>Submit listing form with validation</li>
+                        <li>Responsive design (mobile + desktop)</li>
+                        <li>Professional card design with hover effects</li>
+                        <li>Empty states and edge case handling</li>
+                        <li>Site deployed and accessible via public URL</li>
+                    </ul>
+
+                    <h2 id="submit">Submit Your Work</h2>
+
+                    <div class="submission-form">
+                        <h3>Quick Submit</h3>
+                        <form id="lab3-form" onsubmit="submitLab(event, 'marketplace')">
+                            <div class="form-group">
+                                <label for="l3-name">Your Name</label>
+                                <input type="text" id="l3-name" name="name" class="form-input" placeholder="Your name"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="l3-title">Project Title</label>
+                                <input type="text" id="l3-title" name="title" class="form-input"
+                                    placeholder="e.g. AI Tool Directory" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="l3-url">Live URL</label>
+                                <input type="url" id="l3-url" name="url" class="form-input"
+                                    placeholder="https://your-project.vercel.app" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="l3-tool">Tool Used</label>
+                                <select id="l3-tool" name="tool" class="form-input" required>
+                                    <option value="">Select a tool...</option>
+                                    <option value="Lovable">Lovable</option>
+                                    <option value="v0.dev">v0.dev</option>
+                                    <option value="Bolt.new">Bolt.new</option>
+                                    <option value="Replit">Replit</option>
+                                    <option value="Claude Code">Claude Code</option>
+                                    <option value="Codex">Codex</option>
+                                    <option value="Antigravity">Antigravity</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit Project →</button>
+                        </form>
+                    </div>
+
+                    <div class="page-nav">
+                        <a href="lab2.html">
+                            <span class="nav-label">← Previous</span>
+                            <span class="nav-title">Lab 2: E-Commerce</span>
+                        </a>
+                        <a href="showcase.html" class="next">
+                            <span class="nav-label">Next →</span>
+                            <span class="nav-title">Student Showcase</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>⚡ Vibe Coding Masterclass &copy; 2025</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+        function submitLab(e, lab) {
+            e.preventDefault();
+            const form = e.target;
+            const data = Object.fromEntries(new FormData(form));
+            data.lab = lab;
+            data.id = Date.now();
+            data.date = new Date().toLocaleDateString();
+            const items = JSON.parse(localStorage.getItem('showcase') || '[]');
+            items.unshift(data);
+            localStorage.setItem('showcase', JSON.stringify(items));
+            form.reset();
+            showToast('Project submitted! View it in the Showcase.');
+        }
+    </script>
+</body>
+
+</html>

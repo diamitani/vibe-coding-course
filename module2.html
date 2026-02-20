@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 2 — What is Vibe Coding | Vibe Coding Masterclass</title>
+    <meta name="description"
+        content="Learn what vibe coding is, where the term came from, and how prompt-driven development is changing the way we build software.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <nav class="nav">
+        <div class="nav-inner"><a href="index.html" class="nav-logo">⚡ Vibe Coding</a><button class="nav-toggle"
+                aria-label="Toggle navigation">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="module1.html">Modules</a></li>
+                <li><a href="lab1.html">Labs</a></li>
+                <li><a href="showcase.html">Showcase</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="module-hero">
+                <span class="module-number">Module 2</span>
+                <h1>What is Vibe Coding?</h1>
+                <p>Vibe coding is the practice of building software by describing what you want in natural language and
+                    letting AI generate the code. It's a fundamental shift from writing code to directing AI — and it's
+                    reshaping who can build technology.</p>
+            </div>
+
+            <div class="module-body">
+                <aside class="sidebar">
+                    <ul class="sidebar-nav">
+                        <li><a href="#origin">Origin Story</a></li>
+                        <li><a href="#how-it-works">How It Works</a></li>
+                        <li><a href="#use-cases">Use Cases</a></li>
+                        <li><a href="#mindset">The Mindset Shift</a></li>
+                    </ul>
+                </aside>
+
+                <div class="content">
+                    <h2 id="origin">Origin: Where the Term Came From</h2>
+                    <p>The term <strong>"vibe coding"</strong> was coined by <strong>Andrej Karpathy</strong>, former
+                        Director of AI at Tesla and co-founder of OpenAI, in a widely shared post in early 2025:</p>
+
+                    <div class="prompt-example">
+                        <div class="label prompt">Andrej Karpathy</div>
+                        <div class="prompt-text">
+                            "There's a new kind of coding I call 'vibe coding', where you fully give in to the vibes,
+                            embrace exponentials, and forget that the code even exists. It's not really coding — I just
+                            see stuff, say stuff, run stuff, and copy paste stuff, and it mostly works."
+                        </div>
+                    </div>
+
+                    <p>Karpathy captured something millions of people were already doing: <em>using AI assistants to
+                            build real software without manually writing traditional code.</em> The "vibe" part means
+                        you focus on the outcome — what you want to exist — and let AI handle the implementation
+                        details.</p>
+
+                    <h2 id="how-it-works">How Vibe Coding Works</h2>
+                    <p>At its core, vibe coding follows a simple loop:</p>
+
+                    <ol>
+                        <li><strong>Describe</strong> — Tell the AI what you want in natural language</li>
+                        <li><strong>Generate</strong> — The AI produces code, designs, or functionality</li>
+                        <li><strong>Review</strong> — See the result (usually a live preview)</li>
+                        <li><strong>Refine</strong> — Adjust with follow-up prompts until it matches your vision</li>
+                    </ol>
+
+                    <div class="prompt-example">
+                        <div class="label before">❌ Traditional Coding</div>
+                        <div class="prompt-text">
+                            // Open editor, create files, install dependencies...<br>
+                            const express = require('express');<br>
+                            const app = express();<br>
+                            app.get('/', (req, res) =&gt; {<br>
+                            &nbsp;&nbsp;res.send('&lt;h1&gt;Hello World&lt;/h1&gt;');<br>
+                            });<br>
+                            app.listen(3000);<br>
+                            // ...25 more files for a simple site
+                        </div>
+
+                        <div class="prompt-arrow">↓</div>
+
+                        <div class="label after">✅ Vibe Coding</div>
+                        <div class="prompt-text">
+                            "Build me a modern landing page for a SaaS product called FlowSync. It should have a hero
+                            section with a gradient background, feature cards, testimonials, and a pricing table. Use a
+                            dark theme with purple and cyan accents."
+                        </div>
+                    </div>
+
+                    <h2 id="use-cases">Real-World Use Cases</h2>
+                    <p>Vibe coding isn't just for making websites. People are using it to build real tools that solve
+                        real problems:</p>
+
+                    <h3>🌐 Website Building</h3>
+                    <p>The most common use case. Landing pages, portfolios, marketing sites, full web applications —
+                        described in plain English and generated in minutes.</p>
+
+                    <h3>📧 Email Automation</h3>
+                    <p>Build email senders, newsletter systems, automated follow-up sequences, and drip campaigns by
+                        describing the workflow you need.</p>
+
+                    <div class="prompt-example">
+                        <div class="label prompt">Example Prompt</div>
+                        <div class="prompt-text">"Create an email automation system that sends a welcome email when
+                            someone signs up, follows up 3 days later with a product guide, and then sends a discount
+                            code after 7 days if they haven't purchased."</div>
+                    </div>
+
+                    <h3>📅 Calendar & Drive Organization</h3>
+                    <p>Use AI to build tools that organize your Google Calendar, sort Drive files into folders, create
+                        meeting summaries, and automate scheduling workflows.</p>
+
+                    <h3>📊 Data Dashboards</h3>
+                    <p>Describe the metrics you care about and AI builds interactive dashboards with charts, filters,
+                        and real-time data visualizations.</p>
+
+                    <h3>🤖 Internal Tools</h3>
+                    <p>CRMs, project trackers, inventory systems, approval workflows — the kind of tools businesses
+                        spend thousands on can be vibe-coded in an afternoon.</p>
+
+                    <h2 id="mindset">The Mindset Shift</h2>
+                    <p>Vibe coding requires a different way of thinking than traditional development:</p>
+
+                    <div class="cards-grid cards-grid-2" style="margin: var(--space-xl) 0;">
+                        <div class="card">
+                            <h3>Traditional Developer</h3>
+                            <ul>
+                                <li>Thinks in syntax and APIs</li>
+                                <li>Writes code line by line</li>
+                                <li>Solves problems through code</li>
+                                <li>Values technical expertise</li>
+                                <li>Builds bottom-up</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <h3>Vibe Coder</h3>
+                            <ul>
+                                <li>Thinks in outcomes and descriptions</li>
+                                <li>Writes prompts and refines results</li>
+                                <li>Solves problems through communication</li>
+                                <li>Values clarity and specificity</li>
+                                <li>Builds top-down</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="callout tip">
+                        <div class="callout-title">✅ Key Takeaway</div>
+                        <p>The best vibe coders aren't necessarily the best programmers. They're the best
+                            <em>communicators</em> — people who can clearly and specifically describe what they want to
+                            create.</p>
+                    </div>
+
+                    <p>In the next module, we'll explore the actual tools you'll use to vibe code — from hosted builders
+                        like Lovable and Bolt to powerful CLI agents like Claude Code and Antigravity.</p>
+
+                    <div class="page-nav">
+                        <a href="module1.html">
+                            <span class="nav-label">← Previous</span>
+                            <span class="nav-title">What is AI</span>
+                        </a>
+                        <a href="module3.html" class="next">
+                            <span class="nav-label">Next →</span>
+                            <span class="nav-title">The Vibe Coding Toolkit</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>⚡ Vibe Coding Masterclass &copy; 2025</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>

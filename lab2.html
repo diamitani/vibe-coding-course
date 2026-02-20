@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 2 — Build an E-Commerce Website | Vibe Coding Masterclass</title>
+    <meta name="description"
+        content="Hands-on lab: build a complete e-commerce store using vibe coding tools with product pages, cart, and checkout flow.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <nav class="nav">
+        <div class="nav-inner"><a href="index.html" class="nav-logo">⚡ Vibe Coding</a><button class="nav-toggle"
+                aria-label="Toggle navigation">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="module1.html">Modules</a></li>
+                <li><a href="lab1.html">Labs</a></li>
+                <li><a href="showcase.html">Showcase</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="module-hero">
+                <span class="module-number">Lab 2</span>
+                <h1>Build an E-Commerce Website</h1>
+                <p>Level up your vibe coding skills by building a complete online store. This lab introduces product
+                    data, state management, and interactive elements like a shopping cart and checkout flow.</p>
+            </div>
+
+            <div class="module-body">
+                <aside class="sidebar">
+                    <ul class="sidebar-nav">
+                        <li><a href="#brief">Project Brief</a></li>
+                        <li><a href="#walkthrough">Walkthrough</a></li>
+                        <li><a href="#checklist">Checklist</a></li>
+                        <li><a href="#submit">Submit Work</a></li>
+                    </ul>
+                </aside>
+
+                <div class="content">
+                    <h2 id="brief">Project Brief</h2>
+
+                    <div class="lab-brief">
+                        <h3>🛒 Online Store</h3>
+                        <p>Build a functional e-commerce store selling a product category of your choice (sneakers,
+                            coffee, tech gadgets, etc.). The store should feel real enough to impress a client.</p>
+
+                        <h3 style="margin-top:var(--space-lg);">Requirements</h3>
+                        <ul>
+                            <li><strong>Homepage</strong> — Featured products, hero banner, category sections</li>
+                            <li><strong>Product Catalog</strong> — Grid of products with images, names, prices</li>
+                            <li><strong>Product Detail Page</strong> — Full product view with description, images, "Add
+                                to Cart" button</li>
+                            <li><strong>Shopping Cart</strong> — Add/remove items, quantity adjustment, order total</li>
+                            <li><strong>Checkout Flow</strong> — Form with shipping and payment fields (no real payments
+                                needed)</li>
+                            <li><strong>Search & Filter</strong> — Filter by category or sort by price</li>
+                            <li><strong>Responsive</strong> — Fully responsive from mobile to desktop</li>
+                        </ul>
+
+                        <h3 style="margin-top:var(--space-lg);">Recommended Tools</h3>
+                        <p>Lovable (best for full-stack), Bolt.new, or Replit. For more advanced: Claude Code or
+                            Antigravity.</p>
+                    </div>
+
+                    <h2 id="walkthrough">Step-by-Step Walkthrough</h2>
+
+                    <ol class="step-list">
+                        <li>
+                            <h4>Choose Your Product Category</h4>
+                            <p>Pick something you're interested in. Create 8–12 products with names, descriptions,
+                                prices, and categories. You can use AI to generate the product data.</p>
+                        </li>
+                        <li>
+                            <h4>Create Your Context Package</h4>
+                            <p>Write a PRD that defines: product schema (name, price, description, category, image),
+                                page structure, cart behavior, and checkout fields. Include your design system.</p>
+                        </li>
+                        <li>
+                            <h4>Chain Your Master Prompt</h4>
+                            <p>Use prompt chaining to refine a detailed prompt. Include product data, layout
+                                requirements, color scheme, and interactive behaviors (cart slide-out, quantity buttons,
+                                etc.).</p>
+                        </li>
+                        <li>
+                            <h4>Generate the Store</h4>
+                            <p>Use your chosen tool. Start with the homepage and product grid, then iterate on the
+                                detail page, cart, and checkout.</p>
+                        </li>
+                        <li>
+                            <h4>Add Product Data</h4>
+                            <p>If the tool supports databases (Lovable+Supabase, Replit), use a real data store.
+                                Otherwise, use JSON data or localStorage.</p>
+                        </li>
+                        <li>
+                            <h4>Polish the Cart & Checkout</h4>
+                            <p>The cart should feel smooth: slide-in/out animation, real-time total calculation,
+                                quantity +/- buttons. Checkout should validate fields and show a confirmation.</p>
+                        </li>
+                        <li>
+                            <h4>Test & Deploy</h4>
+                            <p>Test the full flow: browse → add to cart → adjust quantity → checkout. Test on mobile.
+                                Deploy.</p>
+                        </li>
+                    </ol>
+
+                    <div class="prompt-example">
+                        <div class="label prompt">Example Refined Prompt (After Chaining)</div>
+                        <div class="prompt-text">"Build an e-commerce store for premium headphones. Products: [list 8
+                            products with name, price, category, and one-line description]. Homepage: hero with featured
+                            product, 'Shop by Category' section (Over-Ear, In-Ear, Wireless), product grid with hover
+                            effects. Product page: large image, title, price, description, reviews count, 'Add to Cart'
+                            with quantity selector. Cart: slide-in from right, list items with quantity +/-, subtotal,
+                            'Checkout' button. Checkout: form with name, email, address, card fields. Success state:
+                            confetti animation + order number. Dark theme, #0A0A0F background, violet accent #8B5CF6.
+                            Inter font. All data in localStorage."</div>
+                    </div>
+
+                    <h2 id="checklist">Completion Checklist</h2>
+                    <ul class="checklist">
+                        <li>Homepage with hero and featured products</li>
+                        <li>Product grid with at least 6 products</li>
+                        <li>Product detail page with description and "Add to Cart"</li>
+                        <li>Working shopping cart (add, remove, quantity)</li>
+                        <li>Checkout form with basic validation</li>
+                        <li>Search or filter functionality</li>
+                        <li>Responsive design (mobile + desktop)</li>
+                        <li>Consistent design system throughout</li>
+                        <li>Hover effects and transitions</li>
+                        <li>Site deployed and accessible via public URL</li>
+                    </ul>
+
+                    <h2 id="submit">Submit Your Work</h2>
+
+                    <div class="submission-form">
+                        <h3>Quick Submit</h3>
+                        <form id="lab2-form" onsubmit="submitLab(event, 'ecommerce')">
+                            <div class="form-group">
+                                <label for="l2-name">Your Name</label>
+                                <input type="text" id="l2-name" name="name" class="form-input" placeholder="Your name"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="l2-title">Project Title</label>
+                                <input type="text" id="l2-title" name="title" class="form-input"
+                                    placeholder="e.g. SoundWave Headphones Store" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="l2-url">Live URL</label>
+                                <input type="url" id="l2-url" name="url" class="form-input"
+                                    placeholder="https://your-project.vercel.app" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="l2-tool">Tool Used</label>
+                                <select id="l2-tool" name="tool" class="form-input" required>
+                                    <option value="">Select a tool...</option>
+                                    <option value="Lovable">Lovable</option>
+                                    <option value="v0.dev">v0.dev</option>
+                                    <option value="Bolt.new">Bolt.new</option>
+                                    <option value="Replit">Replit</option>
+                                    <option value="Claude Code">Claude Code</option>
+                                    <option value="Codex">Codex</option>
+                                    <option value="Antigravity">Antigravity</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit Project →</button>
+                        </form>
+                    </div>
+
+                    <div class="page-nav">
+                        <a href="lab1.html">
+                            <span class="nav-label">← Previous</span>
+                            <span class="nav-title">Lab 1: Marketing Website</span>
+                        </a>
+                        <a href="lab3.html" class="next">
+                            <span class="nav-label">Next →</span>
+                            <span class="nav-title">Lab 3: Marketplace</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>⚡ Vibe Coding Masterclass &copy; 2025</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+        function submitLab(e, lab) {
+            e.preventDefault();
+            const form = e.target;
+            const data = Object.fromEntries(new FormData(form));
+            data.lab = lab;
+            data.id = Date.now();
+            data.date = new Date().toLocaleDateString();
+            const items = JSON.parse(localStorage.getItem('showcase') || '[]');
+            items.unshift(data);
+            localStorage.setItem('showcase', JSON.stringify(items));
+            form.reset();
+            showToast('Project submitted! View it in the Showcase.');
+        }
+    </script>
+</body>
+
+</html>

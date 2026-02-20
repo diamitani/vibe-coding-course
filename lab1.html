@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 1 — Build a Marketing Website | Vibe Coding Masterclass</title>
+    <meta name="description"
+        content="Hands-on lab: build a complete marketing website using vibe coding tools. Apply prompt chaining, context engineering, and process techniques.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <nav class="nav">
+        <div class="nav-inner"><a href="index.html" class="nav-logo">⚡ Vibe Coding</a><button class="nav-toggle"
+                aria-label="Toggle navigation">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="module1.html">Modules</a></li>
+                <li><a href="lab1.html">Labs</a></li>
+                <li><a href="showcase.html">Showcase</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="module-hero">
+                <span class="module-number">Lab 1</span>
+                <h1>Build a Marketing Website</h1>
+                <p>Your first hands-on project. Use the techniques from Modules 4–6 to build a complete, polished
+                    marketing website for a fictional (or real!) product using any vibe coding tool.</p>
+            </div>
+
+            <div class="module-body">
+                <aside class="sidebar">
+                    <ul class="sidebar-nav">
+                        <li><a href="#brief">Project Brief</a></li>
+                        <li><a href="#walkthrough">Walkthrough</a></li>
+                        <li><a href="#checklist">Checklist</a></li>
+                        <li><a href="#submit">Submit Work</a></li>
+                    </ul>
+                </aside>
+
+                <div class="content">
+                    <h2 id="brief">Project Brief</h2>
+
+                    <div class="lab-brief">
+                        <h3>🎨 Marketing Landing Page</h3>
+                        <p>Build a modern, responsive marketing website for a product or service of your choice. The
+                            site should look professional enough to show a real client.</p>
+
+                        <h3 style="margin-top:var(--space-lg);">Requirements</h3>
+                        <ul>
+                            <li><strong>Hero Section</strong> — Eye-catching headline, subheadline, and a call-to-action
+                                button</li>
+                            <li><strong>Features Section</strong> — At least 3 feature cards with icons and descriptions
+                            </li>
+                            <li><strong>Social Proof</strong> — Testimonials, logos, or statistics</li>
+                            <li><strong>Pricing</strong> — At least 2 pricing tiers with a comparison</li>
+                            <li><strong>Footer</strong> — Navigation links, contact info, social links</li>
+                            <li><strong>Responsive</strong> — Must look great on both desktop and mobile</li>
+                            <li><strong>Polished</strong> — Animations, hover effects, consistent design system</li>
+                        </ul>
+
+                        <h3 style="margin-top:var(--space-lg);">Recommended Tools</h3>
+                        <p>Lovable, Bolt.new, v0.dev + any editor, or Replit</p>
+                    </div>
+
+                    <h2 id="walkthrough">Step-by-Step Walkthrough</h2>
+
+                    <ol class="step-list">
+                        <li>
+                            <h4>Prepare Your Context Documents</h4>
+                            <p>Before touching any builder tool, create a mini PRD and design system using the templates
+                                from Module 5. Define your product name, color palette, typography, and voice.</p>
+                        </li>
+                        <li>
+                            <h4>Chain Your Initial Prompt</h4>
+                            <p>Write a rough description of your marketing site. Then use prompt chaining (Module 4) to
+                                refine it into a detailed, specific prompt. Include colors, fonts, section layout, and
+                                copy direction.</p>
+                        </li>
+                        <li>
+                            <h4>Generate v1 with Your Builder</h4>
+                            <p>Paste your refined prompt into your chosen tool (Lovable, Bolt, v0, etc.) and let it
+                                generate the first version. Don't worry about perfection yet.</p>
+                        </li>
+                        <li>
+                            <h4>Review & Iterate</h4>
+                            <p>Look at the output critically. What's wrong? What's missing? Use follow-up prompts to fix
+                                specific issues. Be precise: "Change the hero background gradient from blue to purple
+                                (#8B5CF6 → #6D28D9)."</p>
+                        </li>
+                        <li>
+                            <h4>Add Polish</h4>
+                            <p>Request animations, hover states, responsive adjustments, and micro-interactions. These
+                                are what separate amateur from professional output.</p>
+                        </li>
+                        <li>
+                            <h4>Test & Deploy</h4>
+                            <p>Test on mobile (use browser DevTools to simulate). Check all links, buttons, and
+                                interactions. Deploy via your tool's built-in hosting or services like Vercel/Netlify.
+                            </p>
+                        </li>
+                    </ol>
+
+                    <div class="callout tip">
+                        <div class="callout-title">💡 Hint</div>
+                        <p>The best projects in this lab will demonstrate clear evidence of prompt chaining
+                            (before/after prompts) and context engineering (PRD + design system provided to the tool).
+                        </p>
+                    </div>
+
+                    <h2 id="checklist">Completion Checklist</h2>
+                    <ul class="checklist">
+                        <li>Hero section with headline, subheadline, and CTA</li>
+                        <li>At least 3 feature cards with descriptions</li>
+                        <li>Social proof section (testimonials, stats, or logos)</li>
+                        <li>Pricing section with at least 2 tiers</li>
+                        <li>Responsive design (works on mobile and desktop)</li>
+                        <li>Consistent color palette and typography</li>
+                        <li>At least 2 hover effects or animations</li>
+                        <li>Footer with navigation links</li>
+                        <li>Site is deployed and accessible via a public URL</li>
+                    </ul>
+
+                    <h2 id="submit">Submit Your Work</h2>
+                    <p>Once your marketing website is live, submit it to the <a href="showcase.html">Student
+                            Showcase</a> so others can see your work.</p>
+
+                    <div class="submission-form">
+                        <h3>Quick Submit</h3>
+                        <form id="lab1-form" onsubmit="submitLab(event, 'marketing')">
+                            <div class="form-group">
+                                <label for="l1-name">Your Name</label>
+                                <input type="text" id="l1-name" name="name" class="form-input" placeholder="Your name"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="l1-title">Project Title</label>
+                                <input type="text" id="l1-title" name="title" class="form-input"
+                                    placeholder="e.g. FlowSync Landing Page" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="l1-url">Live URL</label>
+                                <input type="url" id="l1-url" name="url" class="form-input"
+                                    placeholder="https://your-project.vercel.app" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="l1-tool">Tool Used</label>
+                                <select id="l1-tool" name="tool" class="form-input" required>
+                                    <option value="">Select a tool...</option>
+                                    <option value="Lovable">Lovable</option>
+                                    <option value="v0.dev">v0.dev</option>
+                                    <option value="Bolt.new">Bolt.new</option>
+                                    <option value="Replit">Replit</option>
+                                    <option value="Claude Code">Claude Code</option>
+                                    <option value="Codex">Codex</option>
+                                    <option value="Antigravity">Antigravity</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit Project →</button>
+                        </form>
+                    </div>
+
+                    <div class="page-nav">
+                        <a href="module6.html">
+                            <span class="nav-label">← Previous</span>
+                            <span class="nav-title">Process Engineering</span>
+                        </a>
+                        <a href="lab2.html" class="next">
+                            <span class="nav-label">Next →</span>
+                            <span class="nav-title">Lab 2: E-Commerce</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>⚡ Vibe Coding Masterclass &copy; 2025</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+    <script>
+        function submitLab(e, lab) {
+            e.preventDefault();
+            const form = e.target;
+            const data = Object.fromEntries(new FormData(form));
+            data.lab = lab;
+            data.id = Date.now();
+            data.date = new Date().toLocaleDateString();
+            const items = JSON.parse(localStorage.getItem('showcase') || '[]');
+            items.unshift(data);
+            localStorage.setItem('showcase', JSON.stringify(items));
+            form.reset();
+            showToast('Project submitted! View it in the Showcase.');
+        }
+    </script>
+</body>
+
+</html>

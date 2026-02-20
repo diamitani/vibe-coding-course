@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Showcase | Vibe Coding Masterclass</title>
+    <meta name="description"
+        content="Browse student-built projects from the Vibe Coding Masterclass labs. Marketing websites, e-commerce stores, and marketplace directories.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <nav class="nav">
+        <div class="nav-inner"><a href="index.html" class="nav-logo">⚡ Vibe Coding</a><button class="nav-toggle"
+                aria-label="Toggle navigation">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="module1.html">Modules</a></li>
+                <li><a href="lab1.html">Labs</a></li>
+                <li><a href="showcase.html">Showcase</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div class="container">
+            <section class="hero" style="padding-bottom: var(--space-xl);">
+                <h1>Student <span class="gradient-text">Showcase</span></h1>
+                <p>Browse projects built by students using vibe coding tools. All three labs in one gallery. Feeling
+                    inspired? Start a lab and submit your own.</p>
+            </section>
+
+            <!-- Filters -->
+            <div class="showcase-filters">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="marketing">🎨 Marketing</button>
+                <button class="filter-btn" data-filter="ecommerce">🛒 E-Commerce</button>
+                <button class="filter-btn" data-filter="marketplace">🏪 Marketplace</button>
+            </div>
+
+            <!-- Gallery -->
+            <div class="showcase-grid" id="showcase-grid">
+                <!-- Rendered by JS -->
+            </div>
+
+            <!-- Submit Form -->
+            <section class="section">
+                <div class="section-header">
+                    <span class="section-label">Add Your Project</span>
+                    <h2 class="section-title">Submit Your Work</h2>
+                    <p class="section-desc">Completed a lab? Share your project with the community.</p>
+                </div>
+
+                <div class="submission-form" style="max-width:600px;margin:0 auto;">
+                    <form id="showcase-form">
+                        <div class="form-group">
+                            <label for="s-name">Your Name</label>
+                            <input type="text" id="s-name" name="name" class="form-input" placeholder="Your name"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="s-title">Project Title</label>
+                            <input type="text" id="s-title" name="title" class="form-input"
+                                placeholder="e.g. SoundWave Headphones Store" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="s-url">Live URL</label>
+                            <input type="url" id="s-url" name="url" class="form-input"
+                                placeholder="https://your-project.vercel.app" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="s-lab">Lab</label>
+                            <select id="s-lab" name="lab" class="form-input" required>
+                                <option value="">Select lab...</option>
+                                <option value="marketing">Lab 1 — Marketing Website</option>
+                                <option value="ecommerce">Lab 2 — E-Commerce Store</option>
+                                <option value="marketplace">Lab 3 — Directory / Marketplace</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="s-tool">Tool Used</label>
+                            <select id="s-tool" name="tool" class="form-input" required>
+                                <option value="">Select a tool...</option>
+                                <option value="Lovable">Lovable</option>
+                                <option value="v0.dev">v0.dev</option>
+                                <option value="Bolt.new">Bolt.new</option>
+                                <option value="Replit">Replit</option>
+                                <option value="Claude Code">Claude Code</option>
+                                <option value="Codex">Codex</option>
+                                <option value="Antigravity">Antigravity</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Submit
+                            Project →</button>
+                    </form>
+                </div>
+            </section>
+
+            <!-- CTA -->
+            <section class="section" style="text-align:center;">
+                <h2 class="section-title">Haven't Started Yet?</h2>
+                <p class="section-desc" style="margin-bottom:var(--space-xl);">Jump into the first lab and build
+                    something amazing.</p>
+                <div style="display:flex;justify-content:center;gap:var(--space-md);flex-wrap:wrap;">
+                    <a href="lab1.html" class="btn btn-primary">Lab 1: Marketing Site</a>
+                    <a href="lab2.html" class="btn btn-secondary">Lab 2: E-Commerce</a>
+                    <a href="lab3.html" class="btn btn-secondary">Lab 3: Marketplace</a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>⚡ Vibe Coding Masterclass &copy; 2025</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+name: Deploy to Azure Storage
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Upload to Azure Blob Storage
+        uses: azure/cli@v2
+        with:
+          inlineScript: |
+            az storage blob upload-batch \
+              --account-name vibecodingcourse \
+              --source . \
+              --destination '$web' \
+              --overwrite \
+              --connection-string "${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}"
+
+      - name: Purge CDN (if configured)
+        if: false
+        uses: azure/cli@v2
+        with:
+          inlineScript: |
+            echo "Add CDN purge command here if you set up Azure CDN"

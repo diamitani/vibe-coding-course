@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 4 — Prompt Chaining | Vibe Coding Masterclass</title>
+    <meta name="description"
+        content="Master prompt chaining: use AI to refine your prompts, turning vague ideas into precise, actionable instructions for better vibe coding output.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <nav class="nav">
+        <div class="nav-inner"><a href="index.html" class="nav-logo">⚡ Vibe Coding</a><button class="nav-toggle"
+                aria-label="Toggle navigation">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="module1.html">Modules</a></li>
+                <li><a href="lab1.html">Labs</a></li>
+                <li><a href="showcase.html">Showcase</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="module-hero">
+                <span class="module-number">Module 4</span>
+                <h1>Prompt Chaining</h1>
+                <p>The difference between mediocre and exceptional AI output usually comes down to one thing: the
+                    quality of your prompt. Prompt chaining is the technique of using one AI conversation to refine and
+                    improve prompts before sending them to your builder tool.</p>
+            </div>
+
+            <div class="module-body">
+                <aside class="sidebar">
+                    <ul class="sidebar-nav">
+                        <li><a href="#what-is-it">What Is It</a></li>
+                        <li><a href="#why-it-works">Why It Works</a></li>
+                        <li><a href="#chain-patterns">Chain Patterns</a></li>
+                        <li><a href="#examples">Live Examples</a></li>
+                        <li><a href="#practice">Practice</a></li>
+                    </ul>
+                </aside>
+
+                <div class="content">
+                    <h2 id="what-is-it">What is Prompt Chaining?</h2>
+                    <p>Prompt chaining is the practice of <strong>using one LLM to craft, refine, or enhance the
+                            prompt</strong> you'll send to another tool. Instead of going directly from your rough idea
+                        to a builder, you add a "refinement" step in between.</p>
+
+                    <div class="prompt-example">
+                        <div class="label before">Your Rough Idea</div>
+                        <div class="prompt-text">"I want a red background"</div>
+                        <div class="prompt-arrow">↓ <small
+                                style="color:var(--text-muted);font-size:0.75rem;margin-left:0.5rem;">Ask an LLM to
+                                refine this</small></div>
+                        <div class="label after">Refined Prompt</div>
+                        <div class="prompt-text">"Set the background to a deep crimson red using hex color #DC143C.
+                            Apply a subtle radial gradient that transitions from #DC143C at center to #8B0000 at the
+                            edges. Add a very faint noise texture overlay at 3% opacity for depth."</div>
+                    </div>
+
+                    <p>The refined prompt is <em>dramatically</em> more specific. AI builder tools perform much better
+                        with this level of detail because they don't have to guess what you mean.</p>
+
+                    <h2 id="why-it-works">Why Prompt Chaining Works</h2>
+                    <ul>
+                        <li><strong>Eliminates ambiguity</strong> — "Red" could mean 100 different shades. The chain
+                            forces specificity.</li>
+                        <li><strong>Adds expert knowledge</strong> — The refining LLM adds best practices you might not
+                            know (gradients, fallback colors, accessibility).</li>
+                        <li><strong>Saves iteration cycles</strong> — Better first output means fewer "no, not like
+                            that" follow-ups.</li>
+                        <li><strong>Works across domains</strong> — Design, copy, architecture, data models — everything
+                            benefits from clearer prompts.</li>
+                    </ul>
+
+                    <h2 id="chain-patterns">The Four-Step Chain Pattern</h2>
+                    <p>The most effective prompt chains follow this pattern:</p>
+
+                    <ol class="step-list">
+                        <li>
+                            <h4>1. Clarify</h4>
+                            <p>Take your rough idea and ask an LLM to identify what's ambiguous. <em>"What questions
+                                    would you ask to make this prompt more specific?"</em></p>
+                        </li>
+                        <li>
+                            <h4>2. Specify</h4>
+                            <p>Feed the answers back and ask the LLM to generate a detailed, specific version of your
+                                prompt.</p>
+                        </li>
+                        <li>
+                            <h4>3. Generate</h4>
+                            <p>Send the refined prompt to your builder tool (Lovable, Bolt, v0, etc.).</p>
+                        </li>
+                        <li>
+                            <h4>4. Validate</h4>
+                            <p>Review the output. If it's not right, chain again — describe what's wrong and let the LLM
+                                adjust the prompt.</p>
+                        </li>
+                    </ol>
+
+                    <h2 id="examples">Live Examples</h2>
+
+                    <h3>Example 1: Design Refinement</h3>
+                    <div class="prompt-example">
+                        <div class="label before">❌ Vague Prompt</div>
+                        <div class="prompt-text">"Make me a nice looking pricing page"</div>
+                        <div class="prompt-arrow">↓ After chaining through ChatGPT/Claude</div>
+                        <div class="label after">✅ Refined Prompt</div>
+                        <div class="prompt-text">"Create a pricing page with 3 tiers: Starter ($9/mo), Pro ($29/mo),
+                            Enterprise (custom). Use a dark background (#0F172A). The Pro tier should be highlighted
+                            with a purple gradient border and a 'Most Popular' badge. Each card should have: plan name,
+                            price, a list of 5 features with check icons, and a CTA button. Use Inter font, rounded
+                            corners (16px), and smooth hover scale animation (1.02). Cards should be equal width in a
+                            horizontal row on desktop, stacking vertically on mobile."</div>
+                    </div>
+
+                    <h3>Example 2: Functionality Refinement</h3>
+                    <div class="prompt-example">
+                        <div class="label before">❌ Vague Prompt</div>
+                        <div class="prompt-text">"Build me a contact form"</div>
+                        <div class="prompt-arrow">↓ After chaining</div>
+                        <div class="label after">✅ Refined Prompt</div>
+                        <div class="prompt-text">"Build a contact form with fields: Full Name (text, required), Email
+                            (email, required, validate format), Subject (dropdown: General, Support, Partnership,
+                            Other), Message (textarea, min 20 chars, max 500 chars with character counter). Include a
+                            honeypot field for spam. On submit: validate all fields, show inline errors in red below
+                            each field, display a success toast, and reset the form. Disable the submit button during
+                            processing with a loading spinner. Style: dark card background, purple accent color for
+                            focus states, 8px border-radius on inputs."</div>
+                    </div>
+
+                    <h3>Example 3: Architecture Refinement</h3>
+                    <div class="prompt-example">
+                        <div class="label before">❌ Vague Prompt</div>
+                        <div class="prompt-text">"Help me build a todo app"</div>
+                        <div class="prompt-arrow">↓ After chaining</div>
+                        <div class="label after">✅ Refined Prompt</div>
+                        <div class="prompt-text">"Build a task management app with: 1) A sidebar showing project
+                            categories (Work, Personal, Ideas) with task counts. 2) A main area showing tasks for the
+                            selected category with title, due date, priority tag (Low/Medium/High with color coding),
+                            and a checkbox to complete. 3) An 'Add Task' modal with fields for title, description,
+                            category (dropdown), priority, and due date. 4) Drag-and-drop reordering within a category.
+                            5) Persist all data in localStorage. 6) Filter by: All, Active, Completed. 7) Dark theme,
+                            purple accents, smooth animations on add/complete/delete."</div>
+                    </div>
+
+                    <h2 id="practice">Practice Exercise</h2>
+                    <div class="callout">
+                        <div class="callout-title">🎯 Try This Now</div>
+                        <p>Take one of these vague prompts and chain it through ChatGPT or Claude to create a refined
+                            version:</p>
+                    </div>
+
+                    <ul>
+                        <li>"Build me a landing page"</li>
+                        <li>"Create a dashboard"</li>
+                        <li>"Make a portfolio website"</li>
+                        <li>"Build an email signup form"</li>
+                    </ul>
+
+                    <p>Ask the LLM: <em>"I want to use this prompt with an AI website builder. What questions should you
+                            ask me to make this more specific? Then rewrite the prompt with detailed
+                            specifications."</em></p>
+
+                    <div class="page-nav">
+                        <a href="module3.html">
+                            <span class="nav-label">← Previous</span>
+                            <span class="nav-title">The Vibe Coding Toolkit</span>
+                        </a>
+                        <a href="module5.html" class="next">
+                            <span class="nav-label">Next →</span>
+                            <span class="nav-title">Context Engineering</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>⚡ Vibe Coding Masterclass &copy; 2025</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>

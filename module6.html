@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 6 — Process Engineering | Vibe Coding Masterclass</title>
+    <meta name="description"
+        content="Learn process engineering: observe workflows, identify improvements, and build AI-augmented processes for continuous optimization.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <nav class="nav">
+        <div class="nav-inner"><a href="index.html" class="nav-logo">⚡ Vibe Coding</a><button class="nav-toggle"
+                aria-label="Toggle navigation">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="module1.html">Modules</a></li>
+                <li><a href="lab1.html">Labs</a></li>
+                <li><a href="showcase.html">Showcase</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="module-hero">
+                <span class="module-number">Module 6</span>
+                <h1>Process Engineering</h1>
+                <p>The final pillar of expert vibe coding: observing existing workflows, recording them, and using AI to
+                    identify bottlenecks, create automations, and continuously improve how work gets done.</p>
+            </div>
+
+            <div class="module-body">
+                <aside class="sidebar">
+                    <ul class="sidebar-nav">
+                        <li><a href="#what-is-it">What Is It</a></li>
+                        <li><a href="#observe">Observe & Record</a></li>
+                        <li><a href="#analyze">Analyze & Identify</a></li>
+                        <li><a href="#automate">Build & Automate</a></li>
+                        <li><a href="#loop">Continuous Loop</a></li>
+                        <li><a href="#practice">Practice</a></li>
+                    </ul>
+                </aside>
+
+                <div class="content">
+                    <h2 id="what-is-it">What is Process Engineering?</h2>
+                    <p>Process engineering is the discipline of <strong>studying how work currently gets done and using
+                            AI to make it better</strong>. While prompt chaining improves your prompts and context
+                        engineering improves your inputs, process engineering improves your <em>entire workflow</em>.
+                    </p>
+
+                    <p>This is where vibe coding goes from "I can build a website" to "I can transform how an entire
+                        team operates."</p>
+
+                    <div class="cards-grid cards-grid-3" style="margin: var(--space-xl) 0;">
+                        <div class="card">
+                            <div class="card-icon">👁️</div>
+                            <h3>Observe</h3>
+                            <p>Watch and record how things are done today — screenshares, process walkthroughs, workflow
+                                documentation.</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon">🔍</div>
+                            <h3>Analyze</h3>
+                            <p>Identify bottlenecks, repetitive tasks, error-prone steps, and opportunities for AI
+                                augmentation.</p>
+                        </div>
+                        <div class="card">
+                            <div class="card-icon">🔧</div>
+                            <h3>Build</h3>
+                            <p>Use vibe coding to create tools, automations, and workflows that eliminate
+                                inefficiencies.</p>
+                        </div>
+                    </div>
+
+                    <h2 id="observe">Step 1: Observe &amp; Record</h2>
+                    <p>Before you can improve a process, you need to understand it deeply. The best way to do this is to
+                        <strong>watch it happen</strong>.</p>
+
+                    <h3>Techniques for Observation</h3>
+                    <ul>
+                        <li><strong>Screen Recording</strong> — Record someone performing their workflow. Tools: Loom,
+                            OBS, native screen recording. Capture every click, every decision, every hesitation.</li>
+                        <li><strong>Screenshare Walkthroughs</strong> — Have someone walk you through their process live
+                            while narrating their decisions. Ask "why?" at each step.</li>
+                        <li><strong>Process Documentation</strong> — Write down each step in sequence. Note time spent,
+                            tools used, handoffs, and pain points.</li>
+                        <li><strong>Shadow Sessions</strong> — Sit beside someone (or on a video call) and observe them
+                            work without interrupting. Take notes on friction points.</li>
+                    </ul>
+
+                    <div class="callout tip">
+                        <div class="callout-title">💡 Pro Tip</div>
+                        <p>Record the process <em>before</em> you start optimizing. This gives you a baseline to measure
+                            improvement against, and the recording itself becomes context you can feed to AI.</p>
+                    </div>
+
+                    <h3>What to Document</h3>
+                    <div class="code-block">
+                        <div class="code-label">Process Documentation Template</div>
+                        <code>
+<span class="keyword"># Process:</span> [Name]<br>
+<span class="keyword"># Owner:</span> [Who does this]<br>
+<span class="keyword"># Frequency:</span> [How often]<br>
+<span class="keyword"># Duration:</span> [How long it takes]<br><br>
+<span class="keyword">## Steps</span><br>
+<span class="string">1. [Step] — [Tool used] — [Time: X min]</span><br>
+<span class="string">2. [Step] — [Tool used] — [Time: X min]</span><br>
+<span class="string">3. [Step] — [Tool used] — [Time: X min]</span><br><br>
+<span class="keyword">## Pain Points</span><br>
+<span class="string">- [What's frustrating or slow]</span><br>
+<span class="string">- [Where errors happen]</span><br>
+<span class="string">- [What requires manual work]</span><br><br>
+<span class="keyword">## Handoffs</span><br>
+<span class="string">- [Where work passes between people/tools]</span>
+            </code>
+                    </div>
+
+                    <h2 id="analyze">Step 2: Analyze &amp; Identify Opportunities</h2>
+                    <p>Once you've documented the process, look for these patterns:</p>
+
+                    <h3>🔴 Bottlenecks</h3>
+                    <p>Steps that take disproportionately long or create queues. Example: "Reviewing 50 applications
+                        manually takes 3 hours every week."</p>
+
+                    <h3>🟡 Repetitive Tasks</h3>
+                    <p>Anything done the same way every time. Example: "Copy data from this spreadsheet into that form,
+                        every morning."</p>
+
+                    <h3>🟠 Error-Prone Steps</h3>
+                    <p>Steps where humans frequently make mistakes. Example: "Formatting email addresses incorrectly 15%
+                        of the time."</p>
+
+                    <h3>🔵 Manual Handoffs</h3>
+                    <p>Places where work passes between people or tools and things get dropped. Example: "Saving a PDF,
+                        then emailing it, then logging it in the CRM."</p>
+
+                    <div class="prompt-example">
+                        <div class="label prompt">Feed Your Process to AI</div>
+                        <div class="prompt-text">"Here's a process my team follows every week: [paste process
+                            documentation]. Analyze this workflow and identify: 1) The biggest bottleneck, 2) Steps that
+                            could be automated, 3) Where AI could add the most value, 4) A proposed improved workflow."
+                        </div>
+                    </div>
+
+                    <h2 id="automate">Step 3: Build &amp; Automate</h2>
+                    <p>Now use your vibe coding skills to build the solution:</p>
+
+                    <h3>Common Solutions</h3>
+                    <ul>
+                        <li><strong>Dashboards</strong> — Vibe code a dashboard that replaces manual data gathering</li>
+                        <li><strong>Workflows</strong> — Build automation chains using tools like n8n, Make, or Zapier
+                        </li>
+                        <li><strong>Internal Tools</strong> — Create custom apps for specific team needs</li>
+                        <li><strong>Templates & Generators</strong> — Build tools that produce documents, emails, or
+                            reports from templates</li>
+                        <li><strong>Chatbots & Assistants</strong> — Create AI assistants trained on team knowledge</li>
+                    </ul>
+
+                    <div class="prompt-example">
+                        <div class="label prompt">Example: Vibe Coding an Automation</div>
+                        <div class="prompt-text">"Build me a web app that: 1) Accepts a CSV upload of customer data, 2)
+                            Validates email formats and flags errors, 3) Deduplicates entries by email, 4) Generates a
+                            formatted report showing clean vs flagged entries, 5) Exports a cleaned CSV for import into
+                            our CRM."</div>
+                    </div>
+
+                    <h2 id="loop">The Continuous Improvement Loop</h2>
+                    <p>Process engineering isn't a one-time activity. It's a continuous cycle:</p>
+
+                    <div class="cards-grid cards-grid-2" style="margin: var(--space-xl) 0;">
+                        <div class="card">
+                            <h3>1. Observe → Build</h3>
+                            <ul>
+                                <li>Record the current process</li>
+                                <li>Identify the biggest bottleneck</li>
+                                <li>Build a solution with AI tools</li>
+                                <li>Deploy and train the team</li>
+                            </ul>
+                        </div>
+                        <div class="card">
+                            <h3>2. Measure → Improve</h3>
+                            <ul>
+                                <li>Track time saved, errors reduced</li>
+                                <li>Gather feedback from users</li>
+                                <li>Observe the new process</li>
+                                <li>Identify the <em>next</em> bottleneck</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="callout">
+                        <div class="callout-title">🔄 The Key Insight</div>
+                        <p>Every time you improve a process and remove a bottleneck, a new one becomes visible. The goal
+                            isn't perfection — it's <strong>continuous, compounding improvement</strong>.</p>
+                    </div>
+
+                    <h2 id="practice">Practice Exercise</h2>
+                    <div class="callout tip">
+                        <div class="callout-title">🎯 Try This Now</div>
+                        <p>Pick a process you do regularly (daily, weekly) — something that involves multiple steps:</p>
+                    </div>
+
+                    <ol>
+                        <li><strong>Record</strong> yourself doing it (screen record or write it step by step)</li>
+                        <li><strong>Document</strong> it using the template above</li>
+                        <li><strong>Feed</strong> the documentation to ChatGPT or Claude and ask for improvement
+                            suggestions</li>
+                        <li><strong>Build</strong> one improvement using a vibe coding tool</li>
+                    </ol>
+
+                    <p>You've now completed all six modules! Time to put everything into practice with the hands-on
+                        labs.</p>
+
+                    <div class="page-nav">
+                        <a href="module5.html">
+                            <span class="nav-label">← Previous</span>
+                            <span class="nav-title">Context Engineering</span>
+                        </a>
+                        <a href="lab1.html" class="next">
+                            <span class="nav-label">Next →</span>
+                            <span class="nav-title">Lab 1: Marketing Website</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>⚡ Vibe Coding Masterclass &copy; 2025</p>
+        </div>
+    </footer>
+    <script src="script.js"></script>
+</body>
+
+</html>
