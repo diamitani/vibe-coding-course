@@ -18,8 +18,11 @@ const CUSTOM_GPTS = [
   { name: 'Full Stack Copilot', desc: 'Scaffolds components using React, Tailwind, and full-stack logic.', url: 'https://chatgpt.com/g/g-681003e70b4081919f5c7accc1096e21-custom-gpt-guide', category: 'Expert GPT', tags: ['React', 'Fullstack'] },
   { name: 'GPT Creator Pro', desc: 'Advanced GPT architect specializing in prompt optimization.', url: 'https://chatgpt.com/g/g-s9YtL560v-gpt-creator-pro', category: 'Expert GPT', tags: ['Optimizer', 'Advanced'] }
 ];
+window.authPromise = initAuth();
 
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+  // ---- Initialize Azure Auth ----
+  await window.authPromise;
   // ---- Mobile Nav Toggle ----
   const toggle = document.querySelector('.nav-toggle');
   const links = document.querySelector('.nav-links');
@@ -212,78 +215,54 @@ function matchGpts(intent) {
 }
 
 // ========================================
-// AUTH SYSTEM
+// AZURE NATIVE AUTH SYSTEM
 // ========================================
 
-function simpleHash(str) {
-  let hash = 0;
-  for (let i = 0; i < str.length; i++) {
-    const char = str.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
-    hash |= 0;
+let currentUser = null;
+
+async function initAuth() {
+  try {
+    const response = await fetch('/.auth/me');
+    const payload = await response.json();
+    const cp = payload.clientPrincipal;
+
+    if (cp) {
+      currentUser = {
+        id: cp.userId,
+        name: cp.userDetails,
+        email: cp.userDetails,
+        avatar: '🧑‍💻',
+        bio: '',
+        vibeType: 'Explorer',
+        tools: [],
+        projects: [],
+        joinDate: new Date().toLocaleDateString()
+      };
+
+      const savedProfile = JSON.parse(localStorage.getItem('vc_profile_' + cp.userId) || '{}');
+      Object.assign(currentUser, savedProfile);
+    }
+  } catch (err) {
+    console.error('Auth error:', err);
   }
-  return 'h_' + Math.abs(hash).toString(36);
-}
-
-function getUsers() {
-  return JSON.parse(localStorage.getItem('vc_users') || '[]');
-}
-
-function saveUsers(users) {
-  localStorage.setItem('vc_users', JSON.stringify(users));
 }
 
 function getCurrentUser() {
-  const id = localStorage.getItem('vc_session');
-  if (!id) return null;
-  return getUsers().find(u => u.id === id) || null;
-}
-
-function registerUser(name, email, password) {
-  const users = getUsers();
-  if (users.find(u => u.email === email)) return { error: 'Email already registered' };
-  const user = {
-    id: 'u_' + Date.now().toString(36),
-    name,
-    email,
-    passwordHash: simpleHash(password),
-    avatar: ['🧑‍💻', '👩‍💻', '🧙', '🚀', '🎨', '🤖', '⚡', '🔮', '🌟', '💎'][Math.floor(Math.random() * 10)],
-    bio: '',
-    vibeType: 'Explorer',
-    tools: [],
-    projects: [],
-    joinDate: new Date().toLocaleDateString()
-  };
-  users.push(user);
-  saveUsers(users);
-  localStorage.setItem('vc_session', user.id);
-  return { user };
-}
-
-function loginUser(email, password) {
-  const users = getUsers();
-  const user = users.find(u => u.email === email);
-  if (!user) return { error: 'No account found with this email' };
-  if (user.passwordHash !== simpleHash(password)) return { error: 'Incorrect password' };
-  localStorage.setItem('vc_session', user.id);
-  return { user };
+  return currentUser;
 }
 
 function logoutUser() {
-  localStorage.removeItem('vc_session');
-  window.location.href = 'index.html';
+  window.location.href = '/.auth/logout?post_logout_redirect_uri=/index.html';
 }
 
 function updateUser(updates) {
-  const users = getUsers();
-  const idx = users.findIndex(u => u.id === getCurrentUser()?.id);
-  if (idx === -1) return;
-  users[idx] = { ...users[idx], ...updates };
-  saveUsers(users);
+  if (!currentUser) return;
+  Object.assign(currentUser, updates);
+  localStorage.setItem('vc_profile_' + currentUser.id, JSON.stringify(currentUser));
 }
 
 function getUserById(id) {
-  return getUsers().find(u => u.id === id) || null;
+  return id === currentUser?.id ? currentUser : null;
 }
 
 function addProject(project) {

@@ -1,0 +1,24 @@
+{
+  "name": "vibe-coding-course",
+  "version": "1.0.0",
+  "description": "A comprehensive course website on vibe coding — building software with AI-powered tools and prompt engineering.",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diamitani/vibe-coding-course.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/diamitani/vibe-coding-course/issues"
+  },
+  "homepage": "https://github.com/diamitani/vibe-coding-course#readme",
+  "devDependencies": {
+    "@azure/static-web-apps-cli": "^2.0.8"
+  }
+}

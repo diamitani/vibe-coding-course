@@ -20,7 +20,8 @@
                 <li><a href="module1.html">Modules</a></li>
                 <li><a href="tools.html">Tools</a></li>
                 <li><a href="news.html">News</a></li>
-                <li><a href="lab1.html">Labs</a></li><li><a href="prompt-lab.html">Prompt Lab</a></li>
+                <li><a href="lab1.html">Labs</a></li>
+                <li><a href="prompt-lab.html">Prompt Lab</a></li>
                 <li><a href="community.html">Community</a></li>
                 <li id="auth-nav-slot"></li>
             </ul>
@@ -188,12 +189,14 @@
     </footer>
     <script src="script.js"></script>
     <script>
-        // Require auth
-        const user = getCurrentUser();
-        if (!user) { window.location.href = 'auth.html'; }
+        document.addEventListener('DOMContentLoaded', async () => {
+            await window.authPromise;
 
-        // Populate profile form
-        if (user) {
+            // Require auth
+            const user = getCurrentUser();
+            if (!user) { window.location.href = 'auth.html'; return; }
+
+            // Populate profile form
             document.getElementById('welcome-heading').textContent = `Welcome, ${user.name.split(' ')[0]}`;
             document.getElementById('p-avatar').value = user.avatar || '🧑‍💻';
             document.getElementById('p-name').value = user.name;
@@ -208,7 +211,7 @@
             });
 
             renderMyProjects();
-        }
+        });
 
         function showPanel(panel) {
             document.querySelectorAll('.dash-panel').forEach(p => p.classList.remove('active'));
