@@ -4,60 +4,116 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | Vibe Coding Masterclass</title>
-    <meta name="description"
-        content="Your vibe coding dashboard — edit your profile, submit projects, and manage your portfolio.">
+    <title>Dashboard | LetsVibeAI</title>
+    <meta name="description" content="Your vibe coding dashboard — track progress, manage projects, and build your portfolio.">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .dashboard-welcome { background: linear-gradient(135deg, var(--accent-primary), var(--accent-magenta)); padding: 2rem; border-radius: 16px; margin-bottom: 2rem; color: white; }
+        .dashboard-welcome h1 { color: white; margin-bottom: 0.5rem; }
+        .dashboard-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stat-box { background: var(--bg-card); padding: 1.5rem; border-radius: 12px; text-align: center; border: 1px solid var(--border-subtle); }
+        .stat-box .num { font-size: 2rem; font-weight: bold; color: var(--accent-emerald); }
+        .stat-box .label { color: var(--text-secondary); font-size: 0.875rem; margin-top: 0.5rem; }
+        .platform-card { background: var(--bg-card); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-subtle); margin-bottom: 1rem; }
+        .platform-card h3 { margin: 0 0 0.5rem 0; display: flex; align-items: center; gap: 0.5rem; }
+        .platform-card .status { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; margin-left: auto; }
+        .status.connected { background: rgba(16, 185, 129, 0.2); color: var(--accent-emerald); }
+        .status.not-connected { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .wizard-step { padding: 1rem; background: var(--bg-card); border-radius: 8px; margin-bottom: 1rem; border: 1px solid var(--border-subtle); }
+        .wizard-step.active { border-color: var(--accent-primary); }
+    </style>
 </head>
 
 <body>
     <div class="ambient-bg"></div>
     <nav class="nav">
-        <div class="nav-inner"><a href="index.html" class="nav-logo">⚡ Vibe Coding</a><button class="nav-toggle"
-                aria-label="Toggle navigation">☰</button>
+        <div class="nav-inner"><a href="index.html" class="nav-logo">⚡ LetsVibeAI</a><button class="nav-toggle" aria-label="Toggle navigation">☰</button>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="module1.html">Modules</a></li>
-                <li><a href="tools.html">Tools</a></li>
-                <li><a href="news.html">News</a></li>
-                <li><a href="lab1.html">Labs</a></li>
-                <li><a href="prompt-lab.html">Prompt Lab</a></li>
                 <li><a href="community.html">Community</a></li>
-                <li id="auth-nav-slot"></li>
+                <li><a href="showcase.html">Gallery</a></li>
+                <li><a href="auth.html" onclick="signOut()">Sign Out</a></li>
             </ul>
         </div>
     </nav>
 
     <main class="page-content">
         <div class="container">
-            <div class="module-hero">
-                <span class="module-number">Your Portal</span>
-                <h1 id="welcome-heading">Dashboard</h1>
-                <p>Edit your profile, submit projects, and build your vibe coding portfolio.</p>
+            <!-- Welcome Header -->
+            <div class="dashboard-welcome">
+                <h1 id="welcome-heading">Welcome!</h1>
+                <p id="welcome-subtitle">Track your vibe coding journey</p>
+            </div>
+
+            <!-- Quick Stats -->
+            <div class="dashboard-stats">
+                <div class="stat-box">
+                    <div class="num" id="stat-projects">0</div>
+                    <div class="label">Projects</div>
+                </div>
+                <div class="stat-box">
+                    <div class="num" id="stat-showcase">0</div>
+                    <div class="label">In Gallery</div>
+                </div>
+                <div class="stat-box">
+                    <div class="num" id="stat-tools">0</div>
+                    <div class="label">Tools Used</div>
+                </div>
+                <div class="stat-box">
+                    <div class="num" id="stat-type">-</div>
+                    <div class="label">Account Type</div>
+                </div>
             </div>
 
             <div class="dashboard-grid">
                 <!-- Sidebar -->
                 <aside class="dash-sidebar">
                     <ul class="dash-sidebar-nav">
-                        <li><button class="active" onclick="showPanel('profile')">👤 Profile</button></li>
+                        <li><button class="active" onclick="showPanel('overview')">📊 Overview</button></li>
+                        <li><button onclick="showPanel('profile')">👤 Profile</button></li>
                         <li><button onclick="showPanel('projects')">🚀 My Projects</button></li>
-                        <li><button onclick="showPanel('add-project')">➕ Add Project</button></li>
-                        <li><button onclick="logoutUser()" style="color:var(--accent-magenta);">🚪 Sign Out</button>
-                        </li>
+                        <li><button onclick="showPanel('workspace')">💼 Workspace</button></li>
+                        <li><button onclick="showPanel('platforms')">🔗 Platforms</button></li>
+                        <li><button onclick="showPanel('settings')">⚙️ Settings</button></li>
+                        <li><button onclick="signOut()" style="color:var(--accent-magenta);">🚪 Sign Out</button></li>
                     </ul>
                 </aside>
 
                 <!-- Panels -->
                 <div>
+                    <!-- Overview Panel -->
+                    <div id="panel-overview" class="dash-panel active">
+                        <h2>Your Journey</h2>
+                        <p style="color:var(--text-secondary);margin-bottom:2rem;">Complete labs to earn certificates and showcase your work.</p>
+                        
+                        <h3>Continue Learning</h3>
+                        <div class="cards-grid cards-grid-2">
+                            <a href="module1.html" class="card fade-in">
+                                <div class="card-icon">🧠</div>
+                                <h3>Module 1 — What is AI</h3>
+                                <p>Understand the foundations of AI and LLMs.</p>
+                            </a>
+                            <a href="lab1.html" class="card fade-in">
+                                <div class="card-icon">🎨</div>
+                                <h3>Lab 1 — Marketing Site</h3>
+                                <p>Build your first project.</p>
+                            </a>
+                        </div>
+
+                        <h3 style="margin-top:2rem;">Recent Activity</h3>
+                        <div id="recent-activity">
+                            <p style="color:var(--text-muted);">No activity yet. Start a lab!</p>
+                        </div>
+                    </div>
+
                     <!-- Profile Panel -->
-                    <div id="panel-profile" class="dash-panel active">
+                    <div id="panel-profile" class="dash-panel">
                         <h2>Edit Profile</h2>
                         <form id="profile-form" onsubmit="saveProfile(event)">
                             <div class="form-group">
                                 <label for="p-avatar">Avatar Emoji</label>
-                                <input type="text" id="p-avatar" class="form-input" maxlength="2"
-                                    style="width:80px;font-size:1.5rem;text-align:center;">
+                                <input type="text" id="p-avatar" class="form-input" maxlength="2" style="width:80px;font-size:1.5rem;text-align:center;">
                             </div>
                             <div class="form-group">
                                 <label for="p-name">Display Name</label>
@@ -65,9 +121,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="p-bio">Bio</label>
-                                <textarea id="p-bio" class="form-input"
-                                    placeholder="Tell the community about yourself and what you're building..."
-                                    rows="3"></textarea>
+                                <textarea id="p-bio" class="form-input" placeholder="Tell the community about yourself..." rows="3"></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="p-vibe">Vibe Coder Type</label>
@@ -81,101 +135,135 @@
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label>Favorite Tools (check all that apply)</label>
-                                <div
-                                    style="display:flex;flex-wrap:wrap;gap:var(--space-sm);margin-top:var(--space-sm);">
-                                    <label
-                                        style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;">
-                                        <input type="checkbox" name="tools" value="Lovable"> Lovable
-                                    </label>
-                                    <label
-                                        style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;">
-                                        <input type="checkbox" name="tools" value="v0.dev"> v0.dev
-                                    </label>
-                                    <label
-                                        style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;">
-                                        <input type="checkbox" name="tools" value="Bolt.new"> Bolt.new
-                                    </label>
-                                    <label
-                                        style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;">
-                                        <input type="checkbox" name="tools" value="Replit"> Replit
-                                    </label>
-                                    <label
-                                        style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;">
-                                        <input type="checkbox" name="tools" value="Claude Code"> Claude Code
-                                    </label>
-                                    <label
-                                        style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;">
-                                        <input type="checkbox" name="tools" value="Codex"> Codex
-                                    </label>
-                                    <label
-                                        style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;">
-                                        <input type="checkbox" name="tools" value="Antigravity"> Antigravity
-                                    </label>
-                                    <label
-                                        style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;">
-                                        <input type="checkbox" name="tools" value="Cursor"> Cursor
-                                    </label>
+                                <label>Favorite Tools</label>
+                                <div style="display:flex;flex-wrap:wrap;gap:var(--space-sm);margin-top:var(--space-sm);">
+                                    <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;"><input type="checkbox" name="tools" value="Lovable"> Lovable</label>
+                                    <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;"><input type="checkbox" name="tools" value="v0.dev"> v0.dev</label>
+                                    <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;"><input type="checkbox" name="tools" value="Bolt.new"> Bolt.new</label>
+                                    <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;"><input type="checkbox" name="tools" value="Replit"> Replit</label>
+                                    <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;"><input type="checkbox" name="tools" value="Claude Code"> Claude Code</label>
+                                    <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;"><input type="checkbox" name="tools" value="Cursor"> Cursor</label>
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary">Save Profile →</button>
-                            <a id="view-profile-link" href="#" class="btn btn-secondary"
-                                style="margin-left:var(--space-sm);">View Public Profile</a>
                         </form>
                     </div>
 
                     <!-- Projects Panel -->
                     <div id="panel-projects" class="dash-panel">
                         <h2>My Projects</h2>
-                        <div id="my-projects-list" class="projects-list"></div>
+                        <div id="my-projects-list"></div>
                     </div>
 
-                    <!-- Add Project Panel -->
-                    <div id="panel-add-project" class="dash-panel">
-                        <h2>Add a Project</h2>
-                        <form id="add-project-form" onsubmit="handleAddProject(event)">
+                    <!-- Workspace Panel -->
+                    <div id="panel-workspace" class="dash-panel">
+                        <h2>💼 Workspace</h2>
+                        <p style="color:var(--text-secondary);margin-bottom:2rem;">Your personal vibe coding workspace with labs and resources.</p>
+                        
+                        <h3>Start a Lab</h3>
+                        <div class="cards-grid cards-grid-2">
+                            <a href="lab1.html" class="card fade-in" style="text-decoration:none;">
+                                <div class="card-icon">🎨</div>
+                                <h3>Lab 1 — Marketing Website</h3>
+                                <p>Build a stunning landing page with AI.</p>
+                                <span class="tag emerald">Start Lab</span>
+                            </a>
+                            <a href="lab2.html" class="card fade-in" style="text-decoration:none;">
+                                <div class="card-icon">🛒</div>
+                                <h3>Lab 2 — E-Commerce Store</h3>
+                                <p>Create a full online store.</p>
+                                <span class="tag emerald">Start Lab</span>
+                            </a>
+                            <a href="lab3.html" class="card fade-in" style="text-decoration:none;">
+                                <div class="card-icon">🏪</div>
+                                <h3>Lab 3 — Marketplace</h3>
+                                <p>Build a directory or marketplace.</p>
+                                <span class="tag emerald">Start Lab</span>
+                            </a>
+                            <a href="prompt-lab.html" class="card fade-in" style="text-decoration:none;">
+                                <div class="card-icon">✨</div>
+                                <h3>Prompt Lab</h3>
+                                <p>Master prompt engineering.</p>
+                                <span class="tag emerald">Start Lab</span>
+                            </a>
+                        </div>
+
+                        <h3 style="margin-top:2rem;">Quick Actions</h3>
+                        <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+                            <button class="btn btn-secondary" onclick="showPanel('add-project')">➕ Add Project</button>
+                            <button class="btn btn-secondary" onclick="window.open('https://github.com', '_blank')">📂 GitHub</button>
+                            <button class="btn btn-secondary" onclick="window.open('https://vercel.com', '_blank')">🚀 Vercel</button>
+                        </div>
+                    </div>
+
+                    <!-- Platforms Panel -->
+                    <div id="panel-platforms" class="dash-panel">
+                        <h2>🔗 Platform Setup</h2>
+                        <p style="color:var(--text-secondary);margin-bottom:2rem;">Connect your favorite tools. Click to sign up!</p>
+                        
+                        <div class="platform-card">
+                            <h3>🐙 GitHub <span class="status not-connected">Not Connected</span></h3>
+                            <p>Host your code and collaborate with others.</p>
+                            <a href="https://github.com/signup" target="_blank" class="btn btn-primary" style="margin-top:1rem;">Sign Up Free →</a>
+                        </div>
+                        
+                        <div class="platform-card">
+                            <h3>🎨 Lovable <span class="status not-connected">Not Connected</span></h3>
+                            <p>Build full-stack apps with AI.</p>
+                            <a href="https://lovable.dev" target="_blank" class="btn btn-primary" style="margin-top:1rem;">Sign Up Free →</a>
+                        </div>
+                        
+                        <div class="platform-card">
+                            <h3>v0 by Vercel <span class="status not-connected">Not Connected</span></h3>
+                            <p>AI-powered UI generation.</p>
+                            <a href="https://v0.dev" target="_blank" class="btn btn-primary" style="margin-top:1rem;">Sign Up Free →</a>
+                        </div>
+                        
+                        <div class="platform-card">
+                            <h3>⚡ Bolt.new <span class="status not-connected">Not Connected</span></h3>
+                            <p>Full-stack AI coding in your browser.</p>
+                            <a href="https://bolt.new" target="_blank" class="btn btn-primary" style="margin-top:1rem;">Sign Up Free →</a>
+                        </div>
+                        
+                        <div class="platform-card">
+                            <h3>🤖 Claude Code <span class="status not-connected">Not Connected</span></h3>
+                            <p>AI coding assistant for local development.</p>
+                            <a href="https://claude.com/claude-code" target="_blank" class="btn btn-primary" style="margin-top:1rem;">Sign Up →</a>
+                        </div>
+
+                        <div style="background:var(--bg-card);padding:1.5rem;border-radius:12px;border:1px solid var(--border-subtle);margin-top:2rem;">
+                            <h3>🧠 OpenCode (Pro Feature)</h3>
+                            <p>AI coding assistant with full project control. Ideal for advanced developers and teams.</p>
+                            <p style="color:var(--text-muted);font-size:0.875rem;margin:1rem 0;">Coming soon for LetsVibeAI Pro subscribers!</p>
+                            <button class="btn btn-secondary" disabled>Coming Soon</button>
+                        </div>
+                    </div>
+
+                    <!-- Settings Panel -->
+                    <div id="panel-settings" class="dash-panel">
+                        <h2>⚙️ Account Settings</h2>
+                        <form onsubmit="saveSettings(event)">
                             <div class="form-group">
-                                <label for="proj-title">Project Title</label>
-                                <input type="text" id="proj-title" class="form-input"
-                                    placeholder="e.g. FlowSync Landing Page" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="proj-url">Live URL</label>
-                                <input type="url" id="proj-url" class="form-input"
-                                    placeholder="https://your-project.vercel.app" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="proj-lab">Lab Type</label>
-                                <select id="proj-lab" class="form-input">
-                                    <option value="marketing">Marketing Website</option>
-                                    <option value="ecommerce">E-Commerce Store</option>
-                                    <option value="marketplace">Directory / Marketplace</option>
-                                    <option value="other">Other Project</option>
+                                <label for="s-type">Account Type</label>
+                                <select id="s-type" class="form-input" onchange="toggleOrgFields()">
+                                    <option value="individual">Individual Learner</option>
+                                    <option value="school">School / University</option>
+                                    <option value="corporate">Corporate / Organization</option>
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label for="proj-tool">Tool Used</label>
-                                <select id="proj-tool" class="form-input" required>
-                                    <option value="">Select a tool...</option>
-                                    <option value="Lovable">Lovable</option>
-                                    <option value="v0.dev">v0.dev</option>
-                                    <option value="Bolt.new">Bolt.new</option>
-                                    <option value="Replit">Replit</option>
-                                    <option value="Claude Code">Claude Code</option>
-                                    <option value="Codex">Codex</option>
-                                    <option value="Antigravity">Antigravity</option>
-                                    <option value="Cursor">Cursor</option>
-                                    <option value="Other">Other</option>
-                                </select>
+                            <div id="org-fields" style="display:none;">
+                                <div class="form-group">
+                                    <label for="org-name">Organization Name</label>
+                                    <input type="text" id="org-name" class="form-input" placeholder="Your school or company name">
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="proj-desc">Description</label>
-                                <textarea id="proj-desc" class="form-input"
-                                    placeholder="What does your project do? What techniques did you use?"
-                                    rows="3"></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Add Project →</button>
+                            <button type="submit" class="btn btn-primary">Save Settings →</button>
                         </form>
+                        
+                        <hr style="margin:2rem 0;border-color:var(--border-subtle);">
+                        
+                        <h3>Danger Zone</h3>
+                        <button class="btn" style="background:#ef4444;color:white;border:none;" onclick="deleteAccount()">Delete Account</button>
                     </div>
                 </div>
             </div>
@@ -184,34 +272,31 @@
 
     <footer class="footer">
         <div class="container">
-            <p>⚡ Vibe Coding Masterclass &copy; 2025</p>
+            <p>⚡ LetsVibeAI &copy; 2025</p>
         </div>
     </footer>
+
+    <script src="supabase-client.js"></script>
     <script src="script.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', async () => {
-            await window.authPromise;
+        let currentUser = null;
 
-            // Require auth
-            const user = getCurrentUser();
-            if (!user) { window.location.href = 'auth.html'; return; }
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
 
-            // Populate profile form
-            document.getElementById('welcome-heading').textContent = `Welcome, ${user.name.split(' ')[0]}`;
-            document.getElementById('p-avatar').value = user.avatar || '🧑‍💻';
-            document.getElementById('p-name').value = user.name;
-            document.getElementById('p-bio').value = user.bio || '';
-            document.getElementById('p-vibe').value = user.vibeType || 'Explorer';
-            document.getElementById('view-profile-link').href = `profile.html?id=${user.id}`;
-
-            // Check tool checkboxes
-            (user.tools || []).forEach(t => {
-                const cb = document.querySelector(`input[name="tools"][value="${t}"]`);
-                if (cb) cb.checked = true;
+        function showToast(msg) {
+            const t = document.createElement('div');
+            t.textContent = msg;
+            Object.assign(t.style, {
+                position: 'fixed', bottom: '2rem', right: '2rem', background: 'var(--accent-emerald)',
+                color: '#fff', padding: '0.75rem 1.5rem', borderRadius: 'var(--radius-full)',
+                fontWeight: '600', fontSize: '0.875rem', zIndex: '9999'
             });
-
-            renderMyProjects();
-        });
+            document.body.appendChild(t);
+            setTimeout(() => { t.remove(); }, 3000);
+        }
 
         function showPanel(panel) {
             document.querySelectorAll('.dash-panel').forEach(p => p.classList.remove('active'));
@@ -221,60 +306,113 @@
             if (panel === 'projects') renderMyProjects();
         }
 
-        function saveProfile(e) {
-            e.preventDefault();
-            const tools = Array.from(document.querySelectorAll('input[name="tools"]:checked')).map(cb => cb.value);
-            updateUser({
-                avatar: document.getElementById('p-avatar').value || '🧑‍💻',
-                name: document.getElementById('p-name').value,
-                bio: document.getElementById('p-bio').value,
-                vibeType: document.getElementById('p-vibe').value,
-                tools
-            });
-            showToast('Profile saved! ✨');
-            updateAuthNav();
+        function toggleOrgFields() {
+            const type = document.getElementById('s-type').value;
+            document.getElementById('org-fields').style.display = (type === 'school' || type === 'corporate') ? 'block' : 'none';
         }
 
-        function handleAddProject(e) {
+        async function signOut() {
+            await window.auth.signOut();
+            window.location.href = 'index.html';
+        }
+
+        async function saveSettings(e) {
             e.preventDefault();
-            addProject({
-                title: document.getElementById('proj-title').value,
-                url: document.getElementById('proj-url').value,
-                lab: document.getElementById('proj-lab').value,
-                tool: document.getElementById('proj-tool').value,
-                desc: document.getElementById('proj-desc').value
+            const type = document.getElementById('s-type').value;
+            const orgName = document.getElementById('org-name').value;
+            
+            await window.db.updateProfile(currentUser.id, {
+                account_type: type,
+                organization_name: orgName
             });
-            document.getElementById('add-project-form').reset();
-            showToast('Project added! 🚀');
+            
+            showToast('Settings saved! ✨');
+        }
+
+        async function deleteAccount() {
+            if (!confirm('Are you sure? This cannot be undone.')) return;
+            alert('Contact support to delete your account.');
+        }
+
+        async function saveProfile(e) {
+            e.preventDefault();
+            const tools = Array.from(document.querySelectorAll('input[name="tools"]:checked')).map(cb => cb.value);
+            
+            await window.db.updateProfile(currentUser.id, {
+                name: document.getElementById('p-name').value,
+                avatar: document.getElementById('p-avatar').value || '🧑‍💻',
+                bio: document.getElementById('p-bio').value,
+                vibe_type: document.getElementById('p-vibe').value,
+                tools: JSON.stringify(tools)
+            });
+            
+            currentUser.name = document.getElementById('p-name').value;
+            currentUser.tools = tools;
+            showToast('Profile saved! ✨');
         }
 
         function renderMyProjects() {
-            const u = getCurrentUser();
             const list = document.getElementById('my-projects-list');
-            const projects = u?.projects || [];
+            const projects = currentUser?.projects || [];
+            
             if (projects.length === 0) {
-                list.innerHTML = `<div style="text-align:center;padding:3rem;color:var(--text-muted);"><p style="font-size:2rem;margin-bottom:1rem;">📂</p><p>No projects yet.</p><p style="margin-top:0.5rem;"><button class="btn btn-secondary" onclick="showPanel('add-project')">Add Your First Project</button></p></div>`;
+                list.innerHTML = `<div style="text-align:center;padding:3rem;color:var(--text-muted);">
+                    <p style="font-size:2rem;margin-bottom:1rem;">📂</p>
+                    <p>No projects yet.</p>
+                    <button class="btn btn-secondary" onclick="showPanel('workspace')" style="margin-top:1rem;">Start a Lab →</button>
+                </div>`;
                 return;
             }
+            
             const labLabels = { marketing: 'Marketing', ecommerce: 'E-Commerce', marketplace: 'Marketplace', other: 'Other' };
             list.innerHTML = projects.map(p => `
-        <div class="project-card">
-          <div style="display:flex;justify-content:space-between;align-items:start;">
-            <div>
-              <h4>${escapeHTML(p.title)}</h4>
-              <div class="project-meta">${escapeHTML(labLabels[p.lab] || p.lab)} · ${escapeHTML(p.tool)} · ${p.date}</div>
-            </div>
-            <button onclick="deleteProject('${p.id}');renderMyProjects();" style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.2rem;" title="Delete">✕</button>
-          </div>
-          ${p.desc ? `<div class="project-desc">${escapeHTML(p.desc)}</div>` : ''}
-          <a href="${escapeHTML(p.url)}" target="_blank" rel="noopener" class="btn btn-secondary" style="padding:0.4rem 1rem;font-size:0.8rem;display:inline-flex;">View Project →</a>
-        </div>`).join('');
+                <div class="project-card">
+                    <div style="display:flex;justify-content:space-between;align-items:start;">
+                        <div>
+                            <h4>${escapeHTML(p.title)}</h4>
+                            <div class="project-meta">${escapeHTML(labLabels[p.lab_type] || p.lab)} · ${escapeHTML(p.tool_used)}</div>
+                        </div>
+                    </div>
+                    <a href="${escapeHTML(p.url)}" target="_blank" class="btn btn-secondary" style="padding:0.4rem 1rem;font-size:0.8rem;display:inline-flex;margin-top:0.5rem;">View →</a>
+                </div>`).join('');
         }
 
-        function escapeHTML(str) {
-            if (!str) return '';
-            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-        }
+        document.addEventListener('DOMContentLoaded', async () => {
+            await window.authPromise;
+
+            currentUser = getCurrentUser();
+            if (!currentUser) { window.location.href = 'auth.html'; return; }
+
+            // Update welcome
+            document.getElementById('welcome-heading').textContent = `Welcome, ${currentUser.name?.split(' ')[0] || 'Vibe Coder'}!`;
+            document.getElementById('welcome-subtitle').textContent = currentUser.accountType === 'school' || currentUser.accountType === 'corporate' 
+                ? `${currentUser.organizationName || currentUser.accountType} Account` 
+                : 'Your personal learning journey';
+
+            // Update stats
+            document.getElementById('stat-projects').textContent = currentUser.projects?.length || 0;
+            document.getElementById('stat-tools').textContent = currentUser.tools?.length || 0;
+            document.getElementById('stat-type').textContent = currentUser.accountType?.charAt(0).toUpperCase() || 'I';
+
+            // Populate profile form
+            document.getElementById('p-avatar').value = currentUser.avatar || '🧑‍💻';
+            document.getElementById('p-name').value = currentUser.name || '';
+            document.getElementById('p-bio').value = currentUser.bio || '';
+            document.getElementById('p-vibe').value = currentUser.vibeType || 'Explorer';
+            
+            // Settings
+            document.getElementById('s-type').value = currentUser.accountType || 'individual';
+            document.getElementById('org-name').value = currentUser.organizationName || '';
+            toggleOrgFields();
+
+            // Check tools
+            (currentUser.tools || []).forEach(t => {
+                const cb = document.querySelector(`input[name="tools"][value="${t}"]`);
+                if (cb) cb.checked = true;
+            });
+
+            renderMyProjects();
+        });
     </script>
 </body>
 

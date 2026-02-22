@@ -7,6 +7,14 @@ const supabaseScript = document.createElement('script');
 supabaseScript.src = 'supabase-client.js';
 document.head.appendChild(supabaseScript);
 
+// Wait for Supabase to load
+window.authPromise = new Promise(resolve => {
+  const check = setInterval(() => {
+    if (window.auth && window.db) { clearInterval(check); resolve(); }
+  }, 100);
+  setTimeout(() => { clearInterval(check); resolve(); }, 3000);
+});
+
 const CUSTOM_GPTS = [
   { name: 'Instruction Architect', desc: 'Setting the gold standard for AI system instruction design.', url: 'https://chatgpt.com/g/g-676964c88b088191b70dcd4133ae2595-1-system-instruction-architect', category: 'Expert GPT', tags: ['System Prompts', 'Logic'] },
   { name: '(PRD) Builder', desc: 'Generates PRDs, instructions, and custom resources.', url: 'https://chatgpt.com/g/g-67a465d99950819186563b257bac0d88-prd-product-requirements-document-builder', category: 'Expert GPT', tags: ['PRD', 'Planning'] },
@@ -220,7 +228,7 @@ function matchGpts(intent) {
 }
 
 // ========================================
-// AZURE NATIVE AUTH + SUPABASE
+// SUPABASE AUTH
 // ========================================
 
 let currentUser = null;
@@ -237,58 +245,30 @@ async function initAuth() {
   supabaseReady = true;
 
   try {
-    const response = await fetch('/.auth/me');
-    const payload = await response.json();
-    const cp = payload.clientPrincipal;
-
-    if (cp) {
-      // Try to get profile from Supabase
-      let profile = null;
-      if (window.db) {
-        profile = await window.db.getProfile(cp.userId);
-      }
+    // Check if user is signed in with Supabase
+    const user = await window.auth.getUser();
+    
+    if (user) {
+      // Get profile from Supabase
+      let profile = await window.db.getProfile(user.id);
 
       if (profile) {
         currentUser = {
-          id: cp.userId,
-          name: profile.name || cp.userDetails,
-          email: profile.email || cp.userDetails,
+          id: user.id,
+          name: profile.name || user.email,
+          email: profile.email || user.email,
           avatar: profile.avatar || '🧑‍💻',
           bio: profile.bio || '',
           vibeType: profile.vibe_type || 'Explorer',
           tools: profile.tools ? JSON.parse(profile.tools) : [],
+          accountType: profile.account_type || 'individual',
+          organizationName: profile.organization_name || '',
           projects: [],
           joinDate: new Date(profile.created_at).toLocaleDateString()
         };
 
-        if (window.db) {
-          const projects = await window.db.getProjects(cp.userId);
-          currentUser.projects = projects || [];
-        }
-      } else {
-        // New user - create profile in Supabase
-        currentUser = {
-          id: cp.userId,
-          name: cp.userDetails,
-          email: cp.userDetails,
-          avatar: '🧑‍💻',
-          bio: '',
-          vibeType: 'Explorer',
-          tools: [],
-          projects: [],
-          joinDate: new Date().toLocaleDateString()
-        };
-
-        if (window.db) {
-          await window.db.createProfile({
-            user_id: cp.userId,
-            email: cp.userDetails,
-            name: cp.userDetails,
-            avatar: '🧑‍💻',
-            vibe_type: 'Explorer',
-            tools: '[]'
-          });
-        }
+        const projects = await window.db.getProjects(user.id);
+        currentUser.projects = projects || [];
       }
     }
   } catch (err) {
@@ -301,7 +281,7 @@ function getCurrentUser() {
 }
 
 function logoutUser() {
-  window.location.href = '/.auth/logout?post_logout_redirect_uri=/index.html';
+  window.auth.signOut();
 }
 
 async function updateUser(updates) {
