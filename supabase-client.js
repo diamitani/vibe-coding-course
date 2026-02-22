@@ -186,6 +186,57 @@ window.db = {
   
   submitToShowcase: async function(item) {
     return await supabase.from('showcase').insert({ ...item, approved: true }).then(r => r);
+  },
+
+  // Subscribers
+  getSubscribers: async function() {
+    const { data, error } = await supabase.from('subscribers').select('*').order('created_at', { ascending: false }).then(r => r);
+    return data || [];
+  },
+
+  addSubscriber: async function(email) {
+    return await supabase.from('subscribers').insert({ email }).then(r => r);
+  },
+
+  // API Keys
+  getUserApiKeys: async function(userId) {
+    const token = localStorage.getItem('sb_access_token');
+    const response = await fetch(`${supabase.URL}/rest/v1/user_api_keys?user_id=eq.${encodeURIComponent(userId)}&select=provider,api_key,updated_at`, {
+      headers: {
+        'apikey': supabase.key,
+        'Authorization': `Bearer ${token || supabase.key}`
+      }
+    });
+    const data = await response.json();
+    return response.ok ? (data || []) : [];
+  },
+
+  saveApiKey: async function(userId, provider, apiKey) {
+    const token = localStorage.getItem('sb_access_token');
+    // Upsert via POST with merge-duplicates
+    const response = await fetch(`${supabase.URL}/rest/v1/user_api_keys`, {
+      method: 'POST',
+      headers: {
+        'apikey': supabase.key,
+        'Authorization': `Bearer ${token || supabase.key}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'resolution=merge-duplicates,return=minimal'
+      },
+      body: JSON.stringify({ user_id: userId, provider, api_key: apiKey, updated_at: new Date().toISOString() })
+    });
+    return { ok: response.ok, status: response.status };
+  },
+
+  deleteApiKey: async function(userId, provider) {
+    const token = localStorage.getItem('sb_access_token');
+    const response = await fetch(`${supabase.URL}/rest/v1/user_api_keys?user_id=eq.${encodeURIComponent(userId)}&provider=eq.${encodeURIComponent(provider)}`, {
+      method: 'DELETE',
+      headers: {
+        'apikey': supabase.key,
+        'Authorization': `Bearer ${token || supabase.key}`
+      }
+    });
+    return { ok: response.ok };
   }
 };
 

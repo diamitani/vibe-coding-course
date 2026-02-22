@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Platform | LetsVibeAI</title>
+  <meta name="description" content="Set up your vibe coding environment — add API keys, configure tools, and launch your personal AI coding platform.">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* ---- Platform Layout ---- */
+    .platform-hero {
+      text-align: center;
+      padding: var(--space-2xl) 0 var(--space-xl);
+    }
+    .platform-hero h1 { font-size: clamp(1.75rem, 4vw, 2.75rem); margin-bottom: 0.5rem; }
+    .platform-hero p { color: var(--text-secondary); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+
+    .premium-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(236,72,153,0.2));
+      border: 1px solid rgba(245,158,11,0.4);
+      border-radius: var(--radius-full);
+      padding: 0.35rem 1rem;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--accent-amber);
+      margin-bottom: var(--space-lg);
+    }
+
+    /* ---- Wizard ---- */
+    .wizard-wrap {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .wizard-progress-bar {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      margin-bottom: var(--space-2xl);
+    }
+    .wiz-step-dot {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.35rem;
+      flex: 1;
+    }
+    .wiz-step-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 2px solid var(--border-subtle);
+      background: var(--bg-secondary);
+      color: var(--text-muted);
+      font-weight: 700;
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all var(--duration-normal);
+      position: relative;
+      z-index: 1;
+    }
+    .wiz-step-dot.active .wiz-step-circle {
+      border-color: var(--accent-violet);
+      background: var(--accent-violet);
+      color: white;
+    }
+    .wiz-step-dot.done .wiz-step-circle {
+      border-color: var(--accent-emerald);
+      background: var(--accent-emerald);
+      color: white;
+    }
+    .wiz-step-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-align: center;
+      white-space: nowrap;
+    }
+    .wiz-step-dot.active .wiz-step-label,
+    .wiz-step-dot.done .wiz-step-label { color: var(--text-secondary); }
+    .wiz-connector {
+      flex: 1;
+      height: 2px;
+      background: var(--border-subtle);
+      margin-bottom: 1.25rem;
+      transition: background var(--duration-normal);
+    }
+    .wiz-connector.done { background: var(--accent-emerald); }
+
+    .wizard-panel {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      padding: var(--space-xl);
+      display: none;
+    }
+    .wizard-panel.active { display: block; }
+    .wizard-panel h2 { font-size: 1.4rem; margin-bottom: 0.5rem; }
+    .wizard-panel .panel-desc { color: var(--text-secondary); font-size: 0.9375rem; margin-bottom: var(--space-xl); line-height: 1.6; }
+
+    .wizard-nav {
+      display: flex;
+      justify-content: space-between;
+      margin-top: var(--space-xl);
+      gap: var(--space-md);
+    }
+
+    /* ---- API Key Form ---- */
+    .api-key-group {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      margin-bottom: var(--space-md);
+    }
+    .api-key-group-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-md);
+    }
+    .api-key-group-title {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      font-size: 0.9375rem;
+    }
+    .key-status {
+      font-size: 0.75rem;
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-full);
+      font-weight: 600;
+    }
+    .key-status.set { background: rgba(16,185,129,0.15); color: var(--accent-emerald); }
+    .key-status.unset { background: rgba(255,255,255,0.05); color: var(--text-muted); }
+
+    .api-input-row {
+      display: flex;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+    .api-input-row input {
+      flex: 1;
+      background: var(--bg-primary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      padding: 0.6rem 0.875rem;
+      outline: none;
+      transition: border-color var(--duration-fast);
+    }
+    .api-input-row input:focus { border-color: var(--accent-violet); }
+    .api-input-row input::placeholder { color: var(--text-muted); font-family: var(--font-sans); }
+    .btn-sm { padding: 0.5rem 1rem; font-size: 0.8125rem; }
+
+    /* ---- Tool Selection ---- */
+    .tools-select-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: var(--space-md);
+    }
+    .tool-select-card {
+      background: var(--bg-secondary);
+      border: 2px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md);
+      text-align: center;
+      cursor: pointer;
+      transition: all var(--duration-fast);
+      position: relative;
+    }
+    .tool-select-card:hover { border-color: var(--accent-violet); }
+    .tool-select-card.selected {
+      border-color: var(--accent-emerald);
+      background: rgba(16,185,129,0.08);
+    }
+    .tool-select-card .tool-check {
+      position: absolute;
+      top: 0.5rem;
+      right: 0.5rem;
+      font-size: 0.875rem;
+      display: none;
+    }
+    .tool-select-card.selected .tool-check { display: block; }
+    .tool-select-card .t-icon { font-size: 1.75rem; margin-bottom: 0.35rem; }
+    .tool-select-card .t-name { font-weight: 600; font-size: 0.875rem; color: var(--text-primary); }
+    .tool-select-card .t-desc { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem; line-height: 1.4; }
+
+    /* ---- OpenCode Guide ---- */
+    .code-block {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 0.875rem 1rem;
+      font-family: var(--font-mono);
+      font-size: 0.875rem;
+      color: var(--accent-emerald);
+      margin: var(--space-sm) 0 var(--space-md);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+    .code-block:hover { border-color: var(--accent-violet); }
+    .code-block .copy-icon { color: var(--text-muted); font-size: 0.875rem; flex-shrink: 0; }
+
+    .guide-step {
+      margin-bottom: var(--space-lg);
+    }
+    .guide-step h3 { font-size: 1rem; margin-bottom: 0.35rem; display: flex; align-items: center; gap: 0.5rem; }
+    .guide-step p { color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; }
+    .step-num {
+      width: 24px; height: 24px;
+      border-radius: 50%;
+      background: rgba(139,92,246,0.2);
+      color: var(--accent-violet);
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    /* ---- Launch / Summary ---- */
+    .launch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-md);
+      margin: var(--space-xl) 0;
+    }
+    .launch-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      text-align: center;
+      text-decoration: none;
+      transition: all var(--duration-fast);
+      display: block;
+    }
+    .launch-card:hover { border-color: var(--accent-violet); transform: translateY(-2px); }
+    .launch-card .l-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .launch-card .l-name { font-weight: 600; color: var(--text-primary); font-size: 0.9375rem; margin-bottom: 0.25rem; }
+    .launch-card .l-desc { color: var(--text-muted); font-size: 0.8rem; }
+
+    /* ---- Keys Dashboard (post-setup) ---- */
+    .keys-dashboard {
+      display: none;
+    }
+    .keys-dashboard.visible { display: block; }
+    .keys-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+    }
+    .keys-table th { text-align: left; padding: 0.75rem 1rem; color: var(--text-muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border-subtle); }
+    .keys-table td { padding: 0.875rem 1rem; border-bottom: 1px solid var(--border-subtle); color: var(--text-secondary); }
+    .keys-table td:first-child { font-weight: 600; color: var(--text-primary); }
+    .masked-key { font-family: var(--font-mono); letter-spacing: 0.1em; }
+
+    /* ---- Premium Section ---- */
+    .premium-section {
+      margin-top: var(--space-3xl);
+      background: linear-gradient(135deg, rgba(245,158,11,0.08), rgba(236,72,153,0.08));
+      border: 1px solid rgba(245,158,11,0.2);
+      border-radius: var(--radius-xl);
+      padding: var(--space-2xl);
+      text-align: center;
+    }
+    .premium-section h2 { font-size: 1.75rem; margin-bottom: 0.5rem; }
+    .premium-section p { color: var(--text-secondary); margin-bottom: var(--space-xl); max-width: 520px; margin-left: auto; margin-right: auto; }
+    .premium-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-md);
+      margin: var(--space-xl) 0;
+      text-align: left;
+    }
+    .premium-feature {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius-lg);
+      padding: var(--space-md);
+    }
+    .premium-feature .pf-icon { font-size: 1.25rem; margin-bottom: 0.35rem; }
+    .premium-feature .pf-title { font-weight: 600; font-size: 0.9375rem; margin-bottom: 0.25rem; }
+    .premium-feature .pf-desc { color: var(--text-muted); font-size: 0.8125rem; line-height: 1.5; }
+    .coming-soon-btn {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .success-banner {
+      background: rgba(16,185,129,0.1);
+      border: 1px solid rgba(16,185,129,0.25);
+      border-radius: var(--radius-md);
+      color: var(--accent-emerald);
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      display: none;
+      margin-bottom: var(--space-md);
+    }
+    .success-banner.visible { display: flex; align-items: center; gap: 0.5rem; }
+    .error-banner {
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.25);
+      border-radius: var(--radius-md);
+      color: #ef4444;
+      padding: 0.75rem 1rem;
+      font-size: 0.9rem;
+      display: none;
+      margin-bottom: var(--space-md);
+    }
+    .error-banner.visible { display: flex; align-items: center; gap: 0.5rem; }
+  </style>
+</head>
+
+<body>
+  <div class="ambient-bg"></div>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">⚡ LetsVibeAI</a>
+      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="workspace.html">Workspace</a></li>
+        <li><a href="platform.html" class="active">Platform</a></li>
+        <li><a href="module1.html">Modules</a></li>
+        <li><a href="dashboard.html">Dashboard</a></li>
+        <li id="auth-nav-slot"></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="page-content">
+    <div class="container">
+
+      <!-- Hero -->
+      <div class="platform-hero">
+        <div class="premium-badge">⭐ Platform — Your Vibe Coding Environment</div>
+        <h1>Set Up Your <span class="gradient-text">Vibe Platform</span></h1>
+        <p>Add your API keys, choose your tools, and launch a personal AI-powered development environment in minutes.</p>
+      </div>
+
+      <!-- Wizard -->
+      <div class="wizard-wrap">
+
+        <!-- Progress Bar -->
+        <div class="wizard-progress-bar">
+          <div class="wiz-step-dot active" id="dot-1">
+            <div class="wiz-step-circle">1</div>
+            <span class="wiz-step-label">API Keys</span>
+          </div>
+          <div class="wiz-connector" id="conn-1"></div>
+          <div class="wiz-step-dot" id="dot-2">
+            <div class="wiz-step-circle">2</div>
+            <span class="wiz-step-label">Your Tools</span>
+          </div>
+          <div class="wiz-connector" id="conn-2"></div>
+          <div class="wiz-step-dot" id="dot-3">
+            <div class="wiz-step-circle">3</div>
+            <span class="wiz-step-label">OpenCode</span>
+          </div>
+          <div class="wiz-connector" id="conn-3"></div>
+          <div class="wiz-step-dot" id="dot-4">
+            <div class="wiz-step-circle">4</div>
+            <span class="wiz-step-label">Launch</span>
+          </div>
+        </div>
+
+        <!-- Step 1: API Keys -->
+        <div class="wizard-panel active" id="panel-1">
+          <h2>🔑 Add Your API Keys</h2>
+          <p class="panel-desc">
+            Your keys are stored securely in your account and used to power your AI coding tools.
+            You can add, update, or remove them at any time.
+          </p>
+
+          <div id="keys-success" class="success-banner"></div>
+          <div id="keys-error" class="error-banner"></div>
+
+          <!-- Anthropic -->
+          <div class="api-key-group">
+            <div class="api-key-group-header">
+              <div class="api-key-group-title">🤖 Anthropic (Claude)</div>
+              <span class="key-status unset" id="status-anthropic">Not set</span>
+            </div>
+            <p style="color:var(--text-muted);font-size:0.8125rem;margin-bottom:var(--space-sm);">
+              Powers Claude Code, workspace AI tutor, and Claude-based tools.
+              Get your key at <a href="https://console.anthropic.com" target="_blank" style="color:var(--accent-violet);">console.anthropic.com</a>
+            </p>
+            <div class="api-input-row">
+              <input type="password" id="key-anthropic" placeholder="sk-ant-..." autocomplete="off">
+              <button class="btn btn-primary btn-sm" onclick="saveKey('anthropic')">Save</button>
+              <button class="btn btn-secondary btn-sm" onclick="removeKey('anthropic')" id="remove-anthropic" style="display:none;">Remove</button>
+            </div>
+          </div>
+
+          <!-- OpenAI -->
+          <div class="api-key-group">
+            <div class="api-key-group-header">
+              <div class="api-key-group-title">🧠 OpenAI (GPT)</div>
+              <span class="key-status unset" id="status-openai">Not set</span>
+            </div>
+            <p style="color:var(--text-muted);font-size:0.8125rem;margin-bottom:var(--space-sm);">
+              For ChatGPT, GPT-4, and OpenAI-powered tools.
+              Get your key at <a href="https://platform.openai.com/api-keys" target="_blank" style="color:var(--accent-violet);">platform.openai.com</a>
+            </p>
+            <div class="api-input-row">
+              <input type="password" id="key-openai" placeholder="sk-..." autocomplete="off">
+              <button class="btn btn-primary btn-sm" onclick="saveKey('openai')">Save</button>
+              <button class="btn btn-secondary btn-sm" onclick="removeKey('openai')" id="remove-openai" style="display:none;">Remove</button>
+            </div>
+          </div>
+
+          <!-- Google AI -->
+          <div class="api-key-group">
+            <div class="api-key-group-header">
+              <div class="api-key-group-title">✨ Google AI (Gemini)</div>
+              <span class="key-status unset" id="status-google">Not set</span>
+            </div>
+            <p style="color:var(--text-muted);font-size:0.8125rem;margin-bottom:var(--space-sm);">
+              For Gemini models and Google AI Studio tools.
+              Get your key at <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color:var(--accent-violet);">aistudio.google.com</a>
+            </p>
+            <div class="api-input-row">
+              <input type="password" id="key-google" placeholder="AIza..." autocomplete="off">
+              <button class="btn btn-primary btn-sm" onclick="saveKey('google')">Save</button>
+              <button class="btn btn-secondary btn-sm" onclick="removeKey('google')" id="remove-google" style="display:none;">Remove</button>
+            </div>
+          </div>
+
+          <!-- Groq -->
+          <div class="api-key-group">
+            <div class="api-key-group-header">
+              <div class="api-key-group-title">⚡ Groq (Ultra-fast inference)</div>
+              <span class="key-status unset" id="status-groq">Not set</span>
+            </div>
+            <p style="color:var(--text-muted);font-size:0.8125rem;margin-bottom:var(--space-sm);">
+              For blazing-fast Llama and Mixtral models.
+              Get your key at <a href="https://console.groq.com/keys" target="_blank" style="color:var(--accent-violet);">console.groq.com</a>
+            </p>
+            <div class="api-input-row">
+              <input type="password" id="key-groq" placeholder="gsk_..." autocomplete="off">
+              <button class="btn btn-primary btn-sm" onclick="saveKey('groq')">Save</button>
+              <button class="btn btn-secondary btn-sm" onclick="removeKey('groq')" id="remove-groq" style="display:none;">Remove</button>
+            </div>
+          </div>
+
+          <div class="wizard-nav">
+            <div></div>
+            <button class="btn btn-primary" onclick="goToStep(2)">Next: Choose Tools →</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Tool Selection -->
+        <div class="wizard-panel" id="panel-2">
+          <h2>🛠️ Choose Your Vibe Coding Tools</h2>
+          <p class="panel-desc">
+            Select the tools you want to use. We'll add them to your workspace and include setup guides where needed.
+          </p>
+
+          <div class="tools-select-grid" id="tool-select-grid">
+            <div class="tool-select-card" data-tool="lovable" onclick="toggleTool(this)">
+              <span class="tool-check">✅</span>
+              <div class="t-icon">💜</div>
+              <div class="t-name">Lovable</div>
+              <div class="t-desc">Full-stack apps from prompts</div>
+            </div>
+            <div class="tool-select-card" data-tool="v0" onclick="toggleTool(this)">
+              <span class="tool-check">✅</span>
+              <div class="t-icon">◼️</div>
+              <div class="t-name">v0 by Vercel</div>
+              <div class="t-desc">React UI from descriptions</div>
+            </div>
+            <div class="tool-select-card" data-tool="bolt" onclick="toggleTool(this)">
+              <span class="tool-check">✅</span>
+              <div class="t-icon">⚡</div>
+              <div class="t-name">Bolt.new</div>
+              <div class="t-desc">Instant full-stack deployment</div>
+            </div>
+            <div class="tool-select-card" data-tool="replit" onclick="toggleTool(this)">
+              <span class="tool-check">✅</span>
+              <div class="t-icon">🔄</div>
+              <div class="t-name">Replit</div>
+              <div class="t-desc">Collaborative AI coding</div>
+            </div>
+            <div class="tool-select-card" data-tool="cursor" onclick="toggleTool(this)">
+              <span class="tool-check">✅</span>
+              <div class="t-icon">🖱️</div>
+              <div class="t-name">Cursor</div>
+              <div class="t-desc">AI-powered code editor</div>
+            </div>
+            <div class="tool-select-card" data-tool="claude-code" onclick="toggleTool(this)">
+              <span class="tool-check">✅</span>
+              <div class="t-icon">🤖</div>
+              <div class="t-name">Claude Code</div>
+              <div class="t-desc">Terminal AI coding agent</div>
+            </div>
+            <div class="tool-select-card" data-tool="windsurf" onclick="toggleTool(this)">
+              <span class="tool-check">✅</span>
+              <div class="t-icon">🏄</div>
+              <div class="t-name">Windsurf</div>
+              <div class="t-desc">AI IDE by Codeium</div>
+            </div>
+            <div class="tool-select-card selected" data-tool="opencode" onclick="toggleTool(this)">
+              <span class="tool-check">✅</span>
+              <div class="t-icon">🟢</div>
+              <div class="t-name">OpenCode</div>
+              <div class="t-desc">Open-source terminal AI agent</div>
+            </div>
+          </div>
+
+          <div class="wizard-nav">
+            <button class="btn btn-secondary" onclick="goToStep(1)">← Back</button>
+            <button class="btn btn-primary" onclick="saveToolsAndNext()">Next: OpenCode Setup →</button>
+          </div>
+        </div>
+
+        <!-- Step 3: OpenCode Setup -->
+        <div class="wizard-panel" id="panel-3">
+          <h2>🟢 Set Up OpenCode</h2>
+          <p class="panel-desc">
+            <a href="https://opencode.ai" target="_blank" rel="noopener" style="color:var(--accent-violet);">OpenCode</a>
+            is an open-source terminal AI coding agent you can run locally. Configure it with your API keys and you'll have a powerful AI assistant in your terminal.
+          </p>
+
+          <div class="guide-step">
+            <h3><span class="step-num">1</span> Install OpenCode</h3>
+            <p>Run this command in your terminal to install OpenCode globally:</p>
+            <div class="code-block" onclick="copyCode(this, 'npm i -g opencode-ai')">
+              <span>npm i -g opencode-ai</span>
+              <span class="copy-icon">📋</span>
+            </div>
+            <p style="font-size:0.85rem;color:var(--text-muted);">
+              Requires Node.js 18+. Don't have Node? <a href="https://nodejs.org" target="_blank" style="color:var(--accent-violet);">Download it here →</a>
+            </p>
+          </div>
+
+          <div class="guide-step">
+            <h3><span class="step-num">2</span> Configure Your API Key</h3>
+            <p>Set your Anthropic key as an environment variable so OpenCode can use Claude:</p>
+            <div class="code-block" onclick="copyCode(this, 'export ANTHROPIC_API_KEY=your_key_here')">
+              <span>export ANTHROPIC_API_KEY=<span id="opencode-key-hint">your_key_here</span></span>
+              <span class="copy-icon">📋</span>
+            </div>
+            <p style="font-size:0.85rem;color:var(--text-muted);">
+              Add this to your <code style="font-family:var(--font-mono)">~/.zshrc</code> or <code style="font-family:var(--font-mono)">~/.bashrc</code> to persist it across sessions.
+            </p>
+          </div>
+
+          <div class="guide-step">
+            <h3><span class="step-num">3</span> Run OpenCode in Your Project</h3>
+            <p>Navigate to any project folder and start OpenCode:</p>
+            <div class="code-block" onclick="copyCode(this, 'opencode')">
+              <span>opencode</span>
+              <span class="copy-icon">📋</span>
+            </div>
+          </div>
+
+          <div class="guide-step">
+            <h3><span class="step-num">4</span> Try a Vibe Coding Prompt</h3>
+            <p>Once OpenCode is running, paste in a refined prompt from your AI Workspace and watch it build your app.</p>
+            <p style="margin-top:0.5rem;">
+              <a href="workspace.html" class="btn btn-secondary" style="font-size:0.875rem;padding:0.5rem 1rem;display:inline-flex;">
+                Open AI Workspace →
+              </a>
+            </p>
+          </div>
+
+          <div style="background:rgba(139,92,246,0.08);border:1px solid rgba(139,92,246,0.2);border-radius:var(--radius-md);padding:var(--space-md);margin-top:var(--space-md);">
+            <p style="font-size:0.875rem;color:var(--text-secondary);margin:0;">
+              💡 <strong>Pro tip:</strong> Use your AI Workspace to generate a refined prompt, then paste it into OpenCode to build the project — this is the core vibe coding workflow.
+            </p>
+          </div>
+
+          <div class="wizard-nav">
+            <button class="btn btn-secondary" onclick="goToStep(2)">← Back</button>
+            <button class="btn btn-primary" onclick="goToStep(4)">Complete Setup →</button>
+          </div>
+        </div>
+
+        <!-- Step 4: Launch -->
+        <div class="wizard-panel" id="panel-4">
+          <h2 style="text-align:center;">🚀 You're Ready to Vibe!</h2>
+          <p class="panel-desc" style="text-align:center;">
+            Your platform is configured. Here's everything you have access to.
+          </p>
+
+          <div class="launch-grid">
+            <a href="workspace.html" class="launch-card">
+              <div class="l-icon">🧠</div>
+              <div class="l-name">AI Workspace</div>
+              <div class="l-desc">Prompt tutor — extract intent and refine ideas</div>
+            </a>
+            <a href="module1.html" class="launch-card">
+              <div class="l-icon">📚</div>
+              <div class="l-name">Course Modules</div>
+              <div class="l-desc">Free vibe coding curriculum — 6 modules</div>
+            </a>
+            <a href="lab1.html" class="launch-card">
+              <div class="l-icon">🧪</div>
+              <div class="l-name">Hands-on Labs</div>
+              <div class="l-desc">Build real projects step by step</div>
+            </a>
+            <a href="tools.html" class="launch-card">
+              <div class="l-icon">🛠️</div>
+              <div class="l-name">Tools Directory</div>
+              <div class="l-desc">Full directory of vibe coding tools</div>
+            </a>
+            <a href="dashboard.html" class="launch-card">
+              <div class="l-icon">📊</div>
+              <div class="l-name">Dashboard</div>
+              <div class="l-desc">Track your projects and progress</div>
+            </a>
+            <div class="launch-card" onclick="goToStep(1)" style="cursor:pointer;border-style:dashed;">
+              <div class="l-icon">🔑</div>
+              <div class="l-name">Manage Keys</div>
+              <div class="l-desc">Update or add new API keys</div>
+            </div>
+          </div>
+
+          <!-- Keys Summary -->
+          <div id="keys-summary" style="margin-top:var(--space-xl);">
+            <h3 style="margin-bottom:var(--space-md);">Your API Keys</h3>
+            <table class="keys-table">
+              <thead>
+                <tr>
+                  <th>Provider</th>
+                  <th>Status</th>
+                  <th>Last Updated</th>
+                </tr>
+              </thead>
+              <tbody id="keys-summary-body">
+                <tr><td colspan="3" style="color:var(--text-muted);">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="wizard-nav" style="justify-content:center;">
+            <button class="btn btn-secondary" onclick="goToStep(1)">← Update API Keys</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Premium Section -->
+      <div class="premium-section">
+        <div class="premium-badge">⭐ Premium Platform</div>
+        <h2>Unlock the Full Platform</h2>
+        <p>The course is free. The platform is where the real power is — unlimited AI tutor calls, team workspaces, priority support, and advanced prompt engineering tools.</p>
+
+        <div class="premium-features">
+          <div class="premium-feature">
+            <div class="pf-icon">🤖</div>
+            <div class="pf-title">Unlimited AI Tutor</div>
+            <div class="pf-desc">No usage limits on your prompt workspace and AI coaching sessions.</div>
+          </div>
+          <div class="premium-feature">
+            <div class="pf-icon">👥</div>
+            <div class="pf-title">Team Workspaces</div>
+            <div class="pf-desc">Collaborate with your team, share prompts, and build together.</div>
+          </div>
+          <div class="premium-feature">
+            <div class="pf-icon">📋</div>
+            <div class="pf-title">Prompt Library</div>
+            <div class="pf-desc">Access a curated library of production-ready prompts for every use case.</div>
+          </div>
+          <div class="premium-feature">
+            <div class="pf-icon">🏆</div>
+            <div class="pf-title">Certificates</div>
+            <div class="pf-desc">Earn verified completion certificates to showcase your vibe coding skills.</div>
+          </div>
+          <div class="premium-feature">
+            <div class="pf-icon">🔐</div>
+            <div class="pf-title">Encrypted Key Vault</div>
+            <div class="pf-desc">Enterprise-grade encryption for all your API keys and credentials.</div>
+          </div>
+          <div class="premium-feature">
+            <div class="pf-icon">💬</div>
+            <div class="pf-title">Priority Support</div>
+            <div class="pf-desc">Direct access to the LetsVibeAI team for help and guidance.</div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary coming-soon-btn" disabled title="Stripe integration coming soon">
+          🔒 Coming Soon — Powered by Stripe
+        </button>
+        <p style="color:var(--text-muted);font-size:0.8125rem;margin-top:var(--space-md);">
+          Want early access? <a href="auth.html" style="color:var(--accent-violet);">Create your free account</a> to be first on the list.
+        </p>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>⚡ LetsVibeAI &copy; 2025 · <a href="index.html" style="color:var(--text-muted);">Home</a> · <a href="workspace.html" style="color:var(--text-muted);">Workspace</a></p>
+    </div>
+  </footer>
+
+  <script src="supabase-client.js"></script>
+  <script src="script.js"></script>
+  <script>
+    let currentStep = 1;
+    let currentUser = null;
+    let savedKeys = {};
+    let selectedTools = new Set(['opencode']);
+
+    // ---- Auth + Init ----
+    document.addEventListener('DOMContentLoaded', async () => {
+      await window.authPromise;
+      currentUser = getCurrentUser();
+
+      if (!currentUser) {
+        window.location.href = 'auth.html';
+        return;
+      }
+
+      await loadSavedKeys();
+    });
+
+    // ---- Load existing keys from Supabase ----
+    async function loadSavedKeys() {
+      if (!currentUser || !window.db) return;
+      try {
+        const keys = await window.db.getUserApiKeys(currentUser.id);
+        keys.forEach(k => {
+          savedKeys[k.provider] = { key: k.api_key, updated_at: k.updated_at };
+          updateKeyStatus(k.provider, true);
+        });
+        renderKeysSummary();
+      } catch (e) {
+        console.error('Could not load API keys:', e);
+      }
+    }
+
+    function updateKeyStatus(provider, isSet) {
+      const statusEl = document.getElementById('status-' + provider);
+      const removeBtn = document.getElementById('remove-' + provider);
+      if (!statusEl) return;
+      if (isSet) {
+        statusEl.textContent = '✓ Set';
+        statusEl.className = 'key-status set';
+        if (removeBtn) removeBtn.style.display = 'inline-flex';
+        // Show masked key in input
+        const input = document.getElementById('key-' + provider);
+        if (input) input.placeholder = '••••••••••••••••••••';
+      } else {
+        statusEl.textContent = 'Not set';
+        statusEl.className = 'key-status unset';
+        if (removeBtn) removeBtn.style.display = 'none';
+        const input = document.getElementById('key-' + provider);
+        if (input) { input.placeholder = provider === 'anthropic' ? 'sk-ant-...' : provider === 'openai' ? 'sk-...' : provider === 'google' ? 'AIza...' : 'gsk_...'; input.value = ''; }
+      }
+    }
+
+    // ---- Save API Key ----
+    async function saveKey(provider) {
+      if (!currentUser) { showKeyError('Please sign in to save keys.'); return; }
+      const input = document.getElementById('key-' + provider);
+      const key = input.value.trim();
+      if (!key) { showKeyError('Please enter a key first.'); return; }
+
+      const btn = input.nextElementSibling;
+      btn.textContent = 'Saving...';
+      btn.disabled = true;
+
+      try {
+        const result = await window.db.saveApiKey(currentUser.id, provider, key);
+        if (result.ok) {
+          savedKeys[provider] = { key, updated_at: new Date().toISOString() };
+          updateKeyStatus(provider, true);
+          showKeySuccess('Key saved securely ✓');
+          input.value = '';
+          renderKeysSummary();
+          // Inject Anthropic key hint for OpenCode step
+          if (provider === 'anthropic') {
+            const hint = document.getElementById('opencode-key-hint');
+            if (hint) hint.textContent = key.slice(0, 8) + '•••••••••••••••';
+          }
+        } else {
+          showKeyError('Could not save key. Check you are signed in.');
+        }
+      } catch (e) {
+        showKeyError('Error saving key. Please try again.');
+      }
+
+      btn.textContent = 'Save';
+      btn.disabled = false;
+    }
+
+    // ---- Remove API Key ----
+    async function removeKey(provider) {
+      if (!currentUser) return;
+      if (!confirm('Remove your ' + provider + ' key?')) return;
+      try {
+        await window.db.deleteApiKey(currentUser.id, provider);
+        delete savedKeys[provider];
+        updateKeyStatus(provider, false);
+        renderKeysSummary();
+        showKeySuccess('Key removed.');
+      } catch (e) {
+        showKeyError('Could not remove key.');
+      }
+    }
+
+    function showKeySuccess(msg) {
+      const el = document.getElementById('keys-success');
+      el.textContent = '✓ ' + msg;
+      el.classList.add('visible');
+      document.getElementById('keys-error').classList.remove('visible');
+      setTimeout(() => el.classList.remove('visible'), 3000);
+    }
+
+    function showKeyError(msg) {
+      const el = document.getElementById('keys-error');
+      el.textContent = '⚠ ' + msg;
+      el.classList.add('visible');
+      document.getElementById('keys-success').classList.remove('visible');
+      setTimeout(() => el.classList.remove('visible'), 4000);
+    }
+
+    // ---- Tool Selection ----
+    function toggleTool(card) {
+      const tool = card.dataset.tool;
+      card.classList.toggle('selected');
+      if (card.classList.contains('selected')) {
+        selectedTools.add(tool);
+      } else {
+        selectedTools.delete(tool);
+      }
+    }
+
+    async function saveToolsAndNext() {
+      if (currentUser && window.updateUser) {
+        try {
+          await updateUser({ tools: Array.from(selectedTools) });
+        } catch (e) { /* non-blocking */ }
+      }
+      goToStep(3);
+    }
+
+    // ---- Wizard Navigation ----
+    function goToStep(step) {
+      // Update panels
+      document.querySelectorAll('.wizard-panel').forEach((p, i) => {
+        p.classList.toggle('active', i + 1 === step);
+      });
+
+      // Update dots + connectors
+      for (let i = 1; i <= 4; i++) {
+        const dot = document.getElementById('dot-' + i);
+        dot.classList.remove('active', 'done');
+        if (i < step) dot.classList.add('done');
+        if (i === step) dot.classList.add('active');
+        if (i < 4) {
+          const conn = document.getElementById('conn-' + i);
+          conn.classList.toggle('done', i < step);
+        }
+      }
+
+      currentStep = step;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+
+      if (step === 4) renderKeysSummary();
+    }
+
+    // ---- Keys Summary Table ----
+    function renderKeysSummary() {
+      const tbody = document.getElementById('keys-summary-body');
+      if (!tbody) return;
+      const providers = [
+        { id: 'anthropic', name: '🤖 Anthropic (Claude)' },
+        { id: 'openai', name: '🧠 OpenAI (GPT)' },
+        { id: 'google', name: '✨ Google AI (Gemini)' },
+        { id: 'groq', name: '⚡ Groq' }
+      ];
+      tbody.innerHTML = providers.map(p => {
+        const k = savedKeys[p.id];
+        return `<tr>
+          <td>${p.name}</td>
+          <td>${k ? '<span class="key-status set">✓ Set</span>' : '<span class="key-status unset">Not set</span>'}</td>
+          <td style="color:var(--text-muted);font-size:0.8125rem;">${k ? new Date(k.updated_at).toLocaleDateString() : '—'}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    // ---- Copy code blocks ----
+    function copyCode(el, text) {
+      const toCopy = text || el.querySelector('span:first-child').textContent;
+      navigator.clipboard.writeText(toCopy).then(() => {
+        const icon = el.querySelector('.copy-icon');
+        if (icon) { icon.textContent = '✅'; setTimeout(() => { icon.textContent = '📋'; }, 1500); }
+      });
+    }
+  </script>
+</body>
+
+</html>

@@ -16,14 +16,15 @@
   <!-- Navigation -->
   <nav class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="nav-logo">⚡ Vibe Coding</a>
+      <a href="index.html" class="nav-logo">⚡ LetsVibeAI</a>
       <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="module1.html">Modules</a></li>
+        <li><a href="workspace.html">Workspace</a></li>
         <li><a href="tools.html">Tools</a></li>
-        <li><a href="news.html">News</a></li>
         <li><a href="lab1.html">Labs</a></li>
+        <li id="auth-nav-slot"></li>
       </ul>
     </div>
   </nav>
@@ -38,8 +39,8 @@
         <p>Master the new paradigm of software creation. Use AI-powered tools and prompt engineering to build real
           websites, apps, and automations — no traditional coding required.</p>
         <div class="hero-cta">
-          <a href="module1.html" class="btn btn-primary">Start Learning →</a>
-          <a href="#syllabus" class="btn btn-secondary">View Syllabus</a>
+          <a href="auth.html" class="btn btn-primary">Get Started Free →</a>
+          <a href="workspace.html" class="btn btn-secondary">Try the Workspace</a>
         </div>
       </section>
 
@@ -209,21 +210,37 @@
     </div>
   </footer>
 
+  <script src="supabase-client.js"></script>
   <script src="script.js"></script>
   <script>
-    function handleSubscribe(e) {
+    async function handleSubscribe(e) {
       e.preventDefault();
       const email = e.target.querySelector('input').value;
-      
-      // Save to localStorage for now (could integrate with Supabase later)
-      const list = JSON.parse(localStorage.getItem('subscribers') || '[]');
-      if (!list.includes(email)) {
-        list.push(email);
-        localStorage.setItem('subscribers', JSON.stringify(list));
+      const btn = e.target.querySelector('button');
+      btn.textContent = 'Subscribing...';
+      btn.disabled = true;
+
+      try {
+        await fetch('https://vptixdomrdxksufgkurp.supabase.co/rest/v1/subscribers', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'apikey': 'sb_publishable_XUCSEcjKE0RyGQoL8fplPg_xCoTWOGE',
+            'Authorization': 'Bearer sb_publishable_XUCSEcjKE0RyGQoL8fplPg_xCoTWOGE',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({ email })
+        });
+      } catch (err) {
+        // Fallback: save to localStorage if Supabase unavailable
+        const list = JSON.parse(localStorage.getItem('subscribers') || '[]');
+        if (!list.includes(email)) { list.push(email); localStorage.setItem('subscribers', JSON.stringify(list)); }
       }
-      
+
       e.target.reset();
       document.getElementById('subscribe-msg').style.display = 'block';
+      btn.textContent = 'Subscribe →';
+      btn.disabled = false;
     }
   </script>
 </body>
