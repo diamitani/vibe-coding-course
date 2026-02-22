@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - LetsVibeAI</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        body { padding: 2rem; }
+        .admin-header { margin-bottom: 2rem; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stat-card { background: var(--bg-card, #1a1a2e); padding: 1.5rem; border-radius: 12px; text-align: center; }
+        .stat-number { font-size: 2.5rem; font-weight: bold; color: var(--accent-emerald, #10b981); }
+        .stat-label { color: var(--text-secondary, #888); margin-top: 0.5rem; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border-subtle, #333); }
+        th { background: var(--bg-card, #1a1a2e); }
+        .btn { padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; }
+        .btn-primary { background: var(--accent-primary, #6366f1); color: white; border: none; }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="admin-header">
+            <h1>Admin Dashboard</h1>
+            <p>LetsVibeAI User Management</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" id="user-count">0</div>
+                <div class="stat-label">Total Users</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="project-count">0</div>
+                <div class="stat-label">Total Projects</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="showcase-count">0</div>
+                <div class="stat-label">Showcase Submissions</div>
+            </div>
+        </div>
+
+        <h2>Recent Users</h2>
+        <table id="users-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Vibe Type</th>
+                    <th>Joined</th>
+                </tr>
+            </thead>
+            <tbody id="users-body">
+                <tr><td colspan="4">Loading...</td></tr>
+            </tbody>
+        </table>
+
+        <h2 style="margin-top: 2rem;">Recent Projects</h2>
+        <table id="projects-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>User</th>
+                    <th>Tool</th>
+                    <th>Created</th>
+                </tr>
+            </thead>
+            <tbody id="projects-body">
+                <tr><td colspan="4">Loading...</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="../supabase-client.js"></script>
+    <script>
+        const SUPABASE_KEY = 'sb_publishable_XUCSEcjKE0RyGQoL8fplPg_xCoTWOGE';
+        const SUPABASE_URL = 'https://vptixdomrdxksufgkurp.supabase.co';
+
+        async function loadData() {
+            // Load profiles
+            const profilesRes = await fetch(`${SUPABASE_URL}/rest/v1/profiles?select=*&order=created_at.desc`, {
+                headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+            });
+            const profiles = await profilesRes.json();
+            
+            document.getElementById('user-count').textContent = profiles.length;
+            document.getElementById('users-body').innerHTML = profiles.map(p => `
+                <tr>
+                    <td>${p.name || 'N/A'}</td>
+                    <td>${p.email || 'N/A'}</td>
+                    <td>${p.vibe_type || 'Explorer'}</td>
+                    <td>${new Date(p.created_at).toLocaleDateString()}</td>
+                </tr>
+            `).join('') || '<tr><td colspan="4">No users yet</td></tr>';
+
+            // Load projects
+            const projectsRes = await fetch(`${SUPABASE_URL}/rest/v1/projects?select=*&order=created_at.desc`, {
+                headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+            });
+            const projects = await projectsRes.json();
+            
+            document.getElementById('project-count').textContent = projects.length;
+            document.getElementById('projects-body').innerHTML = projects.map(p => `
+                <tr>
+                    <td>${p.title}</td>
+                    <td>${p.user_id.substring(0, 8)}...</td>
+                    <td>${p.tool_used || 'N/A'}</td>
+                    <td>${new Date(p.created_at).toLocaleDateString()}</td>
+                </tr>
+            `).join('') || '<tr><td colspan="4">No projects yet</td></tr>';
+
+            // Load showcase
+            const showcaseRes = await fetch(`${SUPABASE_URL}/rest/v1/showcase?select=*&order=created_at.desc`, {
+                headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+            });
+            const showcase = await showcaseRes.json();
+            
+            document.getElementById('showcase-count').textContent = showcase.length;
+        }
+
+        loadData();
+    </script>
+</body>
+
+</html>
