@@ -30,16 +30,16 @@
 
         <div class="stats-grid">
             <div class="stat-card">
+                <div class="stat-number" id="subscriber-count">0</div>
+                <div class="stat-label">Email Subscribers</div>
+            </div>
+            <div class="stat-card">
                 <div class="stat-number" id="user-count">0</div>
-                <div class="stat-label">Total Users</div>
+                <div class="stat-label">Signed Up Users</div>
             </div>
             <div class="stat-card">
                 <div class="stat-number" id="project-count">0</div>
                 <div class="stat-label">Total Projects</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="showcase-count">0</div>
-                <div class="stat-label">Showcase Submissions</div>
             </div>
         </div>
 
@@ -80,14 +80,18 @@
         const SUPABASE_URL = 'https://vptixdomrdxksufgkurp.supabase.co';
 
         async function loadData() {
-            // Load profiles
+            // Load subscribers from localStorage (simple approach)
+            const subscribers = JSON.parse(localStorage.getItem('subscribers') || '[]');
+            document.getElementById('subscriber-count').textContent = subscribers.length;
+
+            // Load profiles from Supabase
             const profilesRes = await fetch(`${SUPABASE_URL}/rest/v1/profiles?select=*&order=created_at.desc`, {
                 headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
             });
             const profiles = await profilesRes.json();
             
-            document.getElementById('user-count').textContent = profiles.length;
-            document.getElementById('users-body').innerHTML = profiles.map(p => `
+            document.getElementById('user-count').textContent = profiles.length || 0;
+            document.getElementById('users-body').innerHTML = (profiles || []).map(p => `
                 <tr>
                     <td>${p.name || 'N/A'}</td>
                     <td>${p.email || 'N/A'}</td>
@@ -102,23 +106,15 @@
             });
             const projects = await projectsRes.json();
             
-            document.getElementById('project-count').textContent = projects.length;
-            document.getElementById('projects-body').innerHTML = projects.map(p => `
+            document.getElementById('project-count').textContent = projects.length || 0;
+            document.getElementById('projects-body').innerHTML = (projects || []).map(p => `
                 <tr>
                     <td>${p.title}</td>
-                    <td>${p.user_id.substring(0, 8)}...</td>
+                    <td>${(p.user_id || '').substring(0, 8)}...</td>
                     <td>${p.tool_used || 'N/A'}</td>
                     <td>${new Date(p.created_at).toLocaleDateString()}</td>
                 </tr>
             `).join('') || '<tr><td colspan="4">No projects yet</td></tr>';
-
-            // Load showcase
-            const showcaseRes = await fetch(`${SUPABASE_URL}/rest/v1/showcase?select=*&order=created_at.desc`, {
-                headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-            });
-            const showcase = await showcaseRes.json();
-            
-            document.getElementById('showcase-count').textContent = showcase.length;
         }
 
         loadData();
