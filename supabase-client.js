@@ -258,7 +258,9 @@ window.auth = {
   signUp: async function(email, password) {
     const result = await supabase.auth.signUp({ email, password });
     if (!result.error && result.data.user) {
-      localStorage.setItem('sb_access_token', result.data.session.access_token);
+      // Supabase signup returns access_token at top level (no session wrapper)
+      const token = result.data.access_token;
+      if (token) localStorage.setItem('sb_access_token', token);
       localStorage.setItem('sb_user', JSON.stringify(result.data.user));
     }
     return result;

@@ -204,7 +204,7 @@
                         avatar: '🧑‍💻',
                         vibe_type: 'Explorer',
                         account_type: accountType,
-                        tools: '[]'
+                        tools: []
                     });
                     
                     showSuccess('Account created! Taking you to your dashboard...');
@@ -213,9 +213,10 @@
                     }, 1500);
                 }
             } catch (err) {
-                showError('Something went wrong. Please try again.');
+                showError(err.message || 'Something went wrong. Please try again.');
+                console.error('Signup error:', err);
             }
-            
+
             btn.textContent = 'Create Account →';
             btn.disabled = false;
         }
