@@ -30,8 +30,6 @@
         <div class="nav-inner"><a href="index.html" class="nav-logo">⚡ LetsVibeAI</a><button class="nav-toggle" aria-label="Toggle navigation">☰</button>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="workspace.html">Workspace</a></li>
-                <li><a href="platform.html">Platform</a></li>
                 <li><a href="module1.html">Modules</a></li>
                 <li><a href="showcase.html">Gallery</a></li>
                 <li><a href="auth.html" onclick="logoutUser()">Sign Out</a></li>
@@ -71,13 +69,11 @@
                 <!-- Sidebar -->
                 <aside class="dash-sidebar">
                     <ul class="dash-sidebar-nav">
-                        <li><button class="active" onclick="showPanel('overview')">📊 Overview</button></li>
-                        <li><button onclick="showPanel('courses')">📚 Courses</button></li>
-                        <li><button onclick="showPanel('profile')">👤 Profile</button></li>
-                        <li><button onclick="showPanel('projects')">🚀 My Projects</button></li>
-                        <li><button onclick="showPanel('workspace')">💼 Workspace</button></li>
-                        <li><button onclick="showPanel('platforms')">🔗 Platforms</button></li>
-                        <li><button onclick="showPanel('settings')">⚙️ Settings</button></li>
+                        <li><button class="active" onclick="showPanel('overview', this)">📊 Overview</button></li>
+                        <li><button onclick="showPanel('courses', this)">📚 Courses</button></li>
+                        <li><button onclick="showPanel('projects', this)">🚀 My Projects</button></li>
+                        <li><button onclick="showPanel('profile', this)">👤 Profile</button></li>
+                        <li><button onclick="showPanel('settings', this)">⚙️ Settings</button></li>
                         <li><button onclick="signOut()" style="color:var(--accent-magenta);">🚪 Sign Out</button></li>
                     </ul>
                 </aside>
@@ -249,146 +245,49 @@
 
                     <!-- Projects Panel -->
                     <div id="panel-projects" class="dash-panel">
-                        <h2>My Projects</h2>
+                        <h2>🚀 My Projects</h2>
+                        <p style="color:var(--text-secondary);margin-bottom:1.5rem;">Projects you've submitted to the community gallery.</p>
+
                         <div id="my-projects-list"></div>
-                    </div>
 
-                    <!-- Workspace Panel -->
-                    <div id="panel-workspace" class="dash-panel">
-                        <h2>💼 My Workspace</h2>
-                        <p style="color:var(--text-secondary);margin-bottom:2rem;">Your complete vibe coding environment.</p>
-                        
-                        <!-- Full Course Modules -->
-                        <h3>📚 Course Modules</h3>
-                        <div class="cards-grid cards-grid-2">
-                            <a href="module1.html" class="card fade-in" style="text-decoration:none;">
-                                <div class="card-icon">🧠</div>
-                                <h3>Module 1 — What is AI</h3>
-                                <p>Foundations of LLMs and generative AI.</p>
-                            </a>
-                            <a href="module2.html" class="card fade-in" style="text-decoration:none;">
-                                <div class="card-icon">🎯</div>
-                                <h3>Module 2 — What is Vibe Coding</h3>
-                                <p>The new paradigm of AI-driven development.</p>
-                            </a>
-                            <a href="module3.html" class="card fade-in" style="text-decoration:none;">
-                                <div class="card-icon">🛠️</div>
-                                <h3>Module 3 — The Toolkit</h3>
-                                <p>Deep dive into Lovable, v0, Bolt, Claude Code & more.</p>
-                            </a>
-                            <a href="module4.html" class="card fade-in" style="text-decoration:none;">
-                                <div class="card-icon">🔗</div>
-                                <h3>Module 4 — Prompt Chaining</h3>
-                                <p>Master prompt refinement techniques.</p>
-                            </a>
-                            <a href="module5.html" class="card fade-in" style="text-decoration:none;">
-                                <div class="card-icon">📋</div>
-                                <h3>Module 5 — Context Engineering</h3>
-                                <p>Upload files, create PRDs, design systems.</p>
-                            </a>
-                            <a href="module6.html" class="card fade-in" style="text-decoration:none;">
-                                <div class="card-icon">⚙️</div>
-                                <h3>Module 6 — Process Engineering</h3>
-                                <p>Build AI-augmented workflows.</p>
-                            </a>
-                        </div>
-
-                        <h3 style="margin-top:2rem;">🧪 Hands-On Labs</h3>
-                        <div class="cards-grid cards-grid-2">
-                            <a href="lab1.html" class="card fade-in" style="text-decoration:none;">
-                                <div class="card-icon">🎨</div>
-                                <h3>Lab 1 — Marketing Website</h3>
-                                <p>Build a stunning landing page with AI.</p>
-                                <span class="tag emerald">Start Lab</span>
-                            </a>
-                            <a href="lab2.html" class="card fade-in" style="text-decoration:none;">
-                                <div class="card-icon">🛒</div>
-                                <h3>Lab 2 — E-Commerce Store</h3>
-                                <p>Create a full online store.</p>
-                                <span class="tag emerald">Start Lab</span>
-                            </a>
-                            <a href="lab3.html" class="card fade-in" style="text-decoration:none;">
-                                <div class="card-icon">🏪</div>
-                                <h3>Lab 3 — Marketplace</h3>
-                                <p>Build a directory or marketplace.</p>
-                                <span class="tag emerald">Start Lab</span>
-                            </a>
-                            <a href="prompt-lab.html" class="card fade-in" style="text-decoration:none;">
-                                <div class="card-icon">✨</div>
-                                <h3>Prompt Lab</h3>
-                                <p>Master prompt engineering.</p>
-                                <span class="tag emerald">Start Lab</span>
-                            </a>
-                        </div>
-
-                        <h3 style="margin-top:2rem;">🔧 Tools & Resources</h3>
-                        <div class="cards-grid cards-grid-3">
-                            <a href="tools.html" class="card fade-in" style="text-decoration:none;">
-                                <div class="card-icon">🛠️</div>
-                                <h3>Tools Guide</h3>
-                                <p>All vibe coding tools compared.</p>
-                            </a>
-                            <a href="news.html" class="card fade-in" style="text-decoration:none;">
-                                <div class="card-icon">📰</div>
-                                <h3>AI News</h3>
-                                <p>Latest in AI & vibe coding.</p>
-                            </a>
-                            <a href="community.html" class="card fade-in" style="text-decoration:none;">
-                                <div class="card-icon">👥</div>
-                                <h3>Community</h3>
-                                <p>Connect with other vibe coders.</p>
-                            </a>
-                        </div>
-
-                        <h3 style="margin-top:2rem;">📁 Quick Actions</h3>
-                        <div style="display:flex;gap:1rem;flex-wrap:wrap;">
-                            <button class="btn btn-secondary" onclick="showPanel('add-project')">➕ Add Project</button>
-                            <button class="btn btn-secondary" onclick="window.open('https://github.com', '_blank')">📂 GitHub</button>
-                            <button class="btn btn-secondary" onclick="window.open('https://vercel.com', '_blank')">🚀 Vercel</button>
-                            <button class="btn btn-secondary" onclick="window.open('https://lovable.dev', '_blank')">💜 Lovable</button>
-                        </div>
-                    </div>
-
-                    <!-- Platforms Panel -->
-                    <div id="panel-platforms" class="dash-panel">
-                        <h2>🔗 Platform Setup</h2>
-                        <p style="color:var(--text-secondary);margin-bottom:2rem;">Connect your favorite tools. Click to sign up!</p>
-                        
-                        <div class="platform-card">
-                            <h3>🐙 GitHub <span class="status not-connected">Not Connected</span></h3>
-                            <p>Host your code and collaborate with others.</p>
-                            <a href="https://github.com/signup" target="_blank" class="btn btn-primary" style="margin-top:1rem;">Sign Up Free →</a>
-                        </div>
-                        
-                        <div class="platform-card">
-                            <h3>🎨 Lovable <span class="status not-connected">Not Connected</span></h3>
-                            <p>Build full-stack apps with AI.</p>
-                            <a href="https://lovable.dev" target="_blank" class="btn btn-primary" style="margin-top:1rem;">Sign Up Free →</a>
-                        </div>
-                        
-                        <div class="platform-card">
-                            <h3>v0 by Vercel <span class="status not-connected">Not Connected</span></h3>
-                            <p>AI-powered UI generation.</p>
-                            <a href="https://v0.dev" target="_blank" class="btn btn-primary" style="margin-top:1rem;">Sign Up Free →</a>
-                        </div>
-                        
-                        <div class="platform-card">
-                            <h3>⚡ Bolt.new <span class="status not-connected">Not Connected</span></h3>
-                            <p>Full-stack AI coding in your browser.</p>
-                            <a href="https://bolt.new" target="_blank" class="btn btn-primary" style="margin-top:1rem;">Sign Up Free →</a>
-                        </div>
-                        
-                        <div class="platform-card">
-                            <h3>🤖 Claude Code <span class="status not-connected">Not Connected</span></h3>
-                            <p>AI coding assistant for local development.</p>
-                            <a href="https://claude.com/claude-code" target="_blank" class="btn btn-primary" style="margin-top:1rem;">Sign Up →</a>
-                        </div>
-
-                        <div style="background:var(--bg-card);padding:1.5rem;border-radius:12px;border:1px solid var(--border-subtle);margin-top:2rem;">
-                            <h3>🧠 OpenCode (Pro Feature)</h3>
-                            <p>AI coding assistant with full project control. Ideal for advanced developers and teams.</p>
-                            <p style="color:var(--text-muted);font-size:0.875rem;margin:1rem 0;">Coming soon for LetsVibeAI Pro subscribers!</p>
-                            <button class="btn btn-secondary" disabled>Coming Soon</button>
+                        <!-- Submit to Gallery form -->
+                        <div style="margin-top:2rem;padding:1.5rem;background:var(--bg-secondary);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);">
+                            <h3 style="margin-bottom:0.5rem;">Submit a Project to the Gallery</h3>
+                            <p style="color:var(--text-secondary);font-size:0.875rem;margin-bottom:1.5rem;">Completed a lab? Share your work with the community — it'll appear in the public gallery.</p>
+                            <form id="submit-project-form" onsubmit="submitProject(event)">
+                                <div class="form-group">
+                                    <label for="sp-title">Project Title</label>
+                                    <input type="text" id="sp-title" class="form-input" placeholder="e.g. SoundWave Headphones Store" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sp-url">Live URL</label>
+                                    <input type="url" id="sp-url" class="form-input" placeholder="https://your-project.vercel.app" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sp-lab">Lab</label>
+                                    <select id="sp-lab" class="form-input" required>
+                                        <option value="">Select lab...</option>
+                                        <option value="marketing">Lab 1 — Marketing Website</option>
+                                        <option value="ecommerce">Lab 2 — E-Commerce Store</option>
+                                        <option value="marketplace">Lab 3 — Directory / Marketplace</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sp-tool">Tool Used</label>
+                                    <select id="sp-tool" class="form-input" required>
+                                        <option value="">Select a tool...</option>
+                                        <option value="Lovable">Lovable</option>
+                                        <option value="v0.dev">v0.dev</option>
+                                        <option value="Bolt.new">Bolt.new</option>
+                                        <option value="Replit">Replit</option>
+                                        <option value="Claude Code">Claude Code</option>
+                                        <option value="Cursor">Cursor</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+                                <div id="submit-project-msg" style="display:none;margin-bottom:1rem;color:var(--accent-emerald);font-size:0.9rem;"></div>
+                                <button type="submit" class="btn btn-primary">Submit to Gallery →</button>
+                            </form>
                         </div>
                     </div>
 
@@ -451,11 +350,12 @@
             setTimeout(() => { t.remove(); }, 3000);
         }
 
-        function showPanel(panel) {
+        function showPanel(panel, btn) {
             document.querySelectorAll('.dash-panel').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.dash-sidebar-nav button').forEach(b => b.classList.remove('active'));
-            document.getElementById(`panel-${panel}`).classList.add('active');
-            event.target.classList.add('active');
+            const el = document.getElementById(`panel-${panel}`);
+            if (el) el.classList.add('active');
+            if (btn) btn.classList.add('active');
             if (panel === 'projects') renderMyProjects();
         }
 
@@ -504,30 +404,84 @@
             showToast('Profile saved! ✨');
         }
 
-        function renderMyProjects() {
+        async function renderMyProjects() {
             const list = document.getElementById('my-projects-list');
-            const projects = currentUser?.projects || [];
-            
+            if (!list) return;
+
+            list.innerHTML = '<p style="color:var(--text-muted);">Loading...</p>';
+
+            let projects = [];
+            try {
+                if (window.db && currentUser) {
+                    projects = await window.db.getProjects(currentUser.id);
+                }
+            } catch (e) { projects = []; }
+
+            // Update stat
+            document.getElementById('stat-projects').textContent = projects.length;
+
             if (projects.length === 0) {
-                list.innerHTML = `<div style="text-align:center;padding:3rem;color:var(--text-muted);">
-                    <p style="font-size:2rem;margin-bottom:1rem;">📂</p>
-                    <p>No projects yet.</p>
-                    <button class="btn btn-secondary" onclick="showPanel('workspace')" style="margin-top:1rem;">Start a Lab →</button>
+                list.innerHTML = `<div style="text-align:center;padding:2rem;color:var(--text-muted);">
+                    <p style="font-size:2rem;margin-bottom:0.5rem;">📂</p>
+                    <p>No projects yet — complete a lab and submit below!</p>
+                    <a href="lab1.html" class="btn btn-secondary" style="margin-top:1rem;display:inline-flex;">Start Lab 1 →</a>
                 </div>`;
                 return;
             }
-            
-            const labLabels = { marketing: 'Marketing', ecommerce: 'E-Commerce', marketplace: 'Marketplace', other: 'Other' };
+
+            const labLabels = { marketing: '🎨 Marketing', ecommerce: '🛒 E-Commerce', marketplace: '🏪 Marketplace' };
             list.innerHTML = projects.map(p => `
-                <div class="project-card">
-                    <div style="display:flex;justify-content:space-between;align-items:start;">
-                        <div>
-                            <h4>${escapeHTML(p.title)}</h4>
-                            <div class="project-meta">${escapeHTML(labLabels[p.lab_type] || p.lab)} · ${escapeHTML(p.tool_used)}</div>
-                        </div>
+                <div class="project-card" style="margin-bottom:1rem;padding:1rem;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-md);display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;">
+                    <div>
+                        <h4 style="margin:0 0 0.25rem;">${escapeHTML(p.title)}</h4>
+                        <div style="color:var(--text-muted);font-size:0.8125rem;">${escapeHTML(labLabels[p.lab_type] || p.lab_type || '')} · ${escapeHTML(p.tool_used || '')}</div>
                     </div>
-                    <a href="${escapeHTML(p.url)}" target="_blank" class="btn btn-secondary" style="padding:0.4rem 1rem;font-size:0.8rem;display:inline-flex;margin-top:0.5rem;">View →</a>
+                    <a href="${escapeHTML(p.url)}" target="_blank" rel="noopener" class="btn btn-secondary" style="padding:0.4rem 1rem;font-size:0.8rem;flex-shrink:0;">View →</a>
                 </div>`).join('');
+        }
+
+        async function submitProject(e) {
+            e.preventDefault();
+            const btn = e.target.querySelector('button[type="submit"]');
+            const msg = document.getElementById('submit-project-msg');
+            btn.disabled = true;
+            btn.textContent = 'Submitting...';
+            msg.style.display = 'none';
+
+            const item = {
+                user_id: currentUser.id,
+                name: currentUser.name,
+                title: document.getElementById('sp-title').value.trim(),
+                url: document.getElementById('sp-url').value.trim(),
+                lab_type: document.getElementById('sp-lab').value,
+                tool_used: document.getElementById('sp-tool').value,
+                approved: true
+            };
+
+            try {
+                // Save to showcase (public gallery)
+                await window.db.submitToShowcase(item);
+                // Also save to user's projects
+                await window.db.createProject({
+                    user_id: currentUser.id,
+                    title: item.title,
+                    url: item.url,
+                    lab_type: item.lab_type,
+                    tool_used: item.tool_used
+                });
+
+                e.target.reset();
+                msg.textContent = '🚀 Project submitted to the gallery!';
+                msg.style.display = 'block';
+                await renderMyProjects();
+            } catch (err) {
+                msg.style.color = '#ef4444';
+                msg.textContent = 'Something went wrong. Please try again.';
+                msg.style.display = 'block';
+            }
+
+            btn.disabled = false;
+            btn.textContent = 'Submit to Gallery →';
         }
 
         document.addEventListener('DOMContentLoaded', async () => {

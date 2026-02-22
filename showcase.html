@@ -18,9 +18,9 @@
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="module1.html">Modules</a></li>
-                <li><a href="tools.html">Tools</a></li><li><a href="news.html">News</a></li><li><a href="lab1.html">Labs</a></li><li><a href="prompt-lab.html">Prompt Lab</a></li>
-                <li><a href="community.html">Community</a></li>
-                <li><a href="aito/index.html">Portfolio</a></li>
+                <li><a href="tools.html">Tools</a></li>
+                <li><a href="lab1.html">Labs</a></li>
+                <li><a href="showcase.html" class="active">Gallery</a></li>
                 <li id="auth-nav-slot"></li>
             </ul>
         </div>
@@ -117,48 +117,77 @@
 
     <footer class="footer">
         <div class="container">
-            <p>⚡ Vibe Coding Masterclass &copy; 2025</p>
+            <p>⚡ LetsVibeAI &copy; 2025</p>
         </div>
     </footer>
     <script src="supabase-client.js"></script>
     <script src="script.js"></script>
     <script>
+        // Wire up filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderShowcase(btn.dataset.filter);
+            });
+        });
+
         document.addEventListener('DOMContentLoaded', async () => {
+            await window.authPromise;
+            const user = getCurrentUser();
+
+            // Auto-fill name from logged-in user
+            const nameInput = document.getElementById('s-name');
+            if (user && nameInput) nameInput.value = user.name || '';
+
             const form = document.getElementById('showcase-form');
-            if (form) {
-                form.addEventListener('submit', async (e) => {
-                    e.preventDefault();
-                    
-                    const user = getCurrentUser();
-                    const item = {
-                        name: document.getElementById('s-name').value,
-                        title: document.getElementById('s-title').value,
-                        url: document.getElementById('s-url').value,
-                        lab_type: document.getElementById('s-lab').value,
-                        tool_used: document.getElementById('s-tool').value,
-                        user_id: user?.id || null
-                    };
+            if (!form) return;
 
-                    if (window.db && supabaseReady) {
-                        try {
-                            await window.db.submitToShowcase(item);
-                            showToast('Project submitted! 🚀');
-                            form.reset();
-                            renderShowcase();
-                            return;
-                        } catch (err) {
-                            console.error('Supabase error:', err);
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const btn = form.querySelector('button[type="submit"]');
+                btn.disabled = true;
+                btn.textContent = 'Submitting...';
+
+                const item = {
+                    name: document.getElementById('s-name').value.trim(),
+                    title: document.getElementById('s-title').value.trim(),
+                    url: document.getElementById('s-url').value.trim(),
+                    lab_type: document.getElementById('s-lab').value,
+                    tool_used: document.getElementById('s-tool').value,
+                    user_id: user?.id || null,
+                    approved: true
+                };
+
+                try {
+                    if (window.db) {
+                        await window.db.submitToShowcase(item);
+                        // Also save to user's projects if logged in
+                        if (user) {
+                            await window.db.createProject({
+                                user_id: user.id,
+                                title: item.title,
+                                url: item.url,
+                                lab_type: item.lab_type,
+                                tool_used: item.tool_used
+                            });
                         }
+                    } else {
+                        const items = JSON.parse(localStorage.getItem('showcase') || '[]');
+                        items.unshift(item);
+                        localStorage.setItem('showcase', JSON.stringify(items));
                     }
-
-                    const items = JSON.parse(localStorage.getItem('showcase') || '[]');
-                    items.unshift(item);
-                    localStorage.setItem('showcase', JSON.stringify(items));
-                    showToast('Project submitted! 🚀');
+                    showToast('Project submitted to the gallery! 🚀');
                     form.reset();
+                    if (user && nameInput) nameInput.value = user.name || '';
                     renderShowcase();
-                });
-            }
+                } catch (err) {
+                    showToast('Error submitting. Please try again.');
+                }
+
+                btn.disabled = false;
+                btn.textContent = 'Submit Project →';
+            });
         });
     </script>
 </body>
