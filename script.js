@@ -2,6 +2,11 @@
    VIBE CODING MASTERCLASS — Shared JS
    ======================================== */
 
+// Load Supabase client
+const supabaseScript = document.createElement('script');
+supabaseScript.src = 'supabase-client.js';
+document.head.appendChild(supabaseScript);
+
 const CUSTOM_GPTS = [
   { name: 'Instruction Architect', desc: 'Setting the gold standard for AI system instruction design.', url: 'https://chatgpt.com/g/g-676964c88b088191b70dcd4133ae2595-1-system-instruction-architect', category: 'Expert GPT', tags: ['System Prompts', 'Logic'] },
   { name: '(PRD) Builder', desc: 'Generates PRDs, instructions, and custom resources.', url: 'https://chatgpt.com/g/g-67a465d99950819186563b257bac0d88-prd-product-requirements-document-builder', category: 'Expert GPT', tags: ['PRD', 'Planning'] },
@@ -215,32 +220,76 @@ function matchGpts(intent) {
 }
 
 // ========================================
-// AZURE NATIVE AUTH SYSTEM
+// AZURE NATIVE AUTH + SUPABASE
 // ========================================
 
 let currentUser = null;
+let supabaseReady = false;
 
 async function initAuth() {
+  // Wait for Supabase client
+  await new Promise(resolve => {
+    const check = setInterval(() => {
+      if (window.db) { clearInterval(check); resolve(); }
+    }, 100);
+    setTimeout(() => { clearInterval(check); resolve(); }, 2000);
+  });
+  supabaseReady = true;
+
   try {
     const response = await fetch('/.auth/me');
     const payload = await response.json();
     const cp = payload.clientPrincipal;
 
     if (cp) {
-      currentUser = {
-        id: cp.userId,
-        name: cp.userDetails,
-        email: cp.userDetails,
-        avatar: '🧑‍💻',
-        bio: '',
-        vibeType: 'Explorer',
-        tools: [],
-        projects: [],
-        joinDate: new Date().toLocaleDateString()
-      };
+      // Try to get profile from Supabase
+      let profile = null;
+      if (window.db) {
+        profile = await window.db.getProfile(cp.userId);
+      }
 
-      const savedProfile = JSON.parse(localStorage.getItem('vc_profile_' + cp.userId) || '{}');
-      Object.assign(currentUser, savedProfile);
+      if (profile) {
+        currentUser = {
+          id: cp.userId,
+          name: profile.name || cp.userDetails,
+          email: profile.email || cp.userDetails,
+          avatar: profile.avatar || '🧑‍💻',
+          bio: profile.bio || '',
+          vibeType: profile.vibe_type || 'Explorer',
+          tools: profile.tools ? JSON.parse(profile.tools) : [],
+          projects: [],
+          joinDate: new Date(profile.created_at).toLocaleDateString()
+        };
+
+        if (window.db) {
+          const projects = await window.db.getProjects(cp.userId);
+          currentUser.projects = projects || [];
+        }
+      } else {
+        // New user - create profile in Supabase
+        currentUser = {
+          id: cp.userId,
+          name: cp.userDetails,
+          email: cp.userDetails,
+          avatar: '🧑‍💻',
+          bio: '',
+          vibeType: 'Explorer',
+          tools: [],
+          projects: [],
+          joinDate: new Date().toLocaleDateString()
+        };
+
+        if (window.db) {
+          await window.db.createProfile({
+            user_id: cp.userId,
+            email: cp.userDetails,
+            name: cp.userDetails,
+            avatar: '🧑‍💻',
+            vibe_type: 'Explorer',
+            tools: '[]'
+          });
+        }
+      }
     }
   } catch (err) {
     console.error('Auth error:', err);
@@ -255,35 +304,56 @@ function logoutUser() {
   window.location.href = '/.auth/logout?post_logout_redirect_uri=/index.html';
 }
 
-function updateUser(updates) {
+async function updateUser(updates) {
   if (!currentUser) return;
   Object.assign(currentUser, updates);
-  localStorage.setItem('vc_profile_' + currentUser.id, JSON.stringify(currentUser));
+
+  if (window.db && supabaseReady) {
+    await window.db.updateProfile(currentUser.id, {
+      name: currentUser.name,
+      avatar: currentUser.avatar,
+      bio: currentUser.bio,
+      vibe_type: currentUser.vibeType,
+      tools: JSON.stringify(currentUser.tools || [])
+    });
+  }
 }
 
 function getUserById(id) {
   return id === currentUser?.id ? currentUser : null;
 }
 
-function addProject(project) {
+async function addProject(project) {
   const user = getCurrentUser();
   if (!user) return;
-  const users = getUsers();
-  const idx = users.findIndex(u => u.id === user.id);
+
   project.id = 'p_' + Date.now().toString(36);
   project.date = new Date().toLocaleDateString();
-  users[idx].projects = users[idx].projects || [];
-  users[idx].projects.unshift(project);
-  saveUsers(users);
+
+  user.projects = user.projects || [];
+  user.projects.unshift(project);
+
+  if (window.db && supabaseReady) {
+    await window.db.createProject({
+      user_id: user.id,
+      title: project.title,
+      url: project.url,
+      lab_type: project.lab,
+      tool_used: project.tool,
+      description: project.desc
+    });
+  }
 }
 
-function deleteProject(projectId) {
+async function deleteProject(projectId) {
   const user = getCurrentUser();
   if (!user) return;
-  const users = getUsers();
-  const idx = users.findIndex(u => u.id === user.id);
-  users[idx].projects = (users[idx].projects || []).filter(p => p.id !== projectId);
-  saveUsers(users);
+
+  user.projects = (user.projects || []).filter(p => p.id !== projectId);
+
+  if (window.db && supabaseReady) {
+    await window.db.deleteProject(projectId);
+  }
 }
 
 // ---- Auth Nav Update ----
@@ -307,12 +377,23 @@ function updateAuthNav() {
 // SHOWCASE
 // ========================================
 
-function renderShowcase(filter = 'all') {
+async function renderShowcase(filter = 'all') {
   const grid = document.getElementById('showcase-grid');
   if (!grid) return;
 
-  const items = JSON.parse(localStorage.getItem('showcase') || '[]');
-  const filtered = filter === 'all' ? items : items.filter(i => i.lab === filter);
+  let items = [];
+  if (window.db && supabaseReady) {
+    try {
+      const result = await window.db.getShowcase();
+      items = result.filter(i => i.approved !== false);
+    } catch (err) {
+      items = JSON.parse(localStorage.getItem('showcase') || '[]');
+    }
+  } else {
+    items = JSON.parse(localStorage.getItem('showcase') || '[]');
+  }
+
+  const filtered = filter === 'all' ? items : items.filter(i => i.lab_type === filter || i.lab === filter);
 
   if (filtered.length === 0) {
     grid.innerHTML = `
@@ -329,12 +410,12 @@ function renderShowcase(filter = 'all') {
 
   grid.innerHTML = filtered.map(item => `
     <div class="showcase-card fade-in visible">
-      <div class="card-image">${icons[item.lab] || '🌐'}</div>
+      <div class="card-image">${icons[item.lab_type] || icons[item.lab] || '🌐'}</div>
       <div class="card-body">
         <h3>${escapeHTML(item.title)}</h3>
-        <p class="meta">${escapeHTML(item.name)} · ${escapeHTML(labels[item.lab] || item.lab)} · ${escapeHTML(item.tool)}</p>
+        <p class="meta">${escapeHTML(item.name)} · ${escapeHTML(labels[item.lab_type] || labels[item.lab] || item.lab_type)} · ${escapeHTML(item.tool_used || item.tool)}</p>
         <div class="card-footer">
-          <span class="tag">${escapeHTML(item.tool)}</span>
+          <span class="tag">${escapeHTML(item.tool_used || item.tool)}</span>
           <a href="${escapeHTML(item.url)}" target="_blank" rel="noopener" class="btn btn-secondary" style="padding:0.4rem 1rem;font-size:0.8rem;">View Project →</a>
         </div>
       </div>

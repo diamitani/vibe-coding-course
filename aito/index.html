@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Portfolios | Vibe Coding Masterclass</title>
+    <meta name="description" content="Browse AI-generated student portfolios from the Vibe Coding Masterclass.">
+    <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <nav class="nav">
+        <div class="nav-inner"><a href="../index.html" class="nav-logo">⚡ Vibe Coding</a><button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+            <ul class="nav-links">
+                <li><a href="../index.html">Home</a></li>
+                <li><a href="../module1.html">Modules</a></li>
+                <li><a href="../tools.html">Tools</a></li>
+                <li><a href="../news.html">News</a></li>
+                <li><a href="../lab1.html">Labs</a></li>
+                <li><a href="../prompt-lab.html">Prompt Lab</a></li>
+                <li><a href="../community.html">Community</a></li>
+                <li><a href="index.html" class="active">Portfolio</a></li>
+                <li id="auth-nav-slot"></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div class="container">
+            <section class="hero" style="padding-bottom: var(--space-xl);">
+                <h1>Student <span class="gradient-text">Portfolios</span></h1>
+                <p>Explore portfolios created by vibe coding students. Browse projects and see what's possible with AI-powered development.</p>
+            </section>
+
+            <div class="showcase-filters">
+                <button class="filter-btn active" data-filter="all">All Portfolios</button>
+                <button class="filter-btn" data-filter="marketing">🎨 Marketing</button>
+                <button class="filter-btn" data-filter="ecommerce">🛒 E-Commerce</button>
+                <button class="filter-btn" data-filter="marketplace">🏪 Marketplace</button>
+            </div>
+
+            <div class="showcase-grid" id="portfolio-grid"></div>
+
+            <section class="section">
+                <div class="section-header">
+                    <span class="section-label">Showcase Your Work</span>
+                    <h2 class="section-title">Submit Your Portfolio</h2>
+                    <p class="section-desc">Completed the labs? Add your projects to the gallery.</p>
+                </div>
+                <div style="text-align:center;">
+                    <a href="../dashboard.html" class="btn btn-primary">Go to Dashboard →</a>
+                    <a href="../showcase.html" class="btn btn-secondary" style="margin-left:var(--space-sm);">View Full Gallery</a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>⚡ Vibe Coding Masterclass &copy; 2025</p>
+        </div>
+    </footer>
+    <script src="../supabase-client.js"></script>
+    <script src="../script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPortfolioGallery();
+            
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    renderPortfolioGallery(btn.dataset.filter);
+                });
+            });
+        });
+
+        async function renderPortfolioGallery(filter = 'all') {
+            const grid = document.getElementById('portfolio-grid');
+            
+            let items = [];
+            if (window.db) {
+                try {
+                    const result = await window.db.getShowcase();
+                    items = result.filter(i => i.approved !== false);
+                } catch (err) {
+                    items = JSON.parse(localStorage.getItem('showcase') || '[]');
+                }
+            } else {
+                items = JSON.parse(localStorage.getItem('showcase') || '[]');
+            }
+
+            const filtered = filter === 'all' ? items : items.filter(i => i.lab_type === filter || i.lab === filter);
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 4rem 1rem; color: var(--text-muted);"><p style="font-size: 3rem; margin-bottom: 1rem;">🎨</p><p style="font-size: 1.125rem;">No portfolios yet</p></div>`;
+                return;
+            }
+
+            const icons = { marketing: '🎨', ecommerce: '🛒', marketplace: '🏪' };
+            const labels = { marketing: 'Marketing Site', ecommerce: 'E-Commerce', marketplace: 'Marketplace' };
+
+            grid.innerHTML = filtered.map(item => `
+                <div class="showcase-card fade-in visible">
+                    <div class="card-image">${icons[item.lab_type] || '🌐'}</div>
+                    <div class="card-body">
+                        <h3>${escapeHTML(item.title)}</h3>
+                        <p class="meta">${escapeHTML(item.name)} · ${escapeHTML(labels[item.lab_type] || item.lab_type)}</p>
+                        <div class="card-footer">
+                            <span class="tag">${escapeHTML(item.tool_used || item.tool)}</span>
+                            <a href="${escapeHTML(item.url)}" target="_blank" rel="noopener" class="btn btn-secondary" style="padding:0.4rem 1rem;font-size:0.8rem;">View →</a>
+                        </div>
+                    </div>
+                </div>`).join('');
+        }
+
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+    </script>
+</body>
+
+</html>

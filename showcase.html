@@ -19,7 +19,9 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="module1.html">Modules</a></li>
                 <li><a href="tools.html">Tools</a></li><li><a href="news.html">News</a></li><li><a href="lab1.html">Labs</a></li><li><a href="prompt-lab.html">Prompt Lab</a></li>
-                <li><a href="community.html">Community</a></li><li id="auth-nav-slot"></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="aito/index.html">Portfolio</a></li>
+                <li id="auth-nav-slot"></li>
             </ul>
         </div>
     </nav>
@@ -118,7 +120,47 @@
             <p>⚡ Vibe Coding Masterclass &copy; 2025</p>
         </div>
     </footer>
+    <script src="supabase-client.js"></script>
     <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const form = document.getElementById('showcase-form');
+            if (form) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    
+                    const user = getCurrentUser();
+                    const item = {
+                        name: document.getElementById('s-name').value,
+                        title: document.getElementById('s-title').value,
+                        url: document.getElementById('s-url').value,
+                        lab_type: document.getElementById('s-lab').value,
+                        tool_used: document.getElementById('s-tool').value,
+                        user_id: user?.id || null
+                    };
+
+                    if (window.db && supabaseReady) {
+                        try {
+                            await window.db.submitToShowcase(item);
+                            showToast('Project submitted! 🚀');
+                            form.reset();
+                            renderShowcase();
+                            return;
+                        } catch (err) {
+                            console.error('Supabase error:', err);
+                        }
+                    }
+
+                    const items = JSON.parse(localStorage.getItem('showcase') || '[]');
+                    items.unshift(item);
+                    localStorage.setItem('showcase', JSON.stringify(items));
+                    showToast('Project submitted! 🚀');
+                    form.reset();
+                    renderShowcase();
+                });
+            }
+        });
+    </script>
 </body>
 
 </html>
