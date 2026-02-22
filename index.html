@@ -24,10 +24,6 @@
         <li><a href="tools.html">Tools</a></li>
         <li><a href="news.html">News</a></li>
         <li><a href="lab1.html">Labs</a></li>
-        <li><a href="prompt-lab.html">Prompt Lab</a></li>
-        <li><a href="community.html">Community</a></li>
-        <li><a href="aito/index.html">Portfolio</a></li>
-        <li><a href="auth.html" class="btn btn-primary" style="padding:0.5rem 1rem;font-size:0.875rem;">Sign In</a></li>
       </ul>
     </div>
   </nav>
@@ -192,23 +188,44 @@
         </div>
       </section>
 
+      <!-- Email Subscribe -->
+      <section class="section fade-in" style="margin-top:var(--space-xl);">
+        <div class="signup-section">
+          <h2 style="font-size:1.75rem; margin-bottom:0.5rem; color:var(--text-primary);">Stay Updated</h2>
+          <p style="font-size:1rem; color:var(--text-secondary); margin-bottom:var(--space-lg);">Get notified about new modules and vibe coding tips.</p>
+          <form class="signup-inline" id="subscribe-form" onsubmit="handleSubscribe(event)">
+            <input type="email" class="form-input" placeholder="you@example.com" required>
+            <button type="submit" class="btn btn-primary">Subscribe →</button>
+          </form>
+          <p id="subscribe-msg" style="display:none;margin-top:1rem;color:var(--accent-emerald);">Thanks for subscribing! 🎉</p>
+        </div>
       </section>
     </div>
   </main>
 
   <footer class="footer">
     <div class="container">
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
-        <p>⚡ Vibe Coding Masterclass &copy; 2025</p>
-        <div style="display:flex;gap:1rem;align-items:center;">
-          <a href="auth.html" style="color:var(--text-secondary);">Sign In</a>
-          <a href="admin.html" style="color:var(--text-secondary);">Admin</a>
-        </div>
-      </div>
+      <p>⚡ LetsVibeAI &copy; 2025</p>
     </div>
   </footer>
 
   <script src="script.js"></script>
+  <script>
+    function handleSubscribe(e) {
+      e.preventDefault();
+      const email = e.target.querySelector('input').value;
+      
+      // Save to localStorage for now (could integrate with Supabase later)
+      const list = JSON.parse(localStorage.getItem('subscribers') || '[]');
+      if (!list.includes(email)) {
+        list.push(email);
+        localStorage.setItem('subscribers', JSON.stringify(list));
+      }
+      
+      e.target.reset();
+      document.getElementById('subscribe-msg').style.display = 'block';
+    }
+  </script>
 </body>
 
 </html>
