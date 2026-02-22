@@ -71,6 +71,7 @@
                 <aside class="dash-sidebar">
                     <ul class="dash-sidebar-nav">
                         <li><button class="active" onclick="showPanel('overview')">📊 Overview</button></li>
+                        <li><button onclick="showPanel('courses')">📚 Courses</button></li>
                         <li><button onclick="showPanel('profile')">👤 Profile</button></li>
                         <li><button onclick="showPanel('projects')">🚀 My Projects</button></li>
                         <li><button onclick="showPanel('workspace')">💼 Workspace</button></li>
@@ -104,6 +105,102 @@
                         <h3 style="margin-top:2rem;">Recent Activity</h3>
                         <div id="recent-activity">
                             <p style="color:var(--text-muted);">No activity yet. Start a lab!</p>
+                        </div>
+                    </div>
+
+                    <!-- Courses Panel -->
+                    <div id="panel-courses" class="dash-panel">
+                        <h2>📚 Full Course Curriculum</h2>
+                        <p style="color:var(--text-secondary);margin-bottom:2rem;">Master vibe coding from beginner to advanced.</p>
+                        
+                        <!-- Modules -->
+                        <h3>🎓 Modules</h3>
+                        <div class="cards-grid cards-grid-2">
+                            <a href="module1.html" class="card fade-in" style="text-decoration:none;">
+                                <div class="card-icon">🧠</div>
+                                <h3>Module 1 — What is AI</h3>
+                                <p>Understand the foundations: LLMs, generative AI, and why AI is transforming how we build software.</p>
+                                <span class="tag">Foundations</span>
+                            </a>
+                            <a href="module2.html" class="card fade-in" style="text-decoration:none;">
+                                <div class="card-icon">🎯</div>
+                                <h3>Module 2 — What is Vibe Coding</h3>
+                                <p>The new paradigm: prompt-driven development, real-world use cases, and the mindset shift.</p>
+                                <span class="tag cyan">Core Concept</span>
+                            </a>
+                            <a href="module3.html" class="card fade-in" style="text-decoration:none;">
+                                <div class="card-icon">🛠️</div>
+                                <h3>Module 3 — The Toolkit</h3>
+                                <p>Deep dive into Lovable, v0, Replit, Bolt, Claude Code, Codex, Antigravity, and more.</p>
+                                <span class="tag magenta">Tools</span>
+                            </a>
+                            <a href="module4.html" class="card fade-in" style="text-decoration:none;">
+                                <div class="card-icon">🔗</div>
+                                <h3>Module 4 — Prompt Chaining</h3>
+                                <p>Use one prompt to refine another. Turn vague ideas into precise instructions.</p>
+                                <span class="tag emerald">Technique</span>
+                            </a>
+                            <a href="module5.html" class="card fade-in" style="text-decoration:none;">
+                                <div class="card-icon">📋</div>
+                                <h3>Module 5 — Context Engineering</h3>
+                                <p>Upload files, create PRDs, design systems, and brand guidelines.</p>
+                                <span class="tag">Advanced</span>
+                            </a>
+                            <a href="module6.html" class="card fade-in" style="text-decoration:none;">
+                                <div class="card-icon">⚙️</div>
+                                <h3>Module 6 — Process Engineering</h3>
+                                <p>Observe workflows, identify improvements, and build AI-augmented processes.</p>
+                                <span class="tag cyan">Pro</span>
+                            </a>
+                        </div>
+
+                        <!-- Labs -->
+                        <h3 style="margin-top:2rem;">🧪 Hands-On Labs</h3>
+                        <div class="cards-grid cards-grid-3">
+                            <a href="lab1.html" class="card fade-in" style="text-decoration:none;">
+                                <div class="card-icon">🎨</div>
+                                <h3>Lab 1</h3>
+                                <p>Marketing Website</p>
+                                <span class="tag emerald">Start</span>
+                            </a>
+                            <a href="lab2.html" class="card fade-in" style="text-decoration:none;">
+                                <div class="card-icon">🛒</div>
+                                <h3>Lab 2</h3>
+                                <p>E-Commerce Store</p>
+                                <span class="tag emerald">Start</span>
+                            </a>
+                            <a href="lab3.html" class="card fade-in" style="text-decoration:none;">
+                                <div class="card-icon">🏪</div>
+                                <h3>Lab 3</h3>
+                                <p>Directory / Marketplace</p>
+                                <span class="tag emerald">Start</span>
+                            </a>
+                        </div>
+
+                        <!-- The 3 Pillars -->
+                        <h3 style="margin-top:2rem;">🏆 The Three Pillars of Vibe Coding</h3>
+                        <div class="cards-grid cards-grid-3">
+                            <div class="card fade-in">
+                                <div class="card-icon">🔗</div>
+                                <h3>Prompt Chaining</h3>
+                                <p>Use AI to refine prompts before sending to builder tools.</p>
+                                <span class="tag">Refine</span>
+                                <span class="tag cyan">Specify</span>
+                            </div>
+                            <div class="card fade-in">
+                                <div class="card-icon">📋</div>
+                                <h3>Context Engineering</h3>
+                                <p>Give AI everything it needs: files, PRDs, brand guidelines.</p>
+                                <span class="tag">PRDs</span>
+                                <span class="tag cyan">Design</span>
+                            </div>
+                            <div class="card fade-in">
+                                <div class="card-icon">⚙️</div>
+                                <h3>Process Engineering</h3>
+                                <p>Watch workflows, identify bottlenecks, create AI improvements.</p>
+                                <span class="tag emerald">Observe</span>
+                                <span class="tag">Analyze</span>
+                            </div>
                         </div>
                     </div>
 
@@ -157,10 +254,45 @@
 
                     <!-- Workspace Panel -->
                     <div id="panel-workspace" class="dash-panel">
-                        <h2>💼 Workspace</h2>
-                        <p style="color:var(--text-secondary);margin-bottom:2rem;">Your personal vibe coding workspace with labs and resources.</p>
+                        <h2>💼 My Workspace</h2>
+                        <p style="color:var(--text-secondary);margin-bottom:2rem;">Your complete vibe coding environment.</p>
                         
-                        <h3>Start a Lab</h3>
+                        <!-- Full Course Modules -->
+                        <h3>📚 Course Modules</h3>
+                        <div class="cards-grid cards-grid-2">
+                            <a href="module1.html" class="card fade-in" style="text-decoration:none;">
+                                <div class="card-icon">🧠</div>
+                                <h3>Module 1 — What is AI</h3>
+                                <p>Foundations of LLMs and generative AI.</p>
+                            </a>
+                            <a href="module2.html" class="card fade-in" style="text-decoration:none;">
+                                <div class="card-icon">🎯</div>
+                                <h3>Module 2 — What is Vibe Coding</h3>
+                                <p>The new paradigm of AI-driven development.</p>
+                            </a>
+                            <a href="module3.html" class="card fade-in" style="text-decoration:none;">
+                                <div class="card-icon">🛠️</div>
+                                <h3>Module 3 — The Toolkit</h3>
+                                <p>Deep dive into Lovable, v0, Bolt, Claude Code & more.</p>
+                            </a>
+                            <a href="module4.html" class="card fade-in" style="text-decoration:none;">
+                                <div class="card-icon">🔗</div>
+                                <h3>Module 4 — Prompt Chaining</h3>
+                                <p>Master prompt refinement techniques.</p>
+                            </a>
+                            <a href="module5.html" class="card fade-in" style="text-decoration:none;">
+                                <div class="card-icon">📋</div>
+                                <h3>Module 5 — Context Engineering</h3>
+                                <p>Upload files, create PRDs, design systems.</p>
+                            </a>
+                            <a href="module6.html" class="card fade-in" style="text-decoration:none;">
+                                <div class="card-icon">⚙️</div>
+                                <h3>Module 6 — Process Engineering</h3>
+                                <p>Build AI-augmented workflows.</p>
+                            </a>
+                        </div>
+
+                        <h3 style="margin-top:2rem;">🧪 Hands-On Labs</h3>
                         <div class="cards-grid cards-grid-2">
                             <a href="lab1.html" class="card fade-in" style="text-decoration:none;">
                                 <div class="card-icon">🎨</div>
@@ -188,11 +320,31 @@
                             </a>
                         </div>
 
-                        <h3 style="margin-top:2rem;">Quick Actions</h3>
+                        <h3 style="margin-top:2rem;">🔧 Tools & Resources</h3>
+                        <div class="cards-grid cards-grid-3">
+                            <a href="tools.html" class="card fade-in" style="text-decoration:none;">
+                                <div class="card-icon">🛠️</div>
+                                <h3>Tools Guide</h3>
+                                <p>All vibe coding tools compared.</p>
+                            </a>
+                            <a href="news.html" class="card fade-in" style="text-decoration:none;">
+                                <div class="card-icon">📰</div>
+                                <h3>AI News</h3>
+                                <p>Latest in AI & vibe coding.</p>
+                            </a>
+                            <a href="community.html" class="card fade-in" style="text-decoration:none;">
+                                <div class="card-icon">👥</div>
+                                <h3>Community</h3>
+                                <p>Connect with other vibe coders.</p>
+                            </a>
+                        </div>
+
+                        <h3 style="margin-top:2rem;">📁 Quick Actions</h3>
                         <div style="display:flex;gap:1rem;flex-wrap:wrap;">
                             <button class="btn btn-secondary" onclick="showPanel('add-project')">➕ Add Project</button>
                             <button class="btn btn-secondary" onclick="window.open('https://github.com', '_blank')">📂 GitHub</button>
                             <button class="btn btn-secondary" onclick="window.open('https://vercel.com', '_blank')">🚀 Vercel</button>
+                            <button class="btn btn-secondary" onclick="window.open('https://lovable.dev', '_blank')">💜 Lovable</button>
                         </div>
                     </div>
 
