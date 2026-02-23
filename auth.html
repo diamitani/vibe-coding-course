@@ -252,8 +252,25 @@
             }
         }
 
-        // Check if already signed in
+        // Initialize Supabase and check auth status
         document.addEventListener('DOMContentLoaded', async () => {
+            console.log('Auth page loaded, initializing Supabase...');
+            
+            // Wait for Supabase to be ready
+            let retries = 0;
+            while (!window.auth && retries < 30) {
+                await new Promise(r => setTimeout(r, 100));
+                retries++;
+            }
+            
+            if (!window.auth) {
+                showError('Failed to load authentication system. Please refresh the page.');
+                console.error('window.auth not available after waiting');
+                return;
+            }
+            
+            console.log('Auth system ready');
+            
             if (window.auth.isSignedIn()) {
                 window.location.href = 'dashboard.html';
             }

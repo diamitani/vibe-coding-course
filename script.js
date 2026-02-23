@@ -2,14 +2,11 @@
    VIBE CODING MASTERCLASS — Shared JS
    ======================================== */
 
-// Load Supabase SDK and client
-const supabaseSdkScript = document.createElement('script');
-supabaseSdkScript.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
-document.head.appendChild(supabaseSdkScript);
-
-const supabaseClientScript = document.createElement('script');
-supabaseClientScript.src = 'supabase-client.js';
-document.head.appendChild(supabaseClientScript);
+// Note: Supabase SDK and client should be loaded via <script> tags in HTML
+// before this script runs:
+// <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+// <script src="supabase-client.js"></script>
+// <script src="script.js"></script>
 
 const CUSTOM_GPTS = [
   { name: 'Instruction Architect', desc: 'Setting the gold standard for AI system instruction design.', url: 'https://chatgpt.com/g/g-676964c88b088191b70dcd4133ae2595-1-system-instruction-architect', category: 'Expert GPT', tags: ['System Prompts', 'Logic'] },
