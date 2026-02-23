@@ -300,6 +300,52 @@ window.db = {
     return result;
   },
 
+  // Newsletter Subscribers
+  subscribeNewsletter: async function(email, firstName = null) {
+    const client = await this.ensureClient();
+    if (!client) {
+      console.warn('Supabase not available, newsletter subscriber not saved to cloud');
+      return { error: { message: 'Supabase not loaded' } };
+    }
+    
+    try {
+      // Insert subscriber - this triggers the welcome email via database webhook
+      const result = await client
+        .from('newsletter_subscribers')
+        .insert({ 
+          email, 
+          first_name: firstName,
+          source: 'website'
+        });
+      
+      if (result.error) {
+        // If duplicate email, still return success (already subscribed)
+        if (result.error.code === '23505') {
+          return { data: { alreadySubscribed: true }, error: null };
+        }
+        console.error('subscribeNewsletter error:', result.error);
+        return { error: result.error };
+      }
+      
+      return { data: result.data, error: null };
+    } catch (err) {
+      console.error('subscribeNewsletter exception:', err);
+      return { error: err };
+    }
+  },
+
+  getNewsletterSubscribers: async function() {
+    const client = await this.ensureClient();
+    if (!client) return [];
+    const { data, error } = await client
+      .from('newsletter_subscribers')
+      .select('*')
+      .eq('unsubscribed', false)
+      .order('subscribed_at', { ascending: false });
+    if (error) console.error('getNewsletterSubscribers error:', error);
+    return data || [];
+  },
+
   // Course Progress
   getProgress: async function(userId) {
     const client = await this.ensureClient();
