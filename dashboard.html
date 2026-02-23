@@ -99,7 +99,28 @@
                             </a>
                         </div>
 
-                        <h3 style="margin-top:2rem;">Recent Activity</h3>
+                        <h3 style="margin-top:2rem;">Course Progress</h3>
+                        <div style="background: var(--bg-card); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-subtle); margin-bottom: 2rem;">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <span style="font-weight: 600;">Overall Completion</span>
+                                <span id="progress-percent" style="font-size: 1.5rem; font-weight: bold; color: var(--accent-emerald);">0%</span>
+                            </div>
+                            <div style="background: var(--bg-secondary); height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem;">
+                                <div id="progress-bar" style="background: linear-gradient(90deg, var(--accent-emerald), var(--accent-primary)); height: 100%; width: 0%; transition: width 0.5s ease;"></div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.875rem;">
+                                <div>
+                                    <span style="color: var(--text-muted);">Modules:</span>
+                                    <span id="modules-completed" style="font-weight: 600; margin-left: 0.5rem;">0/6</span>
+                                </div>
+                                <div>
+                                    <span style="color: var(--text-muted);">Labs:</span>
+                                    <span id="labs-completed" style="font-weight: 600; margin-left: 0.5rem;">0/3</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h3>Recent Activity</h3>
                         <div id="recent-activity">
                             <p style="color:var(--text-muted);">No activity yet. Start a lab!</p>
                         </div>
@@ -328,6 +349,7 @@
         </div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="supabase-client.js"></script>
     <script src="script.js"></script>
     <script>
@@ -402,6 +424,48 @@
             currentUser.name = document.getElementById('p-name').value;
             currentUser.tools = tools;
             showToast('Profile saved! ✨');
+        }
+
+        async function loadProgress() {
+            if (!currentUser) return;
+            
+            try {
+                const progress = await window.db.getProgress(currentUser.id);
+                const modules = ['module1', 'module2', 'module3', 'module4', 'module5', 'module6'];
+                const labs = ['lab1', 'lab2', 'lab3'];
+                
+                const completedModules = progress.filter(p => p.item_type === 'module').map(p => p.item_id);
+                const completedLabs = progress.filter(p => p.item_type === 'lab').map(p => p.item_id);
+                
+                const modulesCount = completedModules.length;
+                const labsCount = completedLabs.length;
+                const totalItems = modules.length + labs.length;
+                const completedItems = modulesCount + labsCount;
+                const percent = Math.round((completedItems / totalItems) * 100);
+                
+                // Update UI
+                document.getElementById('progress-percent').textContent = percent + '%';
+                document.getElementById('progress-bar').style.width = percent + '%';
+                document.getElementById('modules-completed').textContent = `${modulesCount}/${modules.length}`;
+                document.getElementById('labs-completed').textContent = `${labsCount}/${labs.length}`;
+                
+                // Update recent activity
+                const activityDiv = document.getElementById('recent-activity');
+                if (progress.length > 0) {
+                    const sorted = progress.sort((a, b) => new Date(b.completed_at) - new Date(a.completed_at)).slice(0, 5);
+                    activityDiv.innerHTML = sorted.map(p => {
+                        const type = p.item_type === 'module' ? '📚 Module' : '🧪 Lab';
+                        const name = p.item_id.replace(/(module|lab)(\d+)/, (m, t, n) => {
+                            if (t === 'module') return `Module ${n}`;
+                            return `Lab ${n}`;
+                        });
+                        const date = new Date(p.completed_at).toLocaleDateString();
+                        return `<div style="padding: 0.75rem 0; border-bottom: 1px solid var(--border-subtle);">${type} ${name} completed on ${date}</div>`;
+                    }).join('');
+                }
+            } catch (err) {
+                console.error('Error loading progress:', err);
+            }
         }
 
         async function renderMyProjects() {
@@ -485,8 +549,16 @@
         }
 
         document.addEventListener('DOMContentLoaded', async () => {
-            await window.authPromise;
-
+            // Wait for auth system to be ready
+            let retries = 0;
+            while ((!window.auth || !window.db) && retries < 50) {
+                await new Promise(r => setTimeout(r, 100));
+                retries++;
+            }
+            
+            // Initialize auth
+            await initAuth();
+            
             currentUser = getCurrentUser();
             if (!currentUser) { window.location.href = 'auth.html'; return; }
 
@@ -519,6 +591,7 @@
             });
 
             renderMyProjects();
+            loadProgress();
         });
     </script>
 </body>
