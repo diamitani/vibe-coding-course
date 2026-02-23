@@ -1,0 +1,282 @@
+{
+  "categories": [
+    {
+      "id": "getting-started",
+      "name": "Getting Started with Vibe Coding",
+      "description": "Learn the fundamentals of vibe coding and AI-powered development",
+      "videos": [
+        {
+          "id": "nate-herk-1",
+          "title": "How to Vibe Code: Complete Beginner's Guide",
+          "creator": "Nate Herk",
+          "youtubeId": "dQw4w9WgXcQ",
+          "duration": "18:45",
+          "description": "Learn the basics of vibe coding with Cursor AI and Claude",
+          "tags": ["cursor", "beginner", "fundamentals"]
+        },
+        {
+          "id": "nick-saraev-1",
+          "title": "Building Your First App with AI (No Coding Required)",
+          "creator": "Nick Saraev",
+          "youtubeId": "dQw4w9WgXcQ",
+          "duration": "24:30",
+          "description": "Step-by-step guide to building web apps using AI tools",
+          "tags": ["beginner", "web-apps", "tutorial"]
+        },
+        {
+          "id": "liam-ottley-1",
+          "title": "AI Agency Vibe Coding Masterclass",
+          "creator": "Liam Ottley",
+          "youtubeId": "dQw4w9WgXcQ",
+          "duration": "32:15",
+          "description": "How to build client projects 10x faster with vibe coding",
+          "tags": ["agency", "freelancing", "advanced"]
+        }
+      ]
+    },
+    {
+      "id": "cursor-tutorials",
+      "name": "Cursor AI Tutorials",
+      "description": "Master the Cursor AI code editor for maximum productivity",
+      "videos": [
+        {
+          "id": "cursor-1",
+          "title": "Cursor AI: The Complete Guide (2025)",
+          "creator": "Cursor Official",
+          "youtubeId": "dQw4w9WgXcQ",
+          "duration": "28:00",
+          "description": "Everything you need to know about Cursor's AI features",
+          "tags": ["cursor", "setup", "features"]
+        },
+        {
+          "id": "cursor-2",
+          "title": "Cursor Composer: Build Full Apps from Prompts",
+          "creator": "Nate Herk",
+          "youtubeId": "dQw4w9WgXcQ",
+          "duration": "22:10",
+          "description": "Using Cursor's Composer feature for rapid development",
+          "tags": ["cursor", "composer", "advanced"]
+        },
+        {
+          "id": "cursor-3",
+          "title": "10 Cursor Tips to Code 10x Faster",
+          "creator": "Fireship",
+          "youtubeId": "dQw4w9WgXcQ",
+          "duration": "8:30",
+          "description": "Quick tips and tricks for maximizing Cursor productivity",
+          "tags": ["cursor", "tips", "productivity"]
+        },
+        {
+          "id": "cursor-4",
+          "title": "Cursor + Claude 3.7: The Ultimate Stack",
+          "creator": "Nick Saraev",
+          "youtubeId": "dQw4w9WgXcQ",
+          "duration": "19:45",
+          "description": "Combining Cursor with Claude for best results",
+          "tags": ["cursor", "claude", "integration"]
+        }
+      ]
+    },
+    {
+      "id": "claude-code",
+      "name": "Claude Code & Anthropic",
+      "description": "Learn to use Claude Code for terminal-based AI development",
+      "videos": [
+        {
+          "id": "claude-1",
+          "title": "Claude Code: AI in Your Terminal",
+          "creator": "Anthropic",
+          "youtubeId": "dQw4w9WgXcQ",
+          "duration": "15:20",
+          "description": "Official introduction to Claude Code CLI tool",
+          "tags": ["claude", "cli", "terminal"]
+        },
+        {
+          "id": "claude-2",
+          "title": "Building Production Apps with Claude Code",
+          "creator": "Nate Herk",
+          "youtubeId": "dQw4w9WgXcQ",
+          "duration": "35:00",
+          "description": "Real-world examples of building apps with Claude Code",
+          "tags": ["claude", "production", "advanced"]
+        },
+        {
+          "id": "claude-3",
+          "title": "Claude 3.7 Sonnet Deep Dive",
+          "creator": "AI Explained",
+          "youtubeId": "dQw4w9WgXcQ",
+          "duration": "21:15",
+          "description": "Understanding Claude 3.7's coding capabilities",
+          "tags": ["claude", "sonnet", "review"]
+        }
+      ]
+    },
+    {
+      "id": "other-tools",
+      "name": "Other AI Coding Tools",
+      "description": "Explore Opencode, OpenClaw, Antigravity, and more",
+      "videos": [
+        {
+          "id": "opencode-1",
+          "title": "Opencode: The New AI Coding Assistant",
+          "creator": "Opencode Team",
+          "youtubeId": "dQw4w9WgXcQ",
+          "duration": "12:00",
+          "description": "Introduction to Opencode for AI-powered development",
+          "tags": ["opencode", "overview", "beginner"]
+        },
+        {
+          "id": "openclaw-1",
+          "title": "OpenClaw Workflow Automation",
+          "creator": "OpenClaw",
+          "youtubeId": "dQw4w9WgXcQ",
+          "duration": "16:30",
+          "description": "Building automated workflows with OpenClaw",
+          "tags": ["openclaw", "automation", "n8n"]
+        },
+        {
+          "id": "antigravity-1",
+          "title": "Antigravity: AI for Complex Systems",
+          "creator": "Antigravity",
+          "youtubeId": "dQw4w9WgXcQ",
+          "duration": "20:00",
+          "description": "Using Antigravity for enterprise-grade AI development",
+          "tags": ["antigravity", "enterprise", "advanced"]
+        },
+        {
+          "id": "windsurf-1",
+          "title": "Windsurf Editor: Cursor Alternative",
+          "creator": "Codeium",
+          "youtubeId": "dQw4w9WgXcQ",
+          "duration": "14:45",
+          "description": "Exploring the Windsurf AI-powered code editor",
+          "tags": ["windsurf", "codeium", "editor"]
+        }
+      ]
+    },
+    {
+      "id": "project-tutorials",
+      "name": "Build Real Projects",
+      "description": "Follow along with hands-on project tutorials",
+      "videos": [
+        {
+          "id": "project-1",
+          "title": "Build a SaaS App in 1 Hour with AI",
+          "creator": "Nate Herk",
+          "youtubeId": "dQw4w9WgXcQ",
+          "duration": "58:00",
+          "description": "Complete walkthrough of building a SaaS application",
+          "tags": ["saas", "project", "full-stack"]
+        },
+        {
+          "id": "project-2",
+          "title": "AI Chatbot with Next.js and Claude",
+          "creator": "Nick Saraev",
+          "youtubeId": "dQw4w9WgXcQ",
+          "duration": "42:30",
+          "description": "Building a production-ready AI chatbot application",
+          "tags": ["nextjs", "chatbot", "project"]
+        },
+        {
+          "id": "project-3",
+          "title": "E-commerce Site with AI-Generated Code",
+          "creator": "Liam Ottley",
+          "youtubeId": "dQw4w9WgXcQ",
+          "duration": "38:00",
+          "description": "Creating a full e-commerce platform using vibe coding",
+          "tags": ["ecommerce", "shopify", "project"]
+        },
+        {
+          "id": "project-4",
+          "title": "Portfolio Website in 30 Minutes",
+          "creator": "Fireship",
+          "youtubeId": "dQw4w9WgXcQ",
+          "duration": "28:30",
+          "description": "Quick portfolio site using AI tools",
+          "tags": ["portfolio", "beginner", "quick"]
+        }
+      ]
+    },
+    {
+      "id": "advanced",
+      "name": "Advanced Techniques",
+      "description": "Take your vibe coding skills to the next level",
+      "videos": [
+        {
+          "id": "advanced-1",
+          "title": "Prompt Engineering for Code Generation",
+          "creator": "Nate Herk",
+          "youtubeId": "dQw4w9WgXcQ",
+          "duration": "25:00",
+          "description": "Master the art of prompting for better code output",
+          "tags": ["prompt-engineering", "advanced", "tips"]
+        },
+        {
+          "id": "advanced-2",
+          "title": "Debugging AI-Generated Code",
+          "creator": "Nick Saraev",
+          "youtubeId": "dQw4w9WgXcQ",
+          "duration": "18:45",
+          "description": "Strategies for fixing errors in AI-written code",
+          "tags": ["debugging", "troubleshooting", "advanced"]
+        },
+        {
+          "id": "advanced-3",
+          "title": "Database Design with AI Assistance",
+          "creator": "Liam Ottley",
+          "youtubeId": "dQw4w9WgXcQ",
+          "duration": "33:20",
+          "description": "Designing scalable databases using AI tools",
+          "tags": ["database", "architecture", "advanced"]
+        },
+        {
+          "id": "advanced-4",
+          "title": "API Integration and Backend Development",
+          "creator": "Nate Herk",
+          "youtubeId": "dQw4w9WgXcQ",
+          "duration": "29:15",
+          "description": "Building robust backends with AI assistance",
+          "tags": ["api", "backend", "integration"]
+        }
+      ]
+    }
+  ],
+  "creators": [
+    {
+      "name": "Nate Herk",
+      "channel": "https://youtube.com/@nateherk",
+      "description": "AI coding and vibe coding tutorials",
+      "videoCount": 4
+    },
+    {
+      "name": "Nick Saraev",
+      "channel": "https://youtube.com/@nicksaraev",
+      "description": "AI automation and development tutorials",
+      "videoCount": 4
+    },
+    {
+      "name": "Liam Ottley",
+      "channel": "https://youtube.com/@liamottley",
+      "description": "AI agency and business tutorials",
+      "videoCount": 3
+    },
+    {
+      "name": "Fireship",
+      "channel": "https://youtube.com/@fireship",
+      "description": "Quick coding tutorials and tech news",
+      "videoCount": 2
+    },
+    {
+      "name": "Anthropic",
+      "channel": "https://youtube.com/@anthropic",
+      "description": "Official Claude and AI safety content",
+      "videoCount": 1
+    },
+    {
+      "name": "Cursor",
+      "channel": "https://youtube.com/@cursor",
+      "description": "Official Cursor AI editor tutorials",
+      "videoCount": 1
+    }
+  ]
+}
