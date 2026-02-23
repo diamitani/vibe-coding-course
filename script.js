@@ -2,11 +2,13 @@
    VIBE CODING MASTERCLASS — Shared JS
    ======================================== */
 
-// Note: Supabase SDK and client should be loaded via <script> tags in HTML
-// before this script runs:
-// <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-// <script src="supabase-client.js"></script>
-// <script src="script.js"></script>
+// Wait for Supabase SDK + client helpers, then initialize auth
+window._supabaseReady = new Promise(resolve => {
+  const check = setInterval(() => {
+    if (window.auth && window.db) { clearInterval(check); resolve(); }
+  }, 50);
+  setTimeout(() => { clearInterval(check); resolve(); }, 5000);
+});
 
 const CUSTOM_GPTS = [
   { name: 'Instruction Architect', desc: 'Setting the gold standard for AI system instruction design.', url: 'https://chatgpt.com/g/g-676964c88b088191b70dcd4133ae2595-1-system-instruction-architect', category: 'Expert GPT', tags: ['System Prompts', 'Logic'] },
@@ -24,10 +26,25 @@ const CUSTOM_GPTS = [
   { name: 'Full Stack Copilot', desc: 'Scaffolds components using React, Tailwind, and full-stack logic.', url: 'https://chatgpt.com/g/g-681003e70b4081919f5c7accc1096e21-custom-gpt-guide', category: 'Expert GPT', tags: ['React', 'Fullstack'] },
   { name: 'GPT Creator Pro', desc: 'Advanced GPT architect specializing in prompt optimization.', url: 'https://chatgpt.com/g/g-s9YtL560v-gpt-creator-pro', category: 'Expert GPT', tags: ['Optimizer', 'Advanced'] }
 ];
+window.authPromise = window._supabaseReady.then(() => initAuth());
 
-document.addEventListener('DOMContentLoaded', async () => {
-  // ---- Initialize Supabase Auth ----
-  await initAuth();
+const CANONICAL_NAV_ITEMS = [
+  { href: 'index.html', label: 'Home' },
+  { href: 'module1.html', label: 'Modules' },
+  { href: 'tools.html', label: 'Tools' },
+  { href: 'lab1.html', label: 'Labs' },
+];
+
+document.addEventListener('DOMContentLoaded', () => {
+  normalizeNavLinks();
+  updateAuthNav();
+
+  window.authPromise.then(() => {
+    updateAuthNav();
+  }).catch(() => {
+    updateAuthNav();
+  });
+
   // ---- Mobile Nav Toggle ----
   const toggle = document.querySelector('.nav-toggle');
   const links = document.querySelector('.nav-links');
@@ -50,7 +67,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   // ---- Active Nav Link ----
   const currentPage = location.pathname.split('/').pop() || 'index.html';
   document.querySelectorAll('.nav-links a').forEach(a => {
-    if (a.getAttribute('href') === currentPage) a.classList.add('active');
+    const hrefPage = (a.getAttribute('href') || '').split('/').pop();
+    if (hrefPage === currentPage) a.classList.add('active');
   });
 
   // ---- Sidebar Scroll Spy ----
@@ -75,30 +93,39 @@ document.addEventListener('DOMContentLoaded', async () => {
     spy();
   }
 
-  // ---- Update auth UI across all pages ----
-  updateAuthNav();
-
   // ---- Showcase: Load from localStorage ----
   renderShowcase();
-
-  // ---- Signup form ----
-  const signupForm = document.getElementById('signup-form');
-  if (signupForm) {
-    signupForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-      const email = signupForm.querySelector('input[type=email]').value;
-      const list = JSON.parse(localStorage.getItem('signupList') || '[]');
-      if (list.includes(email)) { showToast('You\'re already on the list!'); return; }
-      list.push(email);
-      localStorage.setItem('signupList', JSON.stringify(list));
-      signupForm.reset();
-      showToast('You\'re on the list! 🎉');
-    });
-  }
 
   // ---- Wizards ----
   initWizard();
 });
+
+function normalizeNavLinks() {
+  const navList = document.querySelector('.nav-links');
+  if (!navList) return;
+
+  const currentPage = location.pathname.split('/').pop() || 'index.html';
+  if (['dashboard.html', 'auth.html', 'admin.html'].includes(currentPage)) return;
+
+  const authSlot = navList.querySelector('#auth-nav-slot');
+  if (!authSlot) return;
+
+  const isSubdirectory = location.pathname.includes('/aito/');
+  const prefix = isSubdirectory ? '../' : '';
+
+  navList.querySelectorAll('li').forEach(li => {
+    if (li.id !== 'auth-nav-slot') li.remove();
+  });
+
+  CANONICAL_NAV_ITEMS.forEach(item => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = `${prefix}${item.href}`;
+    a.textContent = item.label;
+    li.appendChild(a);
+    navList.insertBefore(li, authSlot);
+  });
+}
 
 // ========================================
 // REPROMPT AGENT LOGIC
@@ -224,44 +251,64 @@ function matchGpts(intent) {
 // ========================================
 
 let currentUser = null;
-let supabaseReady = false;
 
 async function initAuth() {
-  // Wait for Supabase client
-  await new Promise(resolve => {
-    const check = setInterval(() => {
-      if (window.db) { clearInterval(check); resolve(); }
-    }, 100);
-    setTimeout(() => { clearInterval(check); resolve(); }, 2000);
-  });
-  supabaseReady = true;
-
   try {
-    // Check if user is signed in with Supabase
-    const user = await window.auth.getUser();
-    
-    if (user) {
-      // Get profile from Supabase
-      let profile = await window.db.getProfile(user.id);
+    const session = await window.auth.getSession();
+    if (!session) return;
 
-      if (profile) {
-        currentUser = {
-          id: user.id,
-          name: profile.name || user.email,
-          email: profile.email || user.email,
-          avatar: profile.avatar || '🧑‍💻',
-          bio: profile.bio || '',
-          vibeType: profile.vibe_type || 'Explorer',
-          tools: profile.tools ? JSON.parse(profile.tools) : [],
-          accountType: profile.account_type || 'individual',
-          organizationName: profile.organization_name || '',
-          projects: [],
-          joinDate: new Date(profile.created_at).toLocaleDateString()
-        };
+    const user = session.user;
+    if (!user) return;
 
-        const projects = await window.db.getProjects(user.id);
-        currentUser.projects = projects || [];
+    // Get profile from Supabase
+    let profile = await window.db.getProfile(user.id);
+
+    if (profile) {
+      let tools = profile.tools || [];
+      if (typeof tools === 'string') {
+        try { tools = JSON.parse(tools); } catch (_) { tools = []; }
       }
+
+      currentUser = {
+        id: user.id,
+        name: profile.name || user.user_metadata?.full_name || user.email,
+        email: profile.email || user.email,
+        avatar: profile.avatar || '🧑‍💻',
+        bio: profile.bio || '',
+        vibeType: profile.vibe_type || 'Explorer',
+        tools: tools,
+        accountType: profile.account_type || 'individual',
+        organizationName: profile.organization_name || '',
+        projects: [],
+        joinDate: new Date(profile.created_at).toLocaleDateString()
+      };
+
+      const projects = await window.db.getProjects(user.id);
+      currentUser.projects = projects || [];
+    } else {
+      // Auto-create profile for new users (e.g. from OAuth)
+      const displayName = user.user_metadata?.full_name || user.user_metadata?.name || user.email?.split('@')[0] || 'Vibe Coder';
+      await window.db.createProfile({
+        user_id: user.id,
+        email: user.email,
+        name: displayName,
+        avatar: '🧑‍💻',
+        vibe_type: 'Explorer',
+        account_type: 'individual'
+      });
+      currentUser = {
+        id: user.id,
+        name: displayName,
+        email: user.email,
+        avatar: '🧑‍💻',
+        bio: '',
+        vibeType: 'Explorer',
+        tools: [],
+        accountType: 'individual',
+        organizationName: '',
+        projects: [],
+        joinDate: new Date().toLocaleDateString()
+      };
     }
   } catch (err) {
     console.error('Auth error:', err);
@@ -280,52 +327,40 @@ async function updateUser(updates) {
   if (!currentUser) return;
   Object.assign(currentUser, updates);
 
-  if (window.db && supabaseReady) {
-    await window.db.updateProfile(currentUser.id, {
-      name: currentUser.name,
-      avatar: currentUser.avatar,
-      bio: currentUser.bio,
-      vibe_type: currentUser.vibeType,
-      tools: JSON.stringify(currentUser.tools || [])
-    });
-  }
+  await window.db.updateProfile(currentUser.id, {
+    name: currentUser.name,
+    avatar: currentUser.avatar,
+    bio: currentUser.bio,
+    vibe_type: currentUser.vibeType,
+    tools: JSON.stringify(currentUser.tools || [])
+  });
 }
 
-function getUserById(id) {
-  return id === currentUser?.id ? currentUser : null;
-}
+// getUserById removed — profile.html now loads from Supabase directly
 
 async function addProject(project) {
   const user = getCurrentUser();
   if (!user) return;
 
-  project.id = 'p_' + Date.now().toString(36);
-  project.date = new Date().toLocaleDateString();
+  await window.db.createProject({
+    user_id: user.id,
+    title: project.title,
+    url: project.url,
+    lab_type: project.lab || project.lab_type,
+    tool_used: project.tool || project.tool_used,
+    description: project.desc || project.description || ''
+  });
 
-  user.projects = user.projects || [];
-  user.projects.unshift(project);
-
-  if (window.db && supabaseReady) {
-    await window.db.createProject({
-      user_id: user.id,
-      title: project.title,
-      url: project.url,
-      lab_type: project.lab,
-      tool_used: project.tool,
-      description: project.desc
-    });
-  }
+  // Refresh projects list
+  user.projects = await window.db.getProjects(user.id);
 }
 
 async function deleteProject(projectId) {
   const user = getCurrentUser();
   if (!user) return;
 
-  user.projects = (user.projects || []).filter(p => p.id !== projectId);
-
-  if (window.db && supabaseReady) {
-    await window.db.deleteProject(projectId);
-  }
+  await window.db.deleteProject(projectId);
+  user.projects = await window.db.getProjects(user.id);
 }
 
 // ---- Auth Nav Update ----
@@ -335,13 +370,17 @@ function updateAuthNav() {
   if (!authSlot) return;
 
   if (user) {
+    const isSubdirectory = location.pathname.includes('/aito/');
+    const dashboardHref = isSubdirectory ? '../dashboard.html' : 'dashboard.html';
     authSlot.innerHTML = `
-      <a href="dashboard.html" class="nav-links-item" style="display:flex;align-items:center;gap:6px;">
+      <a href="${dashboardHref}" class="nav-links-item" style="display:flex;align-items:center;gap:6px;">
         <span class="user-avatar-small">${user.avatar}</span>
         <span style="font-size:0.8125rem;">${escapeHTML(user.name.split(' ')[0])}</span>
       </a>`;
   } else {
-    authSlot.innerHTML = `<a href="auth.html" style="font-size:0.8125rem;">Sign In</a>`;
+    const isSubdirectory = location.pathname.includes('/aito/');
+    const authHref = isSubdirectory ? '../auth.html' : 'auth.html';
+    authSlot.innerHTML = `<a href="${authHref}" style="font-size:0.8125rem;">Sign In</a>`;
   }
 }
 
@@ -354,15 +393,12 @@ async function renderShowcase(filter = 'all') {
   if (!grid) return;
 
   let items = [];
-  if (window.db && supabaseReady) {
-    try {
-      const result = await window.db.getShowcase();
-      items = result.filter(i => i.approved !== false);
-    } catch (err) {
-      items = JSON.parse(localStorage.getItem('showcase') || '[]');
-    }
-  } else {
-    items = JSON.parse(localStorage.getItem('showcase') || '[]');
+  try {
+    const result = await window.db.getShowcase();
+    items = result.filter(i => i.approved !== false);
+  } catch (err) {
+    console.error('Showcase load error:', err);
+    items = [];
   }
 
   const filtered = filter === 'all' ? items : items.filter(i => i.lab_type === filter || i.lab === filter);
@@ -469,4 +505,3 @@ window.nextWizardStep = function (containerId, nextIndex) {
     });
   }
 };
-

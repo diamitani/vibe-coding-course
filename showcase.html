@@ -4,23 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Showcase | Vibe Coding Masterclass</title>
+    <title>Student Showcase | LetsVibeAI</title>
     <meta name="description"
-        content="Browse student-built projects from the Vibe Coding Masterclass labs. Marketing websites, e-commerce stores, and marketplace directories.">
+        content="Browse student-built projects from the LetsVibeAI labs. Marketing websites, e-commerce stores, and marketplace directories.">
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <div class="ambient-bg"></div>
     <nav class="nav">
-        <div class="nav-inner"><a href="index.html" class="nav-logo">⚡ LetsVibeAI</a><button class="nav-toggle"
-                aria-label="Toggle navigation">☰</button>
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">⚡ LetsVibeAI</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="module1.html">Modules</a></li>
                 <li><a href="tools.html">Tools</a></li>
                 <li><a href="lab1.html">Labs</a></li>
-                <li><a href="showcase.html" class="active">Gallery</a></li>
                 <li id="auth-nav-slot"></li>
             </ul>
         </div>
@@ -47,57 +47,15 @@
                 <!-- Rendered by JS -->
             </div>
 
-            <!-- Submit Form -->
-            <section class="section">
+            <!-- Submit CTA -->
+            <section class="section" id="submit-section">
                 <div class="section-header">
                     <span class="section-label">Add Your Project</span>
                     <h2 class="section-title">Submit Your Work</h2>
-                    <p class="section-desc">Completed a lab? Share your project with the community.</p>
+                    <p class="section-desc">Completed a lab? Submit your project from your dashboard.</p>
                 </div>
-
-                <div class="submission-form" style="max-width:600px;margin:0 auto;">
-                    <form id="showcase-form">
-                        <div class="form-group">
-                            <label for="s-name">Your Name</label>
-                            <input type="text" id="s-name" name="name" class="form-input" placeholder="Your name"
-                                required>
-                        </div>
-                        <div class="form-group">
-                            <label for="s-title">Project Title</label>
-                            <input type="text" id="s-title" name="title" class="form-input"
-                                placeholder="e.g. SoundWave Headphones Store" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="s-url">Live URL</label>
-                            <input type="url" id="s-url" name="url" class="form-input"
-                                placeholder="https://your-project.vercel.app" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="s-lab">Lab</label>
-                            <select id="s-lab" name="lab" class="form-input" required>
-                                <option value="">Select lab...</option>
-                                <option value="marketing">Lab 1 — Marketing Website</option>
-                                <option value="ecommerce">Lab 2 — E-Commerce Store</option>
-                                <option value="marketplace">Lab 3 — Directory / Marketplace</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="s-tool">Tool Used</label>
-                            <select id="s-tool" name="tool" class="form-input" required>
-                                <option value="">Select a tool...</option>
-                                <option value="Lovable">Lovable</option>
-                                <option value="v0.dev">v0.dev</option>
-                                <option value="Bolt.new">Bolt.new</option>
-                                <option value="Replit">Replit</option>
-                                <option value="Claude Code">Claude Code</option>
-                                <option value="Codex">Codex</option>
-                                <option value="Antigravity">Antigravity</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;">Submit
-                            Project →</button>
-                    </form>
+                <div style="text-align:center;">
+                    <a href="dashboard.html" class="btn btn-primary" id="submit-cta">Go to Dashboard to Submit →</a>
                 </div>
             </section>
 
@@ -120,6 +78,7 @@
             <p>⚡ LetsVibeAI &copy; 2025</p>
         </div>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="supabase-client.js"></script>
     <script src="script.js"></script>
     <script>
@@ -132,62 +91,15 @@
             });
         });
 
+        // Update submit CTA based on auth state
         document.addEventListener('DOMContentLoaded', async () => {
             await window.authPromise;
             const user = getCurrentUser();
-
-            // Auto-fill name from logged-in user
-            const nameInput = document.getElementById('s-name');
-            if (user && nameInput) nameInput.value = user.name || '';
-
-            const form = document.getElementById('showcase-form');
-            if (!form) return;
-
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                const btn = form.querySelector('button[type="submit"]');
-                btn.disabled = true;
-                btn.textContent = 'Submitting...';
-
-                const item = {
-                    name: document.getElementById('s-name').value.trim(),
-                    title: document.getElementById('s-title').value.trim(),
-                    url: document.getElementById('s-url').value.trim(),
-                    lab_type: document.getElementById('s-lab').value,
-                    tool_used: document.getElementById('s-tool').value,
-                    user_id: user?.id || null,
-                    approved: true
-                };
-
-                try {
-                    if (window.db) {
-                        await window.db.submitToShowcase(item);
-                        // Also save to user's projects if logged in
-                        if (user) {
-                            await window.db.createProject({
-                                user_id: user.id,
-                                title: item.title,
-                                url: item.url,
-                                lab_type: item.lab_type,
-                                tool_used: item.tool_used
-                            });
-                        }
-                    } else {
-                        const items = JSON.parse(localStorage.getItem('showcase') || '[]');
-                        items.unshift(item);
-                        localStorage.setItem('showcase', JSON.stringify(items));
-                    }
-                    showToast('Project submitted to the gallery! 🚀');
-                    form.reset();
-                    if (user && nameInput) nameInput.value = user.name || '';
-                    renderShowcase();
-                } catch (err) {
-                    showToast('Error submitting. Please try again.');
-                }
-
-                btn.disabled = false;
-                btn.textContent = 'Submit Project →';
-            });
+            const cta = document.getElementById('submit-cta');
+            if (!user && cta) {
+                cta.href = 'auth.html';
+                cta.textContent = 'Sign In to Submit Your Project →';
+            }
         });
     </script>
 </body>

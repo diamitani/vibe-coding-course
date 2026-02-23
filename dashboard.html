@@ -8,64 +8,124 @@
     <meta name="description" content="Your vibe coding dashboard — track progress, manage projects, and build your portfolio.">
     <link rel="stylesheet" href="styles.css">
     <style>
-        .dashboard-welcome { background: linear-gradient(135deg, var(--accent-primary), var(--accent-magenta)); padding: 2rem; border-radius: 16px; margin-bottom: 2rem; color: white; }
-        .dashboard-welcome h1 { color: white; margin-bottom: 0.5rem; }
-        .dashboard-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-        .stat-box { background: var(--bg-card); padding: 1.5rem; border-radius: 12px; text-align: center; border: 1px solid var(--border-subtle); }
-        .stat-box .num { font-size: 2rem; font-weight: bold; color: var(--accent-emerald); }
-        .stat-box .label { color: var(--text-secondary); font-size: 0.875rem; margin-top: 0.5rem; }
-        .platform-card { background: var(--bg-card); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-subtle); margin-bottom: 1rem; }
-        .platform-card h3 { margin: 0 0 0.5rem 0; display: flex; align-items: center; gap: 0.5rem; }
-        .platform-card .status { display: inline-block; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem; margin-left: auto; }
-        .status.connected { background: rgba(16, 185, 129, 0.2); color: var(--accent-emerald); }
-        .status.not-connected { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
-        .wizard-step { padding: 1rem; background: var(--bg-card); border-radius: 8px; margin-bottom: 1rem; border: 1px solid var(--border-subtle); }
-        .wizard-step.active { border-color: var(--accent-primary); }
+        /* Dashboard Layout */
+        .dashboard-layout { display: grid; grid-template-columns: 240px 1fr; gap: 2rem; min-height: calc(100vh - 200px); }
+        @media (max-width: 768px) { .dashboard-layout { grid-template-columns: 1fr; } }
+
+        /* Sidebar */
+        .dash-sidebar { position: sticky; top: 100px; align-self: start; }
+        .dash-sidebar-nav { list-style: none; padding: 0; margin: 0; }
+        .dash-sidebar-nav li { margin-bottom: 0.25rem; }
+        .dash-sidebar-nav button { width: 100%; text-align: left; padding: 0.75rem 1rem; background: none; border: none; border-radius: var(--radius-md); color: var(--text-secondary); font-size: 0.875rem; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 0.5rem; }
+        .dash-sidebar-nav button:hover { background: var(--bg-card); color: var(--text-primary); }
+        .dash-sidebar-nav button.active { background: rgba(139, 92, 246, 0.1); color: var(--accent-primary); font-weight: 600; }
+        @media (max-width: 768px) {
+            .dash-sidebar { position: static; }
+            .dash-sidebar-nav { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+            .dash-sidebar-nav li { flex: 0 0 auto; }
+        }
+
+        /* Panels */
+        .dash-panel { display: none; }
+        .dash-panel.active { display: block; }
+
+        /* Welcome Banner */
+        .dash-welcome { background: linear-gradient(135deg, var(--accent-primary), var(--accent-magenta)); padding: 2rem; border-radius: var(--radius-lg); margin-bottom: 2rem; color: white; position: relative; overflow: hidden; }
+        .dash-welcome::before { content: ''; position: absolute; top: -50%; right: -20%; width: 300px; height: 300px; background: rgba(255,255,255,0.05); border-radius: 50%; }
+        .dash-welcome h1 { color: white; margin: 0 0 0.25rem; font-size: 1.5rem; position: relative; }
+        .dash-welcome p { color: rgba(255,255,255,0.85); margin: 0; font-size: 0.9375rem; position: relative; }
+
+        /* Stats */
+        .dash-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stat-box { background: var(--bg-card); padding: 1.25rem; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-subtle); transition: border-color 0.2s; }
+        .stat-box:hover { border-color: var(--accent-primary); }
+        .stat-box .num { font-size: 1.75rem; font-weight: 700; color: var(--accent-emerald); }
+        .stat-box .label { color: var(--text-secondary); font-size: 0.75rem; margin-top: 0.25rem; text-transform: uppercase; letter-spacing: 0.05em; }
+
+        /* Progress Bar */
+        .progress-bar-track { width: 100%; height: 8px; background: var(--bg-secondary); border-radius: 4px; overflow: hidden; margin-top: 0.5rem; }
+        .progress-bar-fill { height: 100%; border-radius: 4px; background: linear-gradient(90deg, var(--accent-primary), var(--accent-emerald)); transition: width 0.5s ease; }
+
+        /* Course Cards */
+        .course-card { display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); text-decoration: none; color: var(--text-primary); transition: all 0.2s; margin-bottom: 0.75rem; }
+        .course-card:hover { border-color: var(--accent-primary); transform: translateX(4px); }
+        .course-card .course-icon { font-size: 1.5rem; width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border-radius: var(--radius-md); flex-shrink: 0; }
+        .course-card .course-info h4 { margin: 0 0 0.125rem; font-size: 0.9375rem; }
+        .course-card .course-info p { margin: 0; color: var(--text-muted); font-size: 0.8125rem; }
+        .course-card .course-status { margin-left: auto; font-size: 1.25rem; flex-shrink: 0; }
+
+        /* Project Cards */
+        .project-card { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem 1.25rem; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); margin-bottom: 0.75rem; flex-wrap: wrap; transition: border-color 0.2s; }
+        .project-card:hover { border-color: var(--accent-primary); }
+        .project-card h4 { margin: 0 0 0.25rem; font-size: 0.9375rem; }
+        .project-card .meta { color: var(--text-muted); font-size: 0.8125rem; }
+
+        /* Section Headers */
+        .panel-section { margin-bottom: 2rem; }
+        .panel-section h3 { font-size: 0.8125rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1rem; font-weight: 600; }
+
+        /* Empty States */
+        .empty-state { text-align: center; padding: 3rem 1rem; color: var(--text-muted); background: var(--bg-card); border-radius: var(--radius-lg); border: 1px dashed var(--border-subtle); }
+        .empty-state .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+        .empty-state p { margin: 0.25rem 0; }
+
+        /* Form Sections */
+        .form-section { padding: 1.5rem; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); }
+        .form-section h3 { margin: 0 0 0.25rem; font-size: 1rem; }
+        .form-section .desc { color: var(--text-secondary); font-size: 0.875rem; margin-bottom: 1.5rem; }
+
+        /* Danger Zone */
+        .danger-zone { border-color: rgba(239, 68, 68, 0.3); margin-top: 2rem; }
+        .danger-zone h3 { color: #ef4444; }
     </style>
 </head>
 
 <body>
     <div class="ambient-bg"></div>
     <nav class="nav">
-        <div class="nav-inner"><a href="index.html" class="nav-logo">⚡ LetsVibeAI</a><button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">⚡ LetsVibeAI</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="module1.html">Modules</a></li>
                 <li><a href="tools.html">Tools</a></li>
-                <li><a href="auth.html" onclick="logoutUser()">Sign Out</a></li>
+                <li><a href="lab1.html">Labs</a></li>
+                <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                <li id="auth-nav-slot"></li>
             </ul>
         </div>
     </nav>
 
     <main class="page-content">
         <div class="container">
-            <!-- Welcome Header -->
-            <div class="dashboard-welcome">
+            <!-- Welcome Banner -->
+            <div class="dash-welcome">
                 <h1 id="welcome-heading">Welcome!</h1>
                 <p id="welcome-subtitle">Track your vibe coding journey</p>
             </div>
 
             <!-- Quick Stats -->
-            <div class="dashboard-stats">
+            <div class="dash-stats">
+                <div class="stat-box">
+                    <div class="num" id="stat-progress">0%</div>
+                    <div class="label">Completed</div>
+                </div>
                 <div class="stat-box">
                     <div class="num" id="stat-projects">0</div>
                     <div class="label">Projects</div>
-                </div>
-                <div class="stat-box">
-                    <div class="num" id="stat-showcase">0</div>
-                    <div class="label">In Gallery</div>
                 </div>
                 <div class="stat-box">
                     <div class="num" id="stat-tools">0</div>
                     <div class="label">Tools Used</div>
                 </div>
                 <div class="stat-box">
-                    <div class="num" id="stat-type">-</div>
-                    <div class="label">Account Type</div>
+                    <div class="num" id="stat-type">—</div>
+                    <div class="label">Account</div>
                 </div>
             </div>
 
-            <div class="dashboard-grid">
+            <div class="dashboard-layout">
                 <!-- Sidebar -->
                 <aside class="dash-sidebar">
                     <ul class="dash-sidebar-nav">
@@ -74,7 +134,7 @@
                         <li><button onclick="showPanel('projects', this)">🚀 My Projects</button></li>
                         <li><button onclick="showPanel('profile', this)">👤 Profile</button></li>
                         <li><button onclick="showPanel('settings', this)">⚙️ Settings</button></li>
-                        <li><button onclick="signOut()" style="color:var(--accent-magenta);">🚪 Sign Out</button></li>
+                        <li><button onclick="handleSignOut()" style="color:var(--accent-magenta);">🚪 Sign Out</button></li>
                     </ul>
                 </aside>
 
@@ -82,199 +142,138 @@
                 <div>
                     <!-- Overview Panel -->
                     <div id="panel-overview" class="dash-panel active">
-                        <h2>Your Journey</h2>
-                        <p style="color:var(--text-secondary);margin-bottom:2rem;">Complete labs to earn certificates and showcase your work.</p>
-                        
-                        <h3>Continue Learning</h3>
-                        <div class="cards-grid cards-grid-2">
-                            <a href="module1.html" class="card fade-in">
-                                <div class="card-icon">🧠</div>
-                                <h3>Module 1 — What is AI</h3>
-                                <p>Understand the foundations of AI and LLMs.</p>
-                            </a>
-                            <a href="lab1.html" class="card fade-in">
-                                <div class="card-icon">🎨</div>
-                                <h3>Lab 1 — Marketing Site</h3>
-                                <p>Build your first project.</p>
-                            </a>
-                        </div>
-
-                        <h3 style="margin-top:2rem;">Course Progress</h3>
-                        <div style="background: var(--bg-card); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border-subtle); margin-bottom: 2rem;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-                                <span style="font-weight: 600;">Overall Completion</span>
-                                <span id="progress-percent" style="font-size: 1.5rem; font-weight: bold; color: var(--accent-emerald);">0%</span>
-                            </div>
-                            <div style="background: var(--bg-secondary); height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 1rem;">
-                                <div id="progress-bar" style="background: linear-gradient(90deg, var(--accent-emerald), var(--accent-primary)); height: 100%; width: 0%; transition: width 0.5s ease;"></div>
-                            </div>
-                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.875rem;">
-                                <div>
-                                    <span style="color: var(--text-muted);">Modules:</span>
-                                    <span id="modules-completed" style="font-weight: 600; margin-left: 0.5rem;">0/6</span>
+                        <div class="panel-section">
+                            <h3>Overall Progress</h3>
+                            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                                <div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:1.25rem;">
+                                    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.5rem;">
+                                        <span style="font-size:0.8125rem;color:var(--text-secondary);">Modules</span>
+                                        <span style="font-size:1.25rem;font-weight:700;color:var(--accent-primary);" id="modules-done">0<span style="font-size:0.75rem;font-weight:400;color:var(--text-muted);">/6</span></span>
+                                    </div>
+                                    <div class="progress-bar-track"><div class="progress-bar-fill" id="modules-bar" style="width:0%"></div></div>
                                 </div>
-                                <div>
-                                    <span style="color: var(--text-muted);">Labs:</span>
-                                    <span id="labs-completed" style="font-weight: 600; margin-left: 0.5rem;">0/3</span>
+                                <div style="background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-md);padding:1.25rem;">
+                                    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.5rem;">
+                                        <span style="font-size:0.8125rem;color:var(--text-secondary);">Labs</span>
+                                        <span style="font-size:1.25rem;font-weight:700;color:var(--accent-emerald);" id="labs-done">0<span style="font-size:0.75rem;font-weight:400;color:var(--text-muted);">/3</span></span>
+                                    </div>
+                                    <div class="progress-bar-track"><div class="progress-bar-fill" id="labs-bar" style="width:0%;background:linear-gradient(90deg,var(--accent-emerald),var(--accent-cyan));"></div></div>
                                 </div>
                             </div>
                         </div>
 
-                        <h3>Recent Activity</h3>
-                        <div id="recent-activity">
-                            <p style="color:var(--text-muted);">No activity yet. Start a lab!</p>
+                        <div class="panel-section">
+                            <h3>Continue Learning</h3>
+                            <div id="continue-learning">
+                                <a href="module1.html" class="course-card">
+                                    <div class="course-icon">🧠</div>
+                                    <div class="course-info">
+                                        <h4>Module 1 — What is AI</h4>
+                                        <p>Start with the foundations of AI and LLMs</p>
+                                    </div>
+                                    <div class="course-status">→</div>
+                                </a>
+                                <a href="lab1.html" class="course-card">
+                                    <div class="course-icon">🎨</div>
+                                    <div class="course-info">
+                                        <h4>Lab 1 — Marketing Website</h4>
+                                        <p>Build your first project</p>
+                                    </div>
+                                    <div class="course-status">→</div>
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="panel-section">
+                            <h3>Checklist</h3>
+                            <div id="progress-checklist"></div>
                         </div>
                     </div>
 
                     <!-- Courses Panel -->
                     <div id="panel-courses" class="dash-panel">
-                        <h2>📚 Full Course Curriculum</h2>
-                        <p style="color:var(--text-secondary);margin-bottom:2rem;">Master vibe coding from beginner to advanced.</p>
-                        
-                        <!-- Modules -->
-                        <h3>🎓 Modules</h3>
-                        <div class="cards-grid cards-grid-2">
-                            <a href="module1.html" class="card fade-in" style="text-decoration:none;">
-                                <div class="card-icon">🧠</div>
-                                <h3>Module 1 — What is AI</h3>
-                                <p>Understand the foundations: LLMs, generative AI, and why AI is transforming how we build software.</p>
-                                <span class="tag">Foundations</span>
-                            </a>
-                            <a href="module2.html" class="card fade-in" style="text-decoration:none;">
-                                <div class="card-icon">🎯</div>
-                                <h3>Module 2 — What is Vibe Coding</h3>
-                                <p>The new paradigm: prompt-driven development, real-world use cases, and the mindset shift.</p>
-                                <span class="tag cyan">Core Concept</span>
-                            </a>
-                            <a href="module3.html" class="card fade-in" style="text-decoration:none;">
-                                <div class="card-icon">🛠️</div>
-                                <h3>Module 3 — The Toolkit</h3>
-                                <p>Deep dive into Lovable, v0, Replit, Bolt, Claude Code, Codex, Antigravity, and more.</p>
-                                <span class="tag magenta">Tools</span>
-                            </a>
-                            <a href="module4.html" class="card fade-in" style="text-decoration:none;">
-                                <div class="card-icon">🔗</div>
-                                <h3>Module 4 — Prompt Chaining</h3>
-                                <p>Use one prompt to refine another. Turn vague ideas into precise instructions.</p>
-                                <span class="tag emerald">Technique</span>
-                            </a>
-                            <a href="module5.html" class="card fade-in" style="text-decoration:none;">
-                                <div class="card-icon">📋</div>
-                                <h3>Module 5 — Context Engineering</h3>
-                                <p>Upload files, create PRDs, design systems, and brand guidelines.</p>
-                                <span class="tag">Advanced</span>
-                            </a>
-                            <a href="module6.html" class="card fade-in" style="text-decoration:none;">
-                                <div class="card-icon">⚙️</div>
-                                <h3>Module 6 — Process Engineering</h3>
-                                <p>Observe workflows, identify improvements, and build AI-augmented processes.</p>
-                                <span class="tag cyan">Pro</span>
-                            </a>
+                        <div class="panel-section">
+                            <h3>Modules</h3>
+                            <div id="course-modules">
+                                <a href="module1.html" class="course-card"><div class="course-icon">🧠</div><div class="course-info"><h4>Module 1 — What is AI</h4><p>Foundations of AI, LLMs, and generative AI</p></div><div class="course-status" data-slug="module1">⬜</div></a>
+                                <a href="module2.html" class="course-card"><div class="course-icon">🎯</div><div class="course-info"><h4>Module 2 — What is Vibe Coding</h4><p>The new paradigm of prompt-driven development</p></div><div class="course-status" data-slug="module2">⬜</div></a>
+                                <a href="module3.html" class="course-card"><div class="course-icon">🛠️</div><div class="course-info"><h4>Module 3 — The Toolkit</h4><p>Deep dive into Lovable, v0, Replit, Bolt, Claude Code</p></div><div class="course-status" data-slug="module3">⬜</div></a>
+                                <a href="module4.html" class="course-card"><div class="course-icon">🔗</div><div class="course-info"><h4>Module 4 — Prompt Chaining</h4><p>Turn vague ideas into precise AI instructions</p></div><div class="course-status" data-slug="module4">⬜</div></a>
+                                <a href="module5.html" class="course-card"><div class="course-icon">📋</div><div class="course-info"><h4>Module 5 — Context Engineering</h4><p>Upload files, create PRDs, and design systems</p></div><div class="course-status" data-slug="module5">⬜</div></a>
+                                <a href="module6.html" class="course-card"><div class="course-icon">⚙️</div><div class="course-info"><h4>Module 6 — Process Engineering</h4><p>Observe workflows and build AI-augmented processes</p></div><div class="course-status" data-slug="module6">⬜</div></a>
+                            </div>
                         </div>
 
-                        <!-- Labs -->
-                        <h3 style="margin-top:2rem;">🧪 Hands-On Labs</h3>
-                        <div class="cards-grid cards-grid-3">
-                            <a href="lab1.html" class="card fade-in" style="text-decoration:none;">
-                                <div class="card-icon">🎨</div>
-                                <h3>Lab 1</h3>
-                                <p>Marketing Website</p>
-                                <span class="tag emerald">Start</span>
-                            </a>
-                            <a href="lab2.html" class="card fade-in" style="text-decoration:none;">
-                                <div class="card-icon">🛒</div>
-                                <h3>Lab 2</h3>
-                                <p>E-Commerce Store</p>
-                                <span class="tag emerald">Start</span>
-                            </a>
-                            <a href="lab3.html" class="card fade-in" style="text-decoration:none;">
-                                <div class="card-icon">🏪</div>
-                                <h3>Lab 3</h3>
-                                <p>Directory / Marketplace</p>
-                                <span class="tag emerald">Start</span>
-                            </a>
-                        </div>
-
-                        <!-- The 3 Pillars -->
-                        <h3 style="margin-top:2rem;">🏆 The Three Pillars of Vibe Coding</h3>
-                        <div class="cards-grid cards-grid-3">
-                            <div class="card fade-in">
-                                <div class="card-icon">🔗</div>
-                                <h3>Prompt Chaining</h3>
-                                <p>Use AI to refine prompts before sending to builder tools.</p>
-                                <span class="tag">Refine</span>
-                                <span class="tag cyan">Specify</span>
-                            </div>
-                            <div class="card fade-in">
-                                <div class="card-icon">📋</div>
-                                <h3>Context Engineering</h3>
-                                <p>Give AI everything it needs: files, PRDs, brand guidelines.</p>
-                                <span class="tag">PRDs</span>
-                                <span class="tag cyan">Design</span>
-                            </div>
-                            <div class="card fade-in">
-                                <div class="card-icon">⚙️</div>
-                                <h3>Process Engineering</h3>
-                                <p>Watch workflows, identify bottlenecks, create AI improvements.</p>
-                                <span class="tag emerald">Observe</span>
-                                <span class="tag">Analyze</span>
+                        <div class="panel-section">
+                            <h3>Hands-On Labs</h3>
+                            <div id="course-labs">
+                                <a href="lab1.html" class="course-card"><div class="course-icon">🎨</div><div class="course-info"><h4>Lab 1 — Marketing Website</h4><p>Build a stunning landing page with AI tools</p></div><div class="course-status" data-slug="lab1">⬜</div></a>
+                                <a href="lab2.html" class="course-card"><div class="course-icon">🛒</div><div class="course-info"><h4>Lab 2 — E-Commerce Store</h4><p>Create a full online store with product pages</p></div><div class="course-status" data-slug="lab2">⬜</div></a>
+                                <a href="lab3.html" class="course-card"><div class="course-icon">🏪</div><div class="course-info"><h4>Lab 3 — Directory / Marketplace</h4><p>Build a directory with search, filters, and listings</p></div><div class="course-status" data-slug="lab3">⬜</div></a>
                             </div>
                         </div>
                     </div>
 
                     <!-- Profile Panel -->
                     <div id="panel-profile" class="dash-panel">
-                        <h2>Edit Profile</h2>
-                        <form id="profile-form" onsubmit="saveProfile(event)">
-                            <div class="form-group">
-                                <label for="p-avatar">Avatar Emoji</label>
-                                <input type="text" id="p-avatar" class="form-input" maxlength="2" style="width:80px;font-size:1.5rem;text-align:center;">
-                            </div>
-                            <div class="form-group">
-                                <label for="p-name">Display Name</label>
-                                <input type="text" id="p-name" class="form-input" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="p-bio">Bio</label>
-                                <textarea id="p-bio" class="form-input" placeholder="Tell the community about yourself..." rows="3"></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="p-vibe">Vibe Coder Type</label>
-                                <select id="p-vibe" class="form-input">
-                                    <option value="Explorer">🌍 Explorer</option>
-                                    <option value="Builder">🔨 Builder</option>
-                                    <option value="Designer">🎨 Designer</option>
-                                    <option value="Automator">⚙️ Automator</option>
-                                    <option value="Hacker">💻 Hacker</option>
-                                    <option value="Full-Stack Vibe Lord">👑 Full-Stack Vibe Lord</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Favorite Tools</label>
-                                <div style="display:flex;flex-wrap:wrap;gap:var(--space-sm);margin-top:var(--space-sm);">
-                                    <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;"><input type="checkbox" name="tools" value="Lovable"> Lovable</label>
-                                    <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;"><input type="checkbox" name="tools" value="v0.dev"> v0.dev</label>
-                                    <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;"><input type="checkbox" name="tools" value="Bolt.new"> Bolt.new</label>
-                                    <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;"><input type="checkbox" name="tools" value="Replit"> Replit</label>
-                                    <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;"><input type="checkbox" name="tools" value="Claude Code"> Claude Code</label>
-                                    <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;"><input type="checkbox" name="tools" value="Cursor"> Cursor</label>
+                        <div class="form-section">
+                            <h3>Edit Your Profile</h3>
+                            <p class="desc">This information is visible on your public profile and in the community.</p>
+                            <form id="profile-form" onsubmit="saveProfile(event)">
+                                <div style="display:grid;grid-template-columns:80px 1fr;gap:1rem;margin-bottom:1rem;">
+                                    <div class="form-group" style="margin-bottom:0;">
+                                        <label for="p-avatar">Avatar</label>
+                                        <input type="text" id="p-avatar" class="form-input" maxlength="2" style="font-size:1.5rem;text-align:center;padding:0.5rem;">
+                                    </div>
+                                    <div class="form-group" style="margin-bottom:0;">
+                                        <label for="p-name">Display Name</label>
+                                        <input type="text" id="p-name" class="form-input" required>
+                                    </div>
                                 </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Save Profile →</button>
-                        </form>
+                                <div class="form-group">
+                                    <label for="p-bio">Bio</label>
+                                    <textarea id="p-bio" class="form-input" placeholder="Tell the community about yourself..." rows="3"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="p-vibe">Vibe Coder Type</label>
+                                    <select id="p-vibe" class="form-input">
+                                        <option value="Explorer">🌍 Explorer</option>
+                                        <option value="Builder">🔨 Builder</option>
+                                        <option value="Designer">🎨 Designer</option>
+                                        <option value="Automator">⚙️ Automator</option>
+                                        <option value="Hacker">💻 Hacker</option>
+                                        <option value="Full-Stack Vibe Lord">👑 Full-Stack Vibe Lord</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Favorite Tools</label>
+                                    <div style="display:flex;flex-wrap:wrap;gap:0.75rem;margin-top:0.5rem;">
+                                        <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;"><input type="checkbox" name="tools" value="Lovable"> Lovable</label>
+                                        <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;"><input type="checkbox" name="tools" value="v0.dev"> v0.dev</label>
+                                        <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;"><input type="checkbox" name="tools" value="Bolt.new"> Bolt.new</label>
+                                        <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;"><input type="checkbox" name="tools" value="Replit"> Replit</label>
+                                        <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;"><input type="checkbox" name="tools" value="Claude Code"> Claude Code</label>
+                                        <label style="display:flex;align-items:center;gap:6px;font-size:0.875rem;color:var(--text-secondary);cursor:pointer;"><input type="checkbox" name="tools" value="Cursor"> Cursor</label>
+                                    </div>
+                                </div>
+                                <div style="display:flex;gap:1rem;align-items:center;">
+                                    <button type="submit" class="btn btn-primary">Save Profile</button>
+                                    <a href="" id="view-profile-link" target="_blank" style="font-size:0.8125rem;color:var(--text-secondary);">View public profile →</a>
+                                </div>
+                            </form>
+                        </div>
                     </div>
 
                     <!-- Projects Panel -->
                     <div id="panel-projects" class="dash-panel">
-                        <h2>🚀 My Projects</h2>
-                        <p style="color:var(--text-secondary);margin-bottom:1.5rem;">Projects you've submitted to the community gallery.</p>
+                        <div class="panel-section">
+                            <h3>Your Projects</h3>
+                            <div id="my-projects-list"></div>
+                        </div>
 
-                        <div id="my-projects-list"></div>
-
-                        <!-- Submit to Gallery form -->
-                        <div style="margin-top:2rem;padding:1.5rem;background:var(--bg-secondary);border:1px solid var(--border-subtle);border-radius:var(--radius-lg);">
-                            <h3 style="margin-bottom:0.5rem;">Submit a Project to the Gallery</h3>
-                            <p style="color:var(--text-secondary);font-size:0.875rem;margin-bottom:1.5rem;">Completed a lab? Share your work with the community — it'll appear in the public gallery.</p>
+                        <div class="form-section">
+                            <h3>Submit a Project</h3>
+                            <p class="desc">Completed a lab? Share your work with the community gallery.</p>
                             <form id="submit-project-form" onsubmit="submitProject(event)">
                                 <div class="form-group">
                                     <label for="sp-title">Project Title</label>
@@ -284,59 +283,65 @@
                                     <label for="sp-url">Live URL</label>
                                     <input type="url" id="sp-url" class="form-input" placeholder="https://your-project.vercel.app" required>
                                 </div>
-                                <div class="form-group">
-                                    <label for="sp-lab">Lab</label>
-                                    <select id="sp-lab" class="form-input" required>
-                                        <option value="">Select lab...</option>
-                                        <option value="marketing">Lab 1 — Marketing Website</option>
-                                        <option value="ecommerce">Lab 2 — E-Commerce Store</option>
-                                        <option value="marketplace">Lab 3 — Directory / Marketplace</option>
-                                    </select>
+                                <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;">
+                                    <div class="form-group">
+                                        <label for="sp-lab">Lab</label>
+                                        <select id="sp-lab" class="form-input" required>
+                                            <option value="">Select lab...</option>
+                                            <option value="marketing">Lab 1 — Marketing</option>
+                                            <option value="ecommerce">Lab 2 — E-Commerce</option>
+                                            <option value="marketplace">Lab 3 — Marketplace</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sp-tool">Tool Used</label>
+                                        <select id="sp-tool" class="form-input" required>
+                                            <option value="">Select tool...</option>
+                                            <option value="Lovable">Lovable</option>
+                                            <option value="v0.dev">v0.dev</option>
+                                            <option value="Bolt.new">Bolt.new</option>
+                                            <option value="Replit">Replit</option>
+                                            <option value="Claude Code">Claude Code</option>
+                                            <option value="Cursor">Cursor</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
                                 </div>
-                                <div class="form-group">
-                                    <label for="sp-tool">Tool Used</label>
-                                    <select id="sp-tool" class="form-input" required>
-                                        <option value="">Select a tool...</option>
-                                        <option value="Lovable">Lovable</option>
-                                        <option value="v0.dev">v0.dev</option>
-                                        <option value="Bolt.new">Bolt.new</option>
-                                        <option value="Replit">Replit</option>
-                                        <option value="Claude Code">Claude Code</option>
-                                        <option value="Cursor">Cursor</option>
-                                        <option value="Other">Other</option>
-                                    </select>
-                                </div>
-                                <div id="submit-project-msg" style="display:none;margin-bottom:1rem;color:var(--accent-emerald);font-size:0.9rem;"></div>
-                                <button type="submit" class="btn btn-primary">Submit to Gallery →</button>
+                                <div id="submit-project-msg" style="display:none;margin-bottom:1rem;padding:0.75rem;border-radius:8px;font-size:0.875rem;"></div>
+                                <button type="submit" class="btn btn-primary">Submit to Gallery</button>
                             </form>
                         </div>
                     </div>
 
                     <!-- Settings Panel -->
                     <div id="panel-settings" class="dash-panel">
-                        <h2>⚙️ Account Settings</h2>
-                        <form onsubmit="saveSettings(event)">
-                            <div class="form-group">
-                                <label for="s-type">Account Type</label>
-                                <select id="s-type" class="form-input" onchange="toggleOrgFields()">
-                                    <option value="individual">Individual Learner</option>
-                                    <option value="school">School / University</option>
-                                    <option value="corporate">Corporate / Organization</option>
-                                </select>
-                            </div>
-                            <div id="org-fields" style="display:none;">
+                        <div class="form-section">
+                            <h3>Account Settings</h3>
+                            <p class="desc">Manage your account type and organization details.</p>
+                            <form onsubmit="saveSettings(event)">
                                 <div class="form-group">
-                                    <label for="org-name">Organization Name</label>
-                                    <input type="text" id="org-name" class="form-input" placeholder="Your school or company name">
+                                    <label for="s-type">Account Type</label>
+                                    <select id="s-type" class="form-input" onchange="toggleOrgFields()">
+                                        <option value="individual">Individual Learner</option>
+                                        <option value="school">School / University</option>
+                                        <option value="corporate">Corporate / Organization</option>
+                                    </select>
                                 </div>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Save Settings →</button>
-                        </form>
-                        
-                        <hr style="margin:2rem 0;border-color:var(--border-subtle);">
-                        
-                        <h3>Danger Zone</h3>
-                        <button class="btn" style="background:#ef4444;color:white;border:none;" onclick="deleteAccount()">Delete Account</button>
+                                <div id="org-fields" style="display:none;">
+                                    <div class="form-group">
+                                        <label for="org-name">Organization Name</label>
+                                        <input type="text" id="org-name" class="form-input" placeholder="Your school or company name">
+                                    </div>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Settings</button>
+                            </form>
+                        </div>
+
+                        <div class="form-section danger-zone">
+                            <h3>Danger Zone</h3>
+                            <p class="desc">Irreversible actions for your account.</p>
+                            <button class="btn" style="background:rgba(239,68,68,0.1);color:#ef4444;border:1px solid rgba(239,68,68,0.3);" onclick="deleteAccount()">Delete Account</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -353,24 +358,8 @@
     <script src="supabase-client.js"></script>
     <script src="script.js"></script>
     <script>
-        let currentUser = null;
-
-        function escapeHTML(str) {
-            if (!str) return '';
-            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-        }
-
-        function showToast(msg) {
-            const t = document.createElement('div');
-            t.textContent = msg;
-            Object.assign(t.style, {
-                position: 'fixed', bottom: '2rem', right: '2rem', background: 'var(--accent-emerald)',
-                color: '#fff', padding: '0.75rem 1.5rem', borderRadius: 'var(--radius-full)',
-                fontWeight: '600', fontSize: '0.875rem', zIndex: '9999'
-            });
-            document.body.appendChild(t);
-            setTimeout(() => { t.remove(); }, 3000);
-        }
+        // Use a local reference — don't re-declare the global
+        let dashUser = null;
 
         function showPanel(panel, btn) {
             document.querySelectorAll('.dash-panel').forEach(p => p.classList.remove('active'));
@@ -386,119 +375,76 @@
             document.getElementById('org-fields').style.display = (type === 'school' || type === 'corporate') ? 'block' : 'none';
         }
 
-        async function signOut() {
+        async function handleSignOut() {
             await window.auth.signOut();
             window.location.href = 'index.html';
         }
 
         async function saveSettings(e) {
             e.preventDefault();
+            if (!dashUser) return;
             const type = document.getElementById('s-type').value;
             const orgName = document.getElementById('org-name').value;
-            
-            await window.db.updateProfile(currentUser.id, {
-                account_type: type,
-                organization_name: orgName
-            });
-            
-            showToast('Settings saved! ✨');
+            await window.db.updateProfile(dashUser.id, { account_type: type, organization_name: orgName });
+            showToast('Settings saved!');
         }
 
         async function deleteAccount() {
             if (!confirm('Are you sure? This cannot be undone.')) return;
-            alert('Contact support to delete your account.');
+            alert('Please contact support to delete your account.');
         }
 
         async function saveProfile(e) {
             e.preventDefault();
+            if (!dashUser) return;
             const tools = Array.from(document.querySelectorAll('input[name="tools"]:checked')).map(cb => cb.value);
-            
-            await window.db.updateProfile(currentUser.id, {
-                name: document.getElementById('p-name').value,
-                avatar: document.getElementById('p-avatar').value || '🧑‍💻',
-                bio: document.getElementById('p-bio').value,
-                vibe_type: document.getElementById('p-vibe').value,
+            const name = document.getElementById('p-name').value;
+            const avatar = document.getElementById('p-avatar').value || '🧑‍💻';
+            const bio = document.getElementById('p-bio').value;
+            const vibeType = document.getElementById('p-vibe').value;
+
+            await window.db.updateProfile(dashUser.id, {
+                name, avatar, bio,
+                vibe_type: vibeType,
                 tools: JSON.stringify(tools)
             });
-            
-            currentUser.name = document.getElementById('p-name').value;
-            currentUser.tools = tools;
-            showToast('Profile saved! ✨');
-        }
 
-        async function loadProgress() {
-            if (!currentUser) return;
-            
-            try {
-                const progress = await window.db.getProgress(currentUser.id);
-                const modules = ['module1', 'module2', 'module3', 'module4', 'module5', 'module6'];
-                const labs = ['lab1', 'lab2', 'lab3'];
-                
-                const completedModules = progress.filter(p => p.item_type === 'module').map(p => p.item_id);
-                const completedLabs = progress.filter(p => p.item_type === 'lab').map(p => p.item_id);
-                
-                const modulesCount = completedModules.length;
-                const labsCount = completedLabs.length;
-                const totalItems = modules.length + labs.length;
-                const completedItems = modulesCount + labsCount;
-                const percent = Math.round((completedItems / totalItems) * 100);
-                
-                // Update UI
-                document.getElementById('progress-percent').textContent = percent + '%';
-                document.getElementById('progress-bar').style.width = percent + '%';
-                document.getElementById('modules-completed').textContent = `${modulesCount}/${modules.length}`;
-                document.getElementById('labs-completed').textContent = `${labsCount}/${labs.length}`;
-                
-                // Update recent activity
-                const activityDiv = document.getElementById('recent-activity');
-                if (progress.length > 0) {
-                    const sorted = progress.sort((a, b) => new Date(b.completed_at) - new Date(a.completed_at)).slice(0, 5);
-                    activityDiv.innerHTML = sorted.map(p => {
-                        const type = p.item_type === 'module' ? '📚 Module' : '🧪 Lab';
-                        const name = p.item_id.replace(/(module|lab)(\d+)/, (m, t, n) => {
-                            if (t === 'module') return `Module ${n}`;
-                            return `Lab ${n}`;
-                        });
-                        const date = new Date(p.completed_at).toLocaleDateString();
-                        return `<div style="padding: 0.75rem 0; border-bottom: 1px solid var(--border-subtle);">${type} ${name} completed on ${date}</div>`;
-                    }).join('');
-                }
-            } catch (err) {
-                console.error('Error loading progress:', err);
-            }
+            dashUser.name = name;
+            dashUser.avatar = avatar;
+            dashUser.tools = tools;
+            dashUser.vibeType = vibeType;
+            document.getElementById('welcome-heading').textContent = `Welcome, ${name.split(' ')[0]}!`;
+            showToast('Profile saved!');
         }
 
         async function renderMyProjects() {
             const list = document.getElementById('my-projects-list');
-            if (!list) return;
+            if (!list || !dashUser) return;
 
-            list.innerHTML = '<p style="color:var(--text-muted);">Loading...</p>';
-
+            list.innerHTML = '<p style="color:var(--text-muted);font-size:0.875rem;">Loading...</p>';
             let projects = [];
             try {
-                if (window.db && currentUser) {
-                    projects = await window.db.getProjects(currentUser.id);
-                }
+                projects = await window.db.getProjects(dashUser.id);
             } catch (e) { projects = []; }
 
-            // Update stat
             document.getElementById('stat-projects').textContent = projects.length;
 
             if (projects.length === 0) {
-                list.innerHTML = `<div style="text-align:center;padding:2rem;color:var(--text-muted);">
-                    <p style="font-size:2rem;margin-bottom:0.5rem;">📂</p>
-                    <p>No projects yet — complete a lab and submit below!</p>
-                    <a href="lab1.html" class="btn btn-secondary" style="margin-top:1rem;display:inline-flex;">Start Lab 1 →</a>
+                list.innerHTML = `<div class="empty-state">
+                    <div class="icon">📂</div>
+                    <p style="font-size:1rem;font-weight:600;">No projects yet</p>
+                    <p style="font-size:0.875rem;">Complete a lab and submit your project below.</p>
+                    <a href="lab1.html" class="btn btn-secondary" style="margin-top:1rem;display:inline-flex;font-size:0.8125rem;">Start Lab 1 →</a>
                 </div>`;
                 return;
             }
 
             const labLabels = { marketing: '🎨 Marketing', ecommerce: '🛒 E-Commerce', marketplace: '🏪 Marketplace' };
             list.innerHTML = projects.map(p => `
-                <div class="project-card" style="margin-bottom:1rem;padding:1rem;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:var(--radius-md);display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap;">
+                <div class="project-card">
                     <div>
-                        <h4 style="margin:0 0 0.25rem;">${escapeHTML(p.title)}</h4>
-                        <div style="color:var(--text-muted);font-size:0.8125rem;">${escapeHTML(labLabels[p.lab_type] || p.lab_type || '')} · ${escapeHTML(p.tool_used || '')}</div>
+                        <h4>${escapeHTML(p.title)}</h4>
+                        <div class="meta">${escapeHTML(labLabels[p.lab_type] || p.lab_type || '')} · ${escapeHTML(p.tool_used || '')} · ${p.created_at ? new Date(p.created_at).toLocaleDateString() : ''}</div>
                     </div>
                     <a href="${escapeHTML(p.url)}" target="_blank" rel="noopener" class="btn btn-secondary" style="padding:0.4rem 1rem;font-size:0.8rem;flex-shrink:0;">View →</a>
                 </div>`).join('');
@@ -506,92 +452,160 @@
 
         async function submitProject(e) {
             e.preventDefault();
+            if (!dashUser) return;
             const btn = e.target.querySelector('button[type="submit"]');
             const msg = document.getElementById('submit-project-msg');
             btn.disabled = true;
             btn.textContent = 'Submitting...';
             msg.style.display = 'none';
 
-            const item = {
-                user_id: currentUser.id,
-                name: currentUser.name,
-                title: document.getElementById('sp-title').value.trim(),
-                url: document.getElementById('sp-url').value.trim(),
-                lab_type: document.getElementById('sp-lab').value,
-                tool_used: document.getElementById('sp-tool').value,
-                approved: true
-            };
+            const title = document.getElementById('sp-title').value.trim();
+            const url = document.getElementById('sp-url').value.trim();
+            const labType = document.getElementById('sp-lab').value;
+            const toolUsed = document.getElementById('sp-tool').value;
 
             try {
-                // Save to showcase (public gallery)
-                await window.db.submitToShowcase(item);
-                // Also save to user's projects
+                await window.db.submitToShowcase({
+                    user_id: dashUser.id, name: dashUser.name,
+                    title, url, lab_type: labType, tool_used: toolUsed, approved: true
+                });
                 await window.db.createProject({
-                    user_id: currentUser.id,
-                    title: item.title,
-                    url: item.url,
-                    lab_type: item.lab_type,
-                    tool_used: item.tool_used
+                    user_id: dashUser.id, title, url, lab_type: labType, tool_used: toolUsed
                 });
 
                 e.target.reset();
-                msg.textContent = '🚀 Project submitted to the gallery!';
+                msg.textContent = 'Project submitted to the gallery!';
+                msg.style.color = 'var(--accent-emerald)';
+                msg.style.background = 'rgba(16,185,129,0.1)';
                 msg.style.display = 'block';
                 await renderMyProjects();
             } catch (err) {
-                msg.style.color = '#ef4444';
                 msg.textContent = 'Something went wrong. Please try again.';
+                msg.style.color = '#ef4444';
+                msg.style.background = 'rgba(239,68,68,0.1)';
                 msg.style.display = 'block';
             }
 
             btn.disabled = false;
-            btn.textContent = 'Submit to Gallery →';
+            btn.textContent = 'Submit to Gallery';
         }
 
-        document.addEventListener('DOMContentLoaded', async () => {
-            // Wait for auth system to be ready
-            let retries = 0;
-            while ((!window.auth || !window.db) && retries < 50) {
-                await new Promise(r => setTimeout(r, 100));
-                retries++;
+        async function renderProgress() {
+            if (!dashUser) return;
+            let progress = [];
+            try { progress = await window.db.getProgress(dashUser.id); } catch (_) {}
+            const completedSlugs = new Set(progress.map(p => p.content_slug));
+
+            const allItems = ['module1','module2','module3','module4','module5','module6','lab1','lab2','lab3'];
+            const modulesDone = ['module1','module2','module3','module4','module5','module6'].filter(s => completedSlugs.has(s)).length;
+            const labsDone = ['lab1','lab2','lab3'].filter(s => completedSlugs.has(s)).length;
+            const totalDone = modulesDone + labsDone;
+            const pct = Math.round((totalDone / 9) * 100);
+
+            document.getElementById('stat-progress').textContent = pct + '%';
+            document.getElementById('modules-done').innerHTML = modulesDone + '<span style="font-size:0.75rem;font-weight:400;color:var(--text-muted);">/6</span>';
+            document.getElementById('labs-done').innerHTML = labsDone + '<span style="font-size:0.75rem;font-weight:400;color:var(--text-muted);">/3</span>';
+            document.getElementById('modules-bar').style.width = Math.round((modulesDone / 6) * 100) + '%';
+            document.getElementById('labs-bar').style.width = Math.round((labsDone / 3) * 100) + '%';
+
+            // Update course status icons
+            document.querySelectorAll('.course-status[data-slug]').forEach(el => {
+                el.textContent = completedSlugs.has(el.dataset.slug) ? '✅' : '⬜';
+            });
+
+            // Checklist
+            const modules = [
+                { slug: 'module1', label: 'Module 1 — What is AI', href: 'module1.html' },
+                { slug: 'module2', label: 'Module 2 — What is Vibe Coding', href: 'module2.html' },
+                { slug: 'module3', label: 'Module 3 — The Toolkit', href: 'module3.html' },
+                { slug: 'module4', label: 'Module 4 — Prompt Chaining', href: 'module4.html' },
+                { slug: 'module5', label: 'Module 5 — Context Engineering', href: 'module5.html' },
+                { slug: 'module6', label: 'Module 6 — Process Engineering', href: 'module6.html' }
+            ];
+            const labs = [
+                { slug: 'lab1', label: 'Lab 1 — Marketing Website', href: 'lab1.html' },
+                { slug: 'lab2', label: 'Lab 2 — E-Commerce Store', href: 'lab2.html' },
+                { slug: 'lab3', label: 'Lab 3 — Marketplace', href: 'lab3.html' }
+            ];
+
+            const checklist = document.getElementById('progress-checklist');
+            if (!checklist) return;
+
+            function renderItem(item, done) {
+                return `<a href="${item.href}" style="display:flex;align-items:center;gap:0.75rem;padding:0.5rem 0.75rem;border-radius:8px;text-decoration:none;color:${done ? 'var(--text-secondary)' : 'var(--text-primary)'};font-size:0.875rem;transition:background 0.15s;" onmouseover="this.style.background='var(--bg-card)'" onmouseout="this.style.background='transparent'">
+                    <span style="font-size:1rem;">${done ? '✅' : '⬜'}</span>
+                    <span style="${done ? 'text-decoration:line-through;' : ''}">${escapeHTML(item.label)}</span>
+                </a>`;
             }
-            
-            // Initialize auth
-            await initAuth();
-            
-            currentUser = getCurrentUser();
-            if (!currentUser) { window.location.href = 'auth.html'; return; }
 
-            // Update welcome
-            document.getElementById('welcome-heading').textContent = `Welcome, ${currentUser.name?.split(' ')[0] || 'Vibe Coder'}!`;
-            document.getElementById('welcome-subtitle').textContent = currentUser.accountType === 'school' || currentUser.accountType === 'corporate' 
-                ? `${currentUser.organizationName || currentUser.accountType} Account` 
-                : 'Your personal learning journey';
+            checklist.innerHTML = `
+                <div style="margin-bottom:1rem;">
+                    <div style="font-size:0.6875rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem;font-weight:600;">Modules</div>
+                    ${modules.map(m => renderItem(m, completedSlugs.has(m.slug))).join('')}
+                </div>
+                <div>
+                    <div style="font-size:0.6875rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.5rem;font-weight:600;">Labs</div>
+                    ${labs.map(l => renderItem(l, completedSlugs.has(l.slug))).join('')}
+                </div>
+            `;
 
-            // Update stats
-            document.getElementById('stat-projects').textContent = currentUser.projects?.length || 0;
-            document.getElementById('stat-tools').textContent = currentUser.tools?.length || 0;
-            document.getElementById('stat-type').textContent = currentUser.accountType?.charAt(0).toUpperCase() || 'I';
+            // Update "continue learning" to show next incomplete item
+            const nextModule = modules.find(m => !completedSlugs.has(m.slug));
+            const nextLab = labs.find(l => !completedSlugs.has(l.slug));
+            const continueEl = document.getElementById('continue-learning');
+            if (continueEl && (nextModule || nextLab)) {
+                let html = '';
+                if (nextModule) {
+                    const icons = { module1: '🧠', module2: '🎯', module3: '🛠️', module4: '🔗', module5: '📋', module6: '⚙️' };
+                    html += `<a href="${nextModule.href}" class="course-card"><div class="course-icon">${icons[nextModule.slug] || '📚'}</div><div class="course-info"><h4>${escapeHTML(nextModule.label)}</h4><p>Continue where you left off</p></div><div class="course-status">→</div></a>`;
+                }
+                if (nextLab) {
+                    const icons = { lab1: '🎨', lab2: '🛒', lab3: '🏪' };
+                    html += `<a href="${nextLab.href}" class="course-card"><div class="course-icon">${icons[nextLab.slug] || '🧪'}</div><div class="course-info"><h4>${escapeHTML(nextLab.label)}</h4><p>Build your next project</p></div><div class="course-status">→</div></a>`;
+                }
+                continueEl.innerHTML = html;
+            }
+        }
 
-            // Populate profile form
-            document.getElementById('p-avatar').value = currentUser.avatar || '🧑‍💻';
-            document.getElementById('p-name').value = currentUser.name || '';
-            document.getElementById('p-bio').value = currentUser.bio || '';
-            document.getElementById('p-vibe').value = currentUser.vibeType || 'Explorer';
-            
+        // Init
+        document.addEventListener('DOMContentLoaded', async () => {
+            await window.authPromise;
+
+            dashUser = getCurrentUser();
+            if (!dashUser) { window.location.href = 'auth.html'; return; }
+
+            // Welcome
+            document.getElementById('welcome-heading').textContent = `Welcome, ${(dashUser.name || 'Vibe Coder').split(' ')[0]}!`;
+            document.getElementById('welcome-subtitle').textContent = dashUser.accountType === 'school' || dashUser.accountType === 'corporate'
+                ? `${dashUser.organizationName || dashUser.accountType} Account`
+                : 'Your personal learning dashboard';
+
+            // Stats
+            document.getElementById('stat-projects').textContent = dashUser.projects?.length || 0;
+            document.getElementById('stat-tools').textContent = dashUser.tools?.length || 0;
+            const typeLabels = { individual: 'Individual', school: 'School', corporate: 'Corporate' };
+            document.getElementById('stat-type').textContent = typeLabels[dashUser.accountType] || 'Individual';
+
+            // Profile form
+            document.getElementById('p-avatar').value = dashUser.avatar || '🧑‍💻';
+            document.getElementById('p-name').value = dashUser.name || '';
+            document.getElementById('p-bio').value = dashUser.bio || '';
+            document.getElementById('p-vibe').value = dashUser.vibeType || 'Explorer';
+            document.getElementById('view-profile-link').href = `profile.html?id=${dashUser.id}`;
+
             // Settings
-            document.getElementById('s-type').value = currentUser.accountType || 'individual';
-            document.getElementById('org-name').value = currentUser.organizationName || '';
+            document.getElementById('s-type').value = dashUser.accountType || 'individual';
+            document.getElementById('org-name').value = dashUser.organizationName || '';
             toggleOrgFields();
 
             // Check tools
-            (currentUser.tools || []).forEach(t => {
+            (dashUser.tools || []).forEach(t => {
                 const cb = document.querySelector(`input[name="tools"][value="${t}"]`);
                 if (cb) cb.checked = true;
             });
 
             renderMyProjects();
-            loadProgress();
+            renderProgress();
         });
     </script>
 </body>

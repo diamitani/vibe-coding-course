@@ -33,12 +33,12 @@
 
       <!-- Hero -->
       <section class="hero">
-        <div class="hero-badge"><span class="dot"></span> Course Available Now</div>
+        <div class="hero-badge"><span class="dot"></span> Free AI Training Program</div>
         <h1>Build Anything with<br><span class="gradient-text">Vibe Coding</span></h1>
         <p>Master the new paradigm of software creation. Use AI-powered tools and prompt engineering to build real
           websites, apps, and automations — no traditional coding required.</p>
         <div class="hero-cta">
-          <a href="module1.html" class="btn btn-primary">Start Free Training →</a>
+          <a href="auth.html" class="btn btn-primary">Start Free Training →</a>
           <a href="#syllabus" class="btn btn-secondary">View Syllabus</a>
         </div>
       </section>
@@ -171,50 +171,24 @@
         </div>
       </section>
 
-      <!-- Newsletter Subscribe -->
-      <section class="section fade-in" id="newsletter" style="margin-top:var(--space-xl);">
-        <div class="signup-section" style="background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(6,182,212,0.1)); border: 1px solid rgba(139,92,246,0.2);">
-          <div style="text-align: center; margin-bottom: var(--space-lg);">
-            <span style="display: inline-block; padding: 0.5rem 1rem; background: rgba(139,92,246,0.15); border-radius: 20px; font-size: 0.875rem; color: var(--accent-primary); margin-bottom: 1rem;">
-              📬 Weekly Insights
-            </span>
-            <h2 style="font-size:2rem;margin-bottom:0.75rem;color:var(--text-primary);">Join the Vibe Coding Newsletter</h2>
-            <p style="font-size:1rem;color:var(--text-secondary); max-width: 600px; margin: 0 auto;">
-              Get weekly AI tools updates, prompt engineering tips, exclusive tutorials, and early access to new modules delivered straight to your inbox.
+      <!-- CTA Section -->
+      <section class="section fade-in" id="stay-updated" style="margin-top:var(--space-xl);">
+        <div class="signup-section">
+          <h2 style="font-size:1.75rem;margin-bottom:0.5rem;color:var(--text-primary);">Ready to Build with AI?</h2>
+          <p style="font-size:1rem;color:var(--text-secondary);margin-bottom:var(--space-lg);">
+            Create your free account to access all modules, hands-on labs, and track your progress.
+          </p>
+          <a href="auth.html" class="btn btn-primary" style="font-size:1.1rem;padding:1rem 2.5rem;display:inline-flex;">Create Free Account →</a>
+          <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border-subtle);">
+            <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:1rem;">Or subscribe for updates:</p>
+            <form class="signup-inline" id="subscribe-form" onsubmit="handleSubscribe(event)">
+              <input type="email" class="form-input" placeholder="you@example.com" required>
+              <button type="submit" class="btn btn-secondary">Subscribe →</button>
+            </form>
+            <p id="subscribe-msg" style="display:none;margin-top:1rem;color:var(--accent-emerald);">
+              You're on the list! We'll be in touch.
             </p>
           </div>
-          
-          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: var(--space-lg); max-width: 800px; margin-left: auto; margin-right: auto;">
-            <div style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; background: var(--bg-card); border-radius: 8px;">
-              <span style="font-size: 1.5rem;">🎯</span>
-              <span style="font-size: 0.9375rem;">Prompt Engineering Tips</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; background: var(--bg-card); border-radius: 8px;">
-              <span style="font-size: 1.5rem;">🚀</span>
-              <span style="font-size: 0.9375rem;">New AI Tools & Updates</span>
-            </div>
-            <div style="display: flex; align-items: center; gap: 0.75rem; padding: 1rem; background: var(--bg-card); border-radius: 8px;">
-              <span style="font-size: 1.5rem;">📚</span>
-              <span style="font-size: 0.9375rem;">Exclusive Tutorials</span>
-            </div>
-          </div>
-          
-          <form class="signup-inline" id="newsletter-form" onsubmit="handleNewsletterSubscribe(event)" style="max-width: 500px; margin: 0 auto;">
-            <input type="email" id="newsletter-email" class="form-input" placeholder="you@example.com" required>
-            <button type="submit" id="newsletter-btn" class="btn btn-primary">Subscribe Now →</button>
-          </form>
-          
-          <p id="newsletter-success" style="display:none;margin-top:1rem;color:var(--accent-emerald);text-align:center;">
-            <strong>Welcome aboard!</strong> Check your inbox for a confirmation email. 🎉
-          </p>
-          
-          <p id="newsletter-error" style="display:none;margin-top:1rem;color:#ef4444;text-align:center;">
-            Something went wrong. Please try again.
-          </p>
-          
-          <p style="margin-top:var(--space-md);color:var(--text-muted);font-size:0.8125rem;text-align:center;">
-            🔒 No spam, ever. Unsubscribe anytime. We respect your privacy.
-          </p>
         </div>
       </section>
 
@@ -231,46 +205,24 @@
   <script src="supabase-client.js"></script>
   <script src="script.js"></script>
   <script>
-    async function handleNewsletterSubscribe(e) {
+    async function handleSubscribe(e) {
       e.preventDefault();
-      const email = document.getElementById('newsletter-email').value;
-      const btn = document.getElementById('newsletter-btn');
-      const successMsg = document.getElementById('newsletter-success');
-      const errorMsg = document.getElementById('newsletter-error');
-      
-      // Reset messages
-      successMsg.style.display = 'none';
-      errorMsg.style.display = 'none';
-      
+      const email = e.target.querySelector('input').value;
+      const btn = e.target.querySelector('button');
       btn.textContent = 'Subscribing...';
       btn.disabled = true;
 
       try {
-        // Subscribe to newsletter (this triggers welcome email via Supabase webhook)
-        const result = await window.db.subscribeNewsletter(email);
-        
-        if (result.error) {
-          throw result.error;
-        }
-        
-        // Show success
-        document.getElementById('newsletter-form').style.display = 'none';
-        successMsg.style.display = 'block';
-        
+        await window._supabaseReady;
+        await window.db.addSubscriber(email);
       } catch (err) {
-        console.error('Newsletter subscription error:', err);
-        
-        // Fallback to localStorage if Supabase fails
-        const list = JSON.parse(localStorage.getItem('newsletter_subscribers') || '[]');
-        if (!list.some(s => s.email === email)) {
-          list.push({ email, subscribed_at: new Date().toISOString() });
-          localStorage.setItem('newsletter_subscribers', JSON.stringify(list));
-        }
-        
-        // Still show success since we saved locally
-        document.getElementById('newsletter-form').style.display = 'none';
-        successMsg.style.display = 'block';
+        console.error('Subscribe error:', err);
       }
+
+      e.target.reset();
+      document.getElementById('subscribe-msg').style.display = 'block';
+      btn.textContent = 'Subscribe →';
+      btn.disabled = false;
     }
   </script>
 </body>
