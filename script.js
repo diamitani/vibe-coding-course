@@ -2,18 +2,14 @@
    VIBE CODING MASTERCLASS — Shared JS
    ======================================== */
 
-// Load Supabase client
-const supabaseScript = document.createElement('script');
-supabaseScript.src = 'supabase-client.js';
-document.head.appendChild(supabaseScript);
+// Load Supabase SDK and client
+const supabaseSdkScript = document.createElement('script');
+supabaseSdkScript.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js';
+document.head.appendChild(supabaseSdkScript);
 
-// Wait for Supabase to load
-window.authPromise = new Promise(resolve => {
-  const check = setInterval(() => {
-    if (window.auth && window.db) { clearInterval(check); resolve(); }
-  }, 100);
-  setTimeout(() => { clearInterval(check); resolve(); }, 3000);
-});
+const supabaseClientScript = document.createElement('script');
+supabaseClientScript.src = 'supabase-client.js';
+document.head.appendChild(supabaseClientScript);
 
 const CUSTOM_GPTS = [
   { name: 'Instruction Architect', desc: 'Setting the gold standard for AI system instruction design.', url: 'https://chatgpt.com/g/g-676964c88b088191b70dcd4133ae2595-1-system-instruction-architect', category: 'Expert GPT', tags: ['System Prompts', 'Logic'] },
@@ -31,11 +27,10 @@ const CUSTOM_GPTS = [
   { name: 'Full Stack Copilot', desc: 'Scaffolds components using React, Tailwind, and full-stack logic.', url: 'https://chatgpt.com/g/g-681003e70b4081919f5c7accc1096e21-custom-gpt-guide', category: 'Expert GPT', tags: ['React', 'Fullstack'] },
   { name: 'GPT Creator Pro', desc: 'Advanced GPT architect specializing in prompt optimization.', url: 'https://chatgpt.com/g/g-s9YtL560v-gpt-creator-pro', category: 'Expert GPT', tags: ['Optimizer', 'Advanced'] }
 ];
-window.authPromise = initAuth();
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // ---- Initialize Azure Auth ----
-  await window.authPromise;
+  // ---- Initialize Supabase Auth ----
+  await initAuth();
   // ---- Mobile Nav Toggle ----
   const toggle = document.querySelector('.nav-toggle');
   const links = document.querySelector('.nav-links');

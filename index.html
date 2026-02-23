@@ -38,7 +38,7 @@
         <p>Master the new paradigm of software creation. Use AI-powered tools and prompt engineering to build real
           websites, apps, and automations — no traditional coding required.</p>
         <div class="hero-cta">
-          <a href="#stay-updated" class="btn btn-primary">Get Early Access →</a>
+          <a href="module1.html" class="btn btn-primary">Start Free Training →</a>
           <a href="#syllabus" class="btn btn-secondary">View Syllabus</a>
         </div>
       </section>
@@ -174,13 +174,20 @@
       <!-- Subscribe -->
       <section class="section fade-in" id="stay-updated" style="margin-top:var(--space-xl);">
         <div class="signup-section">
-          <h2 style="font-size:1.75rem;margin-bottom:0.5rem;color:var(--text-primary);">Get Early Access</h2>
+          <h2 style="font-size:1.75rem;margin-bottom:0.5rem;color:var(--text-primary);">Track Your Progress</h2>
           <p style="font-size:1rem;color:var(--text-secondary);margin-bottom:var(--space-lg);">
-            Subscribe for updates, new modules, and first access when the full platform launches.
+            Sign up to save your progress, earn certificates, and showcase your projects.
+          </p>
+          <div class="hero-cta" style="justify-content:center;">
+            <a href="auth.html" class="btn btn-primary">Create Free Account →</a>
+            <a href="module1.html" class="btn btn-secondary">Browse Modules</a>
+          </div>
+          <p style="margin-top:var(--space-md);color:var(--text-muted);font-size:0.875rem;">
+            Or subscribe for course updates:
           </p>
           <form class="signup-inline" id="subscribe-form" onsubmit="handleSubscribe(event)">
             <input type="email" class="form-input" placeholder="you@example.com" required>
-            <button type="submit" class="btn btn-primary">Subscribe →</button>
+            <button type="submit" class="btn btn-secondary">Subscribe →</button>
           </form>
           <p id="subscribe-msg" style="display:none;margin-top:1rem;color:var(--accent-emerald);">
             You're on the list! We'll be in touch. 🎉
@@ -197,6 +204,7 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="supabase-client.js"></script>
   <script src="script.js"></script>
   <script>
@@ -208,16 +216,7 @@
       btn.disabled = true;
 
       try {
-        await fetch('https://vptixdomrdxksufgkurp.supabase.co/rest/v1/subscribers', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'apikey': 'sb_publishable_XUCSEcjKE0RyGQoL8fplPg_xCoTWOGE',
-            'Authorization': 'Bearer sb_publishable_XUCSEcjKE0RyGQoL8fplPg_xCoTWOGE',
-            'Prefer': 'return=minimal'
-          },
-          body: JSON.stringify({ email })
-        });
+        await window.db.addSubscriber(email);
       } catch (err) {
         const list = JSON.parse(localStorage.getItem('subscribers') || '[]');
         if (!list.includes(email)) { list.push(email); localStorage.setItem('subscribers', JSON.stringify(list)); }

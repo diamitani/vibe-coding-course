@@ -1,289 +1,247 @@
-// Supabase Client Configuration with Auth
+// Supabase Client Configuration with Official SDK
 const SUPABASE_URL = 'https://vptixdomrdxksufgkurp.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_XUCSEcjKE0RyGQoL8fplPg_xCoTWOGE';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZwdGl4ZG9tcmR4a3N1ZmdrdXJwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE3NDI2NTYsImV4cCI6MjA4NzMxODY1Nn0.Dqx9Qdbilvn9aMTMUyedv39zZi3xf2o_QR-lCJyGnPs';
 
-window.SUPABASE_URL = SUPABASE_URL;
-window.SUPABASE_KEY = SUPABASE_KEY;
+// Initialize Supabase client using the official SDK
+let supabaseClient = null;
 
-// Simple Supabase client with Auth
-const supabase = {
-  URL: SUPABASE_URL,
-  key: SUPABASE_KEY,
-  
-  // Auth methods
-  auth: {
-    getSession: async () => {
-      const { data: { session }, error } = await supabase.supabase.auth.getSession();
-      return { data: { session }, error };
-    },
-    
-    signInWithPassword: async ({ email, password }) => {
-      const response = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': SUPABASE_KEY,
-        },
-        body: JSON.stringify({ email, password })
-      });
-      const data = await response.json();
-      return { data, error: response.ok ? null : data };
-    },
-    
-    signUp: async ({ email, password }) => {
-      const response = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'apikey': SUPABASE_KEY,
-        },
-        body: JSON.stringify({ email, password })
-      });
-      const data = await response.json();
-      return { data, error: response.ok ? null : data };
-    },
-    
-    signInWithOAuth: async ({ provider }) => {
-      const { data, error } = await supabase.supabase.auth.signInWithOAuth({ provider });
-      return { data, error };
-    },
-    
-    signOut: async () => {
-      const response = await fetch(`${SUPABASE_URL}/auth/v1/logout`, {
-        method: 'POST',
-        headers: {
-          'apikey': SUPABASE_KEY,
-          'Authorization': `Bearer ${localStorage.getItem('sb_access_token')}`
-        }
-      });
-      localStorage.removeItem('sb_access_token');
-      localStorage.removeItem('sb_user');
-      return { error: response.ok ? null : await response.json() };
-    },
-    
-    getUser: async () => {
-      const token = localStorage.getItem('sb_access_token');
-      if (!token) return { data: { user: null }, error: null };
-      
-      const response = await fetch(`${SUPABASE_URL}/auth/v1/user`, {
-        headers: {
-          'apikey': SUPABASE_KEY,
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      const data = await response.json();
-      return { data: { user: response.ok ? data : null }, error: response.ok ? null : data };
-    }
-  },
-  
-  // Database methods
-  from: function(table) {
-    const token = localStorage.getItem('sb_access_token');
-    return {
-      table: table,
-      _eq: null,
-      _filters: [],
-      
-      select: function(columns = '*') { this._select = columns; return this; },
-      insert: function(data) { this._data = data; this._action = 'insert'; return this; },
-      update: function(data) { this._data = data; this._action = 'update'; return this; },
-      delete: function() { this._action = 'delete'; return this; },
-      
-      eq: function(column, value) { this._eq = { column, value }; return this; },
-      neq: function(column, value) { this._filters.push({ op: 'neq', column, value }); return this; },
-      order: function(column, { ascending = true } = {}) { this._order = { column, ascending }; return this; },
-      limit: function(n) { this._limit = n; return this; },
-      
-      then: async function(resolve, reject) {
-        try {
-          let url = `${supabase.URL}/rest/v1/${this.table}`;
-          const params = new URLSearchParams();
-          params.append('select', this._select || '*');
-          
-          if (this._eq) params.append(this._eq.column, `eq.${this._eq.value}`);
-          this._filters.forEach(f => params.append(f.column, `${f.op}.${f.value}`));
-          if (this._order) params.append('order', `${this._order.column}.${this._order.ascending ? 'asc' : 'desc'}`);
-          if (this._limit) params.append('limit', this._limit.toString());
-          
-          url += '?' + params.toString();
-          
-          const headers = {
-            'apikey': supabase.key,
-            'Authorization': `Bearer ${token || supabase.key}`,
-            'Content-Type': 'application/json',
-            'Prefer': 'return=representation'
-          };
-          
-          let response;
-          
-          if (this._action === 'insert') {
-            response = await fetch(url, { method: 'POST', headers, body: JSON.stringify(this._data) });
-          } else if (this._action === 'update') {
-            const where = this._eq ? `?${this._eq.column}=eq.${this._eq.value}` : '';
-            response = await fetch(`${supabase.URL}/rest/v1/${this.table}${where}`, { 
-              method: 'PATCH', headers, body: JSON.stringify(this._data) 
-            });
-          } else if (this._action === 'delete') {
-            const where = this._eq ? `?${this._eq.column}=eq.${this._eq.value}` : '';
-            response = await fetch(`${supabase.URL}/rest/v1/${this.table}${where}`, { method: 'DELETE', headers });
-          } else {
-            response = await fetch(url, { headers });
-          }
-          
-          const data = await response.json();
-          resolve({ data, error: response.ok ? null : data });
-        } catch (err) { reject(err); }
+function initSupabase() {
+  if (typeof window.supabase !== 'undefined' && window.supabase.createClient) {
+    supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY, {
+      auth: {
+        autoRefreshToken: true,
+        persistSession: true,
+        detectSessionInUrl: true
       }
-    };
+    });
+    return supabaseClient;
   }
-};
-
-// Initialize supabase with the official library if available
-if (typeof window.supabase !== 'undefined') {
-  supabase.supabase = window.supabase;
+  return null;
 }
 
-// DB Helper functions
-window.db = {
-  // Profiles
-  getProfile: async function(userId) {
-    const { data, error } = await supabase.from('profiles').select('*').eq('user_id', userId).then(r => r);
-    return data && data.length > 0 ? data[0] : null;
-  },
-  
-  createProfile: async function(profile) {
-    return await supabase.from('profiles').insert(profile).then(r => r);
-  },
-  
-  updateProfile: async function(userId, updates) {
-    return await supabase.from('profiles').update(updates).eq('user_id', userId).then(r => r);
-  },
-  
-  // Projects
-  getProjects: async function(userId) {
-    const { data, error } = await supabase.from('projects').select('*').eq('user_id', userId).order('created_at', { ascending: false }).then(r => r);
-    return data || [];
-  },
-  
-  getAllProjects: async function() {
-    const { data, error } = await supabase.from('projects').select('*').order('created_at', { ascending: false }).then(r => r);
-    return data || [];
-  },
-  
-  createProject: async function(project) {
-    return await supabase.from('projects').insert(project).then(r => r);
-  },
-  
-  deleteProject: async function(projectId) {
-    return await supabase.from('projects').delete().eq('id', projectId).then(r => r);
-  },
-  
-  // Showcase
-  getShowcase: async function() {
-    const { data, error } = await supabase.from('showcase').select('*').eq('approved', true).order('created_at', { ascending: false }).then(r => r);
-    return data || [];
-  },
-  
-  submitToShowcase: async function(item) {
-    return await supabase.from('showcase').insert({ ...item, approved: true }).then(r => r);
-  },
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  initSupabase();
+});
 
-  // Subscribers
-  getSubscribers: async function() {
-    const { data, error } = await supabase.from('subscribers').select('*').order('created_at', { ascending: false }).then(r => r);
-    return data || [];
-  },
-
-  addSubscriber: async function(email) {
-    return await supabase.from('subscribers').insert({ email }).then(r => r);
-  },
-
-  // API Keys
-  getUserApiKeys: async function(userId) {
-    const token = localStorage.getItem('sb_access_token');
-    const response = await fetch(`${supabase.URL}/rest/v1/user_api_keys?user_id=eq.${encodeURIComponent(userId)}&select=provider,api_key,updated_at`, {
-      headers: {
-        'apikey': supabase.key,
-        'Authorization': `Bearer ${token || supabase.key}`
-      }
-    });
-    const data = await response.json();
-    return response.ok ? (data || []) : [];
-  },
-
-  saveApiKey: async function(userId, provider, apiKey) {
-    const token = localStorage.getItem('sb_access_token');
-    // Upsert via POST with merge-duplicates
-    const response = await fetch(`${supabase.URL}/rest/v1/user_api_keys`, {
-      method: 'POST',
-      headers: {
-        'apikey': supabase.key,
-        'Authorization': `Bearer ${token || supabase.key}`,
-        'Content-Type': 'application/json',
-        'Prefer': 'resolution=merge-duplicates,return=minimal'
-      },
-      body: JSON.stringify({ user_id: userId, provider, api_key: apiKey, updated_at: new Date().toISOString() })
-    });
-    return { ok: response.ok, status: response.status };
-  },
-
-  deleteApiKey: async function(userId, provider) {
-    const token = localStorage.getItem('sb_access_token');
-    const response = await fetch(`${supabase.URL}/rest/v1/user_api_keys?user_id=eq.${encodeURIComponent(userId)}&provider=eq.${encodeURIComponent(provider)}`, {
-      method: 'DELETE',
-      headers: {
-        'apikey': supabase.key,
-        'Authorization': `Bearer ${token || supabase.key}`
-      }
-    });
-    return { ok: response.ok };
-  }
-};
-
-// Auth helper
+// Auth helper that works with the official SDK
 window.auth = {
   getUser: async function() {
-    const stored = localStorage.getItem('sb_user');
-    if (stored) return JSON.parse(stored);
-    const { data: { user } } = await supabase.auth.getUser();
+    if (!supabaseClient) initSupabase();
+    if (!supabaseClient) {
+      // Fallback to localStorage
+      const stored = localStorage.getItem('sb_user');
+      return stored ? JSON.parse(stored) : null;
+    }
+    const { data: { user } } = await supabaseClient.auth.getUser();
     if (user) localStorage.setItem('sb_user', JSON.stringify(user));
     return user;
   },
-  
+
   getSession: async function() {
-    const { data: { session } } = await supabase.auth.getSession();
+    if (!supabaseClient) initSupabase();
+    if (!supabaseClient) return null;
+    const { data: { session } } = await supabaseClient.auth.getSession();
     return session;
   },
-  
+
   signUp: async function(email, password) {
-    const result = await supabase.auth.signUp({ email, password });
+    if (!supabaseClient) initSupabase();
+    if (!supabaseClient) return { error: { message: 'Supabase not loaded' } };
+    const result = await supabaseClient.auth.signUp({ email, password });
     if (!result.error && result.data.user) {
-      // Supabase signup returns access_token at top level (no session wrapper)
-      const token = result.data.access_token;
-      if (token) localStorage.setItem('sb_access_token', token);
+      localStorage.setItem('sb_user', JSON.stringify(result.data.user));
+      if (result.data.session) {
+        localStorage.setItem('sb_access_token', result.data.session.access_token);
+      }
+    }
+    return result;
+  },
+
+  signIn: async function(email, password) {
+    if (!supabaseClient) initSupabase();
+    if (!supabaseClient) return { error: { message: 'Supabase not loaded' } };
+    const result = await supabaseClient.auth.signInWithPassword({ email, password });
+    if (!result.error && result.data.session) {
+      localStorage.setItem('sb_access_token', result.data.session.access_token);
       localStorage.setItem('sb_user', JSON.stringify(result.data.user));
     }
     return result;
   },
-  
-  signIn: async function(email, password) {
-    const result = await supabase.auth.signInWithPassword({ email, password });
-    if (!result.error && result.data.access_token) {
-      localStorage.setItem('sb_access_token', result.data.access_token);
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) localStorage.setItem('sb_user', JSON.stringify(user));
-    }
-    return result;
+
+  signInWithOAuth: async function(provider) {
+    if (!supabaseClient) initSupabase();
+    if (!supabaseClient) return { error: { message: 'Supabase not loaded' } };
+    return await supabaseClient.auth.signInWithOAuth({ provider });
   },
-  
+
   signOut: async function() {
-    await supabase.auth.signOut();
+    if (!supabaseClient) initSupabase();
+    if (supabaseClient) {
+      await supabaseClient.auth.signOut();
+    }
+    localStorage.removeItem('sb_access_token');
+    localStorage.removeItem('sb_user');
     window.location.href = '/';
   },
-  
+
   isSignedIn: function() {
     return !!localStorage.getItem('sb_access_token');
   }
 };
 
-window.supabase = supabase;
+// Database helper functions
+window.db = {
+  // Profiles
+  getProfile: async function(userId) {
+    if (!supabaseClient) initSupabase();
+    if (!supabaseClient) return null;
+    const { data, error } = await supabaseClient
+      .from('profiles')
+      .select('*')
+      .eq('user_id', userId)
+      .single();
+    return data;
+  },
+
+  createProfile: async function(profile) {
+    if (!supabaseClient) initSupabase();
+    if (!supabaseClient) return { error: { message: 'Supabase not loaded' } };
+    return await supabaseClient.from('profiles').insert(profile);
+  },
+
+  updateProfile: async function(userId, updates) {
+    if (!supabaseClient) initSupabase();
+    if (!supabaseClient) return { error: { message: 'Supabase not loaded' } };
+    return await supabaseClient
+      .from('profiles')
+      .update(updates)
+      .eq('user_id', userId);
+  },
+
+  // Projects
+  getProjects: async function(userId) {
+    if (!supabaseClient) initSupabase();
+    if (!supabaseClient) return [];
+    const { data, error } = await supabaseClient
+      .from('projects')
+      .select('*')
+      .eq('user_id', userId)
+      .order('created_at', { ascending: false });
+    return data || [];
+  },
+
+  getAllProjects: async function() {
+    if (!supabaseClient) initSupabase();
+    if (!supabaseClient) return [];
+    const { data, error } = await supabaseClient
+      .from('projects')
+      .select('*')
+      .order('created_at', { ascending: false });
+    return data || [];
+  },
+
+  createProject: async function(project) {
+    if (!supabaseClient) initSupabase();
+    if (!supabaseClient) return { error: { message: 'Supabase not loaded' } };
+    return await supabaseClient.from('projects').insert(project);
+  },
+
+  deleteProject: async function(projectId) {
+    if (!supabaseClient) initSupabase();
+    if (!supabaseClient) return { error: { message: 'Supabase not loaded' } };
+    return await supabaseClient.from('projects').delete().eq('id', projectId);
+  },
+
+  // Showcase
+  getShowcase: async function() {
+    if (!supabaseClient) initSupabase();
+    if (!supabaseClient) return [];
+    const { data, error } = await supabaseClient
+      .from('showcase')
+      .select('*')
+      .eq('approved', true)
+      .order('created_at', { ascending: false });
+    return data || [];
+  },
+
+  submitToShowcase: async function(item) {
+    if (!supabaseClient) initSupabase();
+    if (!supabaseClient) return { error: { message: 'Supabase not loaded' } };
+    return await supabaseClient.from('showcase').insert({ ...item, approved: true });
+  },
+
+  // Subscribers
+  getSubscribers: async function() {
+    if (!supabaseClient) initSupabase();
+    if (!supabaseClient) return [];
+    const { data, error } = await supabaseClient
+      .from('subscribers')
+      .select('*')
+      .order('created_at', { ascending: false });
+    return data || [];
+  },
+
+  addSubscriber: async function(email) {
+    if (!supabaseClient) initSupabase();
+    if (!supabaseClient) return { error: { message: 'Supabase not loaded' } };
+    return await supabaseClient.from('subscribers').insert({ email });
+  },
+
+  // Course Progress
+  getProgress: async function(userId) {
+    if (!supabaseClient) initSupabase();
+    if (!supabaseClient) return [];
+    const { data, error } = await supabaseClient
+      .from('course_progress')
+      .select('*')
+      .eq('user_id', userId);
+    return data || [];
+  },
+
+  markComplete: async function(userId, itemType, itemId) {
+    if (!supabaseClient) initSupabase();
+    if (!supabaseClient) return { error: { message: 'Supabase not loaded' } };
+    return await supabaseClient.from('course_progress').insert({
+      user_id: userId,
+      item_type: itemType,
+      item_id: itemId,
+      completed: true
+    });
+  },
+
+  // API Keys
+  getUserApiKeys: async function(userId) {
+    if (!supabaseClient) initSupabase();
+    if (!supabaseClient) return [];
+    const { data, error } = await supabaseClient
+      .from('user_api_keys')
+      .select('provider,api_key,updated_at')
+      .eq('user_id', userId);
+    return data || [];
+  },
+
+  saveApiKey: async function(userId, provider, apiKey) {
+    if (!supabaseClient) initSupabase();
+    if (!supabaseClient) return { error: { message: 'Supabase not loaded' } };
+    return await supabaseClient.from('user_api_keys').upsert({
+      user_id: userId,
+      provider,
+      api_key: apiKey,
+      updated_at: new Date().toISOString()
+    });
+  },
+
+  deleteApiKey: async function(userId, provider) {
+    if (!supabaseClient) initSupabase();
+    if (!supabaseClient) return { error: { message: 'Supabase not loaded' } };
+    return await supabaseClient
+      .from('user_api_keys')
+      .delete()
+      .eq('user_id', userId)
+      .eq('provider', provider);
+  }
+};
+
+// Export for compatibility
+window.supabase = { auth: window.auth };
