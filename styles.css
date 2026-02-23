@@ -1219,14 +1219,37 @@ textarea.form-input {
 
 /* ---------- Animations on scroll ---------- */
 .fade-in {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.6s var(--ease-out);
+  opacity: 1;
+  transform: none;
 }
 
 .fade-in.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s var(--ease-out);
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fade-in {
+    transition: none;
+  }
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: none;
 }
 
 /* ---------- Responsive ---------- */

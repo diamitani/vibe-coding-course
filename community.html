@@ -4,24 +4,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community | Vibe Coding Masterclass</title>
-    <meta name="description"
-        content="Browse the vibe coding community. Find other builders, designers, and automators and check out their projects.">
+    <title>Community | LetsVibeAI</title>
+    <meta name="description" content="Browse the LetsVibeAI community. Find other builders, designers, and automators and check out their projects.">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .community-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.25rem; margin-top: 2rem; }
+        .user-card { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 1.5rem 1rem; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); text-decoration: none; color: var(--text-primary); transition: all 0.2s; }
+        .user-card:hover { border-color: var(--accent-primary); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(139, 92, 246, 0.1); }
+        .user-card .avatar-large { font-size: 2.5rem; margin-bottom: 0.75rem; }
+        .user-card h3 { margin: 0 0 0.25rem; font-size: 1rem; }
+        .user-card .vibe-type { font-size: 0.75rem; color: var(--accent-primary); font-weight: 600; }
+        .user-card .user-stats { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem; }
+    </style>
 </head>
 
 <body>
     <div class="ambient-bg"></div>
     <nav class="nav">
-        <div class="nav-inner"><a href="index.html" class="nav-logo">⚡ LetsVibeAI</a><button class="nav-toggle"
-                aria-label="Toggle navigation">☰</button>
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">⚡ LetsVibeAI</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="module1.html">Modules</a></li>
                 <li><a href="tools.html">Tools</a></li>
-                <li><a href="news.html">News</a></li>
-                <li><a href="lab1.html">Labs</a></li><li><a href="prompt-lab.html">Prompt Lab</a></li>
-                <li><a href="community.html">Community</a></li>
+                <li><a href="lab1.html">Labs</a></li>
                 <li id="auth-nav-slot"></li>
             </ul>
         </div>
@@ -36,8 +43,7 @@
 
             <!-- Search & Filters -->
             <div class="tools-search">
-                <input type="text" id="community-search" class="form-input" placeholder="Search by name..."
-                    oninput="renderCommunity()">
+                <input type="text" id="community-search" class="form-input" placeholder="Search by name..." oninput="renderCommunity()">
             </div>
             <div class="showcase-filters" id="vibe-filters">
                 <button class="filter-btn active" data-vibe="all">All</button>
@@ -50,13 +56,17 @@
             </div>
 
             <!-- Community Grid -->
-            <div class="community-grid" id="community-grid"></div>
+            <div class="community-grid" id="community-grid">
+                <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);">
+                    <div class="spinner"></div>
+                    <p style="margin-top:1rem;">Loading community...</p>
+                </div>
+            </div>
 
             <!-- CTA -->
             <section class="section" style="text-align:center;" id="join-cta">
                 <h2 class="section-title">Join the Community</h2>
-                <p class="section-desc" style="margin-bottom:var(--space-xl);">Create your profile, showcase your
-                    projects, and connect with other vibe coders.</p>
+                <p class="section-desc" style="margin-bottom:var(--space-xl);">Create your profile, showcase your projects, and connect with other vibe coders.</p>
                 <a href="auth.html" class="btn btn-primary" id="join-btn">Create Your Profile →</a>
             </section>
         </div>
@@ -64,19 +74,20 @@
 
     <footer class="footer">
         <div class="container">
-            <p>⚡ Vibe Coding Masterclass &copy; 2025</p>
+            <p>⚡ LetsVibeAI &copy; 2025</p>
         </div>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script src="supabase-client.js"></script>
-<script src="script.js"></script>
+    <script src="supabase-client.js"></script>
+    <script src="script.js"></script>
     <script>
         let currentVibeFilter = 'all';
+        let allProfiles = [];
 
-        // Update CTA if logged in
-        if (getCurrentUser()) {
-            document.getElementById('join-btn').textContent = 'Go to Dashboard →';
-            document.getElementById('join-btn').href = 'dashboard.html';
+        function esc(str) {
+            if (!str) return '';
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
 
         // Filter buttons
@@ -91,41 +102,58 @@
 
         function renderCommunity() {
             const grid = document.getElementById('community-grid');
-            const q = document.getElementById('community-search').value.toLowerCase();
-            const users = getUsers();
+            const q = (document.getElementById('community-search').value || '').toLowerCase();
 
-            const filtered = users.filter(u => {
-                const matchVibe = currentVibeFilter === 'all' || u.vibeType === currentVibeFilter;
-                const matchQ = !q || u.name.toLowerCase().includes(q);
+            const filtered = allProfiles.filter(u => {
+                const matchVibe = currentVibeFilter === 'all' || u.vibe_type === currentVibeFilter;
+                const matchQ = !q || (u.name || '').toLowerCase().includes(q);
                 return matchVibe && matchQ;
             });
 
             if (filtered.length === 0) {
                 grid.innerHTML = `
-          <div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--text-muted);">
-            <p style="font-size:3rem;margin-bottom:1rem;">👥</p>
-            <p style="font-size:1.125rem;margin-bottom:0.5rem;">No community members yet</p>
-            <p style="font-size:0.875rem;">Be the first to <a href="auth.html">create a profile</a>!</p>
-          </div>`;
+                    <div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--text-muted);">
+                        <p style="font-size:3rem;margin-bottom:1rem;">👥</p>
+                        <p style="font-size:1.125rem;margin-bottom:0.5rem;">No community members found</p>
+                        <p style="font-size:0.875rem;">Be the first to <a href="auth.html">create a profile</a>!</p>
+                    </div>`;
                 return;
             }
 
-            grid.innerHTML = filtered.map(u => `
-        <a href="profile.html?id=${u.id}" class="user-card fade-in visible">
-          <div class="avatar-large">${u.avatar || '🧑‍💻'}</div>
-          <h3>${esc(u.name)}</h3>
-          <span class="vibe-type">${esc(u.vibeType || 'Explorer')}</span>
-          ${u.tools?.length ? `<div class="profile-tools" style="justify-content:center;margin-top:var(--space-sm);">${u.tools.slice(0, 3).map(t => `<span class="tag">${esc(t)}</span>`).join('')}${u.tools.length > 3 ? `<span class="tag">+${u.tools.length - 3}</span>` : ''}</div>` : ''}
-          <div class="user-stats">${(u.projects || []).length} project${(u.projects || []).length !== 1 ? 's' : ''}</div>
-        </a>`).join('');
+            grid.innerHTML = filtered.map(u => {
+                let tools = u.tools || [];
+                if (typeof tools === 'string') {
+                    try { tools = JSON.parse(tools); } catch (_) { tools = []; }
+                }
+                return `
+                <a href="profile.html?id=${esc(u.user_id)}" class="user-card fade-in visible">
+                    <div class="avatar-large">${u.avatar || '🧑‍💻'}</div>
+                    <h3>${esc(u.name)}</h3>
+                    <span class="vibe-type">${esc(u.vibe_type || 'Explorer')}</span>
+                    ${tools.length ? `<div style="display:flex;flex-wrap:wrap;gap:0.25rem;justify-content:center;margin-top:0.5rem;">${tools.slice(0, 3).map(t => `<span class="tag" style="font-size:0.6875rem;">${esc(t)}</span>`).join('')}${tools.length > 3 ? `<span class="tag" style="font-size:0.6875rem;">+${tools.length - 3}</span>` : ''}</div>` : ''}
+                    <div class="user-stats">Member since ${u.created_at ? new Date(u.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) : 'N/A'}</div>
+                </a>`;
+            }).join('');
         }
 
-        renderCommunity();
+        document.addEventListener('DOMContentLoaded', async () => {
+            await window._supabaseReady;
 
-        function esc(str) {
-            if (!str) return '';
-            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-        }
+            // Update CTA if logged in
+            const user = getCurrentUser();
+            if (user) {
+                document.getElementById('join-btn').textContent = 'Go to Dashboard →';
+                document.getElementById('join-btn').href = 'dashboard.html';
+            }
+
+            // Load profiles from Supabase
+            try {
+                allProfiles = await window.db.getAllProfiles();
+            } catch (e) {
+                allProfiles = [];
+            }
+            renderCommunity();
+        });
     </script>
 </body>
 

@@ -4,23 +4,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile | Vibe Coding Masterclass</title>
+    <title>Profile | LetsVibeAI</title>
     <meta name="description" content="View a vibe coder's public profile, projects, and tools.">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .profile-container { max-width: 800px; margin: 0 auto; padding: var(--space-2xl) 0; }
+        .profile-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 2rem; margin-bottom: 2rem; }
+        .profile-top { display: flex; align-items: flex-start; gap: 1.5rem; flex-wrap: wrap; }
+        .profile-avatar { font-size: 4rem; width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; background: var(--bg-secondary); border-radius: var(--radius-lg); flex-shrink: 0; }
+        .profile-details { flex: 1; min-width: 200px; }
+        .profile-details h1 { font-size: 1.5rem; margin: 0 0 0.25rem; }
+        .profile-details .vibe-badge { display: inline-block; padding: 0.25rem 0.75rem; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 600; background: rgba(139, 92, 246, 0.15); color: var(--accent-primary); }
+        .profile-bio { color: var(--text-secondary); font-size: 0.9375rem; margin-top: 0.75rem; line-height: 1.6; }
+        .profile-meta { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.75rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+        .profile-tools-list { display: flex; flex-wrap: wrap; gap: 0.375rem; margin-top: 0.75rem; }
+        .project-item { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); margin-bottom: 0.75rem; flex-wrap: wrap; }
+        .project-item h4 { margin: 0 0 0.25rem; font-size: 0.9375rem; }
+        .project-item .meta { color: var(--text-muted); font-size: 0.8125rem; }
+    </style>
 </head>
 
 <body>
     <div class="ambient-bg"></div>
     <nav class="nav">
-        <div class="nav-inner"><a href="index.html" class="nav-logo">⚡ LetsVibeAI</a><button class="nav-toggle"
-                aria-label="Toggle navigation">☰</button>
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">⚡ LetsVibeAI</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="module1.html">Modules</a></li>
                 <li><a href="tools.html">Tools</a></li>
-                <li><a href="news.html">News</a></li>
-                <li><a href="lab1.html">Labs</a></li><li><a href="prompt-lab.html">Prompt Lab</a></li>
-                
+                <li><a href="lab1.html">Labs</a></li>
                 <li id="auth-nav-slot"></li>
             </ul>
         </div>
@@ -28,10 +42,10 @@
 
     <main class="page-content">
         <div class="container">
-            <div id="profile-content" style="max-width:800px;margin:0 auto;padding:var(--space-2xl) 0;">
-                <div class="news-loading">
+            <div id="profile-content" class="profile-container">
+                <div style="text-align:center;padding:4rem;">
                     <div class="spinner"></div>
-                    <p>Loading profile...</p>
+                    <p style="color:var(--text-muted);margin-top:1rem;">Loading profile...</p>
                 </div>
             </div>
         </div>
@@ -39,62 +53,102 @@
 
     <footer class="footer">
         <div class="container">
-            <p>⚡ Vibe Coding Masterclass &copy; 2025</p>
+            <p>⚡ LetsVibeAI &copy; 2025</p>
         </div>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
-<script src="supabase-client.js"></script>
-<script src="script.js"></script>
+    <script src="supabase-client.js"></script>
+    <script src="script.js"></script>
     <script>
-        const params = new URLSearchParams(location.search);
-        const userId = params.get('id');
-        const container = document.getElementById('profile-content');
-
-        if (!userId) {
-            container.innerHTML = `<div style="text-align:center;padding:4rem;"><p style="font-size:3rem;margin-bottom:1rem;">🔍</p><h2>No profile specified</h2><p style="color:var(--text-secondary);margin-top:1rem;"><a href="dashboard.html">Go to your dashboard</a>.</p></div>`;
-        } else {
-            const user = getUserById(userId);
-            if (!user) {
-                container.innerHTML = `<div style="text-align:center;padding:4rem;"><p style="font-size:3rem;margin-bottom:1rem;">👻</p><h2>User not found</h2><p style="color:var(--text-secondary);margin-top:1rem;">This profile doesn't exist. <a href="dashboard.html">Go to your dashboard</a>.</p></div>`;
-            } else {
-                const labLabels = { marketing: '🎨 Marketing', ecommerce: '🛒 E-Commerce', marketplace: '🏪 Marketplace', other: '🌐 Other' };
-                const isOwn = getCurrentUser()?.id === user.id;
-
-                container.innerHTML = `
-          <!-- Header -->
-          <div class="profile-header">
-            <div class="avatar-large">${user.avatar || '🧑‍💻'}</div>
-            <div class="profile-info">
-              <h2 style="margin:0;">${esc(user.name)}</h2>
-              <span class="vibe-type">${esc(user.vibeType || 'Explorer')}</span>
-              ${user.bio ? `<p class="profile-bio">${esc(user.bio)}</p>` : ''}
-              ${user.tools?.length ? `<div class="profile-tools">${user.tools.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div>` : ''}
-              <p style="font-size:0.75rem;color:var(--text-muted);margin-top:var(--space-sm);">Member since ${user.joinDate}</p>
-            </div>
-          </div>
-
-          <!-- Projects -->
-          <h2 style="font-size:1.25rem;font-weight:700;margin-bottom:var(--space-lg);">Projects (${(user.projects || []).length})</h2>
-          ${(user.projects || []).length === 0
-                        ? `<div style="text-align:center;padding:3rem;color:var(--text-muted);background:var(--bg-card);border-radius:var(--radius-lg);border:1px solid var(--border-subtle);"><p style="font-size:2rem;margin-bottom:0.5rem;">📂</p><p>No projects yet</p></div>`
-                        : `<div class="projects-list">${(user.projects || []).map(p => `
-              <div class="project-card">
-                <h4>${esc(p.title)}</h4>
-                <div class="project-meta">${labLabels[p.lab] || p.lab} · ${esc(p.tool)} · ${p.date}</div>
-                ${p.desc ? `<div class="project-desc">${esc(p.desc)}</div>` : ''}
-                <a href="${esc(p.url)}" target="_blank" rel="noopener" class="btn btn-secondary" style="padding:0.4rem 1rem;font-size:0.8rem;display:inline-flex;">View Project →</a>
-              </div>`).join('')}</div>`
-                    }
-
-          ${isOwn ? `<div style="margin-top:var(--space-xl);"><a href="dashboard.html" class="btn btn-primary">Edit Profile →</a></div>` : ''}
-        `;
-            }
-        }
-
         function esc(str) {
             if (!str) return '';
             return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await window.authPromise;
+
+            const container = document.getElementById('profile-content');
+            const params = new URLSearchParams(location.search);
+            const userId = params.get('id');
+
+            if (!userId) {
+                container.innerHTML = `<div style="text-align:center;padding:4rem;">
+                    <p style="font-size:3rem;margin-bottom:1rem;">🔍</p>
+                    <h2>No profile specified</h2>
+                    <p style="color:var(--text-secondary);margin-top:1rem;"><a href="dashboard.html">Go to your dashboard</a></p>
+                </div>`;
+                return;
+            }
+
+            // Load profile from Supabase
+            const profile = await window.db.getProfile(userId);
+            if (!profile) {
+                container.innerHTML = `<div style="text-align:center;padding:4rem;">
+                    <p style="font-size:3rem;margin-bottom:1rem;">👻</p>
+                    <h2>User not found</h2>
+                    <p style="color:var(--text-secondary);margin-top:1rem;">This profile doesn't exist or has been removed.</p>
+                    <a href="community.html" class="btn btn-secondary" style="margin-top:1.5rem;display:inline-flex;">Browse Community</a>
+                </div>`;
+                return;
+            }
+
+            // Parse tools
+            let tools = profile.tools || [];
+            if (typeof tools === 'string') {
+                try { tools = JSON.parse(tools); } catch (_) { tools = []; }
+            }
+
+            // Load projects
+            const projects = await window.db.getProjects(userId);
+            const currentUser = getCurrentUser();
+            const isOwn = currentUser?.id === userId;
+
+            const labLabels = { marketing: '🎨 Marketing', ecommerce: '🛒 E-Commerce', marketplace: '🏪 Marketplace' };
+
+            // Update page title
+            document.title = `${esc(profile.name)} | LetsVibeAI`;
+
+            container.innerHTML = `
+                <div class="profile-card">
+                    <div class="profile-top">
+                        <div class="profile-avatar">${profile.avatar || '🧑‍💻'}</div>
+                        <div class="profile-details">
+                            <h1>${esc(profile.name)}</h1>
+                            <span class="vibe-badge">${esc(profile.vibe_type || 'Explorer')}</span>
+                            ${profile.bio ? `<p class="profile-bio">${esc(profile.bio)}</p>` : ''}
+                            ${tools.length ? `<div class="profile-tools-list">${tools.map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div>` : ''}
+                            <div class="profile-meta">
+                                <span>${projects.length} project${projects.length !== 1 ? 's' : ''}</span>
+                                <span>Joined ${new Date(profile.created_at).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</span>
+                                ${profile.account_type && profile.account_type !== 'individual' ? `<span>${esc(profile.organization_name || profile.account_type)}</span>` : ''}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+                    <h2 style="font-size:1.25rem;margin:0;">Projects (${projects.length})</h2>
+                    ${isOwn ? `<a href="dashboard.html" class="btn btn-secondary" style="font-size:0.8125rem;padding:0.4rem 1rem;">Edit Profile</a>` : ''}
+                </div>
+
+                ${projects.length === 0
+                    ? `<div style="text-align:center;padding:3rem;color:var(--text-muted);background:var(--bg-card);border-radius:var(--radius-lg);border:1px solid var(--border-subtle);">
+                        <p style="font-size:2rem;margin-bottom:0.5rem;">📂</p>
+                        <p>No projects yet</p>
+                    </div>`
+                    : projects.map(p => `
+                        <div class="project-item">
+                            <div>
+                                <h4>${esc(p.title)}</h4>
+                                <div class="meta">${esc(labLabels[p.lab_type] || p.lab_type || '')} · ${esc(p.tool_used || '')} · ${p.created_at ? new Date(p.created_at).toLocaleDateString() : ''}</div>
+                            </div>
+                            <a href="${esc(p.url)}" target="_blank" rel="noopener" class="btn btn-secondary" style="padding:0.4rem 1rem;font-size:0.8rem;flex-shrink:0;">View →</a>
+                        </div>`).join('')
+                }
+            `;
+        });
     </script>
 </body>
 

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lab 3 — Build a Directory / Marketplace | Vibe Coding Masterclass</title>
+    <title>Lab 3 — Build a Directory / Marketplace | LetsVibeAI</title>
     <meta name="description"
         content="Hands-on lab: build a directory or marketplace site with search, filters, listings, and user interactions using vibe coding tools.">
     <link rel="stylesheet" href="styles.css">
@@ -13,16 +13,14 @@
 <body>
     <div class="ambient-bg"></div>
     <nav class="nav">
-        <div class="nav-inner"><a href="index.html" class="nav-logo">⚡ LetsVibeAI</a><button class="nav-toggle"
-                aria-label="Toggle navigation">☰</button>
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">⚡ LetsVibeAI</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="module1.html">Modules</a></li>
                 <li><a href="tools.html">Tools</a></li>
-                <li><a href="news.html">News</a></li>
                 <li><a href="lab1.html">Labs</a></li>
-                <li><a href="prompt-lab.html">Prompt Lab</a></li>
-                
                 <li id="auth-nav-slot"></li>
             </ul>
         </div>
@@ -279,17 +277,13 @@ Each listing must contain:
                         </form>
                     </div>
 
-                    <!-- Mark Complete -->
-                    <div style="margin: 3rem 0; padding: 2rem; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border-subtle); text-align: center;">
-                        <h3 style="margin-bottom: 1rem;">Finished this lab?</h3>
-                        <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Mark it complete to track your progress and earn your certificate.</p>
-                        <button id="mark-complete-btn" class="btn btn-primary" onclick="markComplete('lab', 'lab3')">
-                            ✓ Mark Complete
+                    <div id="mark-complete-section" style="margin:2rem 0;padding:1.5rem;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;text-align:center;">
+                        <button id="mark-complete-btn" class="btn btn-primary" onclick="toggleComplete()" style="min-width:200px;">
+                            Mark as Complete
                         </button>
-                        <p id="complete-msg" style="display: none; margin-top: 1rem; color: var(--accent-emerald);">
-                            Great job! Lab completed! 🎉
-                        </p>
+                        <p id="complete-status" style="display:none;color:var(--accent-emerald);margin-top:0.75rem;font-size:0.875rem;"></p>
                     </div>
+
                     <div class="page-nav">
                         <a href="lab2.html">
                             <span class="nav-label">← Previous</span>
@@ -307,41 +301,12 @@ Each listing must contain:
 
     <footer class="footer">
         <div class="container">
-            <p>⚡ Vibe Coding Masterclass &copy; 2025</p>
+            <p>⚡ LetsVibeAI &copy; 2025</p>
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="supabase-client.js"></script>
     <script src="script.js"></script>
-    <script>
-        async function markComplete(itemType, itemId) {
-            const btn = document.getElementById('mark-complete-btn');
-            const msg = document.getElementById('complete-msg');
-
-            if (!window.auth.isSignedIn()) {
-                window.location.href = 'auth.html?redirect=' + encodeURIComponent(window.location.pathname);
-                return;
-            }
-
-            btn.textContent = 'Saving...';
-            btn.disabled = true;
-
-            try {
-                const user = await window.auth.getUser();
-                if (user) {
-                    await window.db.markComplete(user.id, itemType, itemId);
-                    btn.textContent = '✓ Completed';
-                    btn.style.background = 'var(--accent-emerald)';
-                    msg.style.display = 'block';
-                }
-            } catch (err) {
-                console.error('Error marking complete:', err);
-                btn.textContent = '✓ Mark Complete';
-                btn.disabled = false;
-                showToast('Could not save progress. Please try again.');
-            }
-        }
-    </script>
     <script>
         function submitLab(e, lab) {
             e.preventDefault();
@@ -356,6 +321,46 @@ Each listing must contain:
             form.reset();
             showToast('Project submitted! View it in the Showcase.');
         }
+    </script>
+    <script>
+    const CONTENT_SLUG = 'lab3';
+    const CONTENT_TYPE = 'lab';
+
+    async function toggleComplete() {
+        await window.authPromise;
+        const user = getCurrentUser();
+        if (!user) { window.location.href = 'auth.html'; return; }
+
+        const btn = document.getElementById('mark-complete-btn');
+        const status = document.getElementById('complete-status');
+        const progress = await window.db.getProgress(user.id);
+        const isComplete = progress.some(p => p.content_slug === CONTENT_SLUG);
+
+        if (isComplete) {
+            await window.db.unmarkComplete(user.id, CONTENT_SLUG);
+            btn.textContent = 'Mark as Complete';
+            btn.style.background = '';
+            status.style.display = 'none';
+        } else {
+            await window.db.markComplete(user.id, CONTENT_SLUG, CONTENT_TYPE);
+            btn.textContent = 'Completed \u2713';
+            btn.style.background = 'var(--accent-emerald)';
+            status.textContent = 'Great work! Keep going.';
+            status.style.display = 'block';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        await window.authPromise;
+        const user = getCurrentUser();
+        if (!user) return;
+
+        const progress = await window.db.getProgress(user.id);
+        if (progress.some(p => p.content_slug === CONTENT_SLUG)) {
+            document.getElementById('mark-complete-btn').textContent = 'Completed \u2713';
+            document.getElementById('mark-complete-btn').style.background = 'var(--accent-emerald)';
+        }
+    });
     </script>
 </body>
 

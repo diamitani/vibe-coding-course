@@ -4,127 +4,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - LetsVibeAI</title>
-    <link rel="stylesheet" href="../styles.css">
+    <title>Admin | LetsVibeAI</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        body { padding: 2rem; }
-        .admin-header { margin-bottom: 2rem; }
+        .admin-container { max-width: 1000px; margin: 0 auto; padding: 2rem 1rem; }
+        .admin-header { margin-bottom: 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .admin-header h1 { margin: 0; }
         .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-        .stat-card { background: var(--bg-card, #1a1a2e); padding: 1.5rem; border-radius: 12px; text-align: center; }
-        .stat-number { font-size: 2.5rem; font-weight: bold; color: var(--accent-emerald, #10b981); }
-        .stat-label { color: var(--text-secondary, #888); margin-top: 0.5rem; }
+        .stat-card { background: var(--bg-card); padding: 1.5rem; border-radius: 12px; text-align: center; border: 1px solid var(--border-subtle); }
+        .stat-number { font-size: 2.5rem; font-weight: bold; color: var(--accent-emerald); }
+        .stat-label { color: var(--text-secondary); margin-top: 0.5rem; font-size: 0.875rem; }
         table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border-subtle, #333); }
-        th { background: var(--bg-card, #1a1a2e); }
-        .btn { padding: 0.5rem 1rem; border-radius: 8px; cursor: pointer; }
-        .btn-primary { background: var(--accent-primary, #6366f1); color: white; border: none; }
+        th, td { padding: 0.875rem 1rem; text-align: left; border-bottom: 1px solid var(--border-subtle); font-size: 0.875rem; }
+        th { background: var(--bg-card); color: var(--text-secondary); font-weight: 600; text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
+        td { color: var(--text-primary); }
+        .admin-gate { display: flex; align-items: center; justify-content: center; min-height: 60vh; text-align: center; }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="admin-header">
-            <h1>Admin Dashboard</h1>
-            <p>LetsVibeAI User Management</p>
+    <div class="ambient-bg"></div>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">⚡ LetsVibeAI</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li id="auth-nav-slot"></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div id="admin-gate" class="admin-gate">
+            <div>
+                <div class="spinner"></div>
+                <p style="color:var(--text-muted);margin-top:1rem;">Verifying access...</p>
+            </div>
         </div>
 
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-number" id="subscriber-count">0</div>
-                <div class="stat-label">Email Subscribers</div>
+        <div id="admin-content" class="admin-container" style="display:none;">
+            <div class="admin-header">
+                <div>
+                    <h1>Admin Dashboard</h1>
+                    <p style="color:var(--text-secondary);margin-top:0.25rem;">LetsVibeAI Platform Overview</p>
+                </div>
+                <a href="dashboard.html" class="btn btn-secondary" style="font-size:0.875rem;">Back to Dashboard</a>
             </div>
-            <div class="stat-card">
-                <div class="stat-number" id="user-count">0</div>
-                <div class="stat-label">Signed Up Users</div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="subscriber-count">0</div>
+                    <div class="stat-label">Email Subscribers</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="user-count">0</div>
+                    <div class="stat-label">Signed Up Users</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="project-count">0</div>
+                    <div class="stat-label">Total Projects</div>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number" id="project-count">0</div>
-                <div class="stat-label">Total Projects</div>
+
+            <h2>Recent Users</h2>
+            <div style="overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Vibe Type</th>
+                            <th>Account</th>
+                            <th>Joined</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-body">
+                        <tr><td colspan="5" style="color:var(--text-muted);">Loading...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h2 style="margin-top: 2rem;">Recent Projects</h2>
+            <div style="overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Lab</th>
+                            <th>Tool</th>
+                            <th>Created</th>
+                        </tr>
+                    </thead>
+                    <tbody id="projects-body">
+                        <tr><td colspan="4" style="color:var(--text-muted);">Loading...</td></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
+    </main>
 
-        <h2>Recent Users</h2>
-        <table id="users-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Vibe Type</th>
-                    <th>Joined</th>
-                </tr>
-            </thead>
-            <tbody id="users-body">
-                <tr><td colspan="4">Loading...</td></tr>
-            </tbody>
-        </table>
+    <footer class="footer">
+        <div class="container">
+            <p>⚡ LetsVibeAI &copy; 2025</p>
+        </div>
+    </footer>
 
-        <h2 style="margin-top: 2rem;">Recent Projects</h2>
-        <table id="projects-table">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>User</th>
-                    <th>Tool</th>
-                    <th>Created</th>
-                </tr>
-            </thead>
-            <tbody id="projects-body">
-                <tr><td colspan="4">Loading...</td></tr>
-            </tbody>
-        </table>
-    </div>
-
-    <script src="../supabase-client.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="supabase-client.js"></script>
+    <script src="script.js"></script>
     <script>
-        const SUPABASE_KEY = 'sb_publishable_XUCSEcjKE0RyGQoL8fplPg_xCoTWOGE';
-        const SUPABASE_URL = 'https://vptixdomrdxksufgkurp.supabase.co';
-
-        async function loadData() {
-            // Load subscribers from Supabase
-            try {
-                const subsRes = await fetch(`${SUPABASE_URL}/rest/v1/subscribers?select=email,created_at&order=created_at.desc`, {
-                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-                });
-                const subscribers = subsRes.ok ? await subsRes.json() : [];
-                document.getElementById('subscriber-count').textContent = Array.isArray(subscribers) ? subscribers.length : 0;
-            } catch (e) {
-                document.getElementById('subscriber-count').textContent = '—';
-            }
-
-            // Load profiles from Supabase
-            const profilesRes = await fetch(`${SUPABASE_URL}/rest/v1/profiles?select=*&order=created_at.desc`, {
-                headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-            });
-            const profiles = await profilesRes.json();
-            
-            document.getElementById('user-count').textContent = profiles.length || 0;
-            document.getElementById('users-body').innerHTML = (profiles || []).map(p => `
-                <tr>
-                    <td>${p.name || 'N/A'}</td>
-                    <td>${p.email || 'N/A'}</td>
-                    <td>${p.vibe_type || 'Explorer'}</td>
-                    <td>${new Date(p.created_at).toLocaleDateString()}</td>
-                </tr>
-            `).join('') || '<tr><td colspan="4">No users yet</td></tr>';
-
-            // Load projects
-            const projectsRes = await fetch(`${SUPABASE_URL}/rest/v1/projects?select=*&order=created_at.desc`, {
-                headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
-            });
-            const projects = await projectsRes.json();
-            
-            document.getElementById('project-count').textContent = projects.length || 0;
-            document.getElementById('projects-body').innerHTML = (projects || []).map(p => `
-                <tr>
-                    <td>${p.title}</td>
-                    <td>${(p.user_id || '').substring(0, 8)}...</td>
-                    <td>${p.tool_used || 'N/A'}</td>
-                    <td>${new Date(p.created_at).toLocaleDateString()}</td>
-                </tr>
-            `).join('') || '<tr><td colspan="4">No projects yet</td></tr>';
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
 
-        loadData();
+        const ADMIN_EMAILS = ['patrickdiamitani@gmail.com'];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            await window.authPromise;
+
+            const user = getCurrentUser();
+            if (!user || !ADMIN_EMAILS.includes(user.email)) {
+                document.getElementById('admin-gate').innerHTML = `
+                    <div style="text-align:center;">
+                        <p style="font-size:3rem;margin-bottom:1rem;">🔒</p>
+                        <h2>Access Denied</h2>
+                        <p style="color:var(--text-secondary);margin-top:0.5rem;">You don't have admin access.</p>
+                        <a href="dashboard.html" class="btn btn-primary" style="margin-top:1.5rem;display:inline-flex;">Go to Dashboard</a>
+                    </div>`;
+                return;
+            }
+
+            document.getElementById('admin-gate').style.display = 'none';
+            document.getElementById('admin-content').style.display = 'block';
+            loadData();
+        });
+
+        async function loadData() {
+            try {
+                const profiles = await window.db.getAllProfiles();
+                document.getElementById('user-count').textContent = profiles.length;
+                document.getElementById('users-body').innerHTML = profiles.length
+                    ? profiles.slice(0, 50).map(p => `
+                        <tr>
+                            <td>${escapeHTML(p.name || 'N/A')}</td>
+                            <td>${escapeHTML(p.email || 'N/A')}</td>
+                            <td>${escapeHTML(p.vibe_type || 'Explorer')}</td>
+                            <td>${escapeHTML(p.account_type || 'individual')}</td>
+                            <td>${p.created_at ? new Date(p.created_at).toLocaleDateString() : 'N/A'}</td>
+                        </tr>`).join('')
+                    : '<tr><td colspan="5" style="color:var(--text-muted);">No users yet</td></tr>';
+
+                const projects = await window.db.getAllProjects();
+                document.getElementById('project-count').textContent = projects.length;
+                const labLabels = { marketing: 'Marketing', ecommerce: 'E-Commerce', marketplace: 'Marketplace' };
+                document.getElementById('projects-body').innerHTML = projects.length
+                    ? projects.slice(0, 50).map(p => `
+                        <tr>
+                            <td>${escapeHTML(p.title)}</td>
+                            <td>${escapeHTML(labLabels[p.lab_type] || p.lab_type || 'N/A')}</td>
+                            <td>${escapeHTML(p.tool_used || 'N/A')}</td>
+                            <td>${p.created_at ? new Date(p.created_at).toLocaleDateString() : 'N/A'}</td>
+                        </tr>`).join('')
+                    : '<tr><td colspan="4" style="color:var(--text-muted);">No projects yet</td></tr>';
+
+                // Subscriber count - use Supabase SDK
+                const sb = getSupabase();
+                if (sb) {
+                    const { data: subs, error } = await sb.from('subscribers').select('id');
+                    document.getElementById('subscriber-count').textContent = error ? '—' : (subs?.length || 0);
+                }
+            } catch (e) {
+                console.error('Admin load error:', e);
+            }
+        }
     </script>
 </body>
 
