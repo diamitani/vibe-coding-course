@@ -124,7 +124,7 @@ function generateWelcomeEmail(name: string): string {
       </ul>
       
       <div style="text-align: center;">
-        <a href="https://icy-desert-0dc2e3f0f.5.azurestaticapps.net/module1.html" class="cta-button">Start Learning →</a>
+        <a href="https://www.letsvibeai.com/module1.html" class="cta-button">Start Learning →</a>
       </div>
       
       <div class="divider"></div>
@@ -133,7 +133,7 @@ function generateWelcomeEmail(name: string): string {
       <p>Create a free account to track your progress, save your favorite tools, and showcase your projects in our community gallery.</p>
       
       <div style="text-align: center;">
-        <a href="https://icy-desert-0dc2e3f0f.5.azurestaticapps.net/auth.html" class="cta-button" style="background: #10b981;">Create Free Account</a>
+        <a href="https://www.letsvibeai.com/auth.html" class="cta-button" style="background: #10b981;">Create Free Account</a>
       </div>
     </div>
     
@@ -146,7 +146,7 @@ function generateWelcomeEmail(name: string): string {
         <a href="#">Discord</a>
       </div>
       <p style="margin-top: 20px; font-size: 12px;">
-        <a href="https://icy-desert-0dc2e3f0f.5.azurestaticapps.net/unsubscribe?email={{email}}" style="color: #888;">Unsubscribe</a>
+        <a href="https://www.letsvibeai.com/unsubscribe?email={{email}}" style="color: #888;">Unsubscribe</a>
       </p>
     </div>
   </div>
@@ -168,15 +168,15 @@ Here's what you can expect:
 📚 Exclusive Tutorials - Deep dives you won't find anywhere else
 💡 Real Project Examples - See what's possible with vibe coding
 
-Start Learning: https://icy-desert-0dc2e3f0f.5.azurestaticapps.net/module1.html
+Start Learning: https://www.letsvibeai.com/module1.html
 
 Ready to dive deeper?
 Create a free account to track your progress, save your favorite tools, and showcase your projects:
-https://icy-desert-0dc2e3f0f.5.azurestaticapps.net/auth.html
+https://www.letsvibeai.com/auth.html
 
 ---
 LetsVibeAI - Master the art of vibe coding
 You're receiving this because you subscribed to our newsletter.
-Unsubscribe: https://icy-desert-0dc2e3f0f.5.azurestaticapps.net/unsubscribe
+Unsubscribe: https://www.letsvibeai.com/unsubscribe
   `;
 }

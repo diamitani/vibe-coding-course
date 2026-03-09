@@ -4,5 +4,11 @@
       "route": "/favicon.ico",
       "rewrite": "/favicon.svg"
     }
-  ]
+  ],
+  "responseOverrides": {
+    "404": {
+      "rewrite": "/error.html",
+      "statusCode": 404
+    }
+  }
 }
