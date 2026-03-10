@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketplace — LetsVibeAI | Templates, Prompts & Tools</title>
+  <meta name="description" content="Discover premium templates, prompts, and tools for vibe coding. Accelerate your AI-powered development.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+
+<body>
+  <div class="ambient-bg"></div>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <span style="background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">⚡ LetsVibeAI</span>
+      </a>
+      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="module1.html">Courses</a></li>
+        <li><a href="tools.html">Tools</a></li>
+        <li><a href="marketplace.html" style="color: var(--accent-violet);">Marketplace</a></li>
+        <li><a href="community.html">Community</a></li>
+        <li id="auth-nav-slot"></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="page-content">
+    <div class="container">
+
+      <!-- Hero -->
+      <section class="hero" style="text-align: center; padding: 4rem 0 3rem;">
+        <div class="hero-badge"><span class="dot"></span> Premium Resources</div>
+        <h1 style="font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 1rem;">
+          <span class="gradient-text">Marketplace</span>
+        </h1>
+        <p style="font-size: 1.15rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto 2rem;">
+          Accelerate your builds with premium templates, prompts & tools. Created by vibe coders, for vibe coders.
+        </p>
+
+        <!-- Filters -->
+        <div style="display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2rem;">
+          <button class="btn btn-primary" style="padding: 0.6rem 1.25rem;">All Products</button>
+          <button class="btn btn-secondary" style="padding: 0.6rem 1.25rem;">Templates</button>
+          <button class="btn btn-secondary" style="padding: 0.6rem 1.25rem;">Prompts</button>
+          <button class="btn btn-secondary" style="padding: 0.6rem 1.25rem;">UI Kits</button>
+          <button class="btn btn-secondary" style="padding: 0.6rem 1.25rem;">Courses</button>
+        </div>
+      </section>
+
+      <!-- Featured -->
+      <section class="section">
+        <div class="section-header">
+          <span class="section-label">Featured</span>
+          <h2 class="section-title">Trending This Week</h2>
+        </div>
+
+        <div class="cards-grid cards-grid-3">
+          <div class="card fade-in spotlight-card" style="padding: 0; overflow: hidden;">
+            <div style="height: 180px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); position: relative;">
+              <span style="position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Bestseller</span>
+              <div style="position: absolute; bottom: 1rem; left: 1rem; font-size: 4rem;">🎨</div>
+            </div>
+            <div style="padding: 1.5rem;">
+              <h3 style="margin-bottom: 0.5rem;">SaaS Starter Kit</h3>
+              <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Complete boilerplate with auth, dashboard, payments & admin panel.</p>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <div style="display: flex; gap: 0.5rem;">
+                  <span class="tag">Next.js</span>
+                  <span class="tag cyan">Pro</span>
+                </div>
+                <span style="font-size: 1.5rem; font-weight: 700; color: var(--accent-emerald);">$49</span>
+              </div>
+              <button class="btn btn-primary" style="width: 100%;">Add to Cart</button>
+            </div>
+          </div>
+
+          <div class="card fade-in spotlight-card" style="padding: 0; overflow: hidden;">
+            <div style="height: 180px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); position: relative;">
+              <span style="position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Popular</span>
+              <div style="position: absolute; bottom: 1rem; left: 1rem; font-size: 4rem;">🛒</div>
+            </div>
+            <div style="padding: 1.5rem;">
+              <h3 style="margin-bottom: 0.5rem;">E-Commerce Bundle</h3>
+              <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">Full store with Stripe checkout, inventory & product variants.</p>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <div style="display: flex; gap: 0.5rem;">
+                  <span class="tag">React</span>
+                  <span class="tag cyan">Pro</span>
+                </div>
+                <span style="font-size: 1.5rem; font-weight: 700; color: var(--accent-emerald);">$79</span>
+              </div>
+              <button class="btn btn-primary" style="width: 100%;">Add to Cart</button>
+            </div>
+          </div>
+
+          <div class="card fade-in spotlight-card" style="padding: 0; overflow: hidden;">
+            <div style="height: 180px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); position: relative;">
+              <span style="position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">New</span>
+              <div style="position: absolute; bottom: 1rem; left: 1rem; font-size: 4rem;">📱</div>
+            </div>
+            <div style="padding: 1.5rem;">
+              <h3 style="margin-bottom: 0.5rem;">Mobile App UI Kit</h3>
+              <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">100+ React Native screens for iOS & Android.</p>
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                <div style="display: flex; gap: 0.5rem;">
+                  <span class="tag">React Native</span>
+                </div>
+                <span style="font-size: 1.5rem; font-weight: 700; color: var(--accent-emerald);">$59</span>
+              </div>
+              <button class="btn btn-primary" style="width: 100%;">Add to Cart</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Templates -->
+      <section class="section">
+        <div class="section-header">
+          <span class="section-label">Templates</span>
+          <h2 class="section-title">Full Application Templates</h2>
+          <p class="section-desc">Production-ready boilerplates to kickstart your next project.</p>
+        </div>
+
+        <div class="cards-grid cards-grid-4">
+          <div class="card fade-in" style="padding: 0; overflow: hidden;">
+            <div style="height: 120px; background: linear-gradient(135deg, #8b5cf6, #06b6d4); display: flex; align-items: center; justify-content: center; font-size: 2.5rem;">📊</div>
+            <div style="padding: 1rem;">
+              <h4 style="font-size: 1rem; margin-bottom: 0.25rem;">Dashboard Pro</h4>
+              <p style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.75rem;">Admin dashboard</p>
+              <span style="font-weight: 600; color: var(--accent-emerald);">$39</span>
+            </div>
+          </div>
+
+          <div class="card fade-in" style="padding: 0; overflow: hidden;">
+            <div style="height: 120px; background: linear-gradient(135deg, #10b981, #06b6d4); display: flex; align-items: center; justify-content: center; font-size: 2.5rem;">💼</div>
+            <div style="padding: 1rem;">
+              <h4 style="font-size: 1rem; margin-bottom: 0.25rem;">SaaS Landing</h4>
+              <p style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.75rem;">Marketing page</p>
+              <span style="font-weight: 600; color: var(--accent-emerald);">$29</span>
+            </div>
+          </div>
+
+          <div class="card fade-in" style="padding: 0; overflow: hidden;">
+            <div style="height: 120px; background: linear-gradient(135deg, #ec4899, #f59e0b); display: flex; align-items: center; justify-content: center; font-size: 2.5rem;">👥</div>
+            <div style="padding: 1rem;">
+              <h4 style="font-size: 1rem; margin-bottom: 0.25rem;">Social Platform</h4>
+              <p style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.75rem;">Community app</p>
+              <span style="font-weight: 600; color: var(--accent-emerald);">$89</span>
+            </div>
+          </div>
+
+          <div class="card fade-in" style="padding: 0; overflow: hidden;">
+            <div style="height: 120px; background: linear-gradient(135deg, #6366f1, #8b5cf6); display: flex; align-items: center; justify-content: center; font-size: 2.5rem;">📝</div>
+            <div style="padding: 1rem;">
+              <h4 style="font-size: 1rem; margin-bottom: 0.25rem;">Blog Engine</h4>
+              <p style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.75rem;">CMS & blog</p>
+              <span style="font-weight: 600; color: var(--accent-emerald);">$35</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <section class="section fade-in">
+        <div style="background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(6,182,212,0.1)); border: 1px solid rgba(139,92,246,0.3); border-radius: var(--radius-xl); padding: 3rem; text-align: center;">
+          <h2 style="font-size: 2rem; margin-bottom: 1rem;">Sell Your Creations</h2>
+          <p style="color: var(--text-secondary); max-width: 500px; margin: 0 auto 1.5rem;">
+            Have templates, prompts, or tools to sell? Join our marketplace and reach thousands of vibe coders.
+          </p>
+          <a href="#" class="btn btn-primary">Apply as Seller →</a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <p>⚡ LetsVibeAI &copy; 2025</p>
+        <div style="display: flex; gap: 1.5rem;">
+          <a href="index.html">Home</a>
+          <a href="marketplace.html">Marketplace</a>
+          <a href="tools.html">Tools</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="supabase-client.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -4,10 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LetsVibeAI — Learn to Build with AI</title>
-  <meta name="description"
-    content="Master the art of vibe coding. Learn to build websites, apps, and automations using AI-powered tools and prompt engineering techniques.">
+  <title>LetsVibeAI — Build, Learn, & Earn with AI</title>
+  <meta name="description" content="The ultimate platform for vibe coding. Learn AI-powered development, access tools & templates marketplace, and join a thriving creator community.">
   <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
 </head>
 
 <body>
@@ -16,16 +16,17 @@
   <!-- Navigation -->
   <nav class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="nav-logo">⚡ LetsVibeAI</a>
+      <a href="index.html" class="nav-logo">
+        <span style="background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">⚡ LetsVibeAI</span>
+      </a>
       <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
-        <li><a href="module1.html">Modules</a></li>
-<li><a href="tools.html">Tools</a></li>
-                <li><a href="tutorials.html">Tutorials</a></li>
-                <li><a href="news.html">News</a></li>
-                <li><a href="lab1.html">Labs</a></li>
-                <li id="auth-nav-slot"></li>
+        <li><a href="module1.html">Courses</a></li>
+        <li><a href="tools.html">Tools</a></li>
+        <li><a href="marketplace.html">Marketplace</a></li>
+        <li><a href="community.html">Community</a></li>
+        <li id="auth-nav-slot"></li>
       </ul>
     </div>
   </nav>
@@ -33,164 +34,336 @@
   <main class="page-content">
     <div class="container">
 
-      <!-- Hero -->
-      <section class="hero">
-        <div class="hero-badge"><span class="dot"></span> Free AI Training Program</div>
-        <h1>Build Anything with<br><span class="gradient-text">Vibe Coding</span></h1>
-        <p>Master the new paradigm of software creation. Use AI-powered tools and prompt engineering to build real
-          websites, apps, and automations — no traditional coding required.</p>
-        <div class="hero-cta">
-          <a href="auth.html" class="btn btn-primary">Start Free Training →</a>
-          <a href="#syllabus" class="btn btn-secondary">View Syllabus</a>
+      <!-- Hero Section -->
+      <section class="hero" style="text-align: center; padding: 6rem 0 4rem;">
+        <div class="hero-badge" style="margin-bottom: 1.5rem;"><span class="dot"></span> The AI Platform for Creators</div>
+        <h1 style="font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.1; margin-bottom: 1.5rem;">
+          Build, Learn & <span class="gradient-text">Create</span><br>with AI
+        </h1>
+        <p style="font-size: 1.25rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto 2.5rem; line-height: 1.7;">
+          Master vibe coding with our comprehensive courses. Discover premium tools, templates & prompts in our marketplace. Join 10,000+ creators building the future.
+        </p>
+        <div class="hero-cta" style="justify-content: center; flex-wrap: wrap; gap: 1rem;">
+          <a href="module1.html" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem;">Start Learning Free →</a>
+          <a href="marketplace.html" class="btn btn-secondary" style="padding: 1rem 2rem; font-size: 1.1rem;">Explore Marketplace</a>
+        </div>
+        
+        <!-- Stats -->
+        <div style="display: flex; justify-content: center; gap: 3rem; margin-top: 4rem; flex-wrap: wrap;">
+          <div style="text-align: center;">
+            <div style="font-size: 2.5rem; font-weight: 800; background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">10K+</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">Active Learners</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="font-size: 2.5rem; font-weight: 800; background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">200+</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">Premium Templates</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="font-size: 2.5rem; font-weight: 800; background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">50+</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">AI Tools</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="font-size: 2.5rem; font-weight: 800; background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">95%</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">Success Rate</div>
+          </div>
         </div>
       </section>
 
-      <!-- What You'll Learn -->
-      <section class="section" id="syllabus">
+      <!-- Bento Grid: Platform Overview -->
+      <section class="section">
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 200px); gap: 1rem; max-width: 1200px; margin: 0 auto;">
+          
+          <!-- Main Feature: Courses -->
+          <a href="module1.html" style="grid-column: span 2; grid-row: span 2; background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(6,182,212,0.1)); border: 1px solid rgba(139,92,246,0.3); border-radius: var(--radius-xl); padding: 2rem; text-decoration: none; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.3s ease, box-shadow 0.3s ease;" class="bento-card">
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+              <span style="background: rgba(139,92,246,0.2); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.8rem; color: var(--accent-violet);">Popular</span>
+              <span style="font-size: 2rem;">📚</span>
+            </div>
+            <div>
+              <h3 style="font-size: 1.75rem; margin-bottom: 0.5rem; color: var(--text-primary);">Courses</h3>
+              <p style="color: var(--text-secondary); font-size: 0.95rem;">Learn vibe coding from scratch. 6 modules + 3 hands-on labs.</p>
+              <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
+                <span class="tag emerald">Free</span>
+                <span class="tag">Beginner</span>
+              </div>
+            </div>
+          </a>
+
+          <!-- Marketplace -->
+          <a href="marketplace.html" style="grid-column: span 1; grid-row: span 1; background: linear-gradient(135deg, rgba(16,185,129,0.12), rgba(6,182,212,0.08)); border: 1px solid rgba(16,185,129,0.2); border-radius: var(--radius-xl); padding: 1.5rem; text-decoration: none; transition: transform 0.3s ease;" class="bento-card">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+              <span style="font-size: 1.75rem;">🛒</span>
+            </div>
+            <h4 style="font-size: 1.25rem; margin-bottom: 0.25rem;">Marketplace</h4>
+            <p style="color: var(--text-secondary); font-size: 0.85rem;">Templates, prompts & tools</p>
+          </a>
+
+          <!-- Tools -->
+          <a href="tools.html" style="grid-column: span 1; grid-row: span 1; background: linear-gradient(135deg, rgba(245,158,11,0.12), rgba(236,72,153,0.08)); border: 1px solid rgba(245,158,11,0.2); border-radius: var(--radius-xl); padding: 1.5rem; text-decoration: none; transition: transform 0.3s ease;" class="bento-card">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+              <span style="font-size: 1.75rem;">🛠️</span>
+            </div>
+            <h4 style="font-size: 1.25rem; margin-bottom: 0.25rem;">AI Tools</h4>
+            <p style="color: var(--text-secondary); font-size: 0.85rem;">Curated builder tools</p>
+          </a>
+
+          <!-- Community -->
+          <a href="community.html" style="grid-column: span 2; grid-row: span 1; background: linear-gradient(135deg, rgba(6,182,212,0.12), rgba(139,92,246,0.08)); border: 1px solid rgba(6,182,212,0.2); border-radius: var(--radius-xl); padding: 1.5rem; text-decoration: none; display: flex; align-items: center; gap: 1.5rem; transition: transform 0.3s ease;" class="bento-card">
+            <span style="font-size: 3rem;">👥</span>
+            <div>
+              <h4 style="font-size: 1.25rem; margin-bottom: 0.25rem;">Community</h4>
+              <p style="color: var(--text-secondary); font-size: 0.9rem;">Connect with fellow creators, share projects, get feedback</p>
+            </div>
+          </a>
+
+          <!-- Tutorials -->
+          <a href="tutorials.html" style="grid-column: span 2; grid-row: span 1; background: linear-gradient(135deg, rgba(236,72,153,0.12), rgba(139,92,246,0.08)); border: 1px solid rgba(236,72,153,0.2); border-radius: var(--radius-xl); padding: 1.5rem; text-decoration: none; display: flex; align-items: center; gap: 1.5rem; transition: transform 0.3s ease;" class="bento-card">
+            <span style="font-size: 3rem;">📖</span>
+            <div>
+              <h4 style="font-size: 1.25rem; margin-bottom: 0.25rem;">Tutorials</h4>
+              <p style="color: var(--text-secondary); font-size: 0.9rem;">Step-by-step guides for building with AI</p>
+            </div>
+          </a>
+
+        </div>
+      </section>
+
+      <!-- Featured Courses -->
+      <section class="section">
         <div class="section-header">
-          <span class="section-label">Curriculum</span>
-          <h2 class="section-title">What You'll Learn</h2>
-          <p class="section-desc">A comprehensive journey from AI fundamentals to building production-quality projects
-            with vibe coding tools.</p>
+          <span class="section-label">Learning Path</span>
+          <h2 class="section-title">Start Your Journey</h2>
+          <p class="section-desc">Master vibe coding through our structured curriculum designed for all skill levels.</p>
         </div>
 
         <div class="cards-grid cards-grid-3">
-          <a href="module1.html" class="card fade-in" style="text-decoration:none;">
+          <a href="module1.html" class="card fade-in" style="text-decoration:none; border: 1px solid rgba(139,92,246,0.2);">
             <div class="card-icon">🧠</div>
             <h3>Module 1 — What is AI</h3>
-            <p>Understand the foundations: LLMs, generative AI, and why AI is transforming how we build software.</p>
+            <p>Foundations of LLMs & generative AI</p>
+            <div style="margin-top:1rem; display:flex; gap:0.5rem;">
+              <span class="tag emerald">Free</span>
+              <span class="tag cyan">Beginner</span>
+            </div>
           </a>
 
-          <a href="module2.html" class="card fade-in" style="text-decoration:none;">
+          <a href="module2.html" class="card fade-in" style="text-decoration:none; border: 1px solid rgba(6,182,212,0.2);">
             <div class="card-icon">🎯</div>
-            <h3>Module 2 — What is Vibe Coding</h3>
-            <p>The new paradigm: prompt-driven development, real-world use cases, and the mindset shift from writing to
-              directing.</p>
+            <h3>Module 2 — Vibe Coding</h3>
+            <p>The prompt-driven development paradigm</p>
+            <div style="margin-top:1rem; display:flex; gap:0.5rem;">
+              <span class="tag emerald">Free</span>
+              <span class="tag cyan">Intermediate</span>
+            </div>
           </a>
 
-          <a href="module3.html" class="card fade-in" style="text-decoration:none;">
+          <a href="module3.html" class="card fade-in" style="text-decoration:none; border: 1px solid rgba(16,185,129,0.2);">
             <div class="card-icon">🛠️</div>
             <h3>Module 3 — The Toolkit</h3>
-            <p>Deep dive into Lovable, v0, Replit, Bolt, Claude Code, and more.</p>
+            <p>Lovable, v0, Replit, Bolt & more</p>
+            <div style="margin-top:1rem; display:flex; gap:0.5rem;">
+              <span class="tag emerald">Free</span>
+              <span class="tag cyan">All Levels</span>
+            </div>
           </a>
+        </div>
 
-          <a href="module4.html" class="card fade-in" style="text-decoration:none;">
-            <div class="card-icon">🔗</div>
-            <h3>Module 4 — Prompt Chaining</h3>
-            <p>Use one prompt to refine another. Turn vague ideas into precise, actionable instructions for AI.</p>
-          </a>
-
-          <a href="module5.html" class="card fade-in" style="text-decoration:none;">
-            <div class="card-icon">📋</div>
-            <h3>Module 5 — Context Engineering</h3>
-            <p>Upload files, create PRDs, design systems, and brand guidelines so AI knows exactly what to build.</p>
-          </a>
-
-          <a href="module6.html" class="card fade-in" style="text-decoration:none;">
-            <div class="card-icon">⚙️</div>
-            <h3>Module 6 — Process Engineering</h3>
-            <p>Observe workflows, identify improvements, and build AI-augmented processes for continuous optimization.</p>
-          </a>
+        <div style="text-align: center; margin-top: 2rem;">
+          <a href="module1.html" class="btn btn-secondary">View Full Curriculum →</a>
         </div>
       </section>
 
-      <!-- Labs -->
+      <!-- Marketplace Preview -->
+      <section class="section">
+        <div class="section-header">
+          <span class="section-label">Premium Resources</span>
+          <h2 class="section-title">Marketplace</h2>
+          <p class="section-desc">Accelerate your builds with our curated collection of templates, prompts & tools.</p>
+        </div>
+
+        <div class="cards-grid cards-grid-4">
+          <div class="card fade-in" style="padding: 0; overflow: hidden;">
+            <div style="height: 140px; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+              🎨
+            </div>
+            <div style="padding: 1.25rem;">
+              <h4 style="margin-bottom: 0.5rem;">SaaS Starter Kit</h4>
+              <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">Complete boilerplate for SaaS apps</p>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: 600; color: var(--accent-emerald);">$49</span>
+                <a href="marketplace.html" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">View</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="card fade-in" style="padding: 0; overflow: hidden;">
+            <div style="height: 140px; background: linear-gradient(135deg, #f093fb, #f5576c); display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+              🛒
+            </div>
+            <div style="padding: 1.25rem;">
+              <h4 style="margin-bottom: 0.5rem;">E-Commerce Bundle</h4>
+              <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">Store templates with payments</p>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: 600; color: var(--accent-emerald);">$79</span>
+                <a href="marketplace.html" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">View</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="card fade-in" style="padding: 0; overflow: hidden;">
+            <div style="height: 140px; background: linear-gradient(135deg, #4facfe, #00f2fe); display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+              📝
+            </div>
+            <div style="padding: 1.25rem;">
+              <h4 style="margin-bottom: 0.5rem;">Prompt Library</h4>
+              <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">500+ production prompts</p>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: 600; color: var(--accent-emerald);">$29</span>
+                <a href="marketplace.html" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">View</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="card fade-in" style="padding: 0; overflow: hidden;">
+            <div style="height: 140px; background: linear-gradient(135deg, #43e97b, #38f9d7); display: flex; align-items: center; justify-content: center; font-size: 3rem;">
+              ⚡
+            </div>
+            <div style="padding: 1.25rem;">
+              <h4 style="margin-bottom: 0.5rem;">v0 Prompts Pack</h4>
+              <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">100+ v0.dev prompts</p>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-weight: 600; color: var(--accent-emerald);">$19</span>
+                <a href="marketplace.html" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">View</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+          <a href="marketplace.html" class="btn btn-secondary">Browse All Products →</a>
+        </div>
+      </section>
+
+      <!-- AI Tools Section -->
+      <section class="section">
+        <div class="section-header">
+          <span class="section-label">Curated Selection</span>
+          <h2 class="section-title">AI Tools</h2>
+          <p class="section-desc">The best AI-powered development tools, hand-picked for vibe coders.</p>
+        </div>
+
+        <div class="cards-grid cards-grid-2">
+          <div class="card fade-in">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+              <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #8b5cf6, #06b6d4); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🤖</div>
+              <div>
+                <h4>Lovable</h4>
+                <p style="color: var(--text-secondary); font-size: 0.85rem;">AI-powered web app builder</p>
+              </div>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Build production-ready web apps with AI. Describe your idea and watch it come to life.</p>
+            <a href="tools.html" style="display: inline-block; margin-top: 1rem; color: var(--accent-cyan);">Learn more →</a>
+          </div>
+
+          <div class="card fade-in">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+              <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #ec4899, #f59e0b); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">📱</div>
+              <div>
+                <h4>v0.dev</h4>
+                <p style="color: var(--text-secondary); font-size: 0.85rem;">AI UI generator by Vercel</p>
+              </div>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Generate beautiful, responsive UI components with AI. Perfect for React projects.</p>
+            <a href="tools.html" style="display: inline-block; margin-top: 1rem; color: var(--accent-cyan);">Learn more →</a>
+          </div>
+
+          <div class="card fade-in">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+              <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #10b981, #06b6d4); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">💻</div>
+              <div>
+                <h4>Replit Agent</h4>
+                <p style="color: var(--text-secondary); font-size: 0.85rem;">AI-powered coding assistant</p>
+              </div>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Build full-stack apps with natural language. Integrated development environment included.</p>
+            <a href="tools.html" style="display: inline-block; margin-top: 1rem; color: var(--accent-cyan);">Learn more →</a>
+          </div>
+
+          <div class="card fade-in">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+              <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">⚡</div>
+              <div>
+                <h4>Bolt.new</h4>
+                <p style="color: var(--text-secondary); font-size: 0.85rem;">AI web development platform</p>
+              </div>
+            </div>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Instant full-stack prototyping with AI. Run and deploy directly in browser.</p>
+            <a href="tools.html" style="display: inline-block; margin-top: 1rem; color: var(--accent-cyan);">Learn more →</a>
+          </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 2rem;">
+          <a href="tools.html" class="btn btn-secondary">View All Tools →</a>
+        </div>
+      </section>
+
+      <!-- Labs Section -->
       <section class="section">
         <div class="section-header">
           <span class="section-label">Hands-On Practice</span>
           <h2 class="section-title">Build Real Projects</h2>
-          <p class="section-desc">Apply what you've learned in three progressive labs. Each lab guides you through
-            building a complete project from scratch.</p>
+          <p class="section-desc">Apply your skills in our guided labs. Build complete projects from idea to deployment.</p>
         </div>
 
         <div class="cards-grid cards-grid-3">
           <a href="lab1.html" class="card fade-in" style="text-decoration:none;">
             <div class="card-icon">🎨</div>
             <h3>Lab 1 — Marketing Website</h3>
-            <p>Build a stunning landing page for a product or service. Learn layout, copy, and visual polish with AI.</p>
+            <p>Build a stunning landing page with AI. Learn layout, copy, and visual polish.</p>
             <div style="margin-top:1rem;"><span class="tag emerald">Free</span></div>
           </a>
 
           <a href="lab2.html" class="card fade-in" style="text-decoration:none;">
             <div class="card-icon">🛒</div>
             <h3>Lab 2 — E-Commerce Store</h3>
-            <p>Create a full online store with product pages, cart functionality, and checkout flow using AI tools.</p>
+            <p>Create a full online store with cart, checkout, and payment integration.</p>
             <div style="margin-top:1rem;"><span class="tag emerald">Free</span></div>
           </a>
 
           <a href="lab3.html" class="card fade-in" style="text-decoration:none;">
             <div class="card-icon">🏪</div>
-            <h3>Lab 3 — Directory / Marketplace</h3>
-            <p>Build a directory or marketplace with search, filters, listings, and user interactions.</p>
+            <h3>Lab 3 — Marketplace</h3>
+            <p>Build a directory or marketplace with search, filters, and user listings.</p>
             <div style="margin-top:1rem;"><span class="tag emerald">Free</span></div>
           </a>
         </div>
       </section>
 
-      <!-- Three Pillars -->
-      <section class="section">
-        <div class="section-header">
-          <span class="section-label">Core Techniques</span>
-          <h2 class="section-title">The Three Pillars of Vibe Coding</h2>
-          <p class="section-desc">Master these three processes to go from novice to expert-level vibe coder.</p>
-        </div>
-
-        <div class="cards-grid cards-grid-3">
-          <div class="card fade-in">
-            <div class="card-icon" style="background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(236,72,153,0.15));">🔗</div>
-            <h3>Prompt Chaining</h3>
-            <p>Use AI to refine your prompts before sending them to a builder tool. Transform vague ideas into precise
-              specifications.</p>
-            <div style="margin-top:var(--space-md);">
-              <span class="tag">Refine</span>
-              <span class="tag cyan">Specify</span>
-              <span class="tag emerald">Generate</span>
-            </div>
-          </div>
-
-          <div class="card fade-in">
-            <div class="card-icon" style="background:linear-gradient(135deg,rgba(6,182,212,0.15),rgba(139,92,246,0.15));">📋</div>
-            <h3>Context Engineering</h3>
-            <p>Give AI everything it needs: files, PRDs, brand guidelines, design systems. Better context = better
-              output.</p>
-            <div style="margin-top:var(--space-md);">
-              <span class="tag">PRDs</span>
-              <span class="tag cyan">Design Systems</span>
-              <span class="tag magenta">Guidelines</span>
-            </div>
-          </div>
-
-          <div class="card fade-in">
-            <div class="card-icon" style="background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(6,182,212,0.15));">⚙️</div>
-            <h3>Process Engineering</h3>
-            <p>Watch workflows in action, record processes, and use AI to identify bottlenecks and create improvements.</p>
-            <div style="margin-top:var(--space-md);">
-              <span class="tag emerald">Observe</span>
-              <span class="tag">Analyze</span>
-              <span class="tag cyan">Optimize</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- CTA Section -->
-      <section class="section fade-in" id="stay-updated" style="margin-top:var(--space-xl);">
-        <div class="signup-section">
-          <h2 style="font-size:1.75rem;margin-bottom:0.5rem;color:var(--text-primary);">Ready to Build with AI?</h2>
-          <p style="font-size:1rem;color:var(--text-secondary);margin-bottom:var(--space-lg);">
-            Create your free account to access all modules, hands-on labs, and track your progress.
-          </p>
-          <a href="auth.html" class="btn btn-primary" style="font-size:1.1rem;padding:1rem 2.5rem;display:inline-flex;">Create Free Account →</a>
-          <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border-subtle);">
-            <p style="font-size:0.875rem;color:var(--text-muted);margin-bottom:1rem;">Or subscribe for updates:</p>
-            <form class="signup-inline" id="subscribe-form" onsubmit="handleSubscribe(event)">
-              <input type="email" class="form-input" placeholder="you@example.com" required>
-              <button type="submit" class="btn btn-secondary">Subscribe →</button>
-            </form>
-            <p id="subscribe-msg" style="display:none;margin-top:1rem;color:var(--accent-emerald);">
-              You're on the list! We'll be in touch.
+      <!-- Newsletter -->
+      <section class="section fade-in" id="newsletter">
+        <div class="signup-section" style="background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(6,182,212,0.1)); border: 1px solid rgba(139,92,246,0.2);">
+          <div style="text-align: center; margin-bottom: var(--space-lg);">
+            <span style="display: inline-block; padding: 0.5rem 1rem; background: rgba(139,92,246,0.15); border-radius: 20px; font-size: 0.875rem; color: var(--accent-violet); margin-bottom: 1rem;">
+              📬 Weekly Insights
+            </span>
+            <h2 style="font-size:2rem;margin-bottom:0.75rem;color:var(--text-primary);">Join the Community</h2>
+            <p style="font-size:1rem;color:var(--text-secondary); max-width: 600px; margin: 0 auto;">
+              Get weekly AI tools updates, prompt engineering tips, and exclusive tutorials delivered to your inbox.
             </p>
           </div>
+          
+          <form class="signup-inline" id="newsletter-form" onsubmit="handleNewsletterSubscribe(event)" style="max-width: 500px; margin: 0 auto;">
+            <input type="email" id="newsletter-email" class="form-input" placeholder="you@example.com" required>
+            <button type="submit" id="newsletter-btn" class="btn btn-primary">Subscribe →</button>
+          </form>
+          
+          <p id="newsletter-success" style="display:none;margin-top:1rem;color:var(--accent-emerald);text-align:center;">
+            <strong>Welcome aboard!</strong> Check your inbox for confirmation. 🎉
+          </p>
+          
+          <p style="margin-top:var(--space-md);color:var(--text-muted);font-size:0.8125rem;text-align:center;">
+            🔒 No spam. Unsubscribe anytime.
+          </p>
         </div>
       </section>
 
@@ -199,7 +372,15 @@
 
   <footer class="footer">
     <div class="container">
-      <p>⚡ LetsVibeAI &copy; 2025</p>
+      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+        <p>⚡ LetsVibeAI &copy; 2025 — Built with AI</p>
+        <div style="display: flex; gap: 1.5rem;">
+          <a href="module1.html">Courses</a>
+          <a href="marketplace.html">Marketplace</a>
+          <a href="tools.html">Tools</a>
+          <a href="community.html">Community</a>
+        </div>
+      </div>
     </div>
   </footer>
 
@@ -207,26 +388,32 @@
   <script src="supabase-client.js"></script>
   <script src="script.js"></script>
   <script>
-    async function handleSubscribe(e) {
+    async function handleNewsletterSubscribe(e) {
       e.preventDefault();
-      const email = e.target.querySelector('input').value;
-      const btn = e.target.querySelector('button');
+      const email = document.getElementById('newsletter-email').value;
+      const btn = document.getElementById('newsletter-btn');
+      const successMsg = document.getElementById('newsletter-success');
+      
       btn.textContent = 'Subscribing...';
       btn.disabled = true;
 
       try {
-        await window._supabaseReady;
-        await window.db.addSubscriber(email);
+        const result = await window.db.subscribeNewsletter(email);
+        if (result.error) throw result.error;
+        
+        document.getElementById('newsletter-form').style.display = 'none';
+        successMsg.style.display = 'block';
       } catch (err) {
-        console.error('Subscribe error:', err);
+        console.error('Newsletter error:', err);
+        const list = JSON.parse(localStorage.getItem('newsletter_subscribers') || '[]');
+        if (!list.some(s => s.email === email)) {
+          list.push({ email, subscribed_at: new Date().toISOString() });
+          localStorage.setItem('newsletter_subscribers', JSON.stringify(list));
+        }
+        document.getElementById('newsletter-form').style.display = 'none';
+        successMsg.style.display = 'block';
       }
-
-      e.target.reset();
-      document.getElementById('subscribe-msg').style.display = 'block';
-      btn.textContent = 'Subscribe →';
-      btn.disabled = false;
     }
   </script>
 </body>
-
 </html>
