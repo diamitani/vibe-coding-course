@@ -1,0 +1,43 @@
+{
+  "blog_posts": [
+    {
+      "id": "welcome-to-letsvibeai",
+      "title": "Welcome to LetsVibeAI - Your AI Development Platform",
+      "slug": "welcome-to-letsvibeai",
+      "excerpt": "We're building the ultimate resource for vibe coders. Here's what to expect from our platform.",
+      "content": "Welcome to LetsVibeAI - the ultimate platform for learning and mastering vibe coding. Our mission is to help developers and creators harness the power of AI to build amazing applications without traditional coding barriers.",
+      "author": "LetsVibeAI Team",
+      "date": "2025-01-01",
+      "category": "Announcements",
+      "tags": ["welcome", "announcements"],
+      "featured": true
+    },
+    {
+      "id": "getting-started-with-vibe-coding",
+      "title": "Getting Started with Vibe Coding: A Complete Guide",
+      "slug": "getting-started-with-vibe-coding",
+      "excerpt": "Learn what vibe coding is, why it matters, and how to start your journey as an AI-powered developer.",
+      "content": "Vibe coding represents a paradigm shift in software development. Instead of writing code line by line, developers express their intent in natural language, and AI handles the implementation.",
+      "author": "LetsVibeAI Team",
+      "date": "2025-01-15",
+      "category": "Tutorials",
+      "tags": ["beginners", "tutorial", "guide"],
+      "featured": true
+    },
+    {
+      "id": "best-ai-coding-tools-2025",
+      "title": "The Best AI Coding Tools in 2025",
+      "slug": "best-ai-coding-tools-2025",
+      "excerpt": "We tested and ranked the top AI coding assistants to help you choose the right one for your workflow.",
+      "content": "From Cursor to Windsurf, Lovable to v0 - the AI coding tool landscape is evolving rapidly. Here's our comprehensive ranking.",
+      "author": "LetsVibeAI Team",
+      "date": "2025-02-01",
+      "category": "Tools",
+      "tags": ["tools", "AI", "ranking"],
+      "featured": true
+    }
+  ],
+  "newsletter_subscribers": [],
+  "rss_feed_items": [],
+  "last_updated": "2025-01-01T00:00:00Z"
+}
