@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resources Hub — Tools, News & Workspace | LetsVibeAI</title>
+    <meta name="description" content="Curated vibe coding tools directory, AI news feed, and interactive prompt workspace. Everything you need to build with AI.">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .resources-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-subtle);
+            flex-wrap: wrap;
+        }
+
+        .resources-tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all var(--duration-fast) var(--ease-out);
+        }
+
+        .resources-tab-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .resources-tab-btn.active {
+            color: var(--accent-cyan);
+            border-bottom-color: var(--accent-cyan);
+        }
+
+        .resources-tab-content {
+            display: none;
+        }
+
+        .resources-tab-content.active {
+            display: block;
+            animation: fadeIn var(--duration-fast) var(--ease-out);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .tools-search {
+            margin-bottom: 1.5rem;
+        }
+
+        .tools-search input {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .showcase-filters {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.25rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-full);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all var(--duration-fast) var(--ease-out);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent-cyan);
+            color: var(--text-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            color: var(--bg-primary);
+        }
+
+        .tool-link-card {
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            color: inherit;
+            transition: all var(--duration-fast) var(--ease-out);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .tool-link-card:hover {
+            border-color: var(--accent-cyan);
+            background: var(--bg-card-hover);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(6, 182, 212, 0.15);
+        }
+
+        .tool-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .tool-category {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-url {
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            margin-bottom: 0.75rem;
+            font-family: var(--font-mono);
+        }
+
+        .tool-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            flex-grow: 1;
+            line-height: 1.6;
+        }
+
+        .tool-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 1rem;
+        }
+
+        .tool-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .visit-link {
+            color: var(--accent-cyan);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .news-card {
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            margin-bottom: 1.5rem;
+            transition: all var(--duration-fast) var(--ease-out);
+        }
+
+        .news-card:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 8px 32px rgba(6, 182, 212, 0.15);
+        }
+
+        .news-date {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .news-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+            line-height: 1.4;
+        }
+
+        .news-excerpt {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .news-source {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .workspace-section {
+            max-width: 100%;
+        }
+
+        .workspace-intro {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .workspace-intro h2 {
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .workspace-intro p {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+
+        .workspace-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .workspace-card {
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(6, 182, 212, 0.1));
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            text-align: center;
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-out);
+        }
+
+        .workspace-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(6, 182, 212, 0.15);
+        }
+
+        .workspace-card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .workspace-card-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .workspace-card-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .resources-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .resources-header h1 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            margin-bottom: 1rem;
+        }
+
+        .resources-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">⚡ LetsVibeAI</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="learn.html">Learn</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="marketplace.html">Marketplace</a></li>
+                <li id="auth-nav-slot"></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="resources-header">
+                <h1>Resources Hub</h1>
+                <p>Curated tools, latest news, and interactive workspace for your vibe coding journey.</p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="resources-tabs">
+                <button class="resources-tab-btn active" onclick="switchResourcesTab('tools')">🛠️ Tools</button>
+                <button class="resources-tab-btn" onclick="switchResourcesTab('news')">📰 News</button>
+                <button class="resources-tab-btn" onclick="switchResourcesTab('workspace')">💻 Workspace</button>
+            </div>
+
+            <!-- Tab 1: Tools -->
+            <div id="tools" class="resources-tab-content active">
+                <div class="tools-search">
+                    <input type="text" id="tool-search" class="form-input" placeholder="Search tools... (e.g., React, AI, Database)"
+                        oninput="filterTools()">
+                </div>
+                <div class="showcase-filters" style="flex-wrap: wrap;">
+                    <button class="filter-btn active" onclick="filterTools('all')">All</button>
+                    <button class="filter-btn" onclick="filterTools('Hosted Builder')">Hosted Builders</button>
+                    <button class="filter-btn" onclick="filterTools('AI IDE')">AI IDEs</button>
+                    <button class="filter-btn" onclick="filterTools('CLI Agent')">CLI Agents</button>
+                    <button class="filter-btn" onclick="filterTools('Hosting')">Hosting</button>
+                    <button class="filter-btn" onclick="filterTools('Backend')">Backend</button>
+                    <button class="filter-btn" onclick="filterTools('Design')">Design</button>
+                    <button class="filter-btn" onclick="filterTools('Automation')">Automation</button>
+                    <button class="filter-btn" onclick="filterTools('Expert GPT')">Expert GPTs</button>
+                </div>
+                <div class="cards-grid cards-grid-3" id="tools-grid"></div>
+            </div>
+
+            <!-- Tab 2: News -->
+            <div id="news" class="resources-tab-content">
+                <div style="margin-bottom: 2rem;">
+                    <p style="color: var(--text-secondary); font-size: 1.05rem;">Stay updated on the latest AI tools, trends, and community highlights.</p>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-date">March 10, 2025</div>
+                    <h3 class="news-title">Claude 4.5 Opus Released with Enhanced Code Understanding</h3>
+                    <p class="news-excerpt">Anthropic releases Claude Opus 4.6, the latest and most capable model in the Claude family, with significant improvements in code generation and multi-file project understanding. Perfect for vibe coding workflows.</p>
+                    <div class="news-source">
+                        <span>📖 Anthropic Blog</span>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-date">March 8, 2025</div>
+                    <h3 class="news-title">Vercel Launches v0.dev Pro with AI-Powered Component Generation</h3>
+                    <p class="news-excerpt">Vercel announces enhanced v0.dev with AI-powered component generation and improved context understanding, making it easier to build complex UIs faster than ever.</p>
+                    <div class="news-source">
+                        <span>🚀 Vercel Updates</span>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-date">March 5, 2025</div>
+                    <h3 class="news-title">New Course: Vibe Coding Fundamentals on Coursera</h3>
+                    <p class="news-excerpt">University of Colorado launches a comprehensive vibe coding fundamentals course on Coursera. Perfect for beginners wanting to understand AI-assisted development.</p>
+                    <div class="news-source">
+                        <span>📚 Course Launch</span>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-date">February 28, 2025</div>
+                    <h3 class="news-title">New Guide: Building Full-Stack Apps with Lovable + Supabase</h3>
+                    <p class="news-excerpt">Learn how to combine Lovable's AI-powered frontend with Supabase's backend services to build complete, production-ready applications in hours instead of days.</p>
+                    <div class="news-source">
+                        <span>📚 Tutorial</span>
+                    </div>
+                </div>
+
+                <div class="news-card">
+                    <div class="news-date">February 25, 2025</div>
+                    <h3 class="news-title">Windsurf 1.5 Adds Agentic "Cascade" Flows for Multi-File Edits</h3>
+                    <p class="news-excerpt">Codeium releases Windsurf 1.5 with advanced agentic capabilities that understand your entire codebase and make autonomous multi-file changes while you watch.</p>
+                    <div class="news-source">
+                        <span>🔧 Tool Updates</span>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 2rem;">
+                    <a href="news.html" class="btn btn-secondary">View Full News Archive →</a>
+                </div>
+            </div>
+
+            <!-- Tab 3: Workspace -->
+            <div id="workspace" class="resources-tab-content">
+                <div class="workspace-intro">
+                    <h2>Prompt Lab & Interactive Workspace</h2>
+                    <p>Use these tools and templates to refine your vibe coding prompts, test ideas, and collaborate with the community.</p>
+                </div>
+
+                <div class="workspace-grid">
+                    <div class="workspace-card">
+                        <div class="workspace-card-icon">📝</div>
+                        <h3 class="workspace-card-title">Prompt Editor</h3>
+                        <p class="workspace-card-desc">Write and refine your prompts with syntax highlighting, templates, and suggestions. Test them against Claude, GPT-4, and more.</p>
+                    </div>
+
+                    <div class="workspace-card">
+                        <div class="workspace-card-icon">🎨</div>
+                        <h3 class="workspace-card-title">Design Kit</h3>
+                        <p class="workspace-card-desc">Generate design prompts for Midjourney, DALL-E, or other image generators. Include color palettes, composition guides, and style references.</p>
+                    </div>
+
+                    <div class="workspace-card">
+                        <div class="workspace-card-icon">⚙️</div>
+                        <h3 class="workspace-card-title">Process Templates</h3>
+                        <p class="workspace-card-desc">Pre-built workflows for common tasks: landing pages, e-commerce, dashboards, automation, and more. Customize and deploy instantly.</p>
+                    </div>
+
+                    <div class="workspace-card">
+                        <div class="workspace-card-icon">🔗</div>
+                        <h3 class="workspace-card-title">Integration Builder</h3>
+                        <p class="workspace-card-desc">Connect your vibe coding tools, databases, and APIs. Build custom workflows without writing code using Make, n8n, or Zapier.</p>
+                    </div>
+
+                    <div class="workspace-card">
+                        <div class="workspace-card-icon">📊</div>
+                        <h3 class="workspace-card-title">Performance Monitor</h3>
+                        <p class="workspace-card-desc">Track your vibe coding projects: load times, performance metrics, user analytics, and quality indicators all in one dashboard.</p>
+                    </div>
+
+                    <div class="workspace-card">
+                        <div class="workspace-card-icon">👥</div>
+                        <h3 class="workspace-card-title">Collaborate</h3>
+                        <p class="workspace-card-desc">Share prompts, processes, and projects with your team. Fork community workflows, leave feedback, and contribute improvements.</p>
+                    </div>
+                </div>
+
+                <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 2rem; text-align: center;">
+                    <h3 style="color: var(--text-primary); margin-bottom: 1rem;">Ready to Get Started?</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Access the full prompt lab and interactive workspace with your LetsVibeAI account.</p>
+                    <a href="prompt-lab.html" class="btn btn-primary">Open Prompt Lab →</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <p>⚡ LetsVibeAI &copy; 2025 — Built with AI</p>
+                <div style="display: flex; gap: 1.5rem;">
+                    <a href="learn.html">Learn</a>
+                    <a href="resources.html">Resources</a>
+                    <a href="marketplace.html">Marketplace</a>
+                    <a href="community.html">Community</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="supabase-client.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Make BUILTIN_TOOLS and CUSTOM_GPTS available if not already loaded
+        if (typeof BUILTIN_TOOLS === 'undefined') {
+            var BUILTIN_TOOLS = [
+                { name: 'Lovable', icon: '💜', url: 'https://lovable.dev', category: 'Hosted Builder', pricing: 'Free tier + paid', desc: 'AI full-stack app builder. Describe your project and Lovable generates a complete app with React frontend, Supabase backend, auth, and database — with live preview as it builds.', tags: ['Full-Stack', 'Supabase', 'One-Click Deploy'] },
+                { name: 'v0.dev', icon: '▲', url: 'https://v0.dev', category: 'Hosted Builder', pricing: 'Free tier + paid', desc: 'Vercel\'s AI UI generator. Creates production-ready React + Tailwind components from text descriptions. Perfect for front-end design and rapid prototyping.', tags: ['UI Components', 'React', 'Tailwind'] },
+                { name: 'Bolt.new', icon: '⚡', url: 'https://bolt.new', category: 'Hosted Builder', pricing: 'Free tier + paid', desc: 'StackBlitz instant full-stack builder. Runs Node.js entirely in the browser via WebContainers — no server needed. Build and preview apps in real time.', tags: ['Full-Stack', 'WebContainers', 'Instant'] },
+                { name: 'Replit', icon: '🔄', url: 'https://replit.com', category: 'Hosted Builder', pricing: 'Free tier + paid', desc: 'Cloud-based coding platform with AI agent (Replit Agent). Build, host, and deploy full-stack apps with built-in database, authentication, and instant deployment.', tags: ['All-in-One', 'Cloud IDE', 'Hosting'] },
+                { name: 'Cursor', icon: '📐', url: 'https://cursor.com', category: 'AI IDE', pricing: 'Free tier + $20/mo', desc: 'AI-first code editor built on VS Code. Features tab completion, multi-file edits, and chat — a favorite among developers transitioning to AI-assisted coding.', tags: ['VS Code', 'Tab Complete', 'Chat'] },
+                { name: 'Windsurf', icon: '🏄', url: 'https://windsurf.com', category: 'AI IDE', pricing: 'Free tier + paid', desc: 'AI IDE by Codeium with agentic "Cascade" flows. Understands your entire codebase and makes multi-step changes autonomously while you watch.', tags: ['Agentic', 'Cascade', 'Codebase-Aware'] },
+                { name: 'GitHub Copilot', icon: '🐙', url: 'https://github.com/features/copilot', category: 'AI IDE', pricing: 'Free tier + $10/mo', desc: 'GitHub\'s AI pair programmer. Integrates into VS Code, JetBrains, and more. Features code completion, chat, and the new agent mode for autonomous coding.', tags: ['VS Code', 'Autocomplete', 'Agent Mode'] },
+                { name: 'Claude Code', icon: '🟠', url: 'https://docs.anthropic.com/en/docs/claude-code', category: 'CLI Agent', pricing: 'API usage', desc: 'Anthropic\'s agentic terminal tool. Reads your entire codebase, understands project structure, creates and edits files, runs commands, and handles complex multi-file refactors.', tags: ['Terminal', 'Multi-File', 'Deep Context'] },
+                { name: 'Aider', icon: '👥', url: 'https://aider.chat', category: 'CLI Agent', pricing: 'Free + LLM costs', desc: 'AI pair programming in your terminal. Edits code in your local git repository using multiple AI models. Great for working with large codebases.', tags: ['Git Integration', 'Multi-Model', 'Terminal'] },
+                { name: 'Vercel', icon: '▲', url: 'https://vercel.com', category: 'Hosting', pricing: 'Free tier + paid', desc: 'The leading platform for frontend deployment. One-click deploys from GitHub, edge functions, serverless APIs, and built-in analytics. Pairs perfectly with v0.dev.', tags: ['Deploy', 'Edge', 'Serverless'] },
+                { name: 'Supabase', icon: '⚡', url: 'https://supabase.com', category: 'Backend', pricing: 'Free tier + paid', desc: 'Open-source Firebase alternative. Provides PostgreSQL database, auth, realtime subscriptions, storage, and edge functions. The backend of choice for vibe-coded apps.', tags: ['Database', 'Auth', 'Realtime'] },
+                { name: 'Firebase', icon: '🔥', url: 'https://firebase.google.com', category: 'Backend', pricing: 'Free tier + paid', desc: 'Google\'s comprehensive app development platform. Database, auth, hosting, storage, and serverless functions all in one.', tags: ['Google', 'Serverless', 'Mobile'] },
+                { name: 'Midjourney', icon: '🎨', url: 'https://midjourney.com', category: 'Design', pricing: '$10/mo+', desc: 'AI image generation powerhouse. Create stunning visuals, mockups, hero images, and brand assets from text descriptions. Essential for marketing sites.', tags: ['Images', 'Branding', 'Mockups'] },
+                { name: 'Figma + AI', icon: '🖌️', url: 'https://figma.com', category: 'Design', pricing: 'Free tier + paid', desc: 'The standard for UI/UX design, now with AI features. Generate designs, auto-layout components, and hand off pixel-perfect specs to your vibe coding tools.', tags: ['UI/UX', 'Components', 'Handoff'] },
+                { name: 'Make (Integromat)', icon: '🔗', url: 'https://make.com', category: 'Automation', pricing: 'Free tier + paid', desc: 'Visual automation platform. Connect apps, APIs, and AI models into automated workflows. Build email sequences, data pipelines, and business processes without code.', tags: ['Workflows', 'API', 'No-Code'] },
+                { name: 'Zapier', icon: '⚡', url: 'https://zapier.com', category: 'Automation', pricing: 'Free tier + paid', desc: 'The OG automation platform. Connect 6000+ apps with simple trigger-action workflows. Now features AI actions and Copilot for building automations with natural language.', tags: ['6000+ Apps', 'AI Copilot', 'Simple'] }
+            ];
+        }
+
+        function switchResourcesTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.resources-tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            document.querySelectorAll('.resources-tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+
+            // Mark button as active
+            event.target.classList.add('active');
+
+            // If switching to tools tab, ensure filtering is active
+            if (tabName === 'tools') {
+                filterTools('all');
+            }
+        }
+
+        function filterTools(cat) {
+            const q = document.getElementById('tool-search').value.toLowerCase();
+            document.querySelectorAll('.showcase-filters .filter-btn').forEach(b => {
+                b.classList.toggle('active', (cat || 'all') === (b.textContent.trim() === 'All' ? 'all' : b.textContent.trim()));
+            });
+
+            // Combine built-in and custom GPTs
+            const customGPTs = (typeof CUSTOM_GPTS !== 'undefined') ? CUSTOM_GPTS.map(g => ({ ...g, icon: '🤖' })) : [];
+            const allTools = [...BUILTIN_TOOLS, ...customGPTs];
+
+            const filtered = allTools.filter(t => {
+                const matchCat = !cat || cat === 'all' || t.category === cat;
+                const matchQ = !q || t.name.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q) || t.category.toLowerCase().includes(q);
+                return matchCat && matchQ;
+            });
+
+            const grid = document.getElementById('tools-grid');
+            grid.innerHTML = filtered.map(t => `
+        <a href="${t.url}" target="_blank" rel="noopener" class="tool-link-card fade-in visible">
+          <div class="tool-icon">${t.icon || '🤖'}</div>
+          <div class="tool-category">${t.category}</div>
+          <div class="tool-name">${t.name}</div>
+          <div class="tool-url">${t.url.replace('https://', '')}</div>
+          <div class="tool-desc">${t.desc}</div>
+          <div class="tool-footer">
+            <div class="tool-tags">${t.tags.map((tg, i) => `<span class="tag ${['', 'cyan', 'emerald'][i % 3]}">${tg}</span>`).join('')}</div>
+            <span class="visit-link">Visit →</span>
+          </div>
+        </a>`).join('');
+        }
+
+        // Initialize tools on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            filterTools('all');
+        });
+    </script>
+</body>
+
+</html>
