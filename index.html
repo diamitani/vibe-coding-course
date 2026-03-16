@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>LetsVibeAI — Build, Learn, & Earn with AI</title>
-  <meta name="description" content="The ultimate platform for vibe coding. Learn AI-powered development, access tools & templates marketplace, and join a thriving creator community.">
+  <title>LearnAI — The AI Learning Platform</title>
+  <meta name="description" content="Learn AI development, vibe coding, and AI-powered tools. Courses from beginner to expert.">
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
 </head>
@@ -14,364 +14,327 @@
   <div class="ambient-bg"></div>
 
   <!-- Navigation -->
-  <nav class="nav">
+  <nav class="nav" style="position: sticky; top: 0; z-index: 100;">
     <div class="nav-inner">
       <a href="index.html" class="nav-logo">
-        <span style="background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">⚡ LetsVibeAI</span>
+        <span style="background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; font-size: 1.5rem;">LearnAI</span>
       </a>
       <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
       <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="learn.html">Learn</a></li>
+        <li><a href="index.html" style="color: var(--text-primary);">Home</a></li>
+        <li><a href="catalog.html">Catalog</a></li>
+        <li><a href="marketplace.html">Marketplace</a></li>
         <li><a href="resources.html">Resources</a></li>
         <li><a href="community.html">Community</a></li>
-        <li><a href="marketplace.html">Marketplace</a></li>
-        <li id="auth-nav-slot"></li>
+        <li><a href="auth.html" class="btn btn-primary" style="padding: 0.5rem 1rem; margin-left: 0.5rem;">Sign In</a></li>
       </ul>
     </div>
   </nav>
 
-  <main class="page-content">
-    <div class="container">
-
-      <!-- Hero Section -->
-      <section class="hero" style="text-align: center; padding: 6rem 0 4rem;">
-        <div class="hero-badge" style="margin-bottom: 1.5rem;"><span class="dot"></span> The AI Platform for Creators</div>
-        <h1 style="font-size: clamp(2.5rem, 6vw, 4.5rem); line-height: 1.1; margin-bottom: 1.5rem;">
-          Build, Learn & <span class="gradient-text">Create</span><br>with AI
+  <main>
+    <!-- Hero Section -->
+    <section class="hero" style="padding: 4rem 1rem; text-align: center; background: linear-gradient(180deg, rgba(139,92,246,0.15) 0%, transparent 100%);">
+      <div class="container" style="max-width: 900px;">
+        <span style="display: inline-block; padding: 0.5rem 1rem; background: rgba(139,92,246,0.2); border-radius: 20px; font-size: 0.875rem; color: var(--accent-violet); margin-bottom: 1.5rem;">
+          🚀 50+ AI Courses Available
+        </span>
+        <h1 style="font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1.1; margin-bottom: 1.5rem;">
+          Master <span class="gradient-text">AI Development</span><br>From Anywhere
         </h1>
         <p style="font-size: 1.25rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto 2.5rem; line-height: 1.7;">
-          Master vibe coding with curated courses from top platforms. Discover tools, templates & prompts. Build with AI — no coding experience required.
+          Learn vibe coding, AI tools, and prompt engineering from industry experts. Build real projects, earn certificates, and advance your career.
         </p>
-        <div class="hero-cta" style="justify-content: center; flex-wrap: wrap; gap: 1rem;">
-          <a href="learn.html" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem;">Start Learning Free →</a>
-          <a href="marketplace.html" class="btn btn-secondary" style="padding: 1rem 2rem; font-size: 1.1rem;">Browse Templates</a>
+        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+          <a href="catalog.html" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem;">Browse Courses</a>
+          <a href="#categories" class="btn btn-secondary" style="padding: 1rem 2rem; font-size: 1.1rem;">Explore Categories</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="section" id="categories" style="background: var(--bg-primary);">
+      <div class="container">
+        <div class="section-header" style="text-align: center; margin-bottom: 2rem;">
+          <h2 class="section-title" style="margin-bottom: 0.5rem;">Browse by Category</h2>
+          <p class="section-desc" style="color: var(--text-secondary);">Find the perfect course for your learning goals</p>
         </div>
         
-        <!-- Credible Stats -->
-        <div style="display: flex; justify-content: center; gap: 3rem; margin-top: 4rem; flex-wrap: wrap;">
-          <div style="text-align: center;">
-            <div style="font-size: 2.5rem; font-weight: 800; background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">50+</div>
-            <div style="color: var(--text-secondary); font-size: 0.9rem;">Curated Courses</div>
-          </div>
-          <div style="text-align: center;">
-            <div style="font-size: 2.5rem; font-weight: 800; background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">100+</div>
-            <div style="color: var(--text-secondary); font-size: 0.9rem;">Templates & Prompts</div>
-          </div>
-          <div style="text-align: center;">
-            <div style="font-size: 2.5rem; font-weight: 800; background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">20+</div>
-            <div style="color: var(--text-secondary); font-size: 0.9rem;">AI Tools Ranked</div>
-          </div>
-          <div style="text-align: center;">
-            <div style="font-size: 2.5rem; font-weight: 800; background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">8</div>
-            <div style="color: var(--text-secondary); font-size: 0.9rem;">RSS Feeds Aggregated</div>
-          </div>
+        <div class="category-grid" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; max-width: 1200px; margin: 0 auto;">
+          <a href="catalog.html?category=vibe-coding" class="category-card" style="text-decoration: none;">
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 1.5rem; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); transition: all 0.3s ease;">
+              <span style="font-size: 2rem; margin-bottom: 0.75rem;">🤖</span>
+              <span style="font-weight: 500; color: var(--text-primary);">Vibe Coding</span>
+              <span style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">12 courses</span>
+            </div>
+          </a>
+          <a href="catalog.html?category=ai-tools" class="category-card" style="text-decoration: none;">
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 1.5rem; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); transition: all 0.3s ease;">
+              <span style="font-size: 2rem; margin-bottom: 0.75rem;">🛠️</span>
+              <span style="font-weight: 500; color: var(--text-primary);">AI Tools</span>
+              <span style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">8 courses</span>
+            </div>
+          </a>
+          <a href="catalog.html?category=prompt-engineering" class="category-card" style="text-decoration: none;">
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 1.5rem; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); transition: all 0.3s ease;">
+              <span style="font-size: 2rem; margin-bottom: 0.75rem;">💬</span>
+              <span style="font-weight: 500; color: var(--text-primary);">Prompt Engineering</span>
+              <span style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">6 courses</span>
+            </div>
+          </a>
+          <a href="catalog.html?category=web-development" class="category-card" style="text-decoration: none;">
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 1.5rem; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); transition: all 0.3s ease;">
+              <span style="font-size: 2rem; margin-bottom: 0.75rem;">💻</span>
+              <span style="font-weight: 500; color: var(--text-primary);">Web Development</span>
+              <span style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">10 courses</span>
+            </div>
+          </a>
+          <a href="catalog.html?category=automation" class="category-card" style="text-decoration: none;">
+            <div style="display: flex; flex-direction: column; align-items: center; padding: 1.5rem; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); transition: all 0.3s ease;">
+              <span style="font-size: 2rem; margin-bottom: 0.75rem;">⚡</span>
+              <span style="font-weight: 500; color: var(--text-primary);">Automation</span>
+              <span style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">5 courses</span>
+            </div>
+          </a>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- Bento Grid: Platform Overview -->
-      <section class="section">
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(2, 200px); gap: 1rem; max-width: 1200px; margin: 0 auto;">
-          
-          <!-- Main Feature: Courses -->
-          <a href="learn.html" style="grid-column: span 2; grid-row: span 2; background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(6,182,212,0.1)); border: 1px solid rgba(139,92,246,0.3); border-radius: var(--radius-xl); padding: 2rem; text-decoration: none; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.3s ease, box-shadow 0.3s ease;" class="bento-card">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-              <span style="background: rgba(139,92,246,0.2); padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.8rem; color: var(--accent-violet);">Popular</span>
-              <span style="font-size: 2rem;">📚</span>
-            </div>
-            <div>
-              <h3 style="font-size: 1.75rem; margin-bottom: 0.5rem; color: var(--text-primary);">Courses</h3>
-              <p style="color: var(--text-secondary); font-size: 0.95rem;">Learn vibe coding from scratch. 6 modules + 3 hands-on labs.</p>
-              <div style="margin-top: 1rem; display: flex; gap: 0.5rem;">
-                <span class="tag emerald">Free</span>
-                <span class="tag">Beginner</span>
-              </div>
-            </div>
-          </a>
-
-          <!-- Marketplace -->
-          <a href="marketplace.html" style="grid-column: span 1; grid-row: span 1; background: linear-gradient(135deg, rgba(16,185,129,0.12), rgba(6,182,212,0.08)); border: 1px solid rgba(16,185,129,0.2); border-radius: var(--radius-xl); padding: 1.5rem; text-decoration: none; transition: transform 0.3s ease;" class="bento-card">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
-              <span style="font-size: 1.75rem;">🛒</span>
-            </div>
-            <h4 style="font-size: 1.25rem; margin-bottom: 0.25rem;">Marketplace</h4>
-            <p style="color: var(--text-secondary); font-size: 0.85rem;">Templates, prompts & tools</p>
-          </a>
-
-          <!-- Resources -->
-          <a href="resources.html" style="grid-column: span 1; grid-row: span 1; background: linear-gradient(135deg, rgba(245,158,11,0.12), rgba(236,72,153,0.08)); border: 1px solid rgba(245,158,11,0.2); border-radius: var(--radius-xl); padding: 1.5rem; text-decoration: none; transition: transform 0.3s ease;" class="bento-card">
-            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
-              <span style="font-size: 1.75rem;">🛠️</span>
-            </div>
-            <h4 style="font-size: 1.25rem; margin-bottom: 0.25rem;">Resources</h4>
-            <p style="color: var(--text-secondary); font-size: 0.85rem;">Tools, news & workspace</p>
-          </a>
-
-          <!-- Community -->
-          <a href="community.html" style="grid-column: span 2; grid-row: span 1; background: linear-gradient(135deg, rgba(6,182,212,0.12), rgba(139,92,246,0.08)); border: 1px solid rgba(6,182,212,0.2); border-radius: var(--radius-xl); padding: 1.5rem; text-decoration: none; display: flex; align-items: center; gap: 1.5rem; transition: transform 0.3s ease;" class="bento-card">
-            <span style="font-size: 3rem;">👥</span>
-            <div>
-              <h4 style="font-size: 1.25rem; margin-bottom: 0.25rem;">Community</h4>
-              <p style="color: var(--text-secondary); font-size: 0.9rem;">Connect with fellow creators, share projects, get feedback</p>
-            </div>
-          </a>
-
-
-        </div>
-      </section>
-
-      <!-- Featured Courses -->
-      <section class="section">
+    <!-- Featured Courses -->
+    <section class="section" style="background: var(--bg-secondary);">
+      <div class="container">
         <div class="section-header">
-          <span class="section-label">Learning Path</span>
-          <h2 class="section-title">Start Your Journey</h2>
-          <p class="section-desc">Master vibe coding through our structured curriculum designed for all skill levels.</p>
+          <span class="section-label">Top Rated</span>
+          <h2 class="section-title">Featured Courses</h2>
+          <p class="section-desc">Bestselling and highest-rated courses on LearnAI</p>
         </div>
 
-        <div class="cards-grid cards-grid-3">
-          <a href="learn.html#module-1" class="card fade-in" style="text-decoration:none; border: 1px solid rgba(139,92,246,0.2);">
-            <div class="card-icon">🧠</div>
-            <h3>Module 1 — What is AI</h3>
-            <p>Foundations of LLMs & generative AI</p>
-            <div style="margin-top:1rem; display:flex; gap:0.5rem;">
-              <span class="tag emerald">Free</span>
-              <span class="tag cyan">Beginner</span>
+        <div class="courses-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1200px; margin: 0 auto;">
+          <!-- Course Card 1 -->
+          <a href="catalog.html" class="course-card" style="text-decoration: none;">
+            <div style="background: var(--bg-card); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-subtle); transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.3)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+              <div style="height: 160px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; position: relative;">
+                <span style="font-size: 4rem;">🤖</span>
+                <span style="position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Bestseller</span>
+              </div>
+              <div style="padding: 1.25rem;">
+                <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Vibe Coding 101 with Replit</h3>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;">Learn AI-powered development from scratch with DeepLearning.AI</p>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                  <span style="color: #fbbf24; font-size: 0.85rem;">★★★★★</span>
+                  <span style="color: var(--text-muted); font-size: 0.8rem;">4.8 (1,234)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-weight: 600; color: var(--accent-emerald);">Free</span>
+                  <span style="color: var(--text-muted); font-size: 0.8rem;">1.7 hours</span>
+                </div>
+              </div>
             </div>
           </a>
 
-          <a href="learn.html#module-2" class="card fade-in" style="text-decoration:none; border: 1px solid rgba(6,182,212,0.2);">
-            <div class="card-icon">🎯</div>
-            <h3>Module 2 — Vibe Coding</h3>
-            <p>The prompt-driven development paradigm</p>
-            <div style="margin-top:1rem; display:flex; gap:0.5rem;">
-              <span class="tag emerald">Free</span>
-              <span class="tag cyan">Intermediate</span>
+          <!-- Course Card 2 -->
+          <a href="catalog.html" class="course-card" style="text-decoration: none;">
+            <div style="background: var(--bg-card); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-subtle); transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.3)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+              <div style="height: 160px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; position: relative;">
+                <span style="font-size: 4rem;">🎯</span>
+                <span style="position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Popular</span>
+              </div>
+              <div style="padding: 1.25rem;">
+                <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Prompt Engineering Mastery</h3>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;">Master the art of crafting effective prompts for AI systems</p>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                  <span style="color: #fbbf24; font-size: 0.85rem;">★★★★★</span>
+                  <span style="color: var(--text-muted); font-size: 0.8rem;">4.9 (892)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-weight: 600; color: var(--accent-emerald);">$29.99</span>
+                  <span style="color: var(--text-muted); font-size: 0.8rem;">4.5 hours</span>
+                </div>
+              </div>
             </div>
           </a>
 
-          <a href="learn.html#module-3" class="card fade-in" style="text-decoration:none; border: 1px solid rgba(16,185,129,0.2);">
-            <div class="card-icon">🛠️</div>
-            <h3>Module 3 — The Toolkit</h3>
-            <p>Lovable, v0, Replit, Bolt & more</p>
-            <div style="margin-top:1rem; display:flex; gap:0.5rem;">
-              <span class="tag emerald">Free</span>
-              <span class="tag cyan">All Levels</span>
+          <!-- Course Card 3 -->
+          <a href="catalog.html" class="course-card" style="text-decoration: none;">
+            <div style="background: var(--bg-card); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-subtle); transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.3)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
+              <div style="height: 160px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; position: relative;">
+                <span style="font-size: 4rem;">⚡</span>
+                <span style="position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">New</span>
+              </div>
+              <div style="padding: 1.25rem;">
+                <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Cursor AI Fundamentals</h3>
+                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;">Build apps faster with AI-powered code editor Cursor</p>
+                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
+                  <span style="color: #fbbf24; font-size: 0.85rem;">★★★★★</span>
+                  <span style="color: var(--text-muted); font-size: 0.8rem;">4.7 (567)</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                  <span style="font-weight: 600; color: var(--accent-emerald);">$24.99</span>
+                  <span style="color: var(--text-muted); font-size: 0.8rem;">3.2 hours</span>
+                </div>
+              </div>
             </div>
           </a>
         </div>
 
-        <div style="text-align: center; margin-top: 2rem;">
-          <a href="learn.html" class="btn btn-secondary">View Full Curriculum →</a>
+        <div style="text-align: center; margin-top: 2.5rem;">
+          <a href="catalog.html" class="btn btn-secondary" style="padding: 1rem 2rem; font-size: 1rem;">View All Courses →</a>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- Marketplace Preview -->
-      <section class="section">
-        <div class="section-header">
-          <span class="section-label">Premium Resources</span>
-          <h2 class="section-title">Marketplace</h2>
-          <p class="section-desc">Accelerate your builds with our curated collection of templates, prompts & tools.</p>
+    <!-- Marketplace Section -->
+    <section class="section" style="background: var(--bg-primary);">
+      <div class="container">
+        <div class="section-header" style="text-align: center;">
+          <span class="section-label">Resources</span>
+          <h2 class="section-title">Templates & Tools Marketplace</h2>
+          <p class="section-desc" style="max-width: 600px; margin: 0 auto;">Premium templates, prompts, and tools to accelerate your AI development projects</p>
         </div>
 
-        <div class="cards-grid cards-grid-4">
-          <div class="card fade-in" style="padding: 0; overflow: hidden;">
-            <div style="height: 140px; background: linear-gradient(135deg, #667eea, #764ba2); display: flex; align-items: center; justify-content: center; font-size: 3rem;">
-              🎨
-            </div>
-            <div style="padding: 1.25rem;">
-              <h4 style="margin-bottom: 0.5rem;">SaaS Starter Kit</h4>
-              <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">Complete boilerplate for SaaS apps</p>
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-weight: 600; color: var(--accent-emerald);">$49</span>
-                <a href="marketplace.html" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">View</a>
-              </div>
-            </div>
+        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; max-width: 1200px; margin: 0 auto;">
+          <div style="background: var(--bg-card); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; border: 1px solid var(--border-subtle);">
+            <span style="font-size: 2.5rem;">🎨</span>
+            <h4 style="margin: 1rem 0 0.5rem; font-size: 1rem;">SaaS Templates</h4>
+            <p style="font-size: 0.85rem; color: var(--text-secondary);">25+ templates</p>
+            <p style="margin-top: 0.5rem; font-weight: 600; color: var(--accent-emerald);">From $29</p>
           </div>
-
-          <div class="card fade-in" style="padding: 0; overflow: hidden;">
-            <div style="height: 140px; background: linear-gradient(135deg, #f093fb, #f5576c); display: flex; align-items: center; justify-content: center; font-size: 3rem;">
-              🛒
-            </div>
-            <div style="padding: 1.25rem;">
-              <h4 style="margin-bottom: 0.5rem;">E-Commerce Bundle</h4>
-              <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">Store templates with payments</p>
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-weight: 600; color: var(--accent-emerald);">$79</span>
-                <a href="marketplace.html" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">View</a>
-              </div>
-            </div>
+          <div style="background: var(--bg-card); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; border: 1px solid var(--border-subtle);">
+            <span style="font-size: 2.5rem;">📝</span>
+            <h4 style="margin: 1rem 0 0.5rem; font-size: 1rem;">Prompt Libraries</h4>
+            <p style="font-size: 0.85rem; color: var(--text-secondary);">500+ prompts</p>
+            <p style="margin-top: 0.5rem; font-weight: 600; color: var(--accent-emerald);">From $19</p>
           </div>
-
-          <div class="card fade-in" style="padding: 0; overflow: hidden;">
-            <div style="height: 140px; background: linear-gradient(135deg, #4facfe, #00f2fe); display: flex; align-items: center; justify-content: center; font-size: 3rem;">
-              📝
-            </div>
-            <div style="padding: 1.25rem;">
-              <h4 style="margin-bottom: 0.5rem;">Prompt Library</h4>
-              <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">500+ production prompts</p>
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-weight: 600; color: var(--accent-emerald);">$29</span>
-                <a href="marketplace.html" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">View</a>
-              </div>
-            </div>
+          <div style="background: var(--bg-card); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; border: 1px solid var(--border-subtle);">
+            <span style="font-size: 2.5rem;">⚡</span>
+            <h4 style="margin: 1rem 0 0.5rem; font-size: 1rem;">AI Tools</h4>
+            <p style="font-size: 0.85rem; color: var(--text-secondary);">20+ tools ranked</p>
+            <p style="margin-top: 0.5rem; font-weight: 600; color: var(--accent-emerald);">Free guides</p>
           </div>
-
-          <div class="card fade-in" style="padding: 0; overflow: hidden;">
-            <div style="height: 140px; background: linear-gradient(135deg, #43e97b, #38f9d7); display: flex; align-items: center; justify-content: center; font-size: 3rem;">
-              ⚡
-            </div>
-            <div style="padding: 1.25rem;">
-              <h4 style="margin-bottom: 0.5rem;">v0 Prompts Pack</h4>
-              <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1rem;">100+ v0.dev prompts</p>
-              <div style="display: flex; justify-content: space-between; align-items: center;">
-                <span style="font-weight: 600; color: var(--accent-emerald);">$19</span>
-                <a href="marketplace.html" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.85rem;">View</a>
-              </div>
-            </div>
+          <div style="background: var(--bg-card); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; border: 1px solid var(--border-subtle);">
+            <span style="font-size: 2.5rem;">📚</span>
+            <h4 style="margin: 1rem 0 0.5rem; font-size: 1rem;">Code Snippets</h4>
+            <p style="font-size: 0.85rem; color: var(--text-secondary);">100+ snippets</p>
+            <p style="margin-top: 0.5rem; font-weight: 600; color: var(--accent-emerald);">Free</p>
           </div>
         </div>
 
         <div style="text-align: center; margin-top: 2rem;">
-          <a href="marketplace.html" class="btn btn-secondary">Browse All Products →</a>
+          <a href="marketplace.html" class="btn btn-secondary" style="padding: 1rem 2rem;">Browse Marketplace →</a>
         </div>
-      </section>
+      </div>
+    </section>
 
-      <!-- AI Tools Section -->
-      <section class="section">
-        <div class="section-header">
-          <span class="section-label">Curated Selection</span>
-          <h2 class="section-title">AI Tools</h2>
-          <p class="section-desc">The best AI-powered development tools, hand-picked for vibe coders.</p>
+    <!-- Stats Section -->
+    <section class="section" style="background: linear-gradient(135deg, rgba(139,92,246,0.2) 0%, rgba(6,182,212,0.1) 100%);">
+      <div class="container" style="text-align: center;">
+        <div style="display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap;">
+          <div>
+            <div style="font-size: 3rem; font-weight: 700; color: var(--accent-violet);">50+</div>
+            <div style="color: var(--text-secondary); font-size: 1rem;">Courses</div>
+          </div>
+          <div>
+            <div style="font-size: 3rem; font-weight: 700; color: var(--accent-cyan);">20+</div>
+            <div style="color: var(--text-secondary); font-size: 1rem;">AI Tools</div>
+          </div>
+          <div>
+            <div style="font-size: 3rem; font-weight: 700; color: var(--accent-emerald);">100+</div>
+            <div style="color: var(--text-secondary); font-size: 1rem;">Templates</div>
+          </div>
+          <div>
+            <div style="font-size: 3rem; font-weight: 700; color: var(--accent-magenta);">8</div>
+            <div style="color: var(--text-secondary); font-size: 1rem;">RSS Feeds</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why LearnAI -->
+    <section class="section" style="background: var(--bg-secondary);">
+      <div class="container">
+        <div class="section-header" style="text-align: center;">
+          <h2 class="section-title">Why LearnAI?</h2>
+          <p class="section-desc">Everything you need to master AI development</p>
         </div>
 
-        <div class="cards-grid cards-grid-2">
-          <div class="card fade-in">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-              <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #8b5cf6, #06b6d4); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">🤖</div>
-              <div>
-                <h4>Lovable</h4>
-                <p style="color: var(--text-secondary); font-size: 0.85rem;">AI-powered web app builder</p>
-              </div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1000px; margin: 0 auto;">
+          <div style="text-align: center;">
+            <div style="width: 60px; height: 60px; background: rgba(139,92,246,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+              <span style="font-size: 1.5rem;">🎓</span>
             </div>
-            <p style="color: var(--text-secondary); font-size: 0.9rem;">Build production-ready web apps with AI. Describe your idea and watch it come to life.</p>
-            <a href="resources.html#tools" style="display: inline-block; margin-top: 1rem; color: var(--accent-cyan);">Learn more →</a>
+            <h3 style="margin-bottom: 0.5rem;">Learn from Experts</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Courses created by industry professionals and AI pioneers</p>
           </div>
-
-          <div class="card fade-in">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-              <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #ec4899, #f59e0b); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">📱</div>
-              <div>
-                <h4>v0.dev</h4>
-                <p style="color: var(--text-secondary); font-size: 0.85rem;">AI UI generator by Vercel</p>
-              </div>
+          <div style="text-align: center;">
+            <div style="width: 60px; height: 60px; background: rgba(6,182,212,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+              <span style="font-size: 1.5rem;">⏱️</span>
             </div>
-            <p style="color: var(--text-secondary); font-size: 0.9rem;">Generate beautiful, responsive UI components with AI. Perfect for React projects.</p>
-            <a href="resources.html#tools" style="display: inline-block; margin-top: 1rem; color: var(--accent-cyan);">Learn more →</a>
+            <h3 style="margin-bottom: 0.5rem;">Learn at Your Pace</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Lifetime access to courses with self-paced learning</p>
           </div>
-
-          <div class="card fade-in">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-              <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #10b981, #06b6d4); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">💻</div>
-              <div>
-                <h4>Replit Agent</h4>
-                <p style="color: var(--text-secondary); font-size: 0.85rem;">AI-powered coding assistant</p>
-              </div>
+          <div style="text-align: center;">
+            <div style="width: 60px; height: 60px; background: rgba(16,185,129,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
+              <span style="font-size: 1.5rem;">🏆</span>
             </div>
-            <p style="color: var(--text-secondary); font-size: 0.9rem;">Build full-stack apps with natural language. Integrated development environment included.</p>
-            <a href="resources.html#tools" style="display: inline-block; margin-top: 1rem; color: var(--accent-cyan);">Learn more →</a>
-          </div>
-
-          <div class="card fade-in">
-            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-              <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">⚡</div>
-              <div>
-                <h4>Bolt.new</h4>
-                <p style="color: var(--text-secondary); font-size: 0.85rem;">AI web development platform</p>
-              </div>
-            </div>
-            <p style="color: var(--text-secondary); font-size: 0.9rem;">Instant full-stack prototyping with AI. Run and deploy directly in browser.</p>
-            <a href="resources.html#tools" style="display: inline-block; margin-top: 1rem; color: var(--accent-cyan);">Learn more →</a>
+            <h3 style="margin-bottom: 0.5rem;">Certificates</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Earn certificates upon completion for your portfolio</p>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div style="text-align: center; margin-top: 2rem;">
-          <a href="resources.html#tools" class="btn btn-secondary">View All Tools →</a>
-        </div>
-      </section>
-
-      <!-- Labs Section -->
-      <section class="section">
-        <div class="section-header">
-          <span class="section-label">Hands-On Practice</span>
-          <h2 class="section-title">Build Real Projects</h2>
-          <p class="section-desc">Apply your skills in our guided labs. Build complete projects from idea to deployment.</p>
-        </div>
-
-        <div class="cards-grid cards-grid-3">
-          <a href="learn.html#lab-1" class="card fade-in" style="text-decoration:none;">
-            <div class="card-icon">🎨</div>
-            <h3>Lab 1 — Marketing Website</h3>
-            <p>Build a stunning landing page with AI. Learn layout, copy, and visual polish.</p>
-            <div style="margin-top:1rem;"><span class="tag emerald">Free</span></div>
-          </a>
-
-          <a href="learn.html#lab-2" class="card fade-in" style="text-decoration:none;">
-            <div class="card-icon">🛒</div>
-            <h3>Lab 2 — E-Commerce Store</h3>
-            <p>Create a full online store with cart, checkout, and payment integration.</p>
-            <div style="margin-top:1rem;"><span class="tag emerald">Free</span></div>
-          </a>
-
-          <a href="learn.html#lab-3" class="card fade-in" style="text-decoration:none;">
-            <div class="card-icon">🏪</div>
-            <h3>Lab 3 — Marketplace</h3>
-            <p>Build a directory or marketplace with search, filters, and user listings.</p>
-            <div style="margin-top:1rem;"><span class="tag emerald">Free</span></div>
-          </a>
-        </div>
-      </section>
-
-      <!-- Newsletter -->
-      <section class="section fade-in" id="newsletter">
-        <div class="signup-section" style="background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(6,182,212,0.1)); border: 1px solid rgba(139,92,246,0.2);">
-          <div style="text-align: center; margin-bottom: var(--space-lg);">
-            <span style="display: inline-block; padding: 0.5rem 1rem; background: rgba(139,92,246,0.15); border-radius: 20px; font-size: 0.875rem; color: var(--accent-violet); margin-bottom: 1rem;">
-              📬 Weekly Insights
-            </span>
-            <h2 style="font-size:2rem;margin-bottom:0.75rem;color:var(--text-primary);">Join the Community</h2>
-            <p style="font-size:1rem;color:var(--text-secondary); max-width: 600px; margin: 0 auto;">
-              Get weekly AI tools updates, prompt engineering tips, and exclusive tutorials delivered to your inbox.
-            </p>
-          </div>
-          
-          <form class="signup-inline" id="newsletter-form" onsubmit="handleNewsletterSubscribe(event)" style="max-width: 500px; margin: 0 auto;">
-            <input type="email" id="newsletter-email" class="form-input" placeholder="you@example.com" required>
-            <button type="submit" id="newsletter-btn" class="btn btn-primary">Subscribe →</button>
+    <!-- Newsletter -->
+    <section class="section fade-in" style="background: var(--bg-primary);">
+      <div class="container" style="max-width: 600px; margin: 0 auto; text-align: center;">
+        <div style="background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(6,182,212,0.1)); border: 1px solid rgba(139,92,246,0.3); border-radius: var(--radius-lg); padding: 2rem;">
+          <h2 style="font-size: 1.75rem; margin-bottom: 0.75rem;">Stay Updated</h2>
+          <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Get weekly AI learning tips and new course announcements</p>
+          <form onsubmit="handleNewsletterSubscribe(event)" style="display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto;">
+            <input type="email" id="newsletter-email" class="form-input" placeholder="Enter your email" required style="flex: 1;">
+            <button type="submit" class="btn btn-primary">Subscribe</button>
           </form>
-          
-          <p id="newsletter-success" style="display:none;margin-top:1rem;color:var(--accent-emerald);text-align:center;">
-            <strong>Welcome aboard!</strong> Check your inbox for confirmation. 🎉
-          </p>
-          
-          <p style="margin-top:var(--space-md);color:var(--text-muted);font-size:0.8125rem;text-align:center;">
-            🔒 No spam. Unsubscribe anytime.
-          </p>
+          <p id="newsletter-success" style="display:none;margin-top:1rem;color:var(--accent-emerald);">✓ Subscribed! Check your inbox.</p>
         </div>
-      </section>
-
-    </div>
+      </div>
+    </section>
   </main>
 
-  <footer class="footer">
+  <footer class="footer" style="background: var(--bg-secondary); padding: 3rem 1rem 2rem;">
     <div class="container">
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-        <p>⚡ LetsVibeAI &copy; 2025 — Built with AI</p>
-        <div style="display: flex; gap: 1.5rem;">
-          <a href="learn.html">Learn</a>
-          <a href="resources.html">Resources</a>
-          <a href="marketplace.html">Marketplace</a>
-          <a href="community.html">Community</a>
+      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: 1200px; margin: 0 auto; margin-bottom: 2rem;">
+        <div>
+          <h4 style="margin-bottom: 1rem; color: var(--text-primary);">LearnAI</h4>
+          <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">The AI learning platform for developers and creators.</p>
         </div>
+        <div>
+          <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Courses</h4>
+          <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom: 0.5rem;"><a href="catalog.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">All Courses</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="catalog.html?category=vibe-coding" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Vibe Coding</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="catalog.html?category=prompt-engineering" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Prompt Engineering</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="catalog.html?category=ai-tools" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">AI Tools</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Resources</h4>
+          <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom: 0.5rem;"><a href="marketplace.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Templates</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="resources.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">AI Tools Guide</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="news.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Blog</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="community.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Community</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Connect</h4>
+          <ul style="list-style: none; padding: 0;">
+            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Twitter</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">GitHub</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Discord</a></li>
+            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">YouTube</a></li>
+          </ul>
+        </div>
+      </div>
+      <div style="border-top: 1px solid var(--border-subtle); padding-top: 1.5rem; text-align: center;">
+        <p style="color: var(--text-muted); font-size: 0.85rem;">© 2025 LearnAI. All rights reserved.</p>
       </div>
     </div>
   </footer>
@@ -383,27 +346,19 @@
     async function handleNewsletterSubscribe(e) {
       e.preventDefault();
       const email = document.getElementById('newsletter-email').value;
-      const btn = document.getElementById('newsletter-btn');
-      const successMsg = document.getElementById('newsletter-success');
-      
-      btn.textContent = 'Subscribing...';
-      btn.disabled = true;
-
       try {
-        const result = await window.db.subscribeNewsletter(email);
-        if (result.error) throw result.error;
-        
-        document.getElementById('newsletter-form').style.display = 'none';
-        successMsg.style.display = 'block';
+        await window.db.subscribeNewsletter(email);
+        document.getElementById('newsletter-success').style.display = 'block';
+        e.target.reset();
       } catch (err) {
-        console.error('Newsletter error:', err);
+        // Fallback to localStorage
         const list = JSON.parse(localStorage.getItem('newsletter_subscribers') || '[]');
         if (!list.some(s => s.email === email)) {
           list.push({ email, subscribed_at: new Date().toISOString() });
           localStorage.setItem('newsletter_subscribers', JSON.stringify(list));
         }
-        document.getElementById('newsletter-form').style.display = 'none';
-        successMsg.style.display = 'block';
+        document.getElementById('newsletter-success').style.display = 'block';
+        e.target.reset();
       }
     }
   </script>

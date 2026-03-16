@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Hub — Vibe Coding Masterclass | LetsVibeAI</title>
+    <meta name="description" content="Complete learning path for vibe coding. 6 modules covering AI fundamentals, prompt engineering, and hands-on labs building real projects.">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .learn-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-subtle);
+            flex-wrap: wrap;
+        }
+
+        .learn-tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all var(--duration-fast) var(--ease-out);
+        }
+
+        .learn-tab-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .learn-tab-btn.active {
+            color: var(--accent-cyan);
+            border-bottom-color: var(--accent-cyan);
+        }
+
+        .learn-tab-content {
+            display: none;
+        }
+
+        .learn-tab-content.active {
+            display: block;
+            animation: fadeIn var(--duration-fast) var(--ease-out);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .module-accordion {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .accordion-item {
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            transition: all var(--duration-fast) var(--ease-out);
+        }
+
+        .accordion-item:hover {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.1);
+        }
+
+        .accordion-header {
+            padding: 1.5rem;
+            background: var(--bg-card);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background var(--duration-fast) var(--ease-out);
+        }
+
+        .accordion-header:hover {
+            background: var(--bg-card-hover);
+        }
+
+        .accordion-header.active {
+            background: rgba(6, 182, 212, 0.05);
+            border-bottom: 1px solid var(--accent-cyan);
+        }
+
+        .accordion-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .accordion-icon {
+            font-size: 1.5rem;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .accordion-toggle {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-cyan);
+            font-size: 1.2rem;
+            transition: transform var(--duration-fast) var(--ease-out);
+        }
+
+        .accordion-item.open .accordion-toggle {
+            transform: rotate(180deg);
+        }
+
+        .accordion-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height var(--duration-normal) var(--ease-out);
+            background: rgba(255, 255, 255, 0.01);
+        }
+
+        .accordion-item.open .accordion-body {
+            max-height: 2000px;
+        }
+
+        .accordion-content {
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .accordion-content h3 {
+            color: var(--text-primary);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .accordion-content h3:first-child {
+            margin-top: 0;
+        }
+
+        .accordion-content p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+        }
+
+        .accordion-content ul {
+            margin: 1rem 0 1rem 2rem;
+        }
+
+        .accordion-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .project-card {
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(6, 182, 212, 0.08));
+            transition: all var(--duration-fast) var(--ease-out);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(6, 182, 212, 0.15);
+        }
+
+        .project-number {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .project-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .project-meta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .project-meta .tag {
+            margin: 0;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--bg-card);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            margin-top: 0.75rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-violet));
+            width: 0%;
+            transition: width var(--duration-normal) var(--ease-out);
+        }
+
+        .learn-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .learn-header h1 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            margin-bottom: 1rem;
+        }
+
+        .learn-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .progress-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: 700;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">⚡ LetsVibeAI</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="learn.html">Learn</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="marketplace.html">Marketplace</a></li>
+                <li id="auth-nav-slot"></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="learn-header">
+                <h1>Learning Hub</h1>
+                <p>Master vibe coding through our comprehensive curriculum. 6 foundational modules + 3 hands-on projects.</p>
+            </div>
+
+            <!-- Progress Stats -->
+            <div class="progress-stats">
+                <div class="stat">
+                    <div class="stat-value">6</div>
+                    <div class="stat-label">Modules</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">3</div>
+                    <div class="stat-label">Projects</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">Free</div>
+                    <div class="stat-label">Cost</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">~20h</div>
+                    <div class="stat-label">Total Time</div>
+                </div>
+            </div>
+
+            <!-- Tabs -->
+            <div class="learn-tabs">
+                <button class="learn-tab-btn active" onclick="switchTab('foundations')">📚 Foundations</button>
+                <button class="learn-tab-btn" onclick="switchTab('projects')">🚀 Projects</button>
+                <button class="learn-tab-btn" onclick="switchTab('resources')">📖 Resources</button>
+            </div>
+
+            <!-- Tab 1: Foundations -->
+            <div id="foundations" class="learn-tab-content active">
+                <div class="module-accordion">
+                    <!-- Module 1 -->
+                    <div class="accordion-item" id="module-1">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h3 class="accordion-title">
+                                <span class="accordion-icon">🧠</span>
+                                <span>Module 1 — What is AI?</span>
+                            </h3>
+                            <div class="accordion-toggle">▼</div>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="accordion-content">
+                                <p><strong>Duration:</strong> ~2-3 hours | <strong>Difficulty:</strong> Beginner | <strong>Status:</strong> Free</p>
+                                <h3>Overview</h3>
+                                <p>Before we vibe code, we need to understand what's under the hood. This module covers the fundamentals of artificial intelligence, how large language models work, and why this technology changes everything about building software.</p>
+                                <h3>Topics Covered</h3>
+                                <ul>
+                                    <li>Machine Learning vs Rule-Based Systems</li>
+                                    <li>How Large Language Models (LLMs) Work</li>
+                                    <li>Tokens and Context Windows</li>
+                                    <li>Generative AI and Transformers</li>
+                                    <li>Why AI is Transforming Software Development</li>
+                                    <li>The Current Landscape of AI Models</li>
+                                </ul>
+                                <h3>What You'll Learn</h3>
+                                <ul>
+                                    <li>The difference between supervised, unsupervised, and reinforcement learning</li>
+                                    <li>How transformers make LLMs understand context</li>
+                                    <li>Why token limits matter and how to work within them</li>
+                                    <li>The capabilities and limitations of modern AI</li>
+                                </ul>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%;"></div>
+                                </div>
+                                <p style="margin-top: 1rem; font-size: 0.9rem;"><a href="module1.html" style="color: var(--accent-cyan);">→ Start Module 1</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Module 2 -->
+                    <div class="accordion-item" id="module-2">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h3 class="accordion-title">
+                                <span class="accordion-icon">🎯</span>
+                                <span>Module 2 — What is Vibe Coding?</span>
+                            </h3>
+                            <div class="accordion-toggle">▼</div>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="accordion-content">
+                                <p><strong>Duration:</strong> ~2 hours | <strong>Difficulty:</strong> Beginner | <strong>Status:</strong> Free</p>
+                                <h3>Overview</h3>
+                                <p>Vibe coding is the practice of building software by describing what you want in natural language and letting AI generate the code. Learn how this fundamental shift is reshaping who can build technology.</p>
+                                <h3>Topics Covered</h3>
+                                <ul>
+                                    <li>Origin Story: Where the Term Came From</li>
+                                    <li>How Vibe Coding Works: The Loop</li>
+                                    <li>Real-World Use Cases and Examples</li>
+                                    <li>Traditional Development vs Vibe Coding Mindset</li>
+                                    <li>The Future of Software Development</li>
+                                </ul>
+                                <h3>What You'll Learn</h3>
+                                <ul>
+                                    <li>The vibe coding loop: Describe → Generate → Review → Refine</li>
+                                    <li>How to shift from writing code to directing AI</li>
+                                    <li>Real projects being built with vibe coding</li>
+                                    <li>Why this represents a paradigm shift in software</li>
+                                </ul>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%;"></div>
+                                </div>
+                                <p style="margin-top: 1rem; font-size: 0.9rem;"><a href="module2.html" style="color: var(--accent-cyan);">→ Start Module 2</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Module 3 -->
+                    <div class="accordion-item" id="module-3">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h3 class="accordion-title">
+                                <span class="accordion-icon">🛠️</span>
+                                <span>Module 3 — The Toolkit</span>
+                            </h3>
+                            <div class="accordion-toggle">▼</div>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="accordion-content">
+                                <p><strong>Duration:</strong> ~3 hours | <strong>Difficulty:</strong> All Levels | <strong>Status:</strong> Free</p>
+                                <h3>Overview</h3>
+                                <p>There are dozens of AI-powered tools for vibe coding. Learn which tools fit different workflows and build styles. Compare Lovable, v0.dev, Replit, Bolt.new, and many more.</p>
+                                <h3>Tools Covered</h3>
+                                <ul>
+                                    <li><strong>Hosted Builders:</strong> Lovable, v0.dev, Bolt.new, Replit, Framer AI, Webflow</li>
+                                    <li><strong>AI IDEs:</strong> Cursor, GitHub Copilot, Windsurf, Antigravity</li>
+                                    <li><strong>CLI Agents:</strong> Claude Code, Aider, Codex</li>
+                                    <li><strong>Backend Services:</strong> Supabase, Firebase, Convex</li>
+                                    <li><strong>Deployment Platforms:</strong> Vercel, Netlify, Railway</li>
+                                </ul>
+                                <h3>What You'll Learn</h3>
+                                <ul>
+                                    <li>The pros and cons of each tool category</li>
+                                    <li>Which tools work best for different project types</li>
+                                    <li>How to combine tools into a powerful workflow</li>
+                                    <li>Best practices for each platform</li>
+                                </ul>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%;"></div>
+                                </div>
+                                <p style="margin-top: 1rem; font-size: 0.9rem;"><a href="module3.html" style="color: var(--accent-cyan);">→ Start Module 3</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Module 4 -->
+                    <div class="accordion-item" id="module-4">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h3 class="accordion-title">
+                                <span class="accordion-icon">⛓️</span>
+                                <span>Module 4 — Prompt Chaining</span>
+                            </h3>
+                            <div class="accordion-toggle">▼</div>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="accordion-content">
+                                <p><strong>Duration:</strong> ~2-3 hours | <strong>Difficulty:</strong> Intermediate | <strong>Status:</strong> Free</p>
+                                <h3>Overview</h3>
+                                <p>Master the art of breaking complex requests into sequences of smaller prompts. Learn how prompt chaining leads to better results and more reliable AI-generated code.</p>
+                                <h3>Topics Covered</h3>
+                                <ul>
+                                    <li>Why Prompt Chaining Works Better Than One-Shot Prompts</li>
+                                    <li>Structuring Multi-Step Workflows</li>
+                                    <li>Handling Failures and Edge Cases</li>
+                                    <li>Real-World Chaining Patterns</li>
+                                    <li>Tools for Managing Chains</li>
+                                </ul>
+                                <h3>What You'll Learn</h3>
+                                <ul>
+                                    <li>How to break complex tasks into sub-tasks</li>
+                                    <li>The pattern of context seeding for better results</li>
+                                    <li>Error handling and retry strategies</li>
+                                    <li>How to chain outputs from one prompt as inputs to the next</li>
+                                </ul>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%;"></div>
+                                </div>
+                                <p style="margin-top: 1rem; font-size: 0.9rem;"><a href="module4.html" style="color: var(--accent-cyan);">→ Start Module 4</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Module 5 -->
+                    <div class="accordion-item" id="module-5">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h3 class="accordion-title">
+                                <span class="accordion-icon">📚</span>
+                                <span>Module 5 — Context Engineering</span>
+                            </h3>
+                            <div class="accordion-toggle">▼</div>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="accordion-content">
+                                <p><strong>Duration:</strong> ~3 hours | <strong>Difficulty:</strong> Intermediate | <strong>Status:</strong> Free</p>
+                                <h3>Overview</h3>
+                                <p>Learn how to architect the perfect context window for your AI. Understand what information to include, what to leave out, and how to structure prompts for maximum clarity.</p>
+                                <h3>Topics Covered</h3>
+                                <ul>
+                                    <li>Understanding Context Windows and Token Limits</li>
+                                    <li>What Information Matters Most to AI</li>
+                                    <li>Structuring Information for Clarity</li>
+                                    <li>Prioritizing Content in Limited Context</li>
+                                    <li>Iterative Context Refinement</li>
+                                </ul>
+                                <h3>What You'll Learn</h3>
+                                <ul>
+                                    <li>How to count and optimize tokens</li>
+                                    <li>The importance of clear specifications</li>
+                                    <li>Examples of good vs. poor context engineering</li>
+                                    <li>How to include reference code without breaking context</li>
+                                </ul>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%;"></div>
+                                </div>
+                                <p style="margin-top: 1rem; font-size: 0.9rem;"><a href="module5.html" style="color: var(--accent-cyan);">→ Start Module 5</a></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Module 6 -->
+                    <div class="accordion-item" id="module-6">
+                        <div class="accordion-header" onclick="toggleAccordion(this)">
+                            <h3 class="accordion-title">
+                                <span class="accordion-icon">⚙️</span>
+                                <span>Module 6 — Process Engineering</span>
+                            </h3>
+                            <div class="accordion-toggle">▼</div>
+                        </div>
+                        <div class="accordion-body">
+                            <div class="accordion-content">
+                                <p><strong>Duration:</strong> ~2-3 hours | <strong>Difficulty:</strong> Advanced | <strong>Status:</strong> Free</p>
+                                <h3>Overview</h3>
+                                <p>Go beyond single prompts. Learn to design processes — standardized workflows that reliably produce high-quality results. The difference between casual vibe coding and production vibe coding.</p>
+                                <h3>Topics Covered</h3>
+                                <ul>
+                                    <li>Designing Reproducible AI Workflows</li>
+                                    <li>Documentation and Standard Operating Procedures</li>
+                                    <li>Quality Control and Validation</li>
+                                    <li>Scaling Vibe Coding to Teams</li>
+                                    <li>Building Tools Around Processes</li>
+                                </ul>
+                                <h3>What You'll Learn</h3>
+                                <ul>
+                                    <li>How to document processes for consistency</li>
+                                    <li>Quality gates and validation methods</li>
+                                    <li>How to teach others your AI workflows</li>
+                                    <li>Building automation around your processes</li>
+                                </ul>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: 0%;"></div>
+                                </div>
+                                <p style="margin-top: 1rem; font-size: 0.9rem;"><a href="module6.html" style="color: var(--accent-cyan);">→ Start Module 6</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab 2: Projects -->
+            <div id="projects" class="learn-tab-content">
+                <div style="margin-bottom: 2rem;">
+                    <p style="color: var(--text-secondary); font-size: 1.05rem;">Apply everything you learn in our guided hands-on projects. Build real, portfolio-worthy work that demonstrates your vibe coding skills.</p>
+                </div>
+
+                <a href="lab1.html" class="project-card" id="lab-1">
+                    <div class="project-number">PROJECT 1</div>
+                    <h2 class="project-title">🎨 Build a Marketing Website</h2>
+                    <p class="project-description">
+                        Your first hands-on project. Use the techniques from Modules 4–6 to build a complete, polished marketing website for a fictional (or real!) product using any vibe coding tool.
+                    </p>
+                    <div class="project-meta">
+                        <span class="tag emerald">Free</span>
+                        <span class="tag cyan">Beginner</span>
+                        <span class="tag" style="margin-left: auto;">~4 hours</span>
+                    </div>
+                </a>
+
+                <a href="lab2.html" class="project-card" id="lab-2">
+                    <div class="project-number">PROJECT 2</div>
+                    <h2 class="project-title">🛒 Build an E-Commerce Store</h2>
+                    <p class="project-description">
+                        Create a full online store with cart, checkout, and payment integration. Learn how to build complex features with vibe coding while maintaining code quality.
+                    </p>
+                    <div class="project-meta">
+                        <span class="tag emerald">Free</span>
+                        <span class="tag cyan">Intermediate</span>
+                        <span class="tag" style="margin-left: auto;">~6 hours</span>
+                    </div>
+                </a>
+
+                <a href="lab3.html" class="project-card" id="lab-3">
+                    <div class="project-number">PROJECT 3</div>
+                    <h2 class="project-title">🏪 Build a Marketplace</h2>
+                    <p class="project-description">
+                        Build a directory or marketplace with search, filters, and user listings. The capstone project combining all techniques from modules 1–6.
+                    </p>
+                    <div class="project-meta">
+                        <span class="tag emerald">Free</span>
+                        <span class="tag cyan">Advanced</span>
+                        <span class="tag" style="margin-left: auto;">~8 hours</span>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Tab 3: Resources -->
+            <div id="resources" class="learn-tab-content">
+                <div style="margin-bottom: 2rem;">
+                    <p style="color: var(--text-secondary); font-size: 1.05rem;">Supplementary materials, tutorials, and guides to deepen your understanding.</p>
+                </div>
+
+                <div class="cards-grid cards-grid-2">
+                    <div class="card fade-in">
+                        <h3>📖 Tutorials</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Step-by-step guides for common vibe coding workflows.</p>
+                        <a href="tutorials.html" style="color: var(--accent-cyan);">View Tutorials →</a>
+                    </div>
+
+                    <div class="card fade-in">
+                        <h3>🔧 Tools Directory</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Explore and compare all vibe coding tools with detailed reviews.</p>
+                        <a href="resources.html#tools" style="color: var(--accent-cyan);">View Tools →</a>
+                    </div>
+
+                    <div class="card fade-in">
+                        <h3>📰 Latest News</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Stay updated on AI, coding tools, and the vibe coding community.</p>
+                        <a href="resources.html#news" style="color: var(--accent-cyan);">Read News →</a>
+                    </div>
+
+                    <div class="card fade-in">
+                        <h3>💻 Prompt Lab</h3>
+                        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Interactive workspace to refine and test your prompts.</p>
+                        <a href="resources.html#workspace" style="color: var(--accent-cyan);">Open Lab →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <p>⚡ LetsVibeAI &copy; 2025 — Built with AI</p>
+                <div style="display: flex; gap: 1.5rem;">
+                    <a href="learn.html">Learn</a>
+                    <a href="resources.html">Resources</a>
+                    <a href="marketplace.html">Marketplace</a>
+                    <a href="community.html">Community</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="supabase-client.js"></script>
+    <script src="script.js"></script>
+    <script>
+        function switchTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.learn-tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            document.querySelectorAll('.learn-tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+
+            // Mark button as active
+            event.target.classList.add('active');
+        }
+
+        function toggleAccordion(header) {
+            const item = header.parentElement;
+            item.classList.toggle('open');
+
+            // Close other accordion items in the same module
+            const parent = item.parentElement;
+            parent.querySelectorAll('.accordion-item').forEach(el => {
+                if (el !== item && el.classList.contains('open')) {
+                    el.classList.remove('open');
+                }
+            });
+        }
+
+        // Close accordion when clicking anywhere else
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.accordion-item')) {
+                document.querySelectorAll('.accordion-item').forEach(item => {
+                    if (item.classList.contains('open')) {
+                        // Don't auto-close, allow user to manage
+                    }
+                });
+            }
+        });
+
+        // Highlight active module if coming from home page
+        document.addEventListener('DOMContentLoaded', () => {
+            const hash = window.location.hash;
+            if (hash) {
+                const element = document.querySelector(hash);
+                if (element && element.classList.contains('accordion-item')) {
+                    element.classList.add('open');
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

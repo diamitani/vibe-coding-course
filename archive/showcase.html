@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Showcase | LetsVibeAI</title>
+    <meta name="description"
+        content="Browse student-built projects from the LetsVibeAI labs. Marketing websites, e-commerce stores, and marketplace directories.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">⚡ LetsVibeAI</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="module1.html">Modules</a></li>
+                <li><a href="tools.html">Tools</a></li>
+                <li><a href="lab1.html">Labs</a></li>
+                <li id="auth-nav-slot"></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div class="container">
+            <section class="hero" style="padding-bottom: var(--space-xl);">
+                <h1>Student <span class="gradient-text">Showcase</span></h1>
+                <p>Browse projects built by students using vibe coding tools. All three labs in one gallery. Feeling
+                    inspired? Start a lab and submit your own.</p>
+            </section>
+
+            <!-- Filters -->
+            <div class="showcase-filters">
+                <button class="filter-btn active" data-filter="all">All Projects</button>
+                <button class="filter-btn" data-filter="marketing">🎨 Marketing</button>
+                <button class="filter-btn" data-filter="ecommerce">🛒 E-Commerce</button>
+                <button class="filter-btn" data-filter="marketplace">🏪 Marketplace</button>
+            </div>
+
+            <!-- Gallery -->
+            <div class="showcase-grid" id="showcase-grid">
+                <!-- Rendered by JS -->
+            </div>
+
+            <!-- Submit CTA -->
+            <section class="section" id="submit-section">
+                <div class="section-header">
+                    <span class="section-label">Add Your Project</span>
+                    <h2 class="section-title">Submit Your Work</h2>
+                    <p class="section-desc">Completed a lab? Submit your project from your dashboard.</p>
+                </div>
+                <div style="text-align:center;">
+                    <a href="dashboard.html" class="btn btn-primary" id="submit-cta">Go to Dashboard to Submit →</a>
+                </div>
+            </section>
+
+            <!-- CTA -->
+            <section class="section" style="text-align:center;">
+                <h2 class="section-title">Haven't Started Yet?</h2>
+                <p class="section-desc" style="margin-bottom:var(--space-xl);">Jump into the first lab and build
+                    something amazing.</p>
+                <div style="display:flex;justify-content:center;gap:var(--space-md);flex-wrap:wrap;">
+                    <a href="lab1.html" class="btn btn-primary">Lab 1: Marketing Site</a>
+                    <a href="lab2.html" class="btn btn-secondary">Lab 2: E-Commerce</a>
+                    <a href="lab3.html" class="btn btn-secondary">Lab 3: Marketplace</a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>⚡ LetsVibeAI &copy; 2025</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="supabase-client.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // Wire up filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderShowcase(btn.dataset.filter);
+            });
+        });
+
+        // Update submit CTA based on auth state
+        document.addEventListener('DOMContentLoaded', async () => {
+            await window.authPromise;
+            const user = getCurrentUser();
+            const cta = document.getElementById('submit-cta');
+            if (!user && cta) {
+                cta.href = 'auth.html';
+                cta.textContent = 'Sign In to Submit Your Project →';
+            }
+        });
+    </script>
+</body>
+
+</html>

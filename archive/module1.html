@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 1 — What is AI | LetsVibeAI</title>
+    <meta name="description"
+        content="Understand the foundations of artificial intelligence, large language models, and why AI is transforming software development.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">⚡ LetsVibeAI</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="module1.html">Modules</a></li>
+                <li><a href="tools.html">Tools</a></li>
+                <li><a href="lab1.html">Labs</a></li>
+                <li id="auth-nav-slot"></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="module-hero">
+                <span class="module-number">Module 1</span>
+                <h1>What is AI?</h1>
+                <p>Before we vibe code, we need to understand what's under the hood. This module covers the fundamentals
+                    of artificial intelligence, how large language models work, and why this technology changes
+                    everything about building software.</p>
+            </div>
+
+            <div class="module-body">
+                <aside class="sidebar">
+                    <ul class="sidebar-nav">
+                        <li><a href="#ml-vs-rules">ML vs Rule-Based</a></li>
+                        <li><a href="#llms">How LLMs Work</a></li>
+                        <li><a href="#gen-ai">Generative AI</a></li>
+                        <li><a href="#why-it-matters">Why It Matters</a></li>
+                    </ul>
+                </aside>
+
+                <div class="content">
+                    <h2 id="ml-vs-rules">Machine Learning vs Rule-Based Systems</h2>
+                    <p>Traditional software follows rules that developers explicitly write: <em>"If the user clicks this
+                            button, show this screen."</em> Every possible behavior needs to be manually programmed.</p>
+                    <p><strong>Machine learning</strong> flips this model. Instead of writing rules, you give the system
+                        examples (data), and it <em>learns</em> the patterns on its own. This is the fundamental
+                        breakthrough that makes everything else possible.</p>
+
+                    <div class="callout">
+                        <div class="callout-title">💡 Key Insight</div>
+                        <p>Traditional code: <strong>Rules → Data → Answers</strong><br>Machine learning: <strong>Data →
+                                Answers → Rules</strong> (the system figures out the rules)</p>
+                    </div>
+
+                    <h3>Types of Machine Learning</h3>
+                    <ul>
+                        <li><strong>Supervised Learning</strong> — Learn from labeled examples (e.g., "this email is
+                            spam, this one isn't")</li>
+                        <li><strong>Unsupervised Learning</strong> — Find patterns in unlabeled data (e.g., grouping
+                            similar customers)</li>
+                        <li><strong>Reinforcement Learning</strong> — Learn by trial and error with rewards (e.g., game
+                            AI)</li>
+                    </ul>
+
+                    <h2 id="llms">How Large Language Models Work</h2>
+                    <p>Large Language Models (LLMs) are the engine behind vibe coding. They're a type of AI trained on
+                        massive amounts of text data — books, code, websites, conversations — to predict what comes next
+                        in a sequence of words.</p>
+
+                    <h3>Key Concepts</h3>
+                    <ul>
+                        <li><strong>Tokens</strong> — LLMs break text into small pieces called tokens (roughly ¾ of a
+                            word). When you say "Build a website," the model processes each token to understand your
+                            request.</li>
+                        <li><strong>Training</strong> — Models learn by reading billions of tokens and learning
+                            relationships between them. GPT-4 was trained on trillions of tokens of text and code.</li>
+                        <li><strong>Inference</strong> — When you send a prompt, the model predicts the most likely next
+                            token, one at a time, generating a response word by word.</li>
+                        <li><strong>Context Window</strong> — The amount of text the model can "see" at once. Larger
+                            windows (128K+ tokens) let you provide more information.</li>
+                    </ul>
+
+                    <div class="prompt-example">
+                        <div class="label prompt">How an LLM responds to your prompt</div>
+                        <div class="prompt-text">
+                            You: "Build me a hero section with a gradient background"<br><br>
+                            LLM internally: [Build] → [me] → [a] → [hero] → ...<br>
+                            The model processes each token, draws on everything it learned during training<br>
+                            about HTML, CSS, design patterns, and hero sections, then generates code<br>
+                            token by token.
+                        </div>
+                    </div>
+
+                    <h2 id="gen-ai">The Rise of Generative AI</h2>
+                    <p>Generative AI doesn't just analyze or classify — it <em>creates</em>. Text, images, code, music,
+                        video. This is the leap that makes vibe coding possible.</p>
+
+                    <h3>The Big Categories</h3>
+                    <ul>
+                        <li><strong>Text Generation</strong> — ChatGPT, Claude, Gemini → write copy, answer questions,
+                            plan projects</li>
+                        <li><strong>Image Generation</strong> — DALL-E, Midjourney, Stable Diffusion → create visuals,
+                            mockups, assets</li>
+                        <li><strong>Code Generation</strong> — Copilot, Claude Code, Codex, Antigravity → write and edit
+                            software</li>
+                        <li><strong>Video & Audio</strong> — Runway, Sora, Suno → produce media from text descriptions
+                        </li>
+                    </ul>
+
+                    <div class="callout tip">
+                        <div class="callout-title">✅ The Takeaway</div>
+                        <p>Vibe coding lives at the intersection of text and code generation. You describe what you want
+                            in natural language, and AI generates the code to build it.</p>
+                    </div>
+
+                    <h2 id="why-it-matters">Why AI Changes How We Build Software</h2>
+                    <p>For 50+ years, building software required learning programming languages, understanding
+                        frameworks, and writing thousands of lines of code. AI doesn't eliminate the need for good
+                        thinking, but it dramatically changes <em>who</em> can build and <em>how fast</em> they can do
+                        it.</p>
+
+                    <h3>The Shift</h3>
+                    <ul>
+                        <li><strong>Accessibility</strong> — Anyone who can clearly describe what they want can now
+                            build software</li>
+                        <li><strong>Speed</strong> — Projects that took weeks now take hours or minutes</li>
+                        <li><strong>Iteration</strong> — Change your mind? Just update the prompt and regenerate</li>
+                        <li><strong>Quality</strong> — AI tools apply best practices automatically (responsive design,
+                            accessibility, clean code)</li>
+                    </ul>
+
+                    <p>This is the foundation for everything that follows. In the next module, we'll dive into what vibe
+                        coding actually is and how it works in practice.</p>
+
+                    <div id="mark-complete-section" style="margin:2rem 0;padding:1.5rem;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;text-align:center;">
+                        <button id="mark-complete-btn" class="btn btn-primary" onclick="toggleComplete()" style="min-width:200px;">
+                            Mark as Complete
+                        </button>
+                        <p id="complete-status" style="display:none;color:var(--accent-emerald);margin-top:0.75rem;font-size:0.875rem;"></p>
+                    </div>
+
+                    <div class="page-nav">
+                        <a href="index.html">
+                            <span class="nav-label">← Previous</span>
+                            <span class="nav-title">Course Home</span>
+                        </a>
+                        <a href="module2.html" class="next">
+                            <span class="nav-label">Next →</span>
+                            <span class="nav-title">What is Vibe Coding</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>⚡ LetsVibeAI &copy; 2025</p>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="supabase-client.js"></script>
+    <script src="script.js"></script>
+    <script>
+    const CONTENT_SLUG = 'module1';
+    const CONTENT_TYPE = 'module';
+
+    async function toggleComplete() {
+        await window.authPromise;
+        const user = getCurrentUser();
+        if (!user) { window.location.href = 'auth.html'; return; }
+
+        const btn = document.getElementById('mark-complete-btn');
+        const status = document.getElementById('complete-status');
+        const progress = await window.db.getProgress(user.id);
+        const isComplete = progress.some(p => p.content_slug === CONTENT_SLUG);
+
+        if (isComplete) {
+            await window.db.unmarkComplete(user.id, CONTENT_SLUG);
+            btn.textContent = 'Mark as Complete';
+            btn.style.background = '';
+            status.style.display = 'none';
+        } else {
+            await window.db.markComplete(user.id, CONTENT_SLUG, CONTENT_TYPE);
+            btn.textContent = 'Completed \u2713';
+            btn.style.background = 'var(--accent-emerald)';
+            status.textContent = 'Great work! Keep going.';
+            status.style.display = 'block';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        await window.authPromise;
+        const user = getCurrentUser();
+        if (!user) return;
+
+        const progress = await window.db.getProgress(user.id);
+        if (progress.some(p => p.content_slug === CONTENT_SLUG)) {
+            document.getElementById('mark-complete-btn').textContent = 'Completed \u2713';
+            document.getElementById('mark-complete-btn').style.background = 'var(--accent-emerald)';
+        }
+    });
+    </script>
+</body>
+
+</html>

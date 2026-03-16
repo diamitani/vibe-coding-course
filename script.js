@@ -30,9 +30,10 @@ window.authPromise = window._supabaseReady.then(() => initAuth());
 
 const CANONICAL_NAV_ITEMS = [
   { href: 'index.html', label: 'Home' },
-  { href: 'module1.html', label: 'Modules' },
-  { href: 'tools.html', label: 'Tools' },
-  { href: 'lab1.html', label: 'Labs' },
+  { href: 'learn.html', label: 'Learn' },
+  { href: 'resources.html', label: 'Resources' },
+  { href: 'community.html', label: 'Community' },
+  { href: 'marketplace.html', label: 'Marketplace' },
 ];
 
 document.addEventListener('DOMContentLoaded', () => {

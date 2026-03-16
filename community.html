@@ -4,17 +4,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Community | LetsVibeAI</title>
-    <meta name="description" content="Browse the LetsVibeAI community. Find other builders, designers, and automators and check out their projects.">
+    <title>Community & Showcase | LetsVibeAI</title>
+    <meta name="description" content="Browse the LetsVibeAI community. Find other builders, check out their projects, and connect with fellow vibe coders.">
     <link rel="stylesheet" href="styles.css">
     <style>
-        .community-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.25rem; margin-top: 2rem; }
-        .user-card { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 1.5rem 1rem; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); text-decoration: none; color: var(--text-primary); transition: all 0.2s; }
-        .user-card:hover { border-color: var(--accent-primary); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(139, 92, 246, 0.1); }
-        .user-card .avatar-large { font-size: 2.5rem; margin-bottom: 0.75rem; }
-        .user-card h3 { margin: 0 0 0.25rem; font-size: 1rem; }
-        .user-card .vibe-type { font-size: 0.75rem; color: var(--accent-primary); font-weight: 600; }
-        .user-card .user-stats { font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem; }
+        /* Tabs */
+        .community-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 1px solid var(--border-subtle);
+            flex-wrap: wrap;
+        }
+
+        .community-tab-btn {
+            padding: 0.75rem 1.5rem;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: all var(--duration-fast) var(--ease-out);
+        }
+
+        .community-tab-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .community-tab-btn.active {
+            color: var(--accent-cyan);
+            border-bottom-color: var(--accent-cyan);
+        }
+
+        .community-tab-content {
+            display: none;
+        }
+
+        .community-tab-content.active {
+            display: block;
+            animation: fadeIn var(--duration-fast) var(--ease-out);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Grids */
+        .community-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.25rem;
+            margin-top: 2rem;
+        }
+
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        /* User Card */
+        .user-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 1.5rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+
+        .user-card:hover {
+            border-color: var(--accent-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.1);
+        }
+
+        .user-card .avatar-large {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .user-card h3 {
+            margin: 0 0 0.25rem;
+            font-size: 1rem;
+        }
+
+        .user-card .vibe-type {
+            font-size: 0.75rem;
+            color: var(--accent-primary);
+            font-weight: 600;
+        }
+
+        .user-card .user-stats {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        /* Project Card */
+        .project-card {
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.2s;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(6, 182, 212, 0.15);
+        }
+
+        .project-card-img {
+            height: 160px;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(6, 182, 212, 0.1));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .project-card-content {
+            padding: 1.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .project-card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .project-card-meta {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .project-card-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            flex-grow: 1;
+        }
+
+        .project-card-footer {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        /* Filters */
+        .filter-section {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-section label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .showcase-filters {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.25rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-full);
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all var(--duration-fast) var(--ease-out);
+        }
+
+        .filter-btn:hover {
+            border-color: var(--accent-cyan);
+            color: var(--text-primary);
+        }
+
+        .filter-btn.active {
+            background: var(--accent-cyan);
+            border-color: var(--accent-cyan);
+            color: var(--bg-primary);
+        }
     </style>
 </head>
 
@@ -26,9 +234,10 @@
             <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="module1.html">Modules</a></li>
-                <li><a href="tools.html">Tools</a></li>
-                <li><a href="lab1.html">Labs</a></li>
+                <li><a href="learn.html">Learn</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="marketplace.html">Marketplace</a></li>
                 <li id="auth-nav-slot"></li>
             </ul>
         </div>
@@ -38,43 +247,141 @@
         <div class="container">
             <section class="hero" style="padding-bottom:var(--space-xl);">
                 <h1>Vibe Coder <span class="gradient-text">Community</span></h1>
-                <p>Connect with fellow vibe coders. Browse profiles, check out projects, and find collaborators.</p>
+                <p>Connect with fellow vibe coders, explore student projects, and find collaborators. Everyone's building something amazing.</p>
             </section>
 
-            <!-- Search & Filters -->
-            <div class="tools-search">
-                <input type="text" id="community-search" class="form-input" placeholder="Search by name..." oninput="renderCommunity()">
-            </div>
-            <div class="showcase-filters" id="vibe-filters">
-                <button class="filter-btn active" data-vibe="all">All</button>
-                <button class="filter-btn" data-vibe="Explorer">🌍 Explorers</button>
-                <button class="filter-btn" data-vibe="Builder">🔨 Builders</button>
-                <button class="filter-btn" data-vibe="Designer">🎨 Designers</button>
-                <button class="filter-btn" data-vibe="Automator">⚙️ Automators</button>
-                <button class="filter-btn" data-vibe="Hacker">💻 Hackers</button>
-                <button class="filter-btn" data-vibe="Full-Stack Vibe Lord">👑 Vibe Lords</button>
+            <!-- Tabs -->
+            <div class="community-tabs">
+                <button class="community-tab-btn active" onclick="switchCommunityTab('members')">👥 Members</button>
+                <button class="community-tab-btn" onclick="switchCommunityTab('projects')">🎨 Projects</button>
+                <button class="community-tab-btn" onclick="switchCommunityTab('featured')">⭐ Featured</button>
             </div>
 
-            <!-- Community Grid -->
-            <div class="community-grid" id="community-grid">
-                <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);">
-                    <div class="spinner"></div>
-                    <p style="margin-top:1rem;">Loading community...</p>
+            <!-- Tab 1: Members -->
+            <div id="members" class="community-tab-content active">
+                <!-- Search -->
+                <div class="tools-search">
+                    <input type="text" id="community-search" class="form-input" placeholder="Search members by name..." oninput="renderCommunity()">
                 </div>
+
+                <!-- Vibe Type Filters -->
+                <div class="filter-section">
+                    <label>Filter by Vibe Type:</label>
+                    <div class="showcase-filters" id="vibe-filters">
+                        <button class="filter-btn active" data-vibe="all">All</button>
+                        <button class="filter-btn" data-vibe="Explorer">🌍 Explorers</button>
+                        <button class="filter-btn" data-vibe="Builder">🔨 Builders</button>
+                        <button class="filter-btn" data-vibe="Designer">🎨 Designers</button>
+                        <button class="filter-btn" data-vibe="Automator">⚙️ Automators</button>
+                        <button class="filter-btn" data-vibe="Hacker">💻 Hackers</button>
+                        <button class="filter-btn" data-vibe="Full-Stack Vibe Lord">👑 Vibe Lords</button>
+                    </div>
+                </div>
+
+                <!-- Community Grid -->
+                <div class="community-grid" id="community-grid">
+                    <div style="grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-muted);">
+                        <div class="spinner"></div>
+                        <p style="margin-top:1rem;">Loading community members...</p>
+                    </div>
+                </div>
+
+                <!-- CTA -->
+                <section class="section" style="text-align:center;" id="join-cta">
+                    <h2 class="section-title">Join the Community</h2>
+                    <p class="section-desc" style="margin-bottom:var(--space-xl);">Create your profile, showcase your projects, and connect with other vibe coders.</p>
+                    <a href="auth.html" class="btn btn-primary" id="join-btn">Create Your Profile →</a>
+                </section>
             </div>
 
-            <!-- CTA -->
-            <section class="section" style="text-align:center;" id="join-cta">
-                <h2 class="section-title">Join the Community</h2>
-                <p class="section-desc" style="margin-bottom:var(--space-xl);">Create your profile, showcase your projects, and connect with other vibe coders.</p>
-                <a href="auth.html" class="btn btn-primary" id="join-btn">Create Your Profile →</a>
-            </section>
+            <!-- Tab 2: Projects -->
+            <div id="projects" class="community-tab-content">
+                <!-- Project Type Filters -->
+                <div class="filter-section">
+                    <label>Filter by Project Type:</label>
+                    <div class="showcase-filters" id="project-filters">
+                        <button class="filter-btn active" data-filter="all">All Projects</button>
+                        <button class="filter-btn" data-filter="marketing">🎨 Marketing</button>
+                        <button class="filter-btn" data-filter="ecommerce">🛒 E-Commerce</button>
+                        <button class="filter-btn" data-filter="marketplace">🏪 Marketplace</button>
+                    </div>
+                </div>
+
+                <!-- Project Gallery -->
+                <div class="showcase-grid" id="showcase-grid">
+                    <!-- Rendered by JS -->
+                </div>
+
+                <!-- Submit CTA -->
+                <section class="section" style="margin-top:3rem;">
+                    <div class="section-header">
+                        <span class="section-label">Build & Share</span>
+                        <h2 class="section-title">Have a Project to Showcase?</h2>
+                        <p class="section-desc">Completed a lab? Submit your project from your dashboard and inspire others.</p>
+                    </div>
+                    <div style="text-align:center;">
+                        <a href="dashboard.html" class="btn btn-primary" id="submit-cta">Go to Dashboard to Submit →</a>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Tab 3: Featured -->
+            <div id="featured" class="community-tab-content">
+                <div style="margin-bottom:2rem;">
+                    <p style="color:var(--text-secondary);font-size:1.05rem;">Spotlight on amazing projects from the vibe coding community.</p>
+                </div>
+
+                <div class="cards-grid cards-grid-2">
+                    <div class="card fade-in" style="border: 2px solid var(--accent-cyan);">
+                        <div style="font-size:1.5rem;margin-bottom:0.75rem;">⭐</div>
+                        <h3 style="color:var(--text-primary);margin-bottom:0.5rem;">Featured Builder</h3>
+                        <p style="color:var(--text-secondary);margin-bottom:1rem;">Discover inspiring projects that showcase exceptional vibe coding. Submit your best work to be featured!</p>
+                    </div>
+
+                    <div class="card fade-in" style="border: 2px solid var(--accent-violet);">
+                        <div style="font-size:1.5rem;margin-bottom:0.75rem;">🏆</div>
+                        <h3 style="color:var(--text-primary);margin-bottom:0.5rem;">Community Winner</h3>
+                        <p style="color:var(--text-secondary);margin-bottom:1rem;">Top-rated projects from our community members. Upvote your favorites and see what wins recognition.</p>
+                    </div>
+
+                    <div class="card fade-in" style="border: 2px solid var(--accent-emerald);">
+                        <div style="font-size:1.5rem;margin-bottom:0.75rem;">🚀</div>
+                        <h3 style="color:var(--text-primary);margin-bottom:0.5rem;">Latest Launches</h3>
+                        <p style="color:var(--text-secondary);margin-bottom:1rem;">Recently submitted projects from members. Check out what the community is building right now.</p>
+                    </div>
+
+                    <div class="card fade-in" style="border: 2px solid var(--accent-magenta);">
+                        <div style="font-size:1.5rem;margin-bottom:0.75rem;">🎯</div>
+                        <h3 style="color:var(--text-primary);margin-bottom:0.5rem;">Get Inspired</h3>
+                        <p style="color:var(--text-secondary);margin-bottom:1rem;">Feeling stuck? Browse completed projects from all three labs to see different approaches and techniques.</p>
+                    </div>
+                </div>
+
+                <!-- CTA Section -->
+                <section class="section" style="text-align:center;margin-top:3rem;">
+                    <h2 class="section-title">Ready to Build?</h2>
+                    <p class="section-desc" style="margin-bottom:var(--space-xl);">Start with one of the three hands-on labs and build your first project.</p>
+                    <div style="display:flex;justify-content:center;gap:var(--space-md);flex-wrap:wrap;">
+                        <a href="learn.html#lab-1" class="btn btn-primary">Lab 1: Marketing Site</a>
+                        <a href="learn.html#lab-2" class="btn btn-secondary">Lab 2: E-Commerce</a>
+                        <a href="learn.html#lab-3" class="btn btn-secondary">Lab 3: Marketplace</a>
+                    </div>
+                </section>
+            </div>
         </div>
     </main>
 
     <footer class="footer">
         <div class="container">
-            <p>⚡ LetsVibeAI &copy; 2025</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <p>⚡ LetsVibeAI &copy; 2025 — Built with AI</p>
+                <div style="display: flex; gap: 1.5rem;">
+                    <a href="learn.html">Learn</a>
+                    <a href="resources.html">Resources</a>
+                    <a href="marketplace.html">Marketplace</a>
+                    <a href="community.html">Community</a>
+                </div>
+            </div>
         </div>
     </footer>
 
@@ -83,14 +390,40 @@
     <script src="script.js"></script>
     <script>
         let currentVibeFilter = 'all';
+        let currentProjectFilter = 'all';
         let allProfiles = [];
+        let allProjects = [];
 
         function esc(str) {
             if (!str) return '';
             return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
         }
 
-        // Filter buttons
+        // Tab switching
+        function switchCommunityTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.community-tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            document.querySelectorAll('.community-tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+
+            // Mark button as active
+            event.target.classList.add('active');
+
+            // Trigger render for specific tab
+            if (tabName === 'projects') {
+                renderShowcase(currentProjectFilter);
+            }
+        }
+
+        // MEMBERS TAB FUNCTIONS
         document.querySelectorAll('#vibe-filters .filter-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('#vibe-filters .filter-btn').forEach(b => b.classList.remove('active'));
@@ -136,14 +469,63 @@
             }).join('');
         }
 
+        // PROJECTS TAB FUNCTIONS
+        document.querySelectorAll('#project-filters .filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('#project-filters .filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentProjectFilter = btn.dataset.filter;
+                renderShowcase(currentProjectFilter);
+            });
+        });
+
+        function renderShowcase(filter) {
+            const q = currentProjectFilter;
+            document.querySelectorAll('#project-filters .filter-btn').forEach(b => {
+                b.classList.toggle('active', (q || 'all') === (b.textContent.trim() === 'All Projects' ? 'all' : b.dataset.filter));
+            });
+
+            const filtered = allProjects.filter(p => {
+                return !filter || filter === 'all' || p.lab === filter;
+            });
+
+            const grid = document.getElementById('showcase-grid');
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div style="grid-column:1/-1;text-align:center;padding:4rem;color:var(--text-muted);">
+                        <p style="font-size:3rem;margin-bottom:1rem;">🎨</p>
+                        <p style="font-size:1.125rem;margin-bottom:0.5rem;">No projects yet</p>
+                        <p style="font-size:0.875rem;">Be the first to <a href="learn.html">start a lab and submit your project</a>!</p>
+                    </div>`;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(p => `
+                <a href="profile.html?id=${esc(p.creator_id)}" class="project-card fade-in visible">
+                    <div class="project-card-img">${p.icon || '🎨'}</div>
+                    <div class="project-card-content">
+                        <div class="project-card-title">${esc(p.title)}</div>
+                        <div class="project-card-meta">${esc(p.creator)} • Lab ${p.lab_number || '?'}</div>
+                        <div class="project-card-desc">${esc(p.description)}</div>
+                        <div class="project-card-footer">
+                            ${p.tags ? p.tags.map(t => `<span class="tag" style="font-size:0.75rem;">${esc(t)}</span>`).join('') : ''}
+                        </div>
+                    </div>
+                </a>`).join('');
+        }
+
+        // INITIALIZATION
         document.addEventListener('DOMContentLoaded', async () => {
             await window._supabaseReady;
 
-            // Update CTA if logged in
+            // Update CTAs if logged in
             const user = getCurrentUser();
-            if (user) {
+            if (user && document.getElementById('join-btn')) {
                 document.getElementById('join-btn').textContent = 'Go to Dashboard →';
                 document.getElementById('join-btn').href = 'dashboard.html';
+            }
+            if (user && document.getElementById('submit-cta')) {
+                // Submit CTA already points to dashboard
             }
 
             // Load profiles from Supabase
@@ -152,7 +534,17 @@
             } catch (e) {
                 allProfiles = [];
             }
+
+            // Load projects from Supabase
+            try {
+                allProjects = await window.db.getAllProjects();
+            } catch (e) {
+                allProjects = [];
+            }
+
+            // Initial render
             renderCommunity();
+            renderShowcase('all');
         });
     </script>
 </body>
