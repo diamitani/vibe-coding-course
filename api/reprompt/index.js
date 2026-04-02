@@ -1,6 +1,6 @@
-// Azure Function: /api/reprompt
+// Vercel Serverless Function: /api/reprompt
 // Proxies requests to the Anthropic Claude API
-// Set ANTHROPIC_API_KEY in Azure Static Web Apps environment variables
+// Set ANTHROPIC_API_KEY in Vercel environment variables
 
 const SYSTEM_PROMPT = `You are a Prompt Engineering AI Tutor for LetsVibeAI.com — a platform teaching people to build software with AI tools.
 
@@ -39,39 +39,28 @@ const TOOL_URLS = {
   'Windsurf': 'https://codeium.com/windsurf'
 };
 
-module.exports = async function (context, req) {
+export default async function handler(req, res) {
   // Handle CORS preflight
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
   if (req.method === 'OPTIONS') {
-    context.res = {
-      status: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-        'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type'
-      },
-      body: ''
-    };
-    return;
+    return res.status(200).end();
+  }
+
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
   }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
-    context.res = {
-      status: 500,
-      headers: { 'Access-Control-Allow-Origin': '*' },
-      body: JSON.stringify({ error: 'ANTHROPIC_API_KEY not configured' })
-    };
-    return;
+    return res.status(500).json({ error: 'ANTHROPIC_API_KEY not configured' });
   }
 
   const { prompt } = req.body || {};
   if (!prompt || typeof prompt !== 'string' || prompt.trim().length < 3) {
-    context.res = {
-      status: 400,
-      headers: { 'Access-Control-Allow-Origin': '*' },
-      body: JSON.stringify({ error: 'prompt is required (min 3 characters)' })
-    };
-    return;
+    return res.status(400).json({ error: 'prompt is required (min 3 characters)' });
   }
 
   try {
@@ -110,20 +99,9 @@ module.exports = async function (context, req) {
       }));
     }
 
-    context.res = {
-      status: 200,
-      headers: {
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      },
-      body: JSON.stringify(result)
-    };
+    return res.status(200).json(result);
   } catch (err) {
-    context.log.error('Reprompt error:', err.message);
-    context.res = {
-      status: 500,
-      headers: { 'Access-Control-Allow-Origin': '*' },
-      body: JSON.stringify({ error: 'AI tutor unavailable. Please try again.' })
-    };
+    console.error('Reprompt error:', err.message);
+    return res.status(500).json({ error: 'AI tutor unavailable. Please try again.' });
   }
-};
+}

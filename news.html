@@ -4,10 +4,422 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Blog & News — LetsVibeAI</title>
-  <meta name="description" content="Latest vibe coding tutorials, AI news, and insights from the LetsVibeAI community.">
+  <title>AI News & Resources — LetsVibeAI</title>
+  <meta name="description" content="Live AI news feeds, Twitter/X updates, YouTube channels, and curated courses. Updated daily.">
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <style>
+    /* ── Tab Nav ── */
+    .tab-nav {
+      display: flex;
+      gap: 0.25rem;
+      border-bottom: 1px solid var(--border-subtle);
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      padding: 0.65rem 1.25rem;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 500;
+      font-family: var(--font-sans);
+      transition: all var(--duration-fast) var(--ease-out);
+      white-space: nowrap;
+    }
+    .tab-btn:hover { color: var(--text-primary); }
+    .tab-btn.active {
+      color: var(--accent-cyan);
+      border-bottom-color: var(--accent-cyan);
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; animation: fadeUp 250ms var(--ease-out); }
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Feed Controls ── */
+    .feed-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+    .source-pills {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .source-pill {
+      padding: 0.35rem 0.85rem;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all var(--duration-fast) var(--ease-out);
+      font-family: var(--font-sans);
+    }
+    .source-pill:hover { border-color: var(--accent-cyan); color: var(--text-primary); }
+    .source-pill.active { background: var(--accent-cyan); border-color: var(--accent-cyan); color: #0a0a0f; }
+
+    /* ── Feed Status ── */
+    .feed-status {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .refresh-btn {
+      background: none;
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      padding: 0.25rem 0.6rem;
+      cursor: pointer;
+      font-family: var(--font-sans);
+      transition: all var(--duration-fast) var(--ease-out);
+    }
+    .refresh-btn:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+
+    /* ── News List Layout ── */
+    #feed-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--border-subtle);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .news-item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      background: var(--bg-primary);
+      transition: background var(--duration-fast) var(--ease-out);
+      text-decoration: none;
+      color: inherit;
+      align-items: start;
+    }
+    .news-item:hover { background: var(--bg-card-hover); }
+    .news-thumb {
+      width: 72px;
+      height: 52px;
+      border-radius: var(--radius-sm);
+      object-fit: cover;
+      flex-shrink: 0;
+      background: var(--bg-card);
+    }
+    .news-thumb-placeholder {
+      width: 72px;
+      height: 52px;
+      border-radius: var(--radius-sm);
+      background: var(--bg-card);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+    .news-body { min-width: 0; }
+    .news-title {
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.3rem;
+      line-height: 1.4;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .news-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .source-badge {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.15rem 0.5rem;
+      border-radius: var(--radius-full);
+      letter-spacing: 0.03em;
+    }
+    .news-time { font-size: 0.75rem; color: var(--text-muted); }
+    .news-arrow {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      padding-top: 0.2rem;
+      flex-shrink: 0;
+    }
+    .news-item:hover .news-arrow { color: var(--accent-cyan); }
+
+    /* ── Skeleton Loader ── */
+    .skeleton {
+      background: linear-gradient(90deg, var(--bg-card) 25%, var(--bg-card-hover) 50%, var(--bg-card) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.4s infinite;
+      border-radius: var(--radius-sm);
+    }
+    @keyframes shimmer {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+    .skeleton-item {
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      background: var(--bg-primary);
+    }
+    .sk-thumb { width: 72px; height: 52px; border-radius: var(--radius-sm); }
+    .sk-lines { display: flex; flex-direction: column; gap: 0.5rem; padding-top: 0.2rem; }
+    .sk-line { height: 12px; border-radius: 4px; }
+
+    /* ── Source Colors ── */
+    .src-verge    { background: rgba(255,50,50,0.15); color: #ff6060; }
+    .src-vc       { background: rgba(139,92,246,0.15); color: #a78bfa; }
+    .src-tc       { background: rgba(6,182,212,0.15); color: #06b6d4; }
+    .src-hn       { background: rgba(245,124,0,0.15); color: #f97316; }
+    .src-simon    { background: rgba(16,185,129,0.15); color: #10b981; }
+    .src-openai   { background: rgba(16,185,129,0.15); color: #10b981; }
+    .src-devto    { background: rgba(236,72,153,0.15); color: #ec4899; }
+    .src-wired    { background: rgba(240,200,60,0.15); color: #fbbf24; }
+
+    /* ── Twitter/X Grid ── */
+    .twitter-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+    }
+    .twitter-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+    .twitter-card-header {
+      padding: 1rem 1.25rem 0.75rem;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .twitter-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg-card-hover);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .twitter-handle { font-size: 0.85rem; color: var(--text-muted); }
+    .twitter-embed-wrap {
+      height: 450px;
+      overflow: hidden;
+    }
+    .twitter-embed-wrap .twitter-timeline {
+      border-radius: 0 !important;
+    }
+    .twitter-note {
+      padding: 0.75rem 1.25rem;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    /* ── YouTube Grid ── */
+    .yt-channels-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2.5rem;
+    }
+    .yt-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.25rem;
+      transition: all var(--duration-fast) var(--ease-out);
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .yt-card:hover {
+      border-color: rgba(255,0,0,0.3);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+    }
+    .yt-card-top {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .yt-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(255,0,0,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+    .yt-name { font-weight: 600; font-size: 0.95rem; }
+    .yt-subs { font-size: 0.75rem; color: var(--text-muted); }
+    .yt-desc { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem; line-height: 1.5; }
+    .yt-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .yt-tag {
+      font-size: 0.7rem;
+      padding: 0.15rem 0.5rem;
+      border-radius: var(--radius-full);
+      background: rgba(255,255,255,0.05);
+      color: var(--text-muted);
+    }
+
+    /* Latest Videos from YouTube RSS */
+    #yt-latest { margin-top: 2rem; }
+    .yt-videos-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+    .yt-video-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      text-decoration: none;
+      color: inherit;
+      transition: all var(--duration-fast) var(--ease-out);
+      display: block;
+    }
+    .yt-video-card:hover {
+      border-color: rgba(255,0,0,0.3);
+      transform: translateY(-2px);
+    }
+    .yt-thumbnail {
+      width: 100%;
+      aspect-ratio: 16/9;
+      object-fit: cover;
+      background: var(--bg-card-hover);
+    }
+    .yt-video-info { padding: 0.75rem; }
+    .yt-video-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 0.4rem;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .yt-video-meta { font-size: 0.75rem; color: var(--text-muted); }
+
+    /* ── Courses ── */
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+    .course-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      transition: all var(--duration-fast) var(--ease-out);
+    }
+    .course-card:hover { border-color: var(--border-glow); background: var(--bg-card-hover); transform: translateY(-2px); }
+    .course-platform-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .platform-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.2rem 0.6rem;
+      border-radius: var(--radius-full);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .platform-coursera  { background: rgba(0,86,210,0.2); color: #60a5fa; }
+    .platform-deeplearn { background: rgba(6,182,212,0.2); color: #06b6d4; }
+    .platform-udemy     { background: rgba(167,85,206,0.2); color: #c084fc; }
+    .platform-youtube   { background: rgba(255,0,0,0.15); color: #f87171; }
+    .platform-huggingf  { background: rgba(245,158,11,0.2); color: #fbbf24; }
+    .platform-fastai    { background: rgba(16,185,129,0.2); color: #10b981; }
+    .platform-free      { background: rgba(16,185,129,0.2); color: #10b981; font-size: 0.75rem; font-weight: 600; }
+    .platform-paid      { background: rgba(245,158,11,0.15); color: #fbbf24; font-size: 0.75rem; font-weight: 600; }
+    .course-title { font-size: 1rem; font-weight: 700; line-height: 1.4; }
+    .course-meta {
+      display: flex;
+      gap: 1rem;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    .course-desc { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+    .course-cta {
+      display: block;
+      text-align: center;
+      padding: 0.6rem;
+      background: rgba(139,92,246,0.1);
+      border: 1px solid rgba(139,92,246,0.2);
+      border-radius: var(--radius-sm);
+      color: var(--accent-violet);
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      margin-top: auto;
+      transition: all var(--duration-fast) var(--ease-out);
+    }
+    .course-cta:hover { background: rgba(139,92,246,0.2); border-color: var(--accent-violet); }
+
+    /* ── Load More ── */
+    .load-more-wrap { text-align: center; margin-top: 1.5rem; }
+
+    /* ── Section Label ── */
+    .live-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+      display: inline-block;
+      margin-right: 6px;
+      animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    @media (max-width: 640px) {
+      .news-item { grid-template-columns: 1fr auto; }
+      .news-thumb, .news-thumb-placeholder { display: none; }
+      .twitter-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 
 <body>
@@ -22,9 +434,9 @@
       <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
-        <li><a href="module1.html">Courses</a></li>
-        <li><a href="tools.html">Tools</a></li>
-        <li><a href="marketplace.html">Marketplace</a></li>
+        <li><a href="learn.html">Learn</a></li>
+        <li><a href="news.html" class="active">News</a></li>
+        <li><a href="resources.html">Resources</a></li>
         <li><a href="community.html">Community</a></li>
         <li id="auth-nav-slot"></li>
       </ul>
@@ -35,143 +447,395 @@
     <div class="container">
 
       <!-- Hero -->
-      <section class="hero" style="text-align: center; padding: 4rem 0 3rem;">
-        <div class="hero-badge"><span class="dot"></span> Stay Updated</div>
-        <h1 style="font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 1rem;">
-          Blog & <span class="gradient-text">News</span>
+      <section style="text-align: center; padding: 3.5rem 0 2.5rem;">
+        <div class="hero-badge"><span class="live-dot"></span> Live Content</div>
+        <h1 style="font-size: clamp(2rem, 5vw, 3.2rem); margin-bottom: 0.75rem;">
+          AI News & <span class="gradient-text">Resources</span>
         </h1>
-        <p style="font-size: 1.15rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto 2rem;">
-          Original tutorials, industry insights, and curated AI news from top sources.
+        <p style="font-size: 1.05rem; color: var(--text-secondary); max-width: 560px; margin: 0 auto;">
+          Live RSS feeds, X/Twitter updates, YouTube channels, and curated courses — synced daily.
+        </p>
+      </section>
+
+      <!-- Tab Nav -->
+      <nav class="tab-nav" role="tablist">
+        <button class="tab-btn active" onclick="switchTab('feed')" id="tab-feed">📡 Live Feed</button>
+        <button class="tab-btn" onclick="switchTab('twitter')" id="tab-twitter">𝕏 Twitter / X</button>
+        <button class="tab-btn" onclick="switchTab('videos')" id="tab-videos">▶ YouTube</button>
+        <button class="tab-btn" onclick="switchTab('courses')" id="tab-courses">🎓 Courses</button>
+        <button class="tab-btn" onclick="switchTab('blog')" id="tab-blog">✍ Blog</button>
+      </nav>
+
+      <!-- ════════════════════════════════════════
+           TAB 1: LIVE FEED
+      ════════════════════════════════════════ -->
+      <div class="tab-panel active" id="panel-feed">
+
+        <div class="feed-controls">
+          <div class="source-pills" id="source-pills">
+            <button class="source-pill active" data-source="all" onclick="filterFeed('all')">All Sources</button>
+            <button class="source-pill" data-source="verge" onclick="filterFeed('verge')">The Verge</button>
+            <button class="source-pill" data-source="vc" onclick="filterFeed('vc')">VentureBeat</button>
+            <button class="source-pill" data-source="tc" onclick="filterFeed('tc')">TechCrunch</button>
+            <button class="source-pill" data-source="hn" onclick="filterFeed('hn')">Hacker News</button>
+            <button class="source-pill" data-source="simon" onclick="filterFeed('simon')">Simon Willison</button>
+            <button class="source-pill" data-source="openai" onclick="filterFeed('openai')">OpenAI</button>
+            <button class="source-pill" data-source="devto" onclick="filterFeed('devto')">Dev.to</button>
+          </div>
+          <div class="feed-status">
+            <span id="last-updated">Loading…</span>
+            <button class="refresh-btn" onclick="refreshFeeds()">↺ Refresh</button>
+          </div>
+        </div>
+
+        <div id="feed-list">
+          <!-- Skeleton loaders -->
+          <div class="skeleton-item" id="skel-1">
+            <div class="skeleton sk-thumb"></div>
+            <div class="sk-lines">
+              <div class="skeleton sk-line" style="width:80%"></div>
+              <div class="skeleton sk-line" style="width:55%"></div>
+            </div>
+          </div>
+          <div class="skeleton-item" id="skel-2">
+            <div class="skeleton sk-thumb"></div>
+            <div class="sk-lines">
+              <div class="skeleton sk-line" style="width:65%"></div>
+              <div class="skeleton sk-line" style="width:40%"></div>
+            </div>
+          </div>
+          <div class="skeleton-item" id="skel-3">
+            <div class="skeleton sk-thumb"></div>
+            <div class="sk-lines">
+              <div class="skeleton sk-line" style="width:75%"></div>
+              <div class="skeleton sk-line" style="width:50%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="load-more-wrap" id="load-more-wrap" style="display:none;">
+          <button class="btn btn-secondary" onclick="showMoreItems()">Load more articles</button>
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════
+           TAB 2: TWITTER / X
+      ════════════════════════════════════════ -->
+      <div class="tab-panel" id="panel-twitter">
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">
+          Live feeds from the most important voices in AI and vibe coding.
         </p>
 
-        <!-- Newsletter CTA -->
-        <div style="background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(6,182,212,0.1)); border: 1px solid rgba(139,92,246,0.3); border-radius: var(--radius-lg); padding: 1.5rem; max-width: 500px; margin: 0 auto 2rem;">
-          <p style="margin-bottom: 1rem; font-size: 0.95rem;">📬 Get weekly vibe coding tips delivered to your inbox</p>
-          <form onsubmit="handleQuickSubscribe(event)" style="display: flex; gap: 0.5rem; max-width: 350px; margin: 0 auto;">
-            <input type="email" id="quick-email" class="form-input" placeholder="your@email.com" required style="flex:1;">
-            <button type="submit" class="btn btn-primary">Subscribe</button>
-          </form>
+        <div class="twitter-grid">
+
+          <!-- Andrej Karpathy -->
+          <div class="twitter-card">
+            <div class="twitter-card-header">
+              <div class="twitter-avatar">🧠</div>
+              <div>
+                <div style="font-weight: 600; font-size: 0.9rem;">Andrej Karpathy</div>
+                <div class="twitter-handle">@karpathy · AI researcher, ex-OpenAI/Tesla</div>
+              </div>
+            </div>
+            <div class="twitter-embed-wrap">
+              <a class="twitter-timeline"
+                 data-theme="dark"
+                 data-tweet-limit="5"
+                 data-chrome="noheader nofooter noborders transparent"
+                 href="https://twitter.com/karpathy">
+                Tweets by @karpathy
+              </a>
+            </div>
+            <div class="twitter-note">Real-time AI research commentary</div>
+          </div>
+
+          <!-- Sam Altman -->
+          <div class="twitter-card">
+            <div class="twitter-card-header">
+              <div class="twitter-avatar">🚀</div>
+              <div>
+                <div style="font-weight: 600; font-size: 0.9rem;">Sam Altman</div>
+                <div class="twitter-handle">@sama · CEO, OpenAI</div>
+              </div>
+            </div>
+            <div class="twitter-embed-wrap">
+              <a class="twitter-timeline"
+                 data-theme="dark"
+                 data-tweet-limit="5"
+                 data-chrome="noheader nofooter noborders transparent"
+                 href="https://twitter.com/sama">
+                Tweets by @sama
+              </a>
+            </div>
+            <div class="twitter-note">OpenAI news & AGI progress</div>
+          </div>
+
+          <!-- OpenAI -->
+          <div class="twitter-card">
+            <div class="twitter-card-header">
+              <div class="twitter-avatar">⚡</div>
+              <div>
+                <div style="font-weight: 600; font-size: 0.9rem;">OpenAI</div>
+                <div class="twitter-handle">@OpenAI · Official updates</div>
+              </div>
+            </div>
+            <div class="twitter-embed-wrap">
+              <a class="twitter-timeline"
+                 data-theme="dark"
+                 data-tweet-limit="5"
+                 data-chrome="noheader nofooter noborders transparent"
+                 href="https://twitter.com/OpenAI">
+                Tweets by @OpenAI
+              </a>
+            </div>
+            <div class="twitter-note">Product launches & model releases</div>
+          </div>
+
+          <!-- Anthropic -->
+          <div class="twitter-card">
+            <div class="twitter-card-header">
+              <div class="twitter-avatar">🤖</div>
+              <div>
+                <div style="font-weight: 600; font-size: 0.9rem;">Anthropic</div>
+                <div class="twitter-handle">@AnthropicAI · Claude creator</div>
+              </div>
+            </div>
+            <div class="twitter-embed-wrap">
+              <a class="twitter-timeline"
+                 data-theme="dark"
+                 data-tweet-limit="5"
+                 data-chrome="noheader nofooter noborders transparent"
+                 href="https://twitter.com/AnthropicAI">
+                Tweets by @AnthropicAI
+              </a>
+            </div>
+            <div class="twitter-note">Claude updates & AI safety</div>
+          </div>
+
+          <!-- Lovable -->
+          <div class="twitter-card">
+            <div class="twitter-card-header">
+              <div class="twitter-avatar">💜</div>
+              <div>
+                <div style="font-weight: 600; font-size: 0.9rem;">Lovable</div>
+                <div class="twitter-handle">@lovabledev · AI app builder</div>
+              </div>
+            </div>
+            <div class="twitter-embed-wrap">
+              <a class="twitter-timeline"
+                 data-theme="dark"
+                 data-tweet-limit="5"
+                 data-chrome="noheader nofooter noborders transparent"
+                 href="https://twitter.com/lovabledev">
+                Tweets by @lovabledev
+              </a>
+            </div>
+            <div class="twitter-note">Vibe coding product updates</div>
+          </div>
+
+          <!-- Cursor -->
+          <div class="twitter-card">
+            <div class="twitter-card-header">
+              <div class="twitter-avatar">🖱️</div>
+              <div>
+                <div style="font-weight: 600; font-size: 0.9rem;">Cursor</div>
+                <div class="twitter-handle">@cursor_ai · AI code editor</div>
+              </div>
+            </div>
+            <div class="twitter-embed-wrap">
+              <a class="twitter-timeline"
+                 data-theme="dark"
+                 data-tweet-limit="5"
+                 data-chrome="noheader nofooter noborders transparent"
+                 href="https://twitter.com/cursor_ai">
+                Tweets by @cursor_ai
+              </a>
+            </div>
+            <div class="twitter-note">Editor updates & tips</div>
+          </div>
+
         </div>
 
-        <!-- Tabs -->
-        <div style="display: flex; justify-content: center; gap: 0.5rem; flex-wrap: wrap;">
-          <button class="btn btn-primary" onclick="showTab('blog')" id="tab-blog">📝 Our Blog</button>
-          <button class="btn btn-secondary" onclick="showTab('news')" id="tab-news">📰 AI News</button>
-          <button class="btn btn-secondary" onclick="showTab('courses')" id="tab-courses">🎓 Courses</button>
-          <button class="btn btn-secondary" onclick="showTab('youtube')" id="tab-youtube">📺 Videos</button>
-        </div>
-      </section>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+      </div>
 
-      <!-- Blog Section -->
-      <section id="section-blog">
-        <div class="section-header">
-          <span class="section-label">Latest Posts</span>
-          <h2 class="section-title">From Our Blog</h2>
+      <!-- ════════════════════════════════════════
+           TAB 3: YOUTUBE CHANNELS
+      ════════════════════════════════════════ -->
+      <div class="tab-panel" id="panel-videos">
+
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">
+          The best YouTube channels for AI development, vibe coding, and prompt engineering.
+        </p>
+
+        <div class="yt-channels-grid">
+
+          <a href="https://www.youtube.com/@fireship" target="_blank" rel="noopener noreferrer" class="yt-card">
+            <div class="yt-card-top">
+              <div class="yt-icon">🔥</div>
+              <div>
+                <div class="yt-name">Fireship</div>
+                <div class="yt-subs">2.7M subscribers</div>
+              </div>
+            </div>
+            <p class="yt-desc">Fast-paced, high-quality web dev and AI content. Best quick-hit tutorials on the internet.</p>
+            <div class="yt-tags">
+              <span class="yt-tag">AI Tools</span><span class="yt-tag">Web Dev</span><span class="yt-tag">Quick Tips</span>
+            </div>
+          </a>
+
+          <a href="https://www.youtube.com/@TinaHuang1" target="_blank" rel="noopener noreferrer" class="yt-card">
+            <div class="yt-card-top">
+              <div class="yt-icon">📊</div>
+              <div>
+                <div class="yt-name">Tina Huang</div>
+                <div class="yt-subs">500K+ subscribers</div>
+              </div>
+            </div>
+            <p class="yt-desc">Data science, AI tools, and coding career tips. Great for beginners breaking into AI.</p>
+            <div class="yt-tags">
+              <span class="yt-tag">Data Science</span><span class="yt-tag">AI Career</span><span class="yt-tag">Coding</span>
+            </div>
+          </a>
+
+          <a href="https://www.youtube.com/@matthew_berman" target="_blank" rel="noopener noreferrer" class="yt-card">
+            <div class="yt-card-top">
+              <div class="yt-icon">🤖</div>
+              <div>
+                <div class="yt-name">Matthew Berman</div>
+                <div class="yt-subs">350K+ subscribers</div>
+              </div>
+            </div>
+            <p class="yt-desc">Deep dives on the latest AI models, LLMs, and tools. Reviews and benchmarks.</p>
+            <div class="yt-tags">
+              <span class="yt-tag">LLMs</span><span class="yt-tag">Model Reviews</span><span class="yt-tag">Open Source AI</span>
+            </div>
+          </a>
+
+          <a href="https://www.youtube.com/@NathanLands" target="_blank" rel="noopener noreferrer" class="yt-card">
+            <div class="yt-card-top">
+              <div class="yt-icon">🌐</div>
+              <div>
+                <div class="yt-name">Nathan Lands</div>
+                <div class="yt-subs">300K+ subscribers</div>
+              </div>
+            </div>
+            <p class="yt-desc">AI education, automation, and the future of work. Business-focused AI content.</p>
+            <div class="yt-tags">
+              <span class="yt-tag">Automation</span><span class="yt-tag">Business AI</span><span class="yt-tag">Education</span>
+            </div>
+          </a>
+
+          <a href="https://www.youtube.com/@rileybrown_ai" target="_blank" rel="noopener noreferrer" class="yt-card">
+            <div class="yt-card-top">
+              <div class="yt-icon">✨</div>
+              <div>
+                <div class="yt-name">Riley Brown</div>
+                <div class="yt-subs">200K+ subscribers</div>
+              </div>
+            </div>
+            <p class="yt-desc">Vibe coding evangelist. Build full apps with AI, no traditional coding required.</p>
+            <div class="yt-tags">
+              <span class="yt-tag">Vibe Coding</span><span class="yt-tag">No-Code AI</span><span class="yt-tag">App Building</span>
+            </div>
+          </a>
+
+          <a href="https://www.youtube.com/@TheCodingTrain" target="_blank" rel="noopener noreferrer" class="yt-card">
+            <div class="yt-card-top">
+              <div class="yt-icon">🚂</div>
+              <div>
+                <div class="yt-name">The Coding Train</div>
+                <div class="yt-subs">1.5M subscribers</div>
+              </div>
+            </div>
+            <p class="yt-desc">Creative coding, generative art, and machine learning. Daniel Shiffman makes coding fun.</p>
+            <div class="yt-tags">
+              <span class="yt-tag">Creative Coding</span><span class="yt-tag">ML</span><span class="yt-tag">p5.js</span>
+            </div>
+          </a>
+
+          <a href="https://www.youtube.com/@MattVidPro" target="_blank" rel="noopener noreferrer" class="yt-card">
+            <div class="yt-card-top">
+              <div class="yt-icon">🎥</div>
+              <div>
+                <div class="yt-name">Matt Wolfe</div>
+                <div class="yt-subs">400K+ subscribers</div>
+              </div>
+            </div>
+            <p class="yt-desc">AI tools reviews, tutorials, and news. Future Tools founder — covers every new AI tool.</p>
+            <div class="yt-tags">
+              <span class="yt-tag">AI Tools</span><span class="yt-tag">News</span><span class="yt-tag">Reviews</span>
+            </div>
+          </a>
+
+          <a href="https://www.youtube.com/@aiexplained-official" target="_blank" rel="noopener noreferrer" class="yt-card">
+            <div class="yt-card-top">
+              <div class="yt-icon">🔬</div>
+              <div>
+                <div class="yt-name">AI Explained</div>
+                <div class="yt-subs">500K+ subscribers</div>
+              </div>
+            </div>
+            <p class="yt-desc">Research papers explained clearly. Covers GPT-4, Gemini, Claude, and every major release.</p>
+            <div class="yt-tags">
+              <span class="yt-tag">Research</span><span class="yt-tag">Paper Reviews</span><span class="yt-tag">Deep Dives</span>
+            </div>
+          </a>
+
         </div>
 
-        <div class="cards-grid cards-grid-3" id="blog-posts">
-          <!-- Blog posts loaded dynamically -->
-        </div>
-      </section>
-
-      <!-- AI News Section -->
-      <section id="section-news" style="display: none;">
-        <div class="section-header">
-          <span class="section-label">Curated</span>
-          <h2 class="section-title">AI News Feed</h2>
-        </div>
-
-        <div id="news-feeds" style="display: grid; gap: 1rem;">
-          <!-- News loaded from RSS/API -->
-        </div>
-
-        <div style="text-align: center; margin-top: 2rem;">
-          <p style="color: var(--text-secondary); font-size: 0.9rem;">
-            Curated from: OpenAI, Google AI, Hugging Face, MIT Tech Review, Andrej Karpathy & more
-          </p>
-        </div>
-      </section>
-
-      <!-- Courses Section -->
-      <section id="section-courses" style="display: none;">
-        <div class="section-header">
-          <span class="section-label">Learning</span>
-          <h2 class="section-title">Vibe Coding Courses</h2>
-          <p class="section-desc">Hand-picked courses to master vibe coding from beginner to advanced.</p>
-        </div>
-
-        <div class="cards-grid cards-grid-2" id="courses-list">
-          <!-- Courses loaded dynamically -->
-        </div>
-      </section>
-
-      <!-- YouTube Section -->
-      <section id="section-youtube" style="display: none;">
-        <div class="section-header">
-          <span class="section-label">Watch & Learn</span>
-          <h2 class="section-title">YouTube Channels</h2>
-          <p class="section-desc">Top YouTube channels for vibe coding tutorials and AI education.</p>
-        </div>
-
-        <div class="cards-grid cards-grid-4" id="youtube-channels">
-          <!-- YouTube channels loaded dynamically -->
-        </div>
-      </section>
-
-      <!-- RSS Sources -->
-      <section class="section">
-        <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 2rem;">
-          <h3 style="margin-bottom: 1rem;">📡 RSS Feeds We Follow</h3>
-          <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
-            <a href="https://openai.com/blog" target="_blank" class="tag">OpenAI Blog</a>
-            <a href="https://ai.googleblog.com" target="_blank" class="tag">Google AI</a>
-            <a href="https://huggingface.co/blog" target="_blank" class="tag">Hugging Face</a>
-            <a href="https://karpathy.ai" target="_blank" class="tag">Andrej Karpathy</a>
-            <a href="https://www.technologyreview.com/feed/topic/artificial-intelligence/" target="_blank" class="tag">MIT Tech Review</a>
-            <a href="https://machinelearningmastery.com/blog/feed/" target="_blank" class="tag">ML Mastery</a>
-            <a href="https://venturebeat.com/category/ai/feed/" target="_blank" class="tag">VentureBeat</a>
+        <!-- Latest Videos via YouTube RSS -->
+        <div id="yt-latest">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+            <h3 style="font-size: 1.1rem;">Latest Videos — Fireship</h3>
+            <span class="feed-status" id="yt-status">Loading…</span>
+          </div>
+          <div class="yt-videos-grid" id="yt-videos-grid">
+            <!-- Filled by JS -->
           </div>
         </div>
-      </section>
+      </div>
 
-      <!-- Newsletter Section -->
-      <section class="section fade-in" id="newsletter">
-        <div class="signup-section" style="background: linear-gradient(135deg, rgba(139,92,purple,0.1), rgba(6,182,212,0.1)); border: 1px solid rgba(139,92,246,0.2);">
-          <div style="text-align: center; margin-bottom: var(--space-lg);">
-            <span style="display: inline-block; padding: 0.5rem 1rem; background: rgba(139,92,246,0.15); border-radius: 20px; font-size: 0.875rem; color: var(--accent-violet); margin-bottom: 1rem;">
-              📬 Weekly Newsletter
-            </span>
-            <h2 style="font-size:2rem;margin-bottom:0.75rem;color:var(--text-primary);">Join the Newsletter</h2>
-            <p style="font-size:1rem;color:var(--text-secondary); max-width: 600px; margin: 0 auto;">
-              Get exclusive tutorials, tool reviews, prompt engineering tips, and early access to new courses — delivered every Tuesday.
-            </p>
-          </div>
-          
-          <form class="signup-inline" id="newsletter-form" onsubmit="handleNewsletterSubscribe(event)" style="max-width: 500px; margin: 0 auto;">
-            <input type="email" id="newsletter-email" class="form-input" placeholder="you@example.com" required>
-            <button type="submit" id="newsletter-btn" class="btn btn-primary">Subscribe →</button>
-          </form>
-          
-          <p id="newsletter-success" style="display:none;margin-top:1rem;color:var(--accent-emerald);text-align:center;">
-            <strong>Welcome aboard!</strong> Check your inbox for confirmation. 🎉
-          </p>
-          
-          <p style="margin-top:var(--space-md);color:var(--text-muted);font-size:0.8125rem;text-align:center;">
-            🔒 No spam. Unsubscribe anytime.
-          </p>
+      <!-- ════════════════════════════════════════
+           TAB 4: COURSES
+      ════════════════════════════════════════ -->
+      <div class="tab-panel" id="panel-courses">
+
+        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem;">
+          Hand-picked courses on AI, vibe coding, and prompt engineering — from beginner to advanced.
+        </p>
+
+        <!-- Filter -->
+        <div class="source-pills" style="margin-bottom: 1.5rem;">
+          <button class="source-pill active" data-cat="all" onclick="filterCourses('all')">All</button>
+          <button class="source-pill" data-cat="vibe" onclick="filterCourses('vibe')">Vibe Coding</button>
+          <button class="source-pill" data-cat="prompt" onclick="filterCourses('prompt')">Prompt Engineering</button>
+          <button class="source-pill" data-cat="ml" onclick="filterCourses('ml')">ML / AI Foundations</button>
+          <button class="source-pill" data-cat="agents" onclick="filterCourses('agents')">AI Agents</button>
         </div>
-      </section>
+
+        <div class="courses-grid" id="courses-grid">
+          <!-- Filled by JS -->
+        </div>
+      </div>
+
+      <!-- ════════════════════════════════════════
+           TAB 5: BLOG
+      ════════════════════════════════════════ -->
+      <div class="tab-panel" id="panel-blog">
+        <div class="cards-grid cards-grid-3" id="blog-posts"></div>
+      </div>
 
     </div>
   </main>
 
   <footer class="footer">
     <div class="container">
-      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem;">
         <p>⚡ LetsVibeAI &copy; 2025</p>
-        <div style="display: flex; gap: 1.5rem;">
+        <div style="display:flex; gap:1.5rem;">
           <a href="index.html">Home</a>
-          <a href="news.html">Blog</a>
+          <a href="news.html">News</a>
           <a href="community.html">Community</a>
         </div>
       </div>
@@ -182,164 +846,521 @@
   <script src="supabase-client.js"></script>
   <script src="script.js"></script>
   <script>
-    // Data
-    const blogPosts = [
-      {
-        id: "welcome",
-        title: "Welcome to LetsVibeAI",
-        excerpt: "The ultimate platform for vibe coding. Learn AI-powered development, access tools & templates marketplace.",
-        category: "Announcements",
-        date: "2025-01-01",
-        author: "LetsVibeAI Team"
-      },
-      {
-        id: "getting-started",
-        title: "Getting Started with Vibe Coding",
-        excerpt: "Learn what vibe coding is, why it matters, and how to start your journey as an AI-powered developer.",
-        category: "Tutorials",
-        date: "2025-01-15",
-        author: "LetsVibeAI Team"
-      },
-      {
-        id: "best-tools",
-        title: "The Best AI Coding Tools in 2025",
-        excerpt: "We tested and ranked the top AI coding assistants to help you choose the right one for your workflow.",
-        category: "Tools",
-        date: "2025-02-01",
-        author: "LetsVibeAI Team"
-      }
-    ];
+  // ════════════════════════════════════════
+  //  CONFIG
+  // ════════════════════════════════════════
+  const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
+  const RSS2JSON  = 'https://api.rss2json.com/v1/api.json';
 
-    const courses = [
-      { name: "Vibe Coding 101 with Replit", provider: "DeepLearning.AI", level: "Beginner", duration: "1.7 hours", price: "Free", url: "https://www.deeplearning.ai/short-courses/vibe-coding-101-with-replit/" },
-      { name: "Vibe Coding Learning Path", provider: "Analytics Vidhya", level: "Beginner", duration: "9 hours", price: "Free", url: "https://www.analyticsvidhya.com/courses/vibe-coding-learning-path" },
-      { name: "Vibe Coding with Cursor AI", provider: "Coursera", level: "Intermediate", duration: "5 modules", price: "Free", url: "https://www.coursera.org/learn/vibe-coding-with-cursor-ai" },
-      { name: "Guide to Vibe Coding in Windsurf", provider: "Analytics Vidhya", level: "Beginner", duration: "40 mins", price: "Free", url: "https://www.analyticsvidhya.com/courses/guide-to-vibe-coding-in-windsurf/" },
-      { name: "Vibe Coding Bootcamp", provider: "Metana", level: "Beginner", duration: "48 hours", price: "Paid", url: "https://metana.io/vibe-coding-bootcamp/" }
-    ];
+  const FEEDS = [
+    {
+      key:   'verge',
+      label: 'The Verge',
+      cls:   'src-verge',
+      emoji: '📱',
+      url:   'https://www.theverge.com/rss/ai-artificial-intelligence/index.xml',
+      count: 10
+    },
+    {
+      key:   'vc',
+      label: 'VentureBeat',
+      cls:   'src-vc',
+      emoji: '💼',
+      url:   'https://venturebeat.com/category/ai/feed/',
+      count: 8
+    },
+    {
+      key:   'tc',
+      label: 'TechCrunch',
+      cls:   'src-tc',
+      emoji: '🚀',
+      url:   'https://techcrunch.com/category/artificial-intelligence/feed/',
+      count: 8
+    },
+    {
+      key:   'hn',
+      label: 'Hacker News',
+      cls:   'src-hn',
+      emoji: '🔶',
+      url:   'https://news.ycombinator.com/rss',
+      count: 15
+    },
+    {
+      key:   'simon',
+      label: 'Simon Willison',
+      cls:   'src-simon',
+      emoji: '🧑‍💻',
+      url:   'https://simonwillison.net/atom/everything/',
+      count: 8
+    },
+    {
+      key:   'openai',
+      label: 'OpenAI',
+      cls:   'src-openai',
+      emoji: '⚡',
+      url:   'https://openai.com/news/rss.xml',
+      count: 8
+    },
+    {
+      key:   'devto',
+      label: 'Dev.to',
+      cls:   'src-devto',
+      emoji: '👩‍💻',
+      url:   'https://dev.to/feed/tag/ai',
+      count: 10
+    }
+  ];
 
-    const youtubeChannels = [
-      { name: "Tina Huang", subscribers: "500K+", description: "AI & coding tutorials", url: "https://www.youtube.com/@TinaHuang1" },
-      { name: "Matt Wolfe", subscribers: "400K+", description: "AI tools & vibe coding", url: "https://www.youtube.com/@mattwx" },
-      { name: "Riley Brown", subscribers: "200K+", description: "Vibe coding evangelist", url: "https://www.youtube.com/@rileybrown_ai" },
-      { name: "Ania Kubów", subscribers: "587K+", description: "JavaScript & React", url: "https://www.youtube.com/channel/UC5DNytAJ6_FISueUfzZCVsw" },
-      { name: "The Coding Train", subscribers: "1.5M+", description: "Creative coding", url: "https://www.youtube.com/@TheCodingTrain" },
-      { name: "CodeNewbie", subscribers: "300K+", description: "Beginner friendly", url: "https://www.youtube.com/c/CodeNewbie" },
-      { name: "Code Vibes", subscribers: "115K", description: "Programming tips", url: "https://www.youtube.com/@the_code_vibes" },
-      { name: "Nathan Lands", subscribers: "300K+", description: "AI educator", url: "https://www.youtube.com/@NathanLands" }
-    ];
+  // ════════════════════════════════════════
+  //  CACHE HELPERS
+  // ════════════════════════════════════════
+  function getCache(key) {
+    try {
+      const raw = localStorage.getItem('rss_' + key);
+      if (!raw) return null;
+      const { data, ts } = JSON.parse(raw);
+      if (Date.now() - ts > CACHE_TTL) return null;
+      return data;
+    } catch { return null; }
+  }
 
-    // Render functions
-    function renderBlog() {
-      const container = document.getElementById('blog-posts');
-      container.innerHTML = blogPosts.map(post => `
-        <article class="card fade-in">
-          <span class="tag" style="margin-bottom: 0.75rem;">${post.category}</span>
-          <h3 style="margin-bottom: 0.5rem;">${post.title}</h3>
-          <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">${post.excerpt}</p>
-          <div style="display: flex; justify-content: space-between; align-items: center; color: var(--text-muted); font-size: 0.8rem;">
-            <span>${post.author}</span>
-            <span>${post.date}</span>
-          </div>
-        </article>
-      `).join('');
+  function setCache(key, data) {
+    try {
+      localStorage.setItem('rss_' + key, JSON.stringify({ data, ts: Date.now() }));
+    } catch {}
+  }
+
+  function getCacheAge(key) {
+    try {
+      const raw = localStorage.getItem('rss_' + key);
+      if (!raw) return null;
+      const { ts } = JSON.parse(raw);
+      return ts;
+    } catch { return null; }
+  }
+
+  // ════════════════════════════════════════
+  //  RSS FETCH
+  // ════════════════════════════════════════
+  async function fetchFeed(feed, bustCache = false) {
+    if (!bustCache) {
+      const cached = getCache(feed.key);
+      if (cached) return cached;
+    }
+    const url = `${RSS2JSON}?rss_url=${encodeURIComponent(feed.url)}&count=${feed.count}`;
+    const resp = await fetch(url);
+    const json = await resp.json();
+    if (json.status === 'ok') {
+      const items = (json.items || []).map(item => ({ ...item, _source: feed.key }));
+      setCache(feed.key, items);
+      return items;
+    }
+    return [];
+  }
+
+  // ════════════════════════════════════════
+  //  FEED RENDER
+  // ════════════════════════════════════════
+  let allItems = [];
+  let visibleCount = 30;
+  let activeSource = 'all';
+
+  function timeAgo(dateStr) {
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 60) return `${mins}m ago`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24) return `${hrs}h ago`;
+    return `${Math.floor(hrs / 24)}d ago`;
+  }
+
+  function stripHtml(html) {
+    const div = document.createElement('div');
+    div.innerHTML = html;
+    return div.textContent || '';
+  }
+
+  function renderFeed() {
+    const list = document.getElementById('feed-list');
+    const filtered = activeSource === 'all'
+      ? allItems
+      : allItems.filter(i => i._source === activeSource);
+    const slice = filtered.slice(0, visibleCount);
+
+    if (!slice.length) {
+      list.innerHTML = '<div style="padding:2rem;text-align:center;color:var(--text-muted);">No articles found.</div>';
+      return;
     }
 
-    function renderCourses() {
-      const container = document.getElementById('courses-list');
-      container.innerHTML = courses.map(course => `
-        <div class="card fade-in">
-          <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1rem;">
-            <h4 style="font-size: 1.1rem;">${course.name}</h4>
-            <span class="tag ${course.price === 'Free' ? 'emerald' : ''}">${course.price}</span>
+    const feedMap = Object.fromEntries(FEEDS.map(f => [f.key, f]));
+
+    list.innerHTML = slice.map(item => {
+      const feed = feedMap[item._source] || { label: item._source, cls: '', emoji: '📰' };
+      const thumb = item.thumbnail && item.thumbnail.startsWith('http')
+        ? `<img class="news-thumb" src="${item.thumbnail}" alt="" loading="lazy" onerror="this.parentNode.innerHTML='<div class=news-thumb-placeholder>${feed.emoji}</div>'">`
+        : `<div class="news-thumb-placeholder">${feed.emoji}</div>`;
+      const date = item.pubDate || '';
+      const ago  = date ? timeAgo(date) : '';
+      const title = item.title || 'Untitled';
+      const link  = item.link  || '#';
+
+      return `
+        <a class="news-item" href="${link}" target="_blank" rel="noopener noreferrer">
+          ${thumb}
+          <div class="news-body">
+            <div class="news-title">${title}</div>
+            <div class="news-meta">
+              <span class="source-badge ${feed.cls}">${feed.label}</span>
+              ${ago ? `<span class="news-time">${ago}</span>` : ''}
+            </div>
           </div>
-          <p style="color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 0.5rem;">${course.provider}</p>
-          <div style="display: flex; gap: 1rem; font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">
-            <span>📚 ${course.level}</span>
-            <span>⏱️ ${course.duration}</span>
-          </div>
-          <a href="${course.url}" target="_blank" class="btn btn-primary" style="display: block; text-align: center;">View Course →</a>
+          <div class="news-arrow">→</div>
+        </a>`;
+    }).join('');
+
+    const loadMoreWrap = document.getElementById('load-more-wrap');
+    loadMoreWrap.style.display = filtered.length > visibleCount ? 'block' : 'none';
+  }
+
+  function showMoreItems() {
+    visibleCount += 20;
+    renderFeed();
+  }
+
+  function filterFeed(source) {
+    activeSource = source;
+    visibleCount = 30;
+    document.querySelectorAll('#source-pills .source-pill').forEach(p => {
+      p.classList.toggle('active', p.dataset.source === source);
+    });
+    renderFeed();
+  }
+
+  function updateLastUpdated() {
+    const ts = getCacheAge('verge') || getCacheAge('tc') || getCacheAge('vc');
+    const el = document.getElementById('last-updated');
+    if (ts) {
+      el.textContent = 'Updated ' + timeAgo(new Date(ts).toISOString());
+    } else {
+      el.textContent = 'Live';
+    }
+  }
+
+  async function loadAllFeeds(bust = false) {
+    try {
+      const results = await Promise.allSettled(FEEDS.map(f => fetchFeed(f, bust)));
+      allItems = results
+        .filter(r => r.status === 'fulfilled')
+        .flatMap(r => r.value)
+        .sort((a, b) => new Date(b.pubDate || 0) - new Date(a.pubDate || 0));
+      renderFeed();
+      updateLastUpdated();
+    } catch (err) {
+      document.getElementById('feed-list').innerHTML =
+        '<div style="padding:2rem;text-align:center;color:var(--text-muted);">Could not load feeds. Try refreshing.</div>';
+    }
+  }
+
+  async function refreshFeeds() {
+    document.getElementById('last-updated').textContent = 'Refreshing…';
+    // Clear cache for all feeds
+    FEEDS.forEach(f => localStorage.removeItem('rss_' + f.key));
+    await loadAllFeeds(true);
+  }
+
+  // ════════════════════════════════════════
+  //  YOUTUBE LATEST (via Fireship RSS)
+  //  Channel ID: UCsBjURrPoezykLs9EqgamOA
+  // ════════════════════════════════════════
+  async function loadYouTubeLatest() {
+    const statusEl = document.getElementById('yt-status');
+    const gridEl   = document.getElementById('yt-videos-grid');
+    const cacheKey = 'yt_fireship';
+    const cached   = getCache(cacheKey);
+
+    const renderVideos = (items) => {
+      gridEl.innerHTML = items.map(item => {
+        const videoId = (item.link || '').match(/v=([^&]+)/)?.[1] || '';
+        const thumb = videoId
+          ? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`
+          : '';
+        const ago = item.pubDate ? timeAgo(item.pubDate) : '';
+        return `
+          <a class="yt-video-card" href="${item.link}" target="_blank" rel="noopener noreferrer">
+            ${thumb ? `<img class="yt-thumbnail" src="${thumb}" alt="${item.title}" loading="lazy">` : '<div class="yt-thumbnail" style="background:var(--bg-card-hover);display:flex;align-items:center;justify-content:center;font-size:2rem;">▶</div>'}
+            <div class="yt-video-info">
+              <div class="yt-video-title">${item.title}</div>
+              <div class="yt-video-meta">${ago}</div>
+            </div>
+          </a>`;
+      }).join('');
+      statusEl.textContent = 'Updated ' + timeAgo(new Date().toISOString());
+    };
+
+    if (cached) { renderVideos(cached); return; }
+
+    try {
+      const ytUrl = 'https://www.youtube.com/feeds/videos.xml?channel_id=UCsBjURrPoezykLs9EqgamOA';
+      const url   = `${RSS2JSON}?rss_url=${encodeURIComponent(ytUrl)}&count=8`;
+      const resp  = await fetch(url);
+      const json  = await resp.json();
+      if (json.status === 'ok') {
+        setCache(cacheKey, json.items);
+        renderVideos(json.items);
+      }
+    } catch {
+      statusEl.textContent = 'Could not load';
+    }
+  }
+
+  // ════════════════════════════════════════
+  //  COURSES DATA
+  // ════════════════════════════════════════
+  const COURSES = [
+    {
+      title:    'Vibe Coding 101 with Replit',
+      platform: 'DeepLearning.AI',
+      platCls:  'platform-deeplearn',
+      level:    'Beginner',
+      duration: '1.7 hours',
+      price:    'Free',
+      cat:      'vibe',
+      desc:     'Andrew Ng\'s team teaches you to build apps through natural language with Replit AI. Perfect starting point.',
+      url:      'https://www.deeplearning.ai/short-courses/vibe-coding-101-with-replit/'
+    },
+    {
+      title:    'Vibe Coding with Cursor AI',
+      platform: 'Coursera',
+      platCls:  'platform-coursera',
+      level:    'Beginner',
+      duration: '5 modules',
+      price:    'Free',
+      cat:      'vibe',
+      desc:     'Learn to use Cursor AI editor to build production-grade apps with minimal manual coding.',
+      url:      'https://www.coursera.org/learn/vibe-coding-with-cursor-ai'
+    },
+    {
+      title:    'Guide to Vibe Coding in Windsurf',
+      platform: 'Analytics Vidhya',
+      platCls:  'platform-deeplearn',
+      level:    'Beginner',
+      duration: '40 minutes',
+      price:    'Free',
+      cat:      'vibe',
+      desc:     'Get up to speed with Windsurf (Codeium\'s IDE) for AI-assisted development in under an hour.',
+      url:      'https://www.analyticsvidhya.com/courses/guide-to-vibe-coding-in-windsurf/'
+    },
+    {
+      title:    'ChatGPT Prompt Engineering for Developers',
+      platform: 'DeepLearning.AI',
+      platCls:  'platform-deeplearn',
+      level:    'Intermediate',
+      duration: '1.5 hours',
+      price:    'Free',
+      cat:      'prompt',
+      desc:     'Isa Fulford & Andrew Ng\'s definitive guide. Learn to write system prompts that actually work.',
+      url:      'https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/'
+    },
+    {
+      title:    'Prompt Engineering for Everyone',
+      platform: 'Coursera',
+      platCls:  'platform-coursera',
+      level:    'Beginner',
+      duration: '8 hours',
+      price:    'Free',
+      cat:      'prompt',
+      desc:     'IBM\'s structured course on prompt design, chain-of-thought, few-shot learning, and retrieval techniques.',
+      url:      'https://www.coursera.org/learn/prompt-engineering'
+    },
+    {
+      title:    'Building Systems with the ChatGPT API',
+      platform: 'DeepLearning.AI',
+      platCls:  'platform-deeplearn',
+      level:    'Intermediate',
+      duration: '1.5 hours',
+      price:    'Free',
+      cat:      'prompt',
+      desc:     'Chain prompts, evaluate outputs, and build multi-step AI workflows using the OpenAI API.',
+      url:      'https://www.deeplearning.ai/short-courses/building-systems-with-chatgpt/'
+    },
+    {
+      title:    'Practical Deep Learning for Coders',
+      platform: 'fast.ai',
+      platCls:  'platform-fastai',
+      level:    'Intermediate',
+      duration: 'Self-paced',
+      price:    'Free',
+      cat:      'ml',
+      desc:     'Jeremy Howard\'s legendary top-down course. Build real models before learning the theory.',
+      url:      'https://course.fast.ai/'
+    },
+    {
+      title:    'Machine Learning Specialization',
+      platform: 'Coursera',
+      platCls:  'platform-coursera',
+      level:    'Beginner',
+      duration: '3 months',
+      price:    'Free to audit',
+      cat:      'ml',
+      desc:     'Andrew Ng\'s updated 3-course ML specialization. The gold standard for ML foundations.',
+      url:      'https://www.coursera.org/specializations/machine-learning-introduction'
+    },
+    {
+      title:    'Hugging Face NLP Course',
+      platform: 'Hugging Face',
+      platCls:  'platform-huggingf',
+      level:    'Intermediate',
+      duration: 'Self-paced',
+      price:    'Free',
+      cat:      'ml',
+      desc:     'Learn Transformers, fine-tuning, and the full Hugging Face ecosystem directly from the source.',
+      url:      'https://huggingface.co/learn/nlp-course/chapter1/1'
+    },
+    {
+      title:    'AI Agents in LangGraph',
+      platform: 'DeepLearning.AI',
+      platCls:  'platform-deeplearn',
+      level:    'Advanced',
+      duration: '2 hours',
+      price:    'Free',
+      cat:      'agents',
+      desc:     'Build stateful, multi-agent systems with LangGraph. Memory, persistence, and tool use.',
+      url:      'https://www.deeplearning.ai/short-courses/ai-agents-in-langgraph/'
+    },
+    {
+      title:    'Multi AI Agent Systems with crewAI',
+      platform: 'DeepLearning.AI',
+      platCls:  'platform-deeplearn',
+      level:    'Intermediate',
+      duration: '2 hours',
+      price:    'Free',
+      cat:      'agents',
+      desc:     'Coordinate multiple AI agents to tackle complex tasks using crewAI\'s role-based framework.',
+      url:      'https://www.deeplearning.ai/short-courses/multi-ai-agent-systems-with-crewai/'
+    },
+    {
+      title:    'Building Agentic RAG with LlamaIndex',
+      platform: 'DeepLearning.AI',
+      platCls:  'platform-deeplearn',
+      level:    'Advanced',
+      duration: '1.5 hours',
+      price:    'Free',
+      cat:      'agents',
+      desc:     'Build agents that can query, reason over, and synthesize information from large knowledge bases.',
+      url:      'https://www.deeplearning.ai/short-courses/building-agentic-rag-with-llamaindex/'
+    },
+    {
+      title:    'Vibe Coding Learning Path',
+      platform: 'Analytics Vidhya',
+      platCls:  'platform-deeplearn',
+      level:    'Beginner',
+      duration: '9 hours',
+      price:    'Free',
+      cat:      'vibe',
+      desc:     'End-to-end learning path covering the tools, mindset, and techniques of modern vibe coding.',
+      url:      'https://www.analyticsvidhya.com/courses/vibe-coding-learning-path'
+    },
+    {
+      title:    'The Complete AI & ChatGPT Masterclass',
+      platform: 'Udemy',
+      platCls:  'platform-udemy',
+      level:    'Beginner',
+      duration: '14 hours',
+      price:    'Paid',
+      cat:      'prompt',
+      desc:     'One of the highest-rated AI courses on Udemy. Prompting, automation, image generation, and more.',
+      url:      'https://www.udemy.com/course/complete-ai-guide/'
+    }
+  ];
+
+  function filterCourses(cat) {
+    document.querySelectorAll('[data-cat]').forEach(p => p.classList.toggle('active', p.dataset.cat === cat));
+    renderCourses(cat);
+  }
+
+  function renderCourses(cat = 'all') {
+    const grid = document.getElementById('courses-grid');
+    const list = cat === 'all' ? COURSES : COURSES.filter(c => c.cat === cat);
+    grid.innerHTML = list.map(c => `
+      <div class="course-card">
+        <div class="course-platform-row">
+          <span class="platform-badge ${c.platCls}">${c.platform}</span>
+          <span class="platform-badge ${c.price === 'Free' ? 'platform-free' : 'platform-paid'}">${c.price}</span>
         </div>
-      `).join('');
+        <div class="course-title">${c.title}</div>
+        <div class="course-meta">
+          <span>📚 ${c.level}</span>
+          <span>⏱ ${c.duration}</span>
+        </div>
+        <p class="course-desc">${c.desc}</p>
+        <a href="${c.url}" target="_blank" rel="noopener noreferrer" class="course-cta">View Course →</a>
+      </div>`
+    ).join('');
+  }
+
+  // ════════════════════════════════════════
+  //  BLOG
+  // ════════════════════════════════════════
+  const BLOG_POSTS = [
+    {
+      title:    'Getting Started with Vibe Coding',
+      excerpt:  'What vibe coding is, why it\'s changing software development, and how to take your first steps as an AI-powered developer.',
+      category: 'Tutorial',
+      date:     '2025-03-15',
+      author:   'LetsVibeAI Team'
+    },
+    {
+      title:    'The Best AI Coding Tools in 2025',
+      excerpt:  'We tested and ranked Cursor, Lovable, Bolt, Replit, v0, and Windsurf to help you choose the right tool for your workflow.',
+      category: 'Tools',
+      date:     '2025-02-20',
+      author:   'LetsVibeAI Team'
+    },
+    {
+      title:    'Prompt Engineering for Vibe Coders',
+      excerpt:  'The prompting patterns that actually work when building full apps with AI — from scaffolding to debugging to deploying.',
+      category: 'Guide',
+      date:     '2025-01-30',
+      author:   'LetsVibeAI Team'
     }
+  ];
 
-    function renderYouTube() {
-      const container = document.getElementById('youtube-channels');
-      container.innerHTML = youtubeChannels.map(ch => `
-        <a href="${ch.url}" target="_blank" class="card fade-in" style="text-decoration: none; padding: 1.25rem;">
-          <div style="font-size: 2.5rem; margin-bottom: 0.75rem;">📺</div>
-          <h4 style="margin-bottom: 0.25rem;">${ch.name}</h4>
-          <p style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 0.5rem;">${ch.description}</p>
-          <span class="tag">${ch.subscribers} subscribers</span>
-        </a>
-      `).join('');
-    }
+  function renderBlog() {
+    document.getElementById('blog-posts').innerHTML = BLOG_POSTS.map(p => `
+      <article class="card fade-in">
+        <span class="tag" style="margin-bottom:.75rem;">${p.category}</span>
+        <h3 style="margin-bottom:.5rem;">${p.title}</h3>
+        <p style="color:var(--text-secondary);font-size:.9rem;margin-bottom:1rem;">${p.excerpt}</p>
+        <div style="display:flex;justify-content:space-between;align-items:center;color:var(--text-muted);font-size:.8rem;">
+          <span>${p.author}</span>
+          <span>${p.date}</span>
+        </div>
+      </article>`
+    ).join('');
+  }
 
-    // Tab switching
-    function showTab(tab) {
-      document.getElementById('section-blog').style.display = tab === 'blog' ? 'block' : 'none';
-      document.getElementById('section-news').style.display = tab === 'news' ? 'block' : 'none';
-      document.getElementById('section-courses').style.display = tab === 'courses' ? 'block' : 'none';
-      document.getElementById('section-youtube').style.display = tab === 'youtube' ? 'block' : 'none';
-      
-      document.getElementById('tab-blog').className = tab === 'blog' ? 'btn btn-primary' : 'btn btn-secondary';
-      document.getElementById('tab-news').className = tab === 'news' ? 'btn btn-primary' : 'btn btn-secondary';
-      document.getElementById('tab-courses').className = tab === 'courses' ? 'btn btn-primary' : 'btn btn-secondary';
-      document.getElementById('tab-youtube').className = tab === 'youtube' ? 'btn btn-primary' : 'btn btn-secondary';
-    }
+  // ════════════════════════════════════════
+  //  TAB SWITCHING
+  // ════════════════════════════════════════
+  const PANELS = ['feed', 'twitter', 'videos', 'courses', 'blog'];
 
-    // Newsletter handlers
-    async function handleQuickSubscribe(e) {
-      e.preventDefault();
-      const email = document.getElementById('quick-email').value;
-      await subscribeEmail(email);
-      document.getElementById('quick-email').value = '';
-    }
+  function switchTab(name) {
+    PANELS.forEach(p => {
+      document.getElementById('panel-' + p).classList.toggle('active', p === name);
+      document.getElementById('tab-'   + p).classList.toggle('active', p === name);
+    });
+    // Lazy load YouTube when that tab opens
+    if (name === 'videos') loadYouTubeLatest();
+  }
 
-    async function handleNewsletterSubscribe(e) {
-      e.preventDefault();
-      const email = document.getElementById('newsletter-email').value;
-      const btn = document.getElementById('newsletter-btn');
-      const successMsg = document.getElementById('newsletter-success');
-      
-      btn.textContent = 'Subscribing...';
-      btn.disabled = true;
-
-      try {
-        const result = await window.db.subscribeNewsletter(email);
-        if (result.error) throw result.error;
-        
-        document.getElementById('newsletter-form').style.display = 'none';
-        successMsg.style.display = 'block';
-      } catch (err) {
-        const list = JSON.parse(localStorage.getItem('newsletter_subscribers') || '[]');
-        if (!list.some(s => s.email === email)) {
-          list.push({ email, subscribed_at: new Date().toISOString() });
-          localStorage.setItem('newsletter_subscribers', JSON.stringify(list));
-        }
-        document.getElementById('newsletter-form').style.display = 'none';
-        successMsg.style.display = 'block';
-      }
-    }
-
-    async function subscribeEmail(email) {
-      try {
-        await window.db.subscribeNewsletter(email);
-        alert('Thanks for subscribing! Check your inbox.');
-      } catch (err) {
-        const list = JSON.parse(localStorage.getItem('newsletter_subscribers') || '[]');
-        if (!list.some(s => s.email === email)) {
-          list.push({ email, subscribed_at: new Date().toISOString() });
-          localStorage.setItem('newsletter_subscribers', JSON.stringify(list));
-        }
-        alert('Thanks for subscribing! Check your inbox.');
-      }
-    }
-
-    // Initialize
+  // ════════════════════════════════════════
+  //  INIT
+  // ════════════════════════════════════════
+  document.addEventListener('DOMContentLoaded', () => {
     renderBlog();
     renderCourses();
-    renderYouTube();
+    loadAllFeeds();
+  });
   </script>
 </body>
 </html>
