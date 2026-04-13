@@ -1,6 +1,6 @@
 // Vercel Serverless Function: /api/reprompt
-// Proxies requests to the Anthropic Claude API
-// Set ANTHROPIC_API_KEY in Vercel environment variables
+// Proxies requests to the DeepSeek API (OpenAI-compatible)
+// Set DEEPSEEK_API_KEY in Vercel environment variables
 
 const SYSTEM_PROMPT = `You are a Prompt Engineering AI Tutor for LetsVibeAI.com — a platform teaching people to build software with AI tools.
 
@@ -53,9 +53,9 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const apiKey = process.env.ANTHROPIC_API_KEY;
+  const apiKey = process.env.DEEPSEEK_API_KEY;
   if (!apiKey) {
-    return res.status(500).json({ error: 'ANTHROPIC_API_KEY not configured' });
+    return res.status(500).json({ error: 'DEEPSEEK_API_KEY not configured' });
   }
 
   const { prompt } = req.body || {};
@@ -64,28 +64,29 @@ export default async function handler(req, res) {
   }
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch('https://api.deepseek.com/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01'
+        'Authorization': `Bearer ${apiKey}`
       },
       body: JSON.stringify({
-        model: 'claude-haiku-4-5-20251001',
+        model: 'deepseek-chat',
         max_tokens: 1024,
-        system: SYSTEM_PROMPT,
-        messages: [{ role: 'user', content: prompt.trim() }]
+        messages: [
+          { role: 'system', content: SYSTEM_PROMPT },
+          { role: 'user', content: prompt.trim() }
+        ]
       })
     });
 
     if (!response.ok) {
       const err = await response.text();
-      throw new Error(`Anthropic API error ${response.status}: ${err}`);
+      throw new Error(`DeepSeek API error ${response.status}: ${err}`);
     }
 
     const data = await response.json();
-    const text = data.content[0].text.trim();
+    const text = data.choices[0].message.content.trim();
 
     // Strip markdown code fences if present
     const cleaned = text.replace(/^```json\n?/, '').replace(/\n?```$/, '');
