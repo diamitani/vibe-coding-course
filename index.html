@@ -5,25 +5,460 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>LetsVibeAI — Master AI Development</title>
-  <meta name="description" content="Learn AI development, vibe coding, and AI-powered tools. Courses from beginner to expert.">
+  <meta name="description" content="Beginner-friendly AI learning for curious newcomers, internal teams, and entrepreneurs. Learn the fundamentals, understand the tools, and build confidently with accurate, practical guidance.">
   <link rel="stylesheet" href="styles.css">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <style>
+    .home-page {
+      background:
+        radial-gradient(circle at top left, rgba(245, 158, 11, 0.14), transparent 32%),
+        radial-gradient(circle at top right, rgba(6, 182, 212, 0.18), transparent 30%),
+        linear-gradient(180deg, rgba(255, 255, 255, 0.015), rgba(255, 255, 255, 0));
+    }
+
+    .home-nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .home-nav .nav-logo-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 2rem;
+      height: 2rem;
+      border-radius: 0.7rem;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.24), rgba(6, 182, 212, 0.24));
+      color: var(--text-primary);
+      font-size: 1rem;
+    }
+
+    .home-nav .nav-logo-text {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--text-primary);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-shell {
+      padding: 5rem 0 3rem;
+    }
+
+    .hero-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(320px, 0.8fr);
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .hero-copy {
+      max-width: 680px;
+    }
+
+    .hero-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      padding: 0.55rem 1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(245, 158, 11, 0.25);
+      background: rgba(245, 158, 11, 0.09);
+      color: #f7c979;
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-copy h1 {
+      font-size: clamp(3rem, 7vw, 5.4rem);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+      margin-bottom: 1.4rem;
+    }
+
+    .hero-copy .gradient-text {
+      background: linear-gradient(135deg, #f8d277 0%, #7dd3fc 45%, #f9a8d4 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-copy p {
+      max-width: 620px;
+      font-size: 1.14rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.6rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-proof {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    .hero-proof span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.55rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+    }
+
+    .hero-panel {
+      position: relative;
+      overflow: hidden;
+      padding: 1.4rem;
+      border-radius: 1.6rem;
+      background: linear-gradient(160deg, rgba(12, 18, 28, 0.96), rgba(17, 17, 24, 0.9));
+      border: 1px solid rgba(125, 211, 252, 0.16);
+      box-shadow: 0 28px 60px rgba(0, 0, 0, 0.35);
+    }
+
+    .hero-panel::before {
+      content: '';
+      position: absolute;
+      inset: -30% 10% auto auto;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(6, 182, 212, 0.22), transparent 68%);
+      pointer-events: none;
+    }
+
+    .panel-topline {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .panel-topline strong {
+      font-size: 1rem;
+      color: var(--text-primary);
+    }
+
+    .panel-topline span {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+
+    .signal-list {
+      display: grid;
+      gap: 0.85rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .signal-card {
+      padding: 1rem;
+      border-radius: 1rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .signal-card strong {
+      display: block;
+      color: var(--text-primary);
+      margin-bottom: 0.35rem;
+      font-size: 0.95rem;
+    }
+
+    .signal-card p {
+      color: var(--text-secondary);
+      font-size: 0.88rem;
+      line-height: 1.55;
+      margin-bottom: 0.65rem;
+    }
+
+    .signal-meta {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .signal-metrics {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 0.75rem;
+      margin-top: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .signal-metric {
+      padding: 0.9rem 0.8rem;
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 0.95rem;
+      text-align: center;
+    }
+
+    .signal-metric strong {
+      display: block;
+      font-size: 1.5rem;
+      color: var(--text-primary);
+      line-height: 1;
+      margin-bottom: 0.35rem;
+    }
+
+    .signal-metric span {
+      color: var(--text-secondary);
+      font-size: 0.78rem;
+    }
+
+    .section-frame {
+      padding: 2rem;
+      border-radius: 1.5rem;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.018));
+      border: 1px solid var(--border-subtle);
+    }
+
+    .path-card {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      min-height: 100%;
+    }
+
+    .path-card .eyebrow,
+    .roadmap-card .eyebrow,
+    .accuracy-card .eyebrow,
+    .collection-card .eyebrow {
+      font-size: 0.73rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent-cyan);
+      font-weight: 700;
+    }
+
+    .path-card ul,
+    .roadmap-card ul,
+    .collection-card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0.65rem;
+    }
+
+    .path-card li,
+    .roadmap-card li,
+    .collection-card li {
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      line-height: 1.55;
+      padding-left: 1.1rem;
+      position: relative;
+    }
+
+    .path-card li::before,
+    .roadmap-card li::before,
+    .collection-card li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.62rem;
+      width: 0.38rem;
+      height: 0.38rem;
+      border-radius: 50%;
+      background: var(--accent-emerald);
+    }
+
+    .roadmap-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .roadmap-card {
+      padding: 1.4rem;
+      border-radius: 1.2rem;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .roadmap-number {
+      display: inline-flex;
+      width: 2rem;
+      height: 2rem;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(245, 158, 11, 0.12);
+      color: #f7c979;
+      margin-bottom: 0.9rem;
+      font-weight: 700;
+    }
+
+    .accuracy-grid,
+    .collection-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .accuracy-card,
+    .collection-card {
+      padding: 1.35rem;
+      border-radius: 1.2rem;
+      background: rgba(255, 255, 255, 0.028);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .accuracy-card h3,
+    .collection-card h3,
+    .path-card h3,
+    .roadmap-card h3 {
+      font-size: 1.15rem;
+      margin-bottom: 0.65rem;
+      color: var(--text-primary);
+    }
+
+    .accuracy-card p,
+    .collection-card p,
+    .path-card p,
+    .roadmap-card p {
+      color: var(--text-secondary);
+      font-size: 0.93rem;
+      line-height: 1.65;
+    }
+
+    .collection-card {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    .collection-card a {
+      color: var(--text-primary);
+    }
+
+    .collection-card a:hover {
+      color: var(--accent-cyan);
+    }
+
+    .home-newsletter {
+      padding: 2rem;
+      border-radius: 1.6rem;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(6, 182, 212, 0.12));
+      border: 1px solid rgba(245, 158, 11, 0.18);
+    }
+
+    .home-newsletter .signup-inline {
+      max-width: 560px;
+      margin: 1.5rem auto 0;
+    }
+
+    .home-footer-grid {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr 1fr 1fr;
+      gap: 2rem;
+      max-width: 1200px;
+      margin: 0 auto 2rem;
+    }
+
+    .home-footer-grid h4 {
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .home-footer-grid p,
+    .home-footer-grid li {
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+    }
+
+    .home-footer-grid ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0.6rem;
+    }
+
+    .home-footer-grid a {
+      color: var(--text-secondary);
+    }
+
+    .home-footer-grid a:hover {
+      color: var(--text-primary);
+    }
+
+    @media (max-width: 1080px) {
+      .hero-layout,
+      .roadmap-grid,
+      .accuracy-grid,
+      .collection-grid,
+      .home-footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-shell {
+        padding-top: 4.5rem;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .hero-copy h1 {
+        font-size: clamp(2.4rem, 11vw, 3.6rem);
+      }
+
+      .section-frame,
+      .home-newsletter,
+      .hero-panel {
+        padding: 1.25rem;
+      }
+
+      .signal-metrics {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .hero-actions .btn,
+      .home-newsletter .signup-inline .btn {
+        justify-content: center;
+      }
+
+      .home-newsletter .signup-inline {
+        display: grid;
+      }
+    }
+  </style>
 </head>
 
-<body>
+<body class="home-page">
   <div class="ambient-bg"></div>
 
-  <!-- Navigation -->
-  <nav class="nav">
+  <nav class="nav home-nav">
     <div class="nav-inner">
-      <a href="index.html" class="nav-logo">
-        <span style="background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">⚡ LetsVibeAI</span>
+      <a href="index.html" class="nav-logo nav-logo-text">
+        <span class="nav-logo-mark">AI</span>
+        <span>LetsVibeAI</span>
       </a>
       <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
-            <ul class="nav-links">
+      <ul class="nav-links">
         <li><a href="index.html" class="active">Home</a></li>
         <li><a href="learn.html">Learn</a></li>
-        <li><a href="news.html">News</a></li>
         <li><a href="resources.html">Resources</a></li>
         <li><a href="community.html">Community</a></li>
         <li><a href="marketplace.html">Marketplace</a></li>
@@ -33,267 +468,274 @@
   </nav>
 
   <main>
-    <!-- Hero Section -->
-    <section class="hero" style="padding: 4rem 1rem; text-align: center; background: linear-gradient(180deg, rgba(139,92,246,0.15) 0%, transparent 100%);">
-      <div class="container" style="max-width: 900px;">
-        <span style="display: inline-block; padding: 0.5rem 1rem; background: rgba(139,92,246,0.2); border-radius: 20px; font-size: 0.875rem; color: var(--accent-violet); margin-bottom: 1.5rem;">
-          🚀 50+ AI Courses Available
-        </span>
-        <h1 style="font-size: clamp(2.5rem, 6vw, 4rem); line-height: 1.1; margin-bottom: 1.5rem;">
-          Master <span class="gradient-text">AI Development</span><br>From Anywhere
-        </h1>
-        <p style="font-size: 1.25rem; color: var(--text-secondary); max-width: 700px; margin: 0 auto 2.5rem; line-height: 1.7;">
-          Learn vibe coding, AI tools, and prompt engineering from industry experts. Build real projects, earn certificates, and advance your career.
-        </p>
-        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-          <a href="catalog.html" class="btn btn-primary" style="padding: 1rem 2rem; font-size: 1.1rem;">Browse Courses</a>
-          <a href="#categories" class="btn btn-secondary" style="padding: 1rem 2rem; font-size: 1.1rem;">Explore Categories</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Categories Section -->
-    <section class="section" id="categories" style="background: var(--bg-primary);">
+    <section class="hero-shell">
       <div class="container">
-        <div class="section-header" style="text-align: center; margin-bottom: 2rem;">
-          <h2 class="section-title" style="margin-bottom: 0.5rem;">Browse by Category</h2>
-          <p class="section-desc" style="color: var(--text-secondary);">Find the perfect course for your learning goals</p>
-        </div>
-        
-        <div class="category-grid" style="display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; max-width: 1200px; margin: 0 auto;">
-          <a href="catalog.html?category=vibe-coding" class="category-card" style="text-decoration: none;">
-            <div style="display: flex; flex-direction: column; align-items: center; padding: 1.5rem; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); transition: all 0.3s ease;">
-              <span style="font-size: 2rem; margin-bottom: 0.75rem;">🤖</span>
-              <span style="font-weight: 500; color: var(--text-primary);">Vibe Coding</span>
-              <span style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">12 courses</span>
+        <div class="hero-layout">
+          <div class="hero-copy">
+            <div class="hero-pill">
+              <span>●</span>
+              <span>Built for complete beginners, internal teams, and new AI entrepreneurs</span>
             </div>
-          </a>
-          <a href="catalog.html?category=ai-tools" class="category-card" style="text-decoration: none;">
-            <div style="display: flex; flex-direction: column; align-items: center; padding: 1.5rem; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); transition: all 0.3s ease;">
-              <span style="font-size: 2rem; margin-bottom: 0.75rem;">🛠️</span>
-              <span style="font-weight: 500; color: var(--text-primary);">AI Tools</span>
-              <span style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">8 courses</span>
+            <h1>Learn <span class="gradient-text">AI with clarity</span>, not hype.</h1>
+            <p>LetsVibeAI is designed to be the place where someone who knows almost nothing about AI can become confident, accurate, and productive. Start with the fundamentals, understand the tools, build practical workflows, and graduate into shipping real products with taste.</p>
+            <div class="hero-actions">
+              <a href="learn.html" class="btn btn-primary">Start Learning Paths</a>
+              <a href="resources.html#tools" class="btn btn-secondary">Explore the Tool Directory</a>
+              <a href="resources.html#content" class="btn btn-secondary">See the Content Hub</a>
             </div>
-          </a>
-          <a href="catalog.html?category=prompt-engineering" class="category-card" style="text-decoration: none;">
-            <div style="display: flex; flex-direction: column; align-items: center; padding: 1.5rem; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); transition: all 0.3s ease;">
-              <span style="font-size: 2rem; margin-bottom: 0.75rem;">💬</span>
-              <span style="font-weight: 500; color: var(--text-primary);">Prompt Engineering</span>
-              <span style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">6 courses</span>
+            <div class="hero-proof">
+              <span>Beginner-safe explanations</span>
+              <span>Primary-source-oriented guidance</span>
+              <span>Practical paths for work and startups</span>
             </div>
-          </a>
-          <a href="catalog.html?category=web-development" class="category-card" style="text-decoration: none;">
-            <div style="display: flex; flex-direction: column; align-items: center; padding: 1.5rem; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); transition: all 0.3s ease;">
-              <span style="font-size: 2rem; margin-bottom: 0.75rem;">💻</span>
-              <span style="font-weight: 500; color: var(--text-primary);">Web Development</span>
-              <span style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">10 courses</span>
+          </div>
+
+          <aside class="hero-panel">
+            <div class="panel-topline">
+              <div>
+                <strong>Today on LetsVibeAI</strong>
+                <span>Clear paths, accurate context, elegant learning</span>
+              </div>
+              <span class="tag cyan">Premier Learning Hub</span>
             </div>
-          </a>
-          <a href="catalog.html?category=automation" class="category-card" style="text-decoration: none;">
-            <div style="display: flex; flex-direction: column; align-items: center; padding: 1.5rem; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); transition: all 0.3s ease;">
-              <span style="font-size: 2rem; margin-bottom: 0.75rem;">⚡</span>
-              <span style="font-weight: 500; color: var(--text-primary);">Automation</span>
-              <span style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">5 courses</span>
+
+            <div class="signal-list">
+              <div class="signal-card">
+                <strong>Foundations for true beginners</strong>
+                <p>What AI is, what it is not, and how to use it without getting lost in jargon or marketing noise.</p>
+                <div class="signal-meta">
+                  <span class="tag">Plain English</span>
+                  <span class="tag emerald">Start Here</span>
+                </div>
+              </div>
+
+              <div class="signal-card">
+                <strong>Internal worker playbooks</strong>
+                <p>Workflows for research, writing, analysis, automation, and team adoption without needing to become a full-time engineer.</p>
+                <div class="signal-meta">
+                  <span class="tag cyan">Ops</span>
+                  <span class="tag">Productivity</span>
+                </div>
+              </div>
+
+              <div class="signal-card">
+                <strong>Builder and entrepreneur tracks</strong>
+                <p>Move from prompts to products with vetted tools, stack comparisons, launch guides, and market-aware use cases.</p>
+                <div class="signal-meta">
+                  <span class="tag">Builders</span>
+                  <span class="tag magenta">Startups</span>
+                </div>
+              </div>
             </div>
-          </a>
+
+            <div class="signal-metrics">
+              <div class="signal-metric">
+                <strong id="hero-tools-count">153+</strong>
+                <span>tools mapped</span>
+              </div>
+              <div class="signal-metric">
+                <strong id="hero-sources-count">87+</strong>
+                <span>sources tracked</span>
+              </div>
+              <div class="signal-metric">
+                <strong id="hero-partners-count">12</strong>
+                <span>partner lanes</span>
+              </div>
+            </div>
+          </aside>
         </div>
       </div>
     </section>
 
-    <!-- Featured Courses -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Who It Serves</span>
+          <h2 class="section-title">One site, three clean entry points</h2>
+          <p class="section-desc">The experience is designed to meet people where they are instead of assuming everyone wants the same thing from AI.</p>
+        </div>
+
+        <div class="cards-grid cards-grid-3">
+          <div class="card path-card">
+            <span class="eyebrow">For Beginners</span>
+            <h3>Learn the basics without embarrassment</h3>
+            <p>Start with simple explanations, guided labs, vocabulary, and visual mental models so AI feels usable instead of intimidating.</p>
+            <ul>
+              <li>What models, prompts, agents, and tools actually mean</li>
+              <li>Which tools are worth learning first</li>
+              <li>How to build confidence before you build software</li>
+            </ul>
+          </div>
+
+          <div class="card path-card">
+            <span class="eyebrow">For Internal Workers</span>
+            <h3>Use AI well inside real teams</h3>
+            <p>Learn practical systems for research, documentation, analysis, meetings, internal tools, and workflow automation without hype or hand-waving.</p>
+            <ul>
+              <li>Safe, useful workflows for knowledge work</li>
+              <li>Prompting patterns that save time immediately</li>
+              <li>How to evaluate tools before rolling them out</li>
+            </ul>
+          </div>
+
+          <div class="card path-card">
+            <span class="eyebrow">For Entrepreneurs</span>
+            <h3>Turn curiosity into products and offers</h3>
+            <p>Understand the modern builder stack, ship faster with AI, and choose the right tools for MVPs, services, newsletters, and software businesses.</p>
+            <ul>
+              <li>From idea to prototype with modern AI builders</li>
+              <li>How to pick a tool stack that matches your business</li>
+              <li>Where content, distribution, and monetization connect</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" style="background: var(--bg-secondary);">
+      <div class="container">
+        <div class="section-frame">
+          <div class="section-header" style="margin-bottom: 2rem;">
+            <span class="section-label">Learning Journey</span>
+            <h2 class="section-title">A clear path from zero to confident operator</h2>
+            <p class="section-desc">The homepage now introduces a progression that feels coherent for people learning AI as a skill, not just consuming random tool lists.</p>
+          </div>
+
+          <div class="roadmap-grid">
+            <div class="roadmap-card">
+              <div class="roadmap-number">1</div>
+              <span class="eyebrow">Understand</span>
+              <h3>Learn the language of AI</h3>
+              <ul>
+                <li>Models, prompts, context windows, agents, and automation basics</li>
+                <li>What different tools are good at</li>
+                <li>How to separate capability from marketing</li>
+              </ul>
+            </div>
+
+            <div class="roadmap-card">
+              <div class="roadmap-number">2</div>
+              <span class="eyebrow">Apply</span>
+              <h3>Use AI to improve real work</h3>
+              <ul>
+                <li>Research, writing, analysis, meeting notes, and internal workflows</li>
+                <li>Prompt patterns that create repeatable quality</li>
+                <li>Tool selection for individual contributors and teams</li>
+              </ul>
+            </div>
+
+            <div class="roadmap-card">
+              <div class="roadmap-number">3</div>
+              <span class="eyebrow">Build</span>
+              <h3>Create with modern AI tools</h3>
+              <ul>
+                <li>Hosted builders, AI IDEs, agent stacks, and backend services</li>
+                <li>How to prototype without drowning in complexity</li>
+                <li>Where design, product thinking, and accuracy matter most</li>
+              </ul>
+            </div>
+
+            <div class="roadmap-card">
+              <div class="roadmap-number">4</div>
+              <span class="eyebrow">Launch</span>
+              <h3>Ship with confidence and taste</h3>
+              <ul>
+                <li>Deploy products, document decisions, and improve quality</li>
+                <li>Follow trustworthy news and tool changes</li>
+                <li>Turn learning into useful assets, workflows, or businesses</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-label">Trust & Standards</span>
+          <h2 class="section-title">Accuracy is part of the design</h2>
+          <p class="section-desc">A beautiful AI learning site only works if the teaching is careful. This front door now makes that expectation explicit.</p>
+        </div>
+
+        <div class="accuracy-grid">
+          <div class="accuracy-card">
+            <span class="eyebrow">Primary Sources</span>
+            <h3>We anchor to official launches and real documentation</h3>
+            <p>Courses, guides, and the content hub are oriented around official product pages, changelogs, research notes, and direct source material whenever possible.</p>
+          </div>
+
+          <div class="accuracy-card">
+            <span class="eyebrow">Plain Teaching</span>
+            <h3>We explain clearly before we optimize for cleverness</h3>
+            <p>The site is being shaped for people who do not already speak fluent AI. That means fewer assumptions, cleaner language, and stronger educational sequencing.</p>
+          </div>
+
+          <div class="accuracy-card">
+            <span class="eyebrow">Useful Taste</span>
+            <h3>We care about aesthetics because good interfaces teach better</h3>
+            <p>Design here is meant to reduce anxiety, highlight signal, and make the product feel like a trustworthy place to spend serious learning time.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <section class="section" style="background: var(--bg-secondary);">
       <div class="container">
         <div class="section-header">
-          <span class="section-label">Top Rated</span>
-          <h2 class="section-title">Featured Courses</h2>
-          <p class="section-desc">Bestselling and highest-rated courses on LetsVibeAI</p>
+          <span class="section-label">Core Collections</span>
+          <h2 class="section-title">Everything important is organized into a few strong doors</h2>
+          <p class="section-desc">Instead of scattering people across pages without context, the site now emphasizes a small number of high-value starting points.</p>
         </div>
 
-        <div class="courses-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1200px; margin: 0 auto;">
-          <!-- Course Card 1 -->
-          <a href="catalog.html" class="course-card" style="text-decoration: none;">
-            <div style="background: var(--bg-card); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-subtle); transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.3)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
-              <div style="height: 160px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; position: relative;">
-                <span style="font-size: 4rem;">🤖</span>
-                <span style="position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Bestseller</span>
-              </div>
-              <div style="padding: 1.25rem;">
-                <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Vibe Coding 101 with Replit</h3>
-                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;">Learn AI-powered development from scratch with DeepLearning.AI</p>
-                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
-                  <span style="color: #fbbf24; font-size: 0.85rem;">★★★★★</span>
-                  <span style="color: var(--text-muted); font-size: 0.8rem;">4.8 (1,234)</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span style="font-weight: 600; color: var(--accent-emerald);">Free</span>
-                  <span style="color: var(--text-muted); font-size: 0.8rem;">1.7 hours</span>
-                </div>
-              </div>
-            </div>
-          </a>
-
-          <!-- Course Card 2 -->
-          <a href="catalog.html" class="course-card" style="text-decoration: none;">
-            <div style="background: var(--bg-card); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-subtle); transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.3)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
-              <div style="height: 160px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; position: relative;">
-                <span style="font-size: 4rem;">🎯</span>
-                <span style="position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">Popular</span>
-              </div>
-              <div style="padding: 1.25rem;">
-                <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Prompt Engineering Mastery</h3>
-                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;">Master the art of crafting effective prompts for AI systems</p>
-                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
-                  <span style="color: #fbbf24; font-size: 0.85rem;">★★★★★</span>
-                  <span style="color: var(--text-muted); font-size: 0.8rem;">4.9 (892)</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span style="font-weight: 600; color: var(--accent-emerald);">$29.99</span>
-                  <span style="color: var(--text-muted); font-size: 0.8rem;">4.5 hours</span>
-                </div>
-              </div>
-            </div>
-          </a>
-
-          <!-- Course Card 3 -->
-          <a href="catalog.html" class="course-card" style="text-decoration: none;">
-            <div style="background: var(--bg-card); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--border-subtle); transition: transform 0.3s ease, box-shadow 0.3s ease;" onmouseover="this.style.transform='translateY(-4px)'; this.style.boxShadow='0 10px 30px rgba(0,0,0,0.3)';" onmouseout="this.style.transform=''; this.style.boxShadow='';">
-              <div style="height: 160px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; position: relative;">
-                <span style="font-size: 4rem;">⚡</span>
-                <span style="position: absolute; top: 1rem; right: 1rem; background: rgba(255,255,255,0.2); padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.75rem;">New</span>
-              </div>
-              <div style="padding: 1.25rem;">
-                <h3 style="font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.5rem;">Cursor AI Fundamentals</h3>
-                <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem;">Build apps faster with AI-powered code editor Cursor</p>
-                <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem;">
-                  <span style="color: #fbbf24; font-size: 0.85rem;">★★★★★</span>
-                  <span style="color: var(--text-muted); font-size: 0.8rem;">4.7 (567)</span>
-                </div>
-                <div style="display: flex; justify-content: space-between; align-items: center;">
-                  <span style="font-weight: 600; color: var(--accent-emerald);">$24.99</span>
-                  <span style="color: var(--text-muted); font-size: 0.8rem;">3.2 hours</span>
-                </div>
-              </div>
-            </div>
-          </a>
-        </div>
-
-        <div style="text-align: center; margin-top: 2.5rem;">
-          <a href="catalog.html" class="btn btn-secondary" style="padding: 1rem 2rem; font-size: 1rem;">View All Courses →</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Marketplace Section -->
-    <section class="section" style="background: var(--bg-primary);">
-      <div class="container">
-        <div class="section-header" style="text-align: center;">
-          <span class="section-label">Resources</span>
-          <h2 class="section-title">Templates & Tools Marketplace</h2>
-          <p class="section-desc" style="max-width: 600px; margin: 0 auto;">Premium templates, prompts, and tools to accelerate your AI development projects</p>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; max-width: 1200px; margin: 0 auto;">
-          <div style="background: var(--bg-card); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; border: 1px solid var(--border-subtle);">
-            <span style="font-size: 2.5rem;">🎨</span>
-            <h4 style="margin: 1rem 0 0.5rem; font-size: 1rem;">SaaS Templates</h4>
-            <p style="font-size: 0.85rem; color: var(--text-secondary);">25+ templates</p>
-            <p style="margin-top: 0.5rem; font-weight: 600; color: var(--accent-emerald);">From $29</p>
+        <div class="collection-grid">
+          <div class="collection-card">
+            <span class="eyebrow">Learning Paths</span>
+            <h3><a href="learn.html">Foundations, courses, and guided progression</a></h3>
+            <p>Use structured learning paths when you need sequence, confidence, and a curriculum-like experience.</p>
+            <ul>
+              <li>Beginner-friendly orientation</li>
+              <li>Project-based growth</li>
+              <li>Useful next steps instead of vague inspiration</li>
+            </ul>
           </div>
-          <div style="background: var(--bg-card); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; border: 1px solid var(--border-subtle);">
-            <span style="font-size: 2.5rem;">📝</span>
-            <h4 style="margin: 1rem 0 0.5rem; font-size: 1rem;">Prompt Libraries</h4>
-            <p style="font-size: 0.85rem; color: var(--text-secondary);">500+ prompts</p>
-            <p style="margin-top: 0.5rem; font-weight: 600; color: var(--accent-emerald);">From $19</p>
-          </div>
-          <div style="background: var(--bg-card); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; border: 1px solid var(--border-subtle);">
-            <span style="font-size: 2.5rem;">⚡</span>
-            <h4 style="margin: 1rem 0 0.5rem; font-size: 1rem;">AI Tools</h4>
-            <p style="font-size: 0.85rem; color: var(--text-secondary);">20+ tools ranked</p>
-            <p style="margin-top: 0.5rem; font-weight: 600; color: var(--accent-emerald);">Free guides</p>
-          </div>
-          <div style="background: var(--bg-card); border-radius: var(--radius-lg); padding: 1.5rem; text-align: center; border: 1px solid var(--border-subtle);">
-            <span style="font-size: 2.5rem;">📚</span>
-            <h4 style="margin: 1rem 0 0.5rem; font-size: 1rem;">Code Snippets</h4>
-            <p style="font-size: 0.85rem; color: var(--text-secondary);">100+ snippets</p>
-            <p style="margin-top: 0.5rem; font-weight: 600; color: var(--accent-emerald);">Free</p>
-          </div>
-        </div>
 
-        <div style="text-align: center; margin-top: 2rem;">
-          <a href="marketplace.html" class="btn btn-secondary" style="padding: 1rem 2rem;">Browse Marketplace →</a>
-        </div>
-      </div>
-    </section>
+          <div class="collection-card">
+            <span class="eyebrow">Tool Intelligence</span>
+            <h3><a href="resources.html#tools">Searchable directory of the modern AI stack</a></h3>
+            <p>Explore tools by category so people can understand the space before they commit to a workflow.</p>
+            <ul>
+              <li>AI IDEs, hosted builders, agent stacks, and automation</li>
+              <li>Infrastructure, auth, analytics, and observability</li>
+              <li>Built for comparison pages and practical discovery</li>
+            </ul>
+          </div>
 
-    <!-- Stats Section -->
-    <section class="section" style="background: linear-gradient(135deg, rgba(139,92,246,0.2) 0%, rgba(6,182,212,0.1) 100%);">
-      <div class="container" style="text-align: center;">
-        <div style="display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap;">
-          <div>
-            <div style="font-size: 3rem; font-weight: 700; color: var(--accent-violet);">50+</div>
-            <div style="color: var(--text-secondary); font-size: 1rem;">Courses</div>
-          </div>
-          <div>
-            <div style="font-size: 3rem; font-weight: 700; color: var(--accent-cyan);">20+</div>
-            <div style="color: var(--text-secondary); font-size: 1rem;">AI Tools</div>
-          </div>
-          <div>
-            <div style="font-size: 3rem; font-weight: 700; color: var(--accent-emerald);">100+</div>
-            <div style="color: var(--text-secondary); font-size: 1rem;">Templates</div>
-          </div>
-          <div>
-            <div style="font-size: 3rem; font-weight: 700; color: var(--accent-magenta);">8</div>
-            <div style="color: var(--text-secondary); font-size: 1rem;">RSS Feeds</div>
+          <div class="collection-card">
+            <span class="eyebrow">News & Context</span>
+            <h3><a href="resources.html#content">Daily content engine and source map</a></h3>
+            <p>Stay current through curated feeds, newsletters, creator channels, and a repeatable 1,500-word daily brief format.</p>
+            <ul>
+              <li>87 source links tracked in the hub</li>
+              <li>Morning publishing system for AI updates</li>
+              <li>Clear path from signal to article to recommendation</li>
+            </ul>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- Why LearnAI -->
-    <section class="section" style="background: var(--bg-secondary);">
-      <div class="container">
-        <div class="section-header" style="text-align: center;">
-          <h2 class="section-title">Why LetsVibeAI?</h2>
-          <p class="section-desc">Everything you need to master AI development</p>
-        </div>
-
-        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1000px; margin: 0 auto;">
-          <div style="text-align: center;">
-            <div style="width: 60px; height: 60px; background: rgba(139,92,246,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
-              <span style="font-size: 1.5rem;">🎓</span>
-            </div>
-            <h3 style="margin-bottom: 0.5rem;">Learn from Experts</h3>
-            <p style="color: var(--text-secondary); font-size: 0.9rem;">Courses created by industry professionals and AI pioneers</p>
-          </div>
-          <div style="text-align: center;">
-            <div style="width: 60px; height: 60px; background: rgba(6,182,212,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
-              <span style="font-size: 1.5rem;">⏱️</span>
-            </div>
-            <h3 style="margin-bottom: 0.5rem;">Learn at Your Pace</h3>
-            <p style="color: var(--text-secondary); font-size: 0.9rem;">Lifetime access to courses with self-paced learning</p>
-          </div>
-          <div style="text-align: center;">
-            <div style="width: 60px; height: 60px; background: rgba(16,185,129,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">
-              <span style="font-size: 1.5rem;">🏆</span>
-            </div>
-            <h3 style="margin-bottom: 0.5rem;">Certificates</h3>
-            <p style="color: var(--text-secondary); font-size: 0.9rem;">Earn certificates upon completion for your portfolio</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Newsletter -->
-    <section class="section fade-in" style="background: var(--bg-primary);">
-      <div class="container" style="max-width: 600px; margin: 0 auto; text-align: center;">
-        <div style="background: linear-gradient(135deg, rgba(139,92,246,0.15), rgba(6,182,212,0.1)); border: 1px solid rgba(139,92,246,0.3); border-radius: var(--radius-lg); padding: 2rem;">
-          <h2 style="font-size: 1.75rem; margin-bottom: 0.75rem;">Stay Updated</h2>
-          <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Get weekly AI learning tips and new course announcements</p>
-          <form onsubmit="handleNewsletterSubscribe(event)" style="display: flex; gap: 0.5rem; max-width: 400px; margin: 0 auto;">
-            <input type="email" id="newsletter-email" class="form-input" placeholder="Enter your email" required style="flex: 1;">
+    <section class="section">
+      <div class="container" style="max-width: 760px;">
+        <div class="home-newsletter" style="text-align: center;">
+          <span class="section-label">Stay Current</span>
+          <h2 class="section-title" style="margin-bottom: 0.75rem;">Get useful AI guidance without the noise</h2>
+          <p class="section-desc" style="max-width: 620px;">Subscribe for clear updates on the tools, workflows, and ideas that actually matter for beginners, internal operators, and founders building with AI.</p>
+          <form class="signup-inline" onsubmit="handleNewsletterSubscribe(event)">
+            <input type="email" id="newsletter-email" class="form-input" placeholder="Enter your email" required>
             <button type="submit" class="btn btn-primary">Subscribe</button>
           </form>
-          <p id="newsletter-success" style="display:none;margin-top:1rem;color:var(--accent-emerald);">✓ Subscribed! Check your inbox.</p>
+          <p id="newsletter-success" style="display:none;margin-top:1rem;color:var(--accent-emerald);">Subscribed. Check your inbox for the next update.</p>
         </div>
       </div>
     </section>
@@ -301,41 +743,42 @@
 
   <footer class="footer" style="background: var(--bg-secondary); padding: 3rem 1rem 2rem;">
     <div class="container">
-      <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: 1200px; margin: 0 auto; margin-bottom: 2rem;">
+      <div class="home-footer-grid">
         <div>
-          <h4 style="margin-bottom: 1rem; color: var(--text-primary);">LetsVibeAI</h4>
-          <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">The AI learning platform for developers and creators.</p>
+          <h4>LetsVibeAI</h4>
+          <p>A learning-first AI platform for people who want clarity, practicality, and a site that respects their time.</p>
         </div>
+
         <div>
-          <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Courses</h4>
-          <ul style="list-style: none; padding: 0;">
-            <li style="margin-bottom: 0.5rem;"><a href="catalog.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">All Courses</a></li>
-            <li style="margin-bottom: 0.5rem;"><a href="catalog.html?category=vibe-coding" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Vibe Coding</a></li>
-            <li style="margin-bottom: 0.5rem;"><a href="catalog.html?category=prompt-engineering" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Prompt Engineering</a></li>
-            <li style="margin-bottom: 0.5rem;"><a href="catalog.html?category=ai-tools" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">AI Tools</a></li>
+          <h4>Start Here</h4>
+          <ul>
+            <li><a href="learn.html">Learning Paths</a></li>
+            <li><a href="resources.html#tools">Tool Directory</a></li>
+            <li><a href="resources.html#content">Content Hub</a></li>
           </ul>
         </div>
+
         <div>
-          <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Resources</h4>
-          <ul style="list-style: none; padding: 0;">
-            <li style="margin-bottom: 0.5rem;"><a href="marketplace.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Templates</a></li>
-            <li style="margin-bottom: 0.5rem;"><a href="resources.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">AI Tools Guide</a></li>
-            <li style="margin-bottom: 0.5rem;"><a href="news.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Blog</a></li>
-            <li style="margin-bottom: 0.5rem;"><a href="community.html" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Community</a></li>
+          <h4>Use Cases</h4>
+          <ul>
+            <li><a href="community.html">Community</a></li>
+            <li><a href="marketplace.html">Templates & Assets</a></li>
+            <li><a href="resources.html#workspace">Prompt Workspace</a></li>
           </ul>
         </div>
+
         <div>
-          <h4 style="margin-bottom: 1rem; color: var(--text-primary);">Connect</h4>
-          <ul style="list-style: none; padding: 0;">
-            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Twitter</a></li>
-            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">GitHub</a></li>
-            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">Discord</a></li>
-            <li style="margin-bottom: 0.5rem;"><a href="#" style="color: var(--text-secondary); text-decoration: none; font-size: 0.9rem;">YouTube</a></li>
+          <h4>Principles</h4>
+          <ul>
+            <li>Accuracy before hype</li>
+            <li>Beginner-safe teaching</li>
+            <li>Practical, beautiful design</li>
           </ul>
         </div>
       </div>
+
       <div style="border-top: 1px solid var(--border-subtle); padding-top: 1.5rem; text-align: center;">
-        <p style="color: var(--text-muted); font-size: 0.85rem;">© 2025 LetsVibeAI. All rights reserved.</p>
+        <p style="color: var(--text-muted); font-size: 0.85rem;">© 2025 LetsVibeAI. Built to help more people understand and use AI well.</p>
       </div>
     </div>
   </footer>
@@ -343,6 +786,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
   <script src="supabase-client.js"></script>
   <script src="script.js"></script>
+  <script src="content-hub-data.js"></script>
   <script>
     async function handleNewsletterSubscribe(e) {
       e.preventDefault();
@@ -352,7 +796,6 @@
         document.getElementById('newsletter-success').style.display = 'block';
         e.target.reset();
       } catch (err) {
-        // Fallback to localStorage
         const list = JSON.parse(localStorage.getItem('newsletter_subscribers') || '[]');
         if (!list.some(s => s.email === email)) {
           list.push({ email, subscribed_at: new Date().toISOString() });
@@ -362,6 +805,16 @@
         e.target.reset();
       }
     }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const stats = window.CONTENT_HUB_DATA && window.CONTENT_HUB_DATA.stats;
+      if (!stats) return;
+
+      document.getElementById('hero-tools-count').textContent = `${stats.toolCount}+`;
+      document.getElementById('hero-sources-count').textContent = `${stats.sourceCount}+`;
+      document.getElementById('hero-partners-count').textContent = `${stats.partnerCount}`;
+    });
   </script>
 </body>
+
 </html>

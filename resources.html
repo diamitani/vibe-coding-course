@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resources Hub — Tools, News & Workspace | LetsVibeAI</title>
-    <meta name="description" content="Curated vibe coding tools directory, AI news feed, and interactive prompt workspace. Everything you need to build with AI.">
+    <title>Resources Hub — Tools, Content & Partnerships | LetsVibeAI</title>
+    <meta name="description" content="Searchable AI tools directory, daily content engine, partnership map, source feeds, newsletters, and workspace resources for learning and building with AI.">
     <link rel="stylesheet" href="styles.css">
     <style>
         .resources-tabs {
@@ -293,6 +293,164 @@
             max-width: 600px;
             margin: 0 auto;
         }
+
+        .resources-summary {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+        }
+
+        .hub-hero {
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.14), rgba(6, 182, 212, 0.12));
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: var(--radius-lg);
+            margin-bottom: 2rem;
+        }
+
+        .hub-hero p {
+            color: var(--text-secondary);
+            max-width: 780px;
+        }
+
+        .hub-kpis {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .hub-kpi {
+            padding: 1rem;
+            background: rgba(10, 10, 15, 0.35);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+        }
+
+        .hub-kpi strong {
+            display: block;
+            font-size: 1.6rem;
+            color: var(--text-primary);
+        }
+
+        .hub-kpi span {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        .hub-section {
+            margin-top: 2rem;
+        }
+
+        .briefing-grid,
+        .timeline-grid,
+        .source-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+        }
+
+        .briefing-card,
+        .timeline-card,
+        .source-link-card,
+        .partner-card {
+            padding: 1.25rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            transition: all var(--duration-fast) var(--ease-out);
+        }
+
+        .briefing-card:hover,
+        .timeline-card:hover,
+        .source-link-card:hover,
+        .partner-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 32px rgba(6, 182, 212, 0.12);
+        }
+
+        .briefing-card h4,
+        .timeline-card h4,
+        .partner-card h4,
+        .source-group-card h3 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .briefing-card p,
+        .timeline-card p,
+        .partner-card p,
+        .source-group-card p,
+        .source-link-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.65;
+        }
+
+        .briefing-meta {
+            display: inline-block;
+            margin-bottom: 0.75rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--accent-cyan);
+        }
+
+        .source-groups {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .source-group-card {
+            padding: 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+        }
+
+        .source-list {
+            margin-top: 1rem;
+        }
+
+        .source-link-card a {
+            color: var(--text-primary);
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 0.4rem;
+        }
+
+        .source-link-card a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .source-link-card small,
+        .timeline-card small,
+        .partner-card small {
+            color: var(--text-muted);
+            display: block;
+            margin-top: 0.75rem;
+        }
+
+        .distribution-list {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .distribution-item {
+            padding: 1rem 1.15rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            font-size: 0.92rem;
+        }
+
+        .content-note {
+            margin-top: 1rem;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
     </style>
 </head>
 
@@ -300,17 +458,16 @@
     <div class="ambient-bg"></div>
     <nav class="nav">
         <div class="nav-inner">
-            <a href="index.html" class="nav-logo">⚡ LetsVibeAI</a>
+            <a href="index.html" class="nav-logo">LetsVibeAI</a>
             <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
-                  <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="learn.html">Learn</a></li>
-        <li><a href="news.html">News</a></li>
-        <li><a href="resources.html" class="active">Resources</a></li>
-        <li><a href="community.html">Community</a></li>
-        <li><a href="marketplace.html">Marketplace</a></li>
-        <li id="auth-nav-slot"></li>
-      </ul>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="learn.html">Learn</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="marketplace.html">Marketplace</a></li>
+                <li id="auth-nav-slot"></li>
+            </ul>
         </div>
     </nav>
 
@@ -318,32 +475,37 @@
         <div class="container">
             <div class="resources-header">
                 <h1>Resources Hub</h1>
-                <p>Curated tools, latest news, and interactive workspace for your vibe coding journey.</p>
+                <p>Curated tools, daily AI content systems, and partnership-ready discovery workflows for your AI learning and building journey.</p>
             </div>
 
             <!-- Tabs -->
             <div class="resources-tabs">
-                <button class="resources-tab-btn active" onclick="switchResourcesTab('tools')">🛠️ Tools</button>
-                <button class="resources-tab-btn" onclick="switchResourcesTab('news')">📰 News</button>
-                <button class="resources-tab-btn" onclick="switchResourcesTab('workspace')">💻 Workspace</button>
+                <button class="resources-tab-btn active" data-tab="tools" onclick="switchResourcesTab('tools', this)">🛠️ Tools</button>
+                <button class="resources-tab-btn" data-tab="news" onclick="switchResourcesTab('news', this)">📰 News Radar</button>
+                <button class="resources-tab-btn" data-tab="content" onclick="switchResourcesTab('content', this)">🤝 Content & Affiliates</button>
+                <button class="resources-tab-btn" data-tab="workspace" onclick="switchResourcesTab('workspace', this)">💻 Workspace</button>
             </div>
 
             <!-- Tab 1: Tools -->
             <div id="tools" class="resources-tab-content active">
+                <div class="resources-summary" id="tools-meta"></div>
                 <div class="tools-search">
-                    <input type="text" id="tool-search" class="form-input" placeholder="Search tools... (e.g., React, AI, Database)"
+                    <input type="text" id="tool-search" class="form-input" placeholder="Search tools... (e.g., agent, database, voice, auth)"
                         oninput="filterTools()">
                 </div>
                 <div class="showcase-filters" style="flex-wrap: wrap;">
-                    <button class="filter-btn active" onclick="filterTools('all')">All</button>
-                    <button class="filter-btn" onclick="filterTools('Hosted Builder')">Hosted Builders</button>
-                    <button class="filter-btn" onclick="filterTools('AI IDE')">AI IDEs</button>
-                    <button class="filter-btn" onclick="filterTools('CLI Agent')">CLI Agents</button>
-                    <button class="filter-btn" onclick="filterTools('Hosting')">Hosting</button>
-                    <button class="filter-btn" onclick="filterTools('Backend')">Backend</button>
-                    <button class="filter-btn" onclick="filterTools('Design')">Design</button>
-                    <button class="filter-btn" onclick="filterTools('Automation')">Automation</button>
-                    <button class="filter-btn" onclick="filterTools('Expert GPT')">Expert GPTs</button>
+                    <button class="filter-btn active" data-category="all" onclick="filterTools('all')">All</button>
+                    <button class="filter-btn" data-category="AI IDE" onclick="filterTools('AI IDE')">AI IDEs</button>
+                    <button class="filter-btn" data-category="CLI Agent" onclick="filterTools('CLI Agent')">CLI Agents</button>
+                    <button class="filter-btn" data-category="Hosted Builder" onclick="filterTools('Hosted Builder')">Hosted Builders</button>
+                    <button class="filter-btn" data-category="Design/Media" onclick="filterTools('Design/Media')">Design & Media</button>
+                    <button class="filter-btn" data-category="Backend/Hosting" onclick="filterTools('Backend/Hosting')">Backend & Hosting</button>
+                    <button class="filter-btn" data-category="Model/API" onclick="filterTools('Model/API')">Models & APIs</button>
+                    <button class="filter-btn" data-category="Agent Stack" onclick="filterTools('Agent Stack')">Agent Stack</button>
+                    <button class="filter-btn" data-category="Automation" onclick="filterTools('Automation')">Automation</button>
+                    <button class="filter-btn" data-category="Testing/Observability" onclick="filterTools('Testing/Observability')">Testing & Observability</button>
+                    <button class="filter-btn" data-category="Auth/Payments/Data" onclick="filterTools('Auth/Payments/Data')">Auth, Payments & Data</button>
+                    <button class="filter-btn" data-category="Expert GPT" onclick="filterTools('Expert GPT')">Expert GPTs</button>
                 </div>
                 <div class="cards-grid cards-grid-3" id="tools-grid"></div>
             </div>
@@ -351,64 +513,82 @@
             <!-- Tab 2: News -->
             <div id="news" class="resources-tab-content">
                 <div style="margin-bottom: 2rem;">
-                    <p style="color: var(--text-secondary); font-size: 1.05rem;">Stay updated on the latest AI tools, trends, and community highlights.</p>
+                    <p style="color: var(--text-secondary); font-size: 1.05rem;">This tab is the publishing radar: the lanes to cover every day and the source clusters to scan before you write.</p>
                 </div>
+                <div class="cards-grid cards-grid-3" id="coverage-radar"></div>
 
-                <div class="news-card">
-                    <div class="news-date">March 10, 2025</div>
-                    <h3 class="news-title">Claude 4.5 Opus Released with Enhanced Code Understanding</h3>
-                    <p class="news-excerpt">Anthropic releases Claude Opus 4.6, the latest and most capable model in the Claude family, with significant improvements in code generation and multi-file project understanding. Perfect for vibe coding workflows.</p>
-                    <div class="news-source">
-                        <span>📖 Anthropic Blog</span>
+                <div class="hub-section">
+                    <div class="section-header" style="margin-bottom: 1.5rem;">
+                        <span class="section-label">Source Clusters</span>
+                        <h2 class="section-title" style="font-size: clamp(1.4rem, 3vw, 2rem);">Where the Brief Starts Every Morning</h2>
                     </div>
+                    <div class="cards-grid cards-grid-2" id="news-source-groups"></div>
                 </div>
 
-                <div class="news-card">
-                    <div class="news-date">March 8, 2025</div>
-                    <h3 class="news-title">Vercel Launches v0.dev Pro with AI-Powered Component Generation</h3>
-                    <p class="news-excerpt">Vercel announces enhanced v0.dev with AI-powered component generation and improved context understanding, making it easier to build complex UIs faster than ever.</p>
-                    <div class="news-source">
-                        <span>🚀 Vercel Updates</span>
-                    </div>
-                </div>
-
-                <div class="news-card">
-                    <div class="news-date">March 5, 2025</div>
-                    <h3 class="news-title">New Course: Vibe Coding Fundamentals on Coursera</h3>
-                    <p class="news-excerpt">University of Colorado launches a comprehensive vibe coding fundamentals course on Coursera. Perfect for beginners wanting to understand AI-assisted development.</p>
-                    <div class="news-source">
-                        <span>📚 Course Launch</span>
-                    </div>
-                </div>
-
-                <div class="news-card">
-                    <div class="news-date">February 28, 2025</div>
-                    <h3 class="news-title">New Guide: Building Full-Stack Apps with Lovable + Supabase</h3>
-                    <p class="news-excerpt">Learn how to combine Lovable's AI-powered frontend with Supabase's backend services to build complete, production-ready applications in hours instead of days.</p>
-                    <div class="news-source">
-                        <span>📚 Tutorial</span>
-                    </div>
-                </div>
-
-                <div class="news-card">
-                    <div class="news-date">February 25, 2025</div>
-                    <h3 class="news-title">Windsurf 1.5 Adds Agentic "Cascade" Flows for Multi-File Edits</h3>
-                    <p class="news-excerpt">Codeium releases Windsurf 1.5 with advanced agentic capabilities that understand your entire codebase and make autonomous multi-file changes while you watch.</p>
-                    <div class="news-source">
-                        <span>🔧 Tool Updates</span>
-                    </div>
-                </div>
-
-                <div style="text-align: center; margin-top: 2rem;">
+                <div style="text-align: center; margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="resources.html#content" class="btn btn-primary">Open Content System →</a>
                     <a href="news.html" class="btn btn-secondary">View Full News Archive →</a>
                 </div>
             </div>
 
-            <!-- Tab 3: Workspace -->
+            <!-- Tab 3: Content -->
+            <div id="content" class="resources-tab-content">
+                <div class="hub-hero">
+                    <span class="section-label">Content Engine</span>
+                    <h2 class="section-title" style="margin-bottom: 0.75rem;">Content & Affiliate Partnerships</h2>
+                    <p>This is the operating system for publishing a daily AI vibe-coding brief, building a living directory, and attaching transparent partner recommendations to the content people already come here to consume.</p>
+                    <div class="hub-kpis" id="hub-kpis"></div>
+                    <p class="content-note">Use affiliate disclosures and transparent sponsor labeling on every monetized recommendation. The goal is trusted curation, not hidden placement.</p>
+                </div>
+
+                <div class="hub-section">
+                    <div class="section-header" style="margin-bottom: 1.5rem;">
+                        <span class="section-label">Daily Brief</span>
+                        <h2 class="section-title" style="font-size: clamp(1.4rem, 3vw, 2rem);">1,500-Word Daily Update Guide</h2>
+                        <p class="section-desc" id="daily-guide-deck" style="max-width: 760px;"></p>
+                    </div>
+                    <div class="briefing-grid" id="briefing-sections"></div>
+                </div>
+
+                <div class="hub-section">
+                    <div class="section-header" style="margin-bottom: 1.5rem;">
+                        <span class="section-label">Publishing Rhythm</span>
+                        <h2 class="section-title" style="font-size: clamp(1.4rem, 3vw, 2rem);">Morning Workflow & Distribution</h2>
+                    </div>
+                    <div class="timeline-grid" id="briefing-workflow"></div>
+                    <div class="distribution-list" id="briefing-distribution" style="margin-top: 1rem;"></div>
+                </div>
+
+                <div class="hub-section">
+                    <div class="section-header" style="margin-bottom: 1.5rem;">
+                        <span class="section-label">Monetization</span>
+                        <h2 class="section-title" style="font-size: clamp(1.4rem, 3vw, 2rem);">Affiliate & Content Revenue Lanes</h2>
+                    </div>
+                    <div class="cards-grid cards-grid-3" id="monetization-lanes"></div>
+                </div>
+
+                <div class="hub-section">
+                    <div class="section-header" style="margin-bottom: 1.5rem;">
+                        <span class="section-label">Partner Targets</span>
+                        <h2 class="section-title" style="font-size: clamp(1.4rem, 3vw, 2rem);">High-Fit Tool Partners for This Audience</h2>
+                    </div>
+                    <div class="cards-grid cards-grid-3" id="partner-tracks"></div>
+                </div>
+
+                <div class="hub-section">
+                    <div class="section-header" style="margin-bottom: 1.5rem;">
+                        <span class="section-label">Source Map</span>
+                        <h2 class="section-title" style="font-size: clamp(1.4rem, 3vw, 2rem);">Feeds, Pages, Communities, and Newsletters to Follow</h2>
+                    </div>
+                    <div class="source-groups" id="source-groups"></div>
+                </div>
+            </div>
+
+            <!-- Tab 4: Workspace -->
             <div id="workspace" class="resources-tab-content">
                 <div class="workspace-intro">
                     <h2>Prompt Lab & Interactive Workspace</h2>
-                    <p>Use these tools and templates to refine your vibe coding prompts, test ideas, and collaborate with the community.</p>
+                    <p>Use these tools and templates to refine your AI prompts, test ideas, and collaborate with the community.</p>
                 </div>
 
                 <div class="workspace-grid">
@@ -433,13 +613,13 @@
                     <div class="workspace-card">
                         <div class="workspace-card-icon">🔗</div>
                         <h3 class="workspace-card-title">Integration Builder</h3>
-                        <p class="workspace-card-desc">Connect your vibe coding tools, databases, and APIs. Build custom workflows without writing code using Make, n8n, or Zapier.</p>
+                        <p class="workspace-card-desc">Connect your AI tools, databases, and APIs. Build custom workflows without writing code using Make, n8n, or Zapier.</p>
                     </div>
 
                     <div class="workspace-card">
                         <div class="workspace-card-icon">📊</div>
                         <h3 class="workspace-card-title">Performance Monitor</h3>
-                        <p class="workspace-card-desc">Track your vibe coding projects: load times, performance metrics, user analytics, and quality indicators all in one dashboard.</p>
+                        <p class="workspace-card-desc">Track your AI projects: load times, performance metrics, user analytics, and quality indicators all in one dashboard.</p>
                     </div>
 
                     <div class="workspace-card">
@@ -461,7 +641,7 @@
     <footer class="footer">
         <div class="container">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
-                <p>⚡ LetsVibeAI &copy; 2025 — Built with AI</p>
+                <p>LetsVibeAI &copy; 2025 — Built with AI</p>
                 <div style="display: flex; gap: 1.5rem;">
                     <a href="learn.html">Learn</a>
                     <a href="resources.html">Resources</a>
@@ -475,86 +655,200 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="supabase-client.js"></script>
     <script src="script.js"></script>
+    <script src="content-hub-data.js"></script>
     <script>
-        // Make BUILTIN_TOOLS and CUSTOM_GPTS available if not already loaded
-        if (typeof BUILTIN_TOOLS === 'undefined') {
-            var BUILTIN_TOOLS = [
-                { name: 'Lovable', icon: '💜', url: 'https://lovable.dev', category: 'Hosted Builder', pricing: 'Free tier + paid', desc: 'AI full-stack app builder. Describe your project and Lovable generates a complete app with React frontend, Supabase backend, auth, and database — with live preview as it builds.', tags: ['Full-Stack', 'Supabase', 'One-Click Deploy'] },
-                { name: 'v0.dev', icon: '▲', url: 'https://v0.dev', category: 'Hosted Builder', pricing: 'Free tier + paid', desc: 'Vercel\'s AI UI generator. Creates production-ready React + Tailwind components from text descriptions. Perfect for front-end design and rapid prototyping.', tags: ['UI Components', 'React', 'Tailwind'] },
-                { name: 'Bolt.new', icon: '⚡', url: 'https://bolt.new', category: 'Hosted Builder', pricing: 'Free tier + paid', desc: 'StackBlitz instant full-stack builder. Runs Node.js entirely in the browser via WebContainers — no server needed. Build and preview apps in real time.', tags: ['Full-Stack', 'WebContainers', 'Instant'] },
-                { name: 'Replit', icon: '🔄', url: 'https://replit.com', category: 'Hosted Builder', pricing: 'Free tier + paid', desc: 'Cloud-based coding platform with AI agent (Replit Agent). Build, host, and deploy full-stack apps with built-in database, authentication, and instant deployment.', tags: ['All-in-One', 'Cloud IDE', 'Hosting'] },
-                { name: 'Cursor', icon: '📐', url: 'https://cursor.com', category: 'AI IDE', pricing: 'Free tier + $20/mo', desc: 'AI-first code editor built on VS Code. Features tab completion, multi-file edits, and chat — a favorite among developers transitioning to AI-assisted coding.', tags: ['VS Code', 'Tab Complete', 'Chat'] },
-                { name: 'Windsurf', icon: '🏄', url: 'https://windsurf.com', category: 'AI IDE', pricing: 'Free tier + paid', desc: 'AI IDE by Codeium with agentic "Cascade" flows. Understands your entire codebase and makes multi-step changes autonomously while you watch.', tags: ['Agentic', 'Cascade', 'Codebase-Aware'] },
-                { name: 'GitHub Copilot', icon: '🐙', url: 'https://github.com/features/copilot', category: 'AI IDE', pricing: 'Free tier + $10/mo', desc: 'GitHub\'s AI pair programmer. Integrates into VS Code, JetBrains, and more. Features code completion, chat, and the new agent mode for autonomous coding.', tags: ['VS Code', 'Autocomplete', 'Agent Mode'] },
-                { name: 'Claude Code', icon: '🟠', url: 'https://docs.anthropic.com/en/docs/claude-code', category: 'CLI Agent', pricing: 'API usage', desc: 'Anthropic\'s agentic terminal tool. Reads your entire codebase, understands project structure, creates and edits files, runs commands, and handles complex multi-file refactors.', tags: ['Terminal', 'Multi-File', 'Deep Context'] },
-                { name: 'Aider', icon: '👥', url: 'https://aider.chat', category: 'CLI Agent', pricing: 'Free + LLM costs', desc: 'AI pair programming in your terminal. Edits code in your local git repository using multiple AI models. Great for working with large codebases.', tags: ['Git Integration', 'Multi-Model', 'Terminal'] },
-                { name: 'Vercel', icon: '▲', url: 'https://vercel.com', category: 'Hosting', pricing: 'Free tier + paid', desc: 'The leading platform for frontend deployment. One-click deploys from GitHub, edge functions, serverless APIs, and built-in analytics. Pairs perfectly with v0.dev.', tags: ['Deploy', 'Edge', 'Serverless'] },
-                { name: 'Supabase', icon: '⚡', url: 'https://supabase.com', category: 'Backend', pricing: 'Free tier + paid', desc: 'Open-source Firebase alternative. Provides PostgreSQL database, auth, realtime subscriptions, storage, and edge functions. The backend of choice for vibe-coded apps.', tags: ['Database', 'Auth', 'Realtime'] },
-                { name: 'Firebase', icon: '🔥', url: 'https://firebase.google.com', category: 'Backend', pricing: 'Free tier + paid', desc: 'Google\'s comprehensive app development platform. Database, auth, hosting, storage, and serverless functions all in one.', tags: ['Google', 'Serverless', 'Mobile'] },
-                { name: 'Midjourney', icon: '🎨', url: 'https://midjourney.com', category: 'Design', pricing: '$10/mo+', desc: 'AI image generation powerhouse. Create stunning visuals, mockups, hero images, and brand assets from text descriptions. Essential for marketing sites.', tags: ['Images', 'Branding', 'Mockups'] },
-                { name: 'Figma + AI', icon: '🖌️', url: 'https://figma.com', category: 'Design', pricing: 'Free tier + paid', desc: 'The standard for UI/UX design, now with AI features. Generate designs, auto-layout components, and hand off pixel-perfect specs to your vibe coding tools.', tags: ['UI/UX', 'Components', 'Handoff'] },
-                { name: 'Make (Integromat)', icon: '🔗', url: 'https://make.com', category: 'Automation', pricing: 'Free tier + paid', desc: 'Visual automation platform. Connect apps, APIs, and AI models into automated workflows. Build email sequences, data pipelines, and business processes without code.', tags: ['Workflows', 'API', 'No-Code'] },
-                { name: 'Zapier', icon: '⚡', url: 'https://zapier.com', category: 'Automation', pricing: 'Free tier + paid', desc: 'The OG automation platform. Connect 6000+ apps with simple trigger-action workflows. Now features AI actions and Copilot for building automations with natural language.', tags: ['6000+ Apps', 'AI Copilot', 'Simple'] }
-            ];
+        const contentHub = window.CONTENT_HUB_DATA || {
+            tools: [],
+            sourceGroups: [],
+            coverageRadar: [],
+            monetizationLanes: [],
+            partnerTracks: [],
+            dailyGuide: { sections: [], workflow: [], distribution: [], deck: '' },
+            stats: { toolCount: 0, sourceCount: 0, newsletterCount: 0, partnerCount: 0 }
+        };
+
+        let activeToolCategory = 'all';
+
+        function getAllTools() {
+            const customGPTs = (typeof CUSTOM_GPTS !== 'undefined')
+                ? CUSTOM_GPTS.map(g => ({
+                    name: g.name,
+                    icon: g.icon || '🤖',
+                    url: g.url,
+                    category: 'Expert GPT',
+                    pricing: g.pricing || 'Custom',
+                    desc: g.desc || g.description || 'Custom GPT or expert assistant.',
+                    tags: g.tags || ['GPT', 'Assistant']
+                }))
+                : [];
+
+            return [...contentHub.tools, ...customGPTs];
         }
 
-        function switchResourcesTab(tabName) {
-            // Hide all tabs
+        function switchResourcesTab(tabName, buttonEl, updateHash = true) {
             document.querySelectorAll('.resources-tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
 
-            // Remove active class from all buttons
             document.querySelectorAll('.resources-tab-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
 
-            // Show selected tab
-            document.getElementById(tabName).classList.add('active');
+            const tab = document.getElementById(tabName);
+            if (tab) {
+                tab.classList.add('active');
+            }
 
-            // Mark button as active
-            event.target.classList.add('active');
+            const button = buttonEl || document.querySelector(`.resources-tab-btn[data-tab="${tabName}"]`);
+            if (button) {
+                button.classList.add('active');
+            }
 
-            // If switching to tools tab, ensure filtering is active
+            if (updateHash) {
+                history.replaceState(null, '', `#${tabName}`);
+            }
+
             if (tabName === 'tools') {
-                filterTools('all');
+                filterTools(activeToolCategory);
             }
         }
 
-        function filterTools(cat) {
-            const q = document.getElementById('tool-search').value.toLowerCase();
-            document.querySelectorAll('.showcase-filters .filter-btn').forEach(b => {
-                b.classList.toggle('active', (cat || 'all') === (b.textContent.trim() === 'All' ? 'all' : b.textContent.trim()));
+        function filterTools(cat = activeToolCategory) {
+            activeToolCategory = cat || 'all';
+            const q = document.getElementById('tool-search').value.toLowerCase().trim();
+            const allTools = getAllTools();
+
+            document.querySelectorAll('.showcase-filters .filter-btn').forEach(button => {
+                button.classList.toggle('active', button.dataset.category === activeToolCategory);
             });
 
-            // Combine built-in and custom GPTs
-            const customGPTs = (typeof CUSTOM_GPTS !== 'undefined') ? CUSTOM_GPTS.map(g => ({ ...g, icon: '🤖' })) : [];
-            const allTools = [...BUILTIN_TOOLS, ...customGPTs];
+            const filtered = allTools.filter(tool => {
+                const haystack = [
+                    tool.name,
+                    tool.desc,
+                    tool.category,
+                    tool.pricing,
+                    ...(tool.tags || [])
+                ].join(' ').toLowerCase();
 
-            const filtered = allTools.filter(t => {
-                const matchCat = !cat || cat === 'all' || t.category === cat;
-                const matchQ = !q || t.name.toLowerCase().includes(q) || t.desc.toLowerCase().includes(q) || t.category.toLowerCase().includes(q);
+                const matchCat = activeToolCategory === 'all' || tool.category === activeToolCategory;
+                const matchQ = !q || haystack.includes(q);
                 return matchCat && matchQ;
             });
 
+            document.getElementById('tools-meta').textContent = `${filtered.length} of ${allTools.length} tools shown across ${new Set(allTools.map(tool => tool.category)).size} categories. Use this as the living directory layer for reviews, comparisons, tutorials, and partner placements.`;
+
             const grid = document.getElementById('tools-grid');
-            grid.innerHTML = filtered.map(t => `
-        <a href="${t.url}" target="_blank" rel="noopener" class="tool-link-card fade-in visible">
-          <div class="tool-icon">${t.icon || '🤖'}</div>
-          <div class="tool-category">${t.category}</div>
-          <div class="tool-name">${t.name}</div>
-          <div class="tool-url">${t.url.replace('https://', '')}</div>
-          <div class="tool-desc">${t.desc}</div>
+            grid.innerHTML = filtered.map(tool => `
+        <a href="${tool.url}" target="_blank" rel="noopener" class="tool-link-card fade-in visible">
+          <div class="tool-icon">${tool.icon || '🤖'}</div>
+          <div class="tool-category">${tool.category}</div>
+          <div class="tool-name">${tool.name}</div>
+          <div class="tool-url">${tool.url.replace('https://', '').replace('http://', '')}</div>
+          <div class="tool-desc">${tool.desc}</div>
           <div class="tool-footer">
-            <div class="tool-tags">${t.tags.map((tg, i) => `<span class="tag ${['', 'cyan', 'emerald'][i % 3]}">${tg}</span>`).join('')}</div>
+            <div class="tool-tags">
+              ${(tool.tags || []).map((tag, index) => `<span class="tag ${['', 'cyan', 'emerald'][index % 3]}">${tag}</span>`).join('')}
+              ${tool.pricing ? `<span class="tag magenta">${tool.pricing}</span>` : ''}
+            </div>
             <span class="visit-link">Visit →</span>
           </div>
         </a>`).join('');
         }
 
-        // Initialize tools on page load
+        function renderCoverageRadar() {
+            document.getElementById('coverage-radar').innerHTML = contentHub.coverageRadar.map(item => `
+        <article class="card fade-in">
+          <div class="card-icon">${item.icon}</div>
+          <h3>${item.title}</h3>
+          <p style="margin-bottom: 1rem;">${item.copy}</p>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+            ${item.tags.map((tag, index) => `<span class="tag ${['', 'cyan', 'emerald'][index % 3]}">${tag}</span>`).join('')}
+          </div>
+        </article>`).join('');
+        }
+
+        function renderNewsSourceGroups() {
+            const featuredGroups = contentHub.sourceGroups.filter(group => ['feeds', 'platforms', 'x', 'newsletters'].includes(group.id));
+            document.getElementById('news-source-groups').innerHTML = featuredGroups.map(group => `
+        <article class="card fade-in">
+          <span class="section-label" style="margin-bottom: 0.75rem;">${group.icon} ${group.title}</span>
+          <p style="margin-bottom: 1rem;">${group.intro}</p>
+          <div style="display:grid;gap:0.75rem;">
+            ${group.items.slice(0, 4).map(item => `
+              <a href="${item.url}" target="_blank" rel="noopener" style="display:block;padding:0.85rem 1rem;background:rgba(255,255,255,0.02);border:1px solid var(--border-subtle);border-radius:var(--radius-md);">
+                <strong style="color:var(--text-primary);display:block;margin-bottom:0.25rem;">${item.name}</strong>
+                <span style="color:var(--text-secondary);font-size:0.85rem;">${item.angle}</span>
+              </a>
+            `).join('')}
+          </div>
+        </article>`).join('');
+        }
+
+        function renderContentHub() {
+            document.getElementById('hub-kpis').innerHTML = `
+        <div class="hub-kpi"><strong>${contentHub.stats.toolCount}+</strong><span>Tools in the directory</span></div>
+        <div class="hub-kpi"><strong>${contentHub.stats.sourceCount}+</strong><span>Feeds, pages, and communities</span></div>
+        <div class="hub-kpi"><strong>${contentHub.stats.newsletterCount}+</strong><span>Newsletter operators to track</span></div>
+        <div class="hub-kpi"><strong>${contentHub.stats.partnerCount}</strong><span>High-fit partner targets</span></div>
+      `;
+
+            document.getElementById('daily-guide-deck').textContent = contentHub.dailyGuide.deck;
+
+            document.getElementById('briefing-sections').innerHTML = contentHub.dailyGuide.sections.map(section => `
+        <article class="briefing-card">
+          <span class="briefing-meta">${section[1]}</span>
+          <h4>${section[0]}</h4>
+          <p>${section[2]}</p>
+        </article>`).join('');
+
+            document.getElementById('briefing-workflow').innerHTML = contentHub.dailyGuide.workflow.map(step => `
+        <article class="timeline-card">
+          <span class="briefing-meta">${step[0]}</span>
+          <h4>${step[1]}</h4>
+        </article>`).join('');
+
+            document.getElementById('briefing-distribution').innerHTML = contentHub.dailyGuide.distribution.map(item => `
+        <div class="distribution-item">${item}</div>`).join('');
+
+            document.getElementById('monetization-lanes').innerHTML = contentHub.monetizationLanes.map(lane => `
+        <article class="card fade-in">
+          <div class="card-icon">${lane.icon}</div>
+          <h3>${lane.title}</h3>
+          <p>${lane.copy}</p>
+        </article>`).join('');
+
+            document.getElementById('partner-tracks').innerHTML = contentHub.partnerTracks.map(track => `
+        <a href="${track.url}" target="_blank" rel="noopener" class="partner-card">
+          <h4>${track.name}</h4>
+          <p>${track.angle}</p>
+          <small>Use for transparent affiliate, co-marketing, education, or sponsor opportunities when available.</small>
+        </a>`).join('');
+
+            document.getElementById('source-groups').innerHTML = contentHub.sourceGroups.map(group => `
+        <section class="source-group-card">
+          <span class="section-label" style="margin-bottom:0.5rem;">${group.icon} ${group.title}</span>
+          <p>${group.intro}</p>
+          <div class="source-list">
+            ${group.items.map(item => `
+              <article class="source-link-card">
+                <a href="${item.url}" target="_blank" rel="noopener">${item.name}</a>
+                <p>${item.angle}</p>
+              </article>`).join('')}
+          </div>
+        </section>`).join('');
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
+            renderCoverageRadar();
+            renderNewsSourceGroups();
+            renderContentHub();
             filterTools('all');
+
+            const initialTab = ['tools', 'news', 'content', 'workspace'].includes(location.hash.replace('#', ''))
+                ? location.hash.replace('#', '')
+                : 'tools';
+            switchResourcesTab(initialTab, document.querySelector(`.resources-tab-btn[data-tab="${initialTab}"]`), false);
         });
     </script>
 </body>
