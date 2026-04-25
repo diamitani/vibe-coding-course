@@ -46,6 +46,64 @@
             animation: fadeIn var(--duration-fast) var(--ease-out);
         }
 
+        /* Tutor & Workspace Tools Styles */
+        .tutor-msg {
+            max-width: 85%;
+            padding: 0.85rem 1rem;
+            border-radius: var(--radius-md);
+            font-size: 0.95rem;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .tutor-msg.bot {
+            align-self: flex-start;
+            background: rgba(255,255,255,0.05);
+            color: var(--text-primary);
+            border-bottom-left-radius: 0;
+            border: 1px solid var(--border-subtle);
+        }
+
+        .tutor-msg.user {
+            align-self: flex-end;
+            background: var(--accent-primary);
+            color: white;
+            border-bottom-right-radius: 0;
+        }
+
+        .builder-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .builder-modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            width: 100%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            animation: modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.95) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
         @keyframes fadeIn {
             from {
                 opacity: 0;
@@ -514,9 +572,20 @@
 
             <!-- Tab 2: News -->
             <div id="news" class="resources-tab-content">
-                <div style="margin-bottom: 2rem;">
-                    <p style="color: var(--text-secondary); font-size: 1.05rem;">This tab is the publishing radar: the lanes to cover every day and the source clusters to scan before you write.</p>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <p style="color: var(--text-secondary); font-size: 1.05rem; margin: 0;">Publishing radar: scan source clusters and generate your daily strategy.</p>
+                    </div>
+                    <button onclick="generateDailyBrief()" class="btn btn-primary" id="brief-gen-btn">✨ Generate AI Daily Brief</button>
                 </div>
+
+                <!-- AI Daily Brief Container -->
+                <div id="ai-brief-container" style="display:none; margin-bottom: 3rem; padding: 2rem; background: var(--bg-card); border: 1px solid var(--accent-cyan); border-radius: var(--radius-lg); position: relative;">
+                    <div style="position: absolute; top: 0; right: 0; padding: 0.5rem 1rem; background: var(--accent-cyan); color: var(--bg-primary); font-size: 0.7rem; font-weight: 700; text-transform: uppercase;">AI Summary</div>
+                    <h3 id="brief-title" style="margin-bottom: 1rem; color: var(--accent-cyan);">The Daily Signal</h3>
+                    <div id="brief-content" style="line-height: 1.6; color: var(--text-primary); white-space: pre-wrap; font-size: 0.95rem;"></div>
+                </div>
+
                 <div class="cards-grid cards-grid-3" id="coverage-radar"></div>
 
                 <div class="hub-section">
@@ -608,6 +677,31 @@
                     <p>Your central mission control for learning, building, and generating AI-assisted products.</p>
                 </div>
 
+                <!-- AI Tutor Chat Interface (Initially Hidden) -->
+                <div id="ai-tutor-container" style="display:none; margin-bottom: 2rem; border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); background: var(--bg-card); overflow: hidden;">
+                    <div style="padding: 1rem; border-bottom: 1px solid var(--border-subtle); display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02);">
+                        <div style="display:flex; align-items:center; gap:0.75rem;">
+                            <span style="font-size:1.25rem;">🤖</span>
+                            <div>
+                                <h3 style="margin:0; font-size:1rem;">Vibe AI Tutor</h3>
+                                <small style="color:var(--text-muted);">Powered by Gemini 1.5 Flash</small>
+                            </div>
+                        </div>
+                        <button onclick="closeTutor()" style="background:none; border:none; color:var(--text-muted); cursor:pointer; font-size:1.5rem;">&times;</button>
+                    </div>
+                    <div id="tutor-messages" style="height: 350px; overflow-y: auto; padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+                        <div class="tutor-msg bot">
+                            Hello! I'm your Vibe AI Tutor. I can help you with course concepts, lab bugs, or just vibe-coding advice. What's on your mind?
+                        </div>
+                    </div>
+                    <div style="padding: 1rem; border-top: 1px solid var(--border-subtle); background: rgba(0,0,0,0.1);">
+                        <form id="tutor-form" style="display:flex; gap:0.5rem;">
+                            <input type="text" id="tutor-input" class="form-input" placeholder="Type your question..." style="flex-grow:1;">
+                            <button type="submit" class="btn btn-primary" style="padding: 0.5rem 1rem;">Send</button>
+                        </form>
+                    </div>
+                </div>
+
                 <div class="workspace-grid" id="workspace-grid">
                     <!-- Rendered by JS from CONTENT_HUB_DATA.workspaceSpecs -->
                 </div>
@@ -639,6 +733,7 @@
     <script src="supabase-client.js"></script>
     <script src="script.js"></script>
     <script src="content-hub-data.js"></script>
+    <script src="workspace-tools.js"></script>
     <script>
         const contentHub = window.CONTENT_HUB_DATA || {
             tools: [],
@@ -891,8 +986,13 @@
             
             grid.innerHTML = Object.keys(specs).map(key => {
                 const spec = specs[key];
+                let action = `alert('${spec.name} integration coming soon!')`;
+                if (key === 'tutor') action = 'openTutor()';
+                if (key === 'promptBuilder') action = 'openPromptBuilder()';
+                if (key === 'documentBuilder') action = 'openDocBuilder()';
+                
                 return `
-                    <div class="workspace-card" onclick="alert('${spec.name} integration coming soon!')">
+                    <div class="workspace-card" onclick="${action}">
                         <div class="workspace-card-icon">${icons[key] || '🚀'}</div>
                         <h3 class="workspace-card-title">${spec.name}</h3>
                         <p class="workspace-card-desc">${spec.desc}</p>

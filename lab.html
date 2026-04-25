@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vibe Coding Lab Environment | LetsVibeAI</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body { overflow: hidden; height: 100vh; display: flex; flex-direction: column; }
+        .lab-header { 
+            padding: 0.75rem 1.5rem; 
+            background: var(--bg-card); 
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .lab-container { display: flex; flex: 1; overflow: hidden; }
+        .lab-panel { display: flex; flex-direction: column; border-right: 1px solid var(--border-subtle); }
+        
+        /* Left: Instructions & Copilot */
+        .panel-instructions { width: 350px; background: rgba(0,0,0,0.2); }
+        .panel-tabs { display: flex; border-bottom: 1px solid var(--border-subtle); }
+        .panel-tab-btn { flex: 1; padding: 0.75rem; background: none; border: none; color: var(--text-secondary); cursor: pointer; border-bottom: 2px solid transparent; }
+        .panel-tab-btn.active { color: var(--accent-cyan); border-bottom-color: var(--accent-cyan); }
+        .panel-content { flex: 1; overflow-y: auto; padding: 1.5rem; }
+
+        /* Middle: Editor */
+        .panel-editor { flex: 1; background: #1e1e1e; }
+        #code-editor { flex: 1; width: 100%; height: 100%; background: transparent; color: #d4d4d4; font-family: 'Fira Code', monospace; font-size: 14px; padding: 1.5rem; border: none; resize: none; outline: none; line-height: 1.5; }
+
+        /* Right: Preview */
+        .panel-preview { flex: 1; background: white; }
+        #preview-frame { width: 100%; height: 100%; border: none; }
+
+        /* Copilot UI */
+        .copilot-chat { display: flex; flex-direction: column; height: 100%; }
+        .copilot-messages { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column; gap: 0.75rem; }
+        .copilot-msg { padding: 0.75rem; border-radius: var(--radius-md); font-size: 0.85rem; line-height: 1.4; }
+        .copilot-msg.bot { background: rgba(255,255,255,0.05); color: var(--text-primary); align-self: flex-start; }
+        .copilot-msg.user { background: var(--accent-primary); color: white; align-self: flex-end; }
+        .copilot-input-area { padding: 0.75rem; border-top: 1px solid var(--border-subtle); }
+    </style>
+</head>
+<body>
+    <header class="lab-header">
+        <div style="display:flex; align-items:center; gap:1rem;">
+            <a href="learn.html" style="color:var(--text-secondary); text-decoration:none;">← Back</a>
+            <h2 id="lab-title" style="font-size:1.1rem; margin:0;">Lab: Loading...</h2>
+        </div>
+        <div style="display:flex; gap:0.75rem;">
+            <button class="btn btn-secondary" style="padding: 0.4rem 1rem;" onclick="resetCode()">Reset</button>
+            <button class="btn btn-primary" style="padding: 0.4rem 1.5rem;" onclick="submitProject()">Submit Project →</button>
+        </div>
+    </header>
+
+    <div class="lab-container">
+        <!-- Left: Instructions & Copilot -->
+        <aside class="lab-panel panel-instructions">
+            <div class="panel-tabs">
+                <button class="panel-tab-btn active" onclick="switchPanelTab('instructions')">Instructions</button>
+                <button class="panel-tab-btn" onclick="switchPanelTab('copilot')">AI Copilot</button>
+            </div>
+            <div id="instructions-content" class="panel-content">
+                <div id="lab-guide"></div>
+            </div>
+            <div id="copilot-content" class="panel-content" style="display:none; padding:0;">
+                <div class="copilot-chat">
+                    <div class="copilot-messages" id="copilot-messages">
+                        <div class="copilot-msg bot">Hi! I'm your Lab Copilot. Stuck on a step? Ask me for a hint!</div>
+                    </div>
+                    <div class="copilot-input-area">
+                        <form id="copilot-form" style="display:flex; gap:0.5rem;">
+                            <input type="text" id="copilot-input" class="form-input" placeholder="Ask for a hint..." style="font-size:0.85rem; padding:0.5rem;">
+                            <button type="submit" class="btn btn-primary" style="padding:0.4rem 0.8rem; font-size:0.8rem;">Ask</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Middle: Editor -->
+        <main class="lab-panel panel-editor">
+            <textarea id="code-editor" spellcheck="false" oninput="updatePreview()"></textarea>
+        </main>
+
+        <!-- Right: Preview -->
+        <section class="lab-panel panel-preview">
+            <iframe id="preview-frame"></iframe>
+        </section>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="supabase-client.js"></script>
+    <script>
+        const GEMINI_KEY = 'AIzaSyCBA0oSoiVrekgP9wstRbHxczbBLxg08qE';
+        
+        const LABS_DATA = {
+            'marketing': {
+                title: 'Marketing Site Builder',
+                guide: `<h3>Step 1: The Structure</h3><p>Create a hero section with a headline and a CTA button. Use standard HTML tags.</p><h3>Step 2: Styling</h3><p>Add some internal CSS to make the background dark and the text vibrant.</p>`,
+                starter: `<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    body { font-family: sans-serif; background: #0f172a; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }\n    .btn { background: #3b82f6; color: white; padding: 0.75rem 1.5rem; border-radius: 0.5rem; text-decoration: none; font-weight: bold; }\n  </style>\n</head>\n<body>\n  <h1>My Vibe Site</h1>\n  <p>Built with AI in record time.</p>\n  <a href="#" class="btn">Get Started →</a>\n</body>\n</html>`
+            },
+            'ecommerce': {
+                title: 'E-Commerce Storefront',
+                guide: `<h3>Step 1: Product Grid</h3><p>Create a container for your products. Each product should have an image, name, and price.</p>`,
+                starter: `<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    body { font-family: sans-serif; padding: 2rem; }\n    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; }\n    .card { border: 1px solid #ddd; padding: 1rem; border-radius: 8px; }\n  </style>\n</head>\n<body>\n  <h1>Vibe Store</h1>\n  <div class="grid">\n    <div class="card"><h3>Product 1</h3><p>$99</p></div>\n    <div class="card"><h3>Product 2</h3><p>$149</p></div>\n  </div>\n</body>\n</html>`
+            },
+            'marketplace': {
+                title: 'Directory Marketplace',
+                guide: `<h3>Step 1: Search Bar</h3><p>Add an input field and a filter button to help users find what they need.</p>`,
+                starter: `<!DOCTYPE html>\n<html>\n<head>\n  <style>\n    body { font-family: sans-serif; padding: 2rem; }\n    .search { margin-bottom: 2rem; }\n    input { padding: 0.5rem; width: 300px; }\n  </style>\n</head>\n<body>\n  <h1>AI Tool Directory</h1>\n  <div class="search">\n    <input type="text" placeholder="Search tools...">\n  </div>\n  <ul>\n    <li>ChatGPT - Assistant</li>\n    <li>Midjourney - Art</li>\n  </ul>\n</body>\n</html>`
+            }
+        };
+
+        const params = new URLSearchParams(window.location.search);
+        const labId = params.get('id') || 'marketing';
+        const lab = LABS_DATA[labId];
+
+        document.getElementById('lab-title').textContent = `Lab: ${lab.title}`;
+        document.getElementById('lab-guide').innerHTML = lab.guide;
+        document.getElementById('code-editor').value = lab.starter;
+
+        function updatePreview() {
+            const code = document.getElementById('code-editor').value;
+            const blob = new Blob([code], { type: 'text/html' });
+            document.getElementById('preview-frame').src = URL.createObjectURL(blob);
+        }
+
+        function resetCode() {
+            if (confirm('Reset code to starter template?')) {
+                document.getElementById('code-editor').value = lab.starter;
+                updatePreview();
+            }
+        }
+
+        function switchPanelTab(tab) {
+            document.querySelectorAll('.panel-tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('instructions-content').style.display = tab === 'instructions' ? 'block' : 'none';
+            document.getElementById('copilot-content').style.display = tab === 'copilot' ? 'block' : 'none';
+        }
+
+        async function askGemini(prompt) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`;
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+            });
+            const data = await response.json();
+            return data.candidates[0].content.parts[0].text;
+        }
+
+        document.getElementById('copilot-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('copilot-input');
+            const text = input.value.trim();
+            if (!text) return;
+
+            addMsg(text, 'user');
+            input.value = '';
+            const loading = addMsg('Thinking...', 'bot');
+
+            try {
+                const currentCode = document.getElementById('code-editor').value;
+                const systemPrompt = `You are the Lab Copilot for a ${lab.title} course. The student is working on this code:\n\n${currentCode}\n\nHelp them with their question: ${text}. Give hints, don't just give the whole solution unless necessary.`;
+                const response = await askGemini(systemPrompt);
+                loading.textContent = response;
+            } catch (err) {
+                loading.textContent = 'Error: ' + err.message;
+            }
+        });
+
+        function addMsg(text, role) {
+            const container = document.getElementById('copilot-messages');
+            const div = document.createElement('div');
+            div.className = `copilot-msg ${role}`;
+            div.textContent = text;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
+            return div;
+        }
+
+        async function submitProject() {
+            const user = await window.auth.getUser();
+            if (!user) {
+                alert('Please sign in to submit your project!');
+                window.location.href = 'auth.html';
+                return;
+            }
+
+            const code = document.getElementById('code-editor').value;
+            const title = prompt('Enter a title for your project:', lab.title);
+            if (!title) return;
+
+            const project = {
+                user_id: user.id,
+                title: title,
+                description: `Built in the ${lab.title} lab.`,
+                lab: labId,
+                code: code,
+                icon: labId === 'marketing' ? '🎨' : (labId === 'ecommerce' ? '🛒' : '🏪')
+            };
+
+            const { error } = await window.db.createProject(project);
+            if (error) {
+                alert('Error submitting project: ' + error.message);
+            } else {
+                alert('Project submitted successfully! It will now appear in the Community Showcase.');
+                window.location.href = 'community.html#projects';
+            }
+        }
+
+        updatePreview();
+    </script>
+</body>
+</html>

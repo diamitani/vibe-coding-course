@@ -90,6 +90,11 @@ window.auth = {
 // ========================================
 
 window.db = {
+  createProject: async function (project) {
+    const sb = getSupabase();
+    if (!sb) return { data: null, error: { message: 'Supabase not loaded' } };
+    return await sb.from('projects').insert([project]);
+  },
   // Profiles
   getProfile: async function (userId) {
     const sb = getSupabase();

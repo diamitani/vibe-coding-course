@@ -565,7 +565,7 @@
                     <p style="color: var(--text-secondary); font-size: 1.05rem;">Apply everything you learn in our guided hands-on projects. Build real, portfolio-worthy work that demonstrates your vibe coding skills.</p>
                 </div>
 
-                <a href="archive/lab1.html" class="project-card" id="lab-1">
+                <a href="lab.html?id=marketing" class="project-card" id="lab-1">
                     <div class="project-number">PROJECT 1</div>
                     <h2 class="project-title">🎨 Build a Marketing Website</h2>
                     <p class="project-description">
@@ -578,7 +578,7 @@
                     </div>
                 </a>
 
-                <a href="archive/lab2.html" class="project-card" id="lab-2">
+                <a href="lab.html?id=ecommerce" class="project-card" id="lab-2">
                     <div class="project-number">PROJECT 2</div>
                     <h2 class="project-title">🛒 Build an E-Commerce Store</h2>
                     <p class="project-description">
@@ -591,7 +591,7 @@
                     </div>
                 </a>
 
-                <a href="archive/lab3.html" class="project-card" id="lab-3">
+                <a href="lab.html?id=marketplace" class="project-card" id="lab-3">
                     <div class="project-number">PROJECT 3</div>
                     <h2 class="project-title">🏪 Build a Marketplace</h2>
                     <p class="project-description">
@@ -611,11 +611,15 @@
                     <p style="color: var(--text-secondary); font-size: 1.05rem;">The world’s first and largest indexed directory of AI courses. Find the best learning resources from across the web.</p>
                 </div>
                 
+                <div class="tools-search">
+                    <input type="text" id="course-search" class="form-input" placeholder="Search courses by name or provider..." style="width:100%; max-width:500px;" oninput="renderCourses()">
+                </div>
+
                 <div class="showcase-filters" style="display: flex; gap: 0.75rem; margin-bottom: 2rem; flex-wrap: wrap;">
-                    <button class="btn btn-primary filter-btn" data-level="all" onclick="filterCourses('all')">All Levels</button>
-                    <button class="btn btn-secondary filter-btn" data-level="Foundational" onclick="filterCourses('Foundational')">Foundational</button>
-                    <button class="btn btn-secondary filter-btn" data-level="Intermediate" onclick="filterCourses('Intermediate')">Intermediate</button>
-                    <button class="btn btn-secondary filter-btn" data-level="Advanced" onclick="filterCourses('Advanced')">Advanced</button>
+                    <button class="filter-btn active" data-level="all" onclick="filterCourses('all')">All Levels</button>
+                    <button class="filter-btn" data-level="Foundational" onclick="filterCourses('Foundational')">Foundational</button>
+                    <button class="filter-btn" data-level="Intermediate" onclick="filterCourses('Intermediate')">Intermediate</button>
+                    <button class="filter-btn" data-level="Advanced" onclick="filterCourses('Advanced')">Advanced</button>
                 </div>
 
                 <div class="cards-grid cards-grid-3" id="courses-grid">
@@ -684,32 +688,39 @@
     <script src="content-hub-data.js"></script>
     <script>
         const contentHub = window.CONTENT_HUB_DATA || { externalCourseDirectory: [] };
+        let courseDirectory = [];
+
+        async function loadCourses() {
+            if (courseDirectory.length > 0) return;
+            try {
+                const res = await fetch('data/courses.json');
+                courseDirectory = await res.json();
+            } catch {
+                courseDirectory = contentHub.externalCourseDirectory;
+            }
+        }
 
         function switchTab(tabName) {
-            // Hide all tabs
             document.querySelectorAll('.learn-tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
 
-            // Remove active class from all buttons
             document.querySelectorAll('.learn-tab-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
 
-            // Show selected tab
             const targetTab = document.getElementById(tabName);
             if (targetTab) {
                 targetTab.classList.add('active');
             }
 
-            // Mark button as active - handle both direct click and programmatic call
             const btn = document.querySelector(`.learn-tab-btn[onclick*="'${tabName}'"]`);
             if (btn) {
                 btn.classList.add('active');
             }
             
             if (tabName === 'courses') {
-                renderCourses();
+                loadCourses().then(() => renderCourses());
             }
         }
 
@@ -717,9 +728,19 @@
             const grid = document.getElementById('courses-grid');
             if (!grid) return;
 
-            const courses = levelFilter === 'all' 
-                ? contentHub.externalCourseDirectory 
-                : contentHub.externalCourseDirectory.filter(c => c.level === levelFilter);
+            const searchTerm = (document.getElementById('course-search').value || '').toLowerCase().trim();
+
+            let courses = levelFilter === 'all' 
+                ? courseDirectory 
+                : courseDirectory.filter(c => c.level === levelFilter);
+
+            if (searchTerm) {
+                courses = courses.filter(c => 
+                    c.name.toLowerCase().includes(searchTerm) || 
+                    c.provider.toLowerCase().includes(searchTerm) ||
+                    (c.desc || '').toLowerCase().includes(searchTerm)
+                );
+            }
 
             grid.innerHTML = courses.map(course => `
                 <div class="card fade-in">
@@ -734,7 +755,6 @@
                 </div>
             `).join('');
             
-            // Update filter buttons
             document.querySelectorAll('#courses .filter-btn').forEach(btn => {
                 const isActive = btn.dataset.level === levelFilter;
                 btn.classList.toggle('btn-primary', isActive);
