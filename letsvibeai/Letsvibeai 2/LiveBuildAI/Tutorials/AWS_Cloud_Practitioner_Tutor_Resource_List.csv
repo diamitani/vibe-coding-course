@@ -1,0 +1,22 @@
+Resource Name,Description,Type,Link
+AWS Certified Cloud Practitioner Official Exam Guide (CLF-C02),Official AWS guide covering the full CLF-C02 blueprint. Essential for aligning your GPT’s lessons with the exam structure.,PDF,https://d1.awsstatic.com/training-and-certification/docs-cloud-practitioner/AWS_Certified_Cloud_Practitioner_Exam_Guide.pdf
+AWS Cloud Practitioner Essentials Course Notes (FreeCodeCamp),"Concise course notes from FreeCodeCamp based on the AWS Essentials course, great for simplifying complex topics.",Webpage,https://www.freecodecamp.org/news/aws-certified-cloud-practitioner-study-guide/
+AWS Cloud Concepts Visuals by Digital Cloud Training,"Graphical breakdowns of key AWS concepts, aligned with CLF-C02. Perfect for teaching with metaphors and visuals.",Webpage,https://digitalcloud.training/aws-certified-cloud-practitioner-study-guide/
+AWS Cloud Practitioner Study Guide – GitHub Repo,"Open-source study materials including flashcards, summaries, and practice questions.",Webpage,https://github.com/acantril/aws-certified-cloud-practitioner
+AWS Shared Responsibility Model PDF,Official AWS document explaining the shared responsibility model – key for exam and real-world understanding.,PDF,https://d1.awsstatic.com/whitepapers/aws-shared-responsibility-model.pdf
+AWS Cloud Practitioner Practice Exam (AWS),Official practice exam with questions and answers from AWS.,Webpage (Printable),https://www.aws.training/Details/Curriculum?id=20685
+AWS Billing and Pricing – Whitepaper,"Detailed PDF on AWS pricing strategies and cost tools, aligns with exam objectives.",PDF,https://d1.awsstatic.com/whitepapers/aws_pricing_overview.pdf
+AWS Security Best Practices PDF,"Detailed whitepaper on AWS security concepts, ideal for security and compliance domain.",PDF,https://d1.awsstatic.com/whitepapers/Security/AWS_Security_Best_Practices.pdf
+AWS Support Plans Overview PDF,"Overview of AWS support tiers, crucial for the AWS Support exam domain.",PDF,https://d1.awsstatic.com/whitepapers/aws_support_plan_whitepaper.pdf
+AWS Glossary of Key Terms,Comprehensive glossary useful for flashcard generation and core term explanations.,Webpage,https://docs.aws.amazon.com/general/latest/gr/glos-chap.html
+AWS Well-Architected Framework,Core AWS principles and pillars of cloud architecture – tested indirectly on the exam.,PDF,https://d1.awsstatic.com/whitepapers/architecture/AWS_Well-Architected_Framework.pdf
+Anki AWS Cloud Practitioner Flashcards,"Spaced repetition flashcards compatible with Anki, great for memory reinforcement.",Webpage,https://ankiweb.net/shared/info/896964716
+AWS Cloud Services Overview (Official PDF),"Overview of AWS core services by category, aligns with exam technology domain.",PDF,https://d1.awsstatic.com/whitepapers/aws-overview.pdf
+AWS FAQs for CLF-C02 Prep,"Detailed FAQs on topics covered in the exam like EC2, S3, IAM, and CloudTrail.",Webpage,https://aws.amazon.com/faqs/
+Medium Guide to Passing AWS CLF-C02,Simplified study guide written with analogies and non-technical learners in mind.,Webpage,https://medium.com/edureka/aws-certified-cloud-practitioner-exam-guide-tips-94c684fe04f2
+AWS Cloud Practitioner Handbook (PDF Archive),Archived PDF handbook summarizing key AWS concepts and services.,PDF,https://archive.org/details/aws-cloud-practitioner-handbook
+Tutorial Dojo Practice Questions PDF,Unofficial but widely used practice questions with explanations.,PDF,https://www.dropbox.com/scl/fi/ifzj28x0ag8m9y4l4z9f6/AWS-Cloud-Practitioner-Practice-Test.pdf
+AWS Cloud Practitioner Study Sheets (Quizlet),User-generated flashcards and summaries ideal for rapid review.,Webpage,https://quizlet.com/subject/aws-cloud-practitioner/
+GCP vs AWS Comparison Guide,Useful for understanding AWS differentiators via comparison with Google Cloud.,Webpage,https://cloud.google.com/learn/aws-gcp-comparison
+AWS Simple Monthly Calculator (Archived Tool),Classic tool for learning AWS billing estimation; helps teach practical pricing examples.,Webpage,https://calculator.s3.amazonaws.com/index.html
+Cloud Practitioner Whitepaper Bundle,Google Drive folder with bundled whitepapers and summaries aligned with exam topics.,PDF Collection,https://drive.google.com/drive/folders/1N7KL0obNLSkVajXb5MxkA0DezKlLwz9d

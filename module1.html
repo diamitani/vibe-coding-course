@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 1 — What is AI? | LetsVibeAI</title>
+    <meta name="description" content="Learn the fundamentals of artificial intelligence, how large language models work, and why this technology changes everything.">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .module-header {
+            text-align: center;
+            padding: 3rem 0;
+            margin-bottom: 2rem;
+        }
+        .module-header .module-badge {
+            display: inline-block;
+            padding: 0.35rem 1rem;
+            border-radius: var(--radius-full);
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--accent-cyan);
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        .module-header h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            margin-bottom: 0.75rem;
+        }
+        .module-header p {
+            color: var(--text-secondary);
+            font-size: 1.05rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .module-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .module-meta span {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        .lesson-layout {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+        @media (max-width: 768px) {
+            .lesson-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .lesson-sidebar {
+            position: sticky;
+            top: 100px;
+        }
+        .lesson-sidebar h4 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        .lesson-sidebar a {
+            display: block;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            transition: all var(--duration-fast) var(--ease-out);
+            margin-bottom: 0.25rem;
+        }
+        .lesson-sidebar a:hover,
+        .lesson-sidebar a.active {
+            background: rgba(6, 182, 212, 0.08);
+            color: var(--accent-cyan);
+        }
+
+        .lesson-section {
+            margin-bottom: 3rem;
+            scroll-margin-top: 100px;
+        }
+        .lesson-section h2 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+        .lesson-section h3 {
+            font-size: 1.15rem;
+            margin: 1.5rem 0 0.75rem;
+            color: var(--text-primary);
+        }
+        .lesson-section p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+        .lesson-section ul {
+            margin: 0.5rem 0 1rem 1.5rem;
+            color: var(--text-secondary);
+        }
+        .lesson-section li {
+            margin-bottom: 0.4rem;
+            line-height: 1.6;
+        }
+        .lesson-section .highlight-box {
+            background: var(--bg-card);
+            border-left: 3px solid var(--accent-cyan);
+            padding: 1.25rem 1.5rem;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 1.5rem 0;
+        }
+        .lesson-section .highlight-box.violet {
+            border-left-color: var(--accent-violet);
+        }
+        .lesson-section .highlight-box.magenta {
+            border-left-color: var(--accent-magenta);
+        }
+        .lesson-section .highlight-box.emerald {
+            border-left-color: var(--accent-emerald);
+        }
+        .lesson-section .highlight-box p:last-child {
+            margin-bottom: 0;
+        }
+
+        .module-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+        .module-nav a {
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-md);
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all var(--duration-fast) var(--ease-out);
+        }
+        .module-nav a.prev {
+            color: var(--text-secondary);
+            border: 1px solid var(--border-subtle);
+        }
+        .module-nav a.prev:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+        .module-nav a.next {
+            background: var(--accent-cyan);
+            color: #fff;
+        }
+        .module-nav a.next:hover {
+            background: var(--accent-violet);
+        }
+        .module-nav .back-to-learn {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .progress-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            padding: 1rem 1.5rem;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-subtle);
+        }
+        .mark-btn {
+            padding: 0.5rem 1.25rem;
+            border-radius: var(--radius-full);
+            border: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all var(--duration-fast) var(--ease-out);
+        }
+        .mark-btn.complete {
+            background: var(--accent-emerald);
+            color: #fff;
+        }
+        .mark-btn.complete:hover {
+            background: #059669;
+        }
+        .mark-btn.incomplete {
+            background: var(--bg-card);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-subtle);
+        }
+        .mark-btn.incomplete:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+        }
+        .progress-status {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .key-takeaways {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .takeaway-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 1.25rem;
+        }
+        .takeaway-card h4 {
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-cyan);
+        }
+        .takeaway-card p {
+            font-size: 0.85rem;
+            margin: 0;
+        }
+
+        .exercise-box {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(6, 182, 212, 0.08));
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .exercise-box h3 {
+            margin-top: 0;
+        }
+        .exercise-box p {
+            font-size: 0.9rem;
+        }
+        .exercise-box .tag {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: var(--radius-full);
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-emerald);
+            margin-top: 0.5rem;
+        }
+
+        .glossary-term {
+            display: flex;
+            gap: 1rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+        .glossary-term:last-child {
+            border-bottom: none;
+        }
+        .glossary-term .term {
+            font-weight: 600;
+            color: var(--text-primary);
+            min-width: 140px;
+            font-size: 0.9rem;
+        }
+        .glossary-term .def {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">LetsVibeAI</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="learn.html">Learn</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="marketplace.html">Marketplace</a></li>
+                <li id="auth-nav-slot"></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="module-header">
+                <div class="module-badge">Module 1 of 6</div>
+                <h1>🧠 What is AI?</h1>
+                <p>Before we build with AI, we need to understand what's under the hood. This module covers the fundamentals of artificial intelligence, how large language models work, and why this technology changes the way people learn, work, and build software.</p>
+                <div class="module-meta">
+                    <span>⏱ ~2-3 hours</span>
+                    <span>📊 Beginner</span>
+                    <span>💰 Free</span>
+                </div>
+            </div>
+
+            <div class="lesson-layout">
+                <aside class="lesson-sidebar">
+                    <h4>On this page</h4>
+                    <a href="#introduction" class="active">Introduction</a>
+                    <a href="#ml-vs-rules">ML vs Rule-Based Systems</a>
+                    <a href="#how-llms-work">How LLMs Work</a>
+                    <a href="#tokens">Tokens & Context Windows</a>
+                    <a href="#generative-ai">Generative AI & Transformers</a>
+                    <a href="#ai-software">AI & Software Development</a>
+                    <a href="#landscape">Current AI Landscape</a>
+                    <a href="#glossary">Glossary</a>
+                    <a href="#exercises">Exercises</a>
+                </aside>
+
+                <div class="lesson-content">
+                    <section id="introduction" class="lesson-section">
+                        <h2>Introduction</h2>
+                        <p>Artificial Intelligence has transformed from a buzzword into the most important technological shift of our generation. But what actually is it?</p>
+                        <p>At its simplest, AI is the ability of machines to perform tasks that normally require human intelligence. This includes understanding language, recognizing patterns, making decisions, and generating creative content.</p>
+                        <p>The AI we interact with today — tools like ChatGPT, Claude, Gemini, and Copilot — is a specific type called <strong>generative AI</strong>. Unlike older AI systems that could only classify or predict, generative AI can create new content: text, images, code, music, and more.</p>
+                        <div class="highlight-box">
+                            <p><strong>Key Insight:</strong> Modern AI doesn't "think" like humans do. It predicts the next most likely word, pixel, or sound based on patterns learned from massive amounts of training data. The magic isn't consciousness — it's pattern matching at an unprecedented scale.</p>
+                        </div>
+                    </section>
+
+                    <section id="ml-vs-rules" class="lesson-section">
+                        <h2>Machine Learning vs Rule-Based Systems</h2>
+                        <p>To understand AI, you need to understand the difference between two fundamental approaches:</p>
+                        <h3>Rule-Based Systems</h3>
+                        <p>Traditional software follows explicit rules written by programmers. If X happens, do Y. These systems are predictable but brittle — they can only handle scenarios the programmer anticipated.</p>
+                        <ul>
+                            <li><strong>Example:</strong> A calculator — you give it 2+2, it returns 4. Every time.</li>
+                            <li><strong>Strength:</strong> Deterministic, predictable, easy to debug</li>
+                            <li><strong>Weakness:</strong> Cannot handle novel situations or ambiguous input</li>
+                        </ul>
+                        <h3>Machine Learning</h3>
+                        <p>Machine learning flips this approach. Instead of writing rules, you show the system examples and it learns the rules on its own. The system identifies patterns in data and uses those patterns to make predictions or decisions.</p>
+                        <ul>
+                            <li><strong>Example:</strong> Show an ML system 10,000 photos of cats and dogs without telling it which is which. Over time, it learns the patterns that distinguish cats from dogs.</li>
+                            <li><strong>Strength:</strong> Can handle ambiguity, adapts to new data, discovers patterns humans might miss</li>
+                            <li><strong>Weakness:</strong> Needs lots of data, can be unpredictable, hard to debug</li>
+                        </ul>
+                        <div class="highlight-box violet">
+                            <p><strong>Three Types of Machine Learning:</strong></p>
+                            <ul>
+                                <li><strong>Supervised Learning:</strong> Training with labeled data (e.g., "this is a cat")</li>
+                                <li><strong>Unsupervised Learning:</strong> Finding patterns in unlabeled data</li>
+                                <li><strong>Reinforcement Learning:</strong> Learning through trial and error with rewards/punishments</li>
+                            </ul>
+                        </div>
+                    </section>
+
+                    <section id="how-llms-work" class="lesson-section">
+                        <h2>How Large Language Models (LLMs) Work</h2>
+                        <p>LLMs are the engine behind ChatGPT, Claude, Gemini, and most modern AI tools. Here's a simplified version of how they work:</p>
+                        <h3>Training Phase</h3>
+                        <p>An LLM is trained on an enormous corpus of text — think millions of books, billions of web pages, and vast amounts of code. During training, the model learns statistical patterns: which words tend to follow which other words, how grammar works, what concepts are related, and even reasoning patterns.</p>
+                        <h3>Inference Phase</h3>
+                        <p>When you give an LLM a prompt, it doesn't "think" about your question. Instead, it generates a response one token at a time, each time predicting the most likely next token based on everything it learned during training and the context of your conversation.</p>
+                        <div class="highlight-box magenta">
+                            <p><strong>Analogy:</strong> An LLM is like an infinitely knowledgeable autocomplete. You start typing, and it predicts what comes next — but it's been trained on so much data that its predictions are remarkably coherent and useful.</p>
+                        </div>
+                        <h3>Key Capabilities</h3>
+                        <ul>
+                            <li><strong>Text Generation:</strong> Writing articles, emails, code, poetry</li>
+                            <li><strong>Question Answering:</strong> Responding to queries with relevant information</li>
+                            <li><strong>Translation:</strong> Converting between languages</li>
+                            <li><strong>Summarization:</strong> Condensing long documents into key points</li>
+                            <li><strong>Reasoning:</strong> Working through logic problems step by step</li>
+                            <li><strong>Code Generation:</strong> Writing and explaining source code</li>
+                        </ul>
+                    </section>
+
+                    <section id="tokens" class="lesson-section">
+                        <h2>Tokens and Context Windows</h2>
+                        <p>Two concepts are essential to understanding how to work effectively with AI:</p>
+                        <h3>What Are Tokens?</h3>
+                        <p>Tokens are how AI models measure text. A token is roughly 3/4 of a word in English, but it varies. "Hello" might be one token; "unbelievably" might be three tokens ("un", "believe", "ably"). Punctuation and spaces also count.</p>
+                        <ul>
+                            <li>100 tokens ≈ 75 words</li>
+                            <li>Models charge by tokens (both input and output)</li>
+                            <li>Response quality depends on tokens allocated to reasoning</li>
+                        </ul>
+                        <h3>Context Windows</h3>
+                        <p>The context window is the amount of text an AI model can "see" at once. Think of it as the model's working memory. Different models have different context window sizes:</p>
+                        <ul>
+                            <li><strong>GPT-4:</strong> ~8K-128K tokens (depending on version)</li>
+                            <li><strong>Claude 3.5 Sonnet:</strong> 200K tokens</li>
+                            <li><strong>Gemini 1.5 Pro:</strong> Up to 2M tokens</li>
+                        </ul>
+                        <div class="highlight-box emerald">
+                            <p><strong>Practical Tip:</strong> When working with AI, prioritize what goes into the context window. The model pays most attention to the beginning and end of its context. Put the most important instructions at the start and end of your prompt.</p>
+                        </div>
+                    </section>
+
+                    <section id="generative-ai" class="lesson-section">
+                        <h2>Generative AI and Transformers</h2>
+                        <p>The "generative" in generative AI refers to the model's ability to create new content rather than just analyze existing content.</p>
+                        <h3>The Transformer Architecture</h3>
+                        <p>Almost all modern LLMs are built on the Transformer architecture, introduced by Google researchers in 2017 in the paper "Attention Is All You Need." The key innovation is the <strong>attention mechanism</strong>.</p>
+                        <p>Attention allows the model to weigh the importance of different words in a sentence relative to each other. For example, in "The cat sat on the mat because it was comfortable," attention helps the model understand that "it" refers to "the cat," not "the mat."</p>
+                        <h3>Why Transformers Matter for Vibe Coding</h3>
+                        <p>The Transformer architecture is what makes tools like Cursor, Copilot, and Claude Code possible. It can handle long-range dependencies in code — understanding how a variable defined at the top of a file affects a function at the bottom. This is crucial for generating coherent, working software.</p>
+                    </section>
+
+                    <section id="ai-software" class="lesson-section">
+                        <h2>Why AI is Transforming Software Development</h2>
+                        <p>AI is reshaping software development in three fundamental ways:</p>
+                        <h3>1. Democratization</h3>
+                        <p>You no longer need to spend years learning to code to build software. Natural language becomes the programming language. Anyone with a clear idea can now build working applications.</p>
+                        <h3>2. Acceleration</h3>
+                        <p>Experienced developers using AI tools report 2-5x productivity gains. Boilerplate code, testing, documentation, and debugging — tasks that used to take hours now take minutes.</p>
+                        <h3>3. New Paradigm</h3>
+                        <p>The job shifts from "writing code" to "directing AI." Instead of implementing every function yourself, you describe what you want, review what the AI generates, and refine through iteration.</p>
+                        <div class="highlight-box">
+                            <p><strong>This is what "Vibe Coding" means:</strong> Moving from writing every line of code to directing an AI collaborator. Your value shifts from syntax mastery to problem definition, architecture thinking, and quality judgment.</p>
+                        </div>
+                    </section>
+
+                    <section id="landscape" class="lesson-section">
+                        <h2>The Current Landscape of AI Models</h2>
+                        <p>Understanding the players helps you choose the right tool for the job:</p>
+                        <ul>
+                            <li><strong>OpenAI (GPT-4, GPT-4o):</strong> Strong all-rounder, great for creative tasks, large ecosystem. Powers ChatGPT and many third-party tools.</li>
+                            <li><strong>Anthropic (Claude 3.5 Sonnet, Opus):</strong> Excellent for coding, reasoning, and safety. Powers Cursor and Claude Code. Known for large context windows.</li>
+                            <li><strong>Google (Gemini 1.5 Pro, Flash):</strong> Huge context windows (up to 2M tokens), strong multimodal capabilities, integrated with Google ecosystem.</li>
+                            <li><strong>Open-Source Models (Llama 3, Mistral, DeepSeek):</strong> Free to use, can be run locally, good for privacy-sensitive applications. May lag behind proprietary models on complex tasks.</li>
+                            <li><strong>Specialized:</strong> Models fine-tuned for specific tasks — code generation (Codex, StarCoder), image generation (DALL-E, Stable Diffusion), or music generation.</li>
+                        </ul>
+                        <div class="highlight-box violet">
+                            <p><strong>Recommendation:</strong> For vibe coding, start with Claude 3.5 Sonnet (for Cursor/Claude Code) or GPT-4o (for ChatGPT/Copilot). These have the best balance of quality, speed, and tool integration.</p>
+                        </div>
+                    </section>
+
+                    <section id="glossary" class="lesson-section">
+                        <h2>Glossary</h2>
+                        <div class="glossary-term">
+                            <span class="term">AI (Artificial Intelligence)</span>
+                            <span class="def">Machines performing tasks that normally require human intelligence</span>
+                        </div>
+                        <div class="glossary-term">
+                            <span class="term">Machine Learning</span>
+                            <span class="def">A subset of AI where systems learn patterns from data without explicit programming</span>
+                        </div>
+                        <div class="glossary-term">
+                            <span class="term">LLM (Large Language Model)</span>
+                            <span class="def">An AI model trained on vast text data to understand and generate human-like text</span>
+                        </div>
+                        <div class="glossary-term">
+                            <span class="term">Token</span>
+                            <span class="def">The basic unit of text that AI models process (~3/4 of a word)</span>
+                        </div>
+                        <div class="glossary-term">
+                            <span class="term">Context Window</span>
+                            <span class="def">The amount of text an AI model can process at once (its working memory)</span>
+                        </div>
+                        <div class="glossary-term">
+                            <span class="term">Transformer</span>
+                            <span class="def">The neural network architecture that powers modern LLMs, using attention mechanisms</span>
+                        </div>
+                        <div class="glossary-term">
+                            <span class="term">Attention Mechanism</span>
+                            <span class="def">A technique that allows models to weigh the importance of different parts of input text</span>
+                        </div>
+                        <div class="glossary-term">
+                            <span class="term">Generative AI</span>
+                            <span class="def">AI that creates new content (text, images, code) rather than just analyzing existing data</span>
+                        </div>
+                    </section>
+
+                    <section id="exercises" class="lesson-section">
+                        <h2>Exercises</h2>
+
+                        <div class="exercise-box">
+                            <h3>📝 Exercise 1: Explain AI to a Friend</h3>
+                            <p>Write a one-paragraph explanation of what AI is, aimed at someone who has never heard of it. Avoid jargon. Use an analogy. The goal is to make the concept accessible — this skill of translating technical concepts is essential for vibe coding, where you need to communicate ideas to AI tools effectively.</p>
+                            <span class="tag">~10 minutes</span>
+                        </div>
+
+                        <div class="exercise-box">
+                            <h3>🔬 Exercise 2: Token Awareness</h3>
+                            <p>Take a paragraph of text (50-100 words) and guess how many tokens it contains. Then paste it into ChatGPT, Claude, or any AI chat and ask "How many tokens is this text?" Compare your estimate to the actual count. Repeat until your estimates improve. This builds intuition for managing context windows.</p>
+                            <span class="tag">~15 minutes</span>
+                        </div>
+
+                        <div class="exercise-box">
+                            <h3>💬 Exercise 3: Compare AI Responses</h3>
+                            <p>Ask the same question to two different AI models (e.g., ChatGPT and Claude). Try a question like "Explain how a transformer works in simple terms." Compare the responses. What did each model do differently? Which explanation was more helpful? This builds your ability to choose the right tool.</p>
+                            <span class="tag">~20 minutes</span>
+                        </div>
+
+                        <div class="exercise-box">
+                            <h3>🤔 Exercise 4: Spot the Difference</h3>
+                            <p>Think of a task you do regularly (planning a meal, organizing your calendar, writing an email). Describe how a rule-based system would handle it, then describe how a machine learning system would handle it differently. What advantages would each approach have?</p>
+                            <span class="tag">~15 minutes</span>
+                        </div>
+                    </section>
+
+                    <div class="progress-controls">
+                        <button class="mark-btn incomplete" id="progress-btn" onclick="toggleProgress()">Mark as Complete</button>
+                        <span class="progress-status" id="progress-status">Not started</span>
+                    </div>
+
+                    <div class="module-nav">
+                        <div></div>
+                        <a href="learn.html" class="back-to-learn">← Back to Learning Hub</a>
+                        <a href="module2.html" class="next">Next: What is Vibe Coding? →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <p>LetsVibeAI &copy; 2025 — Built with AI</p>
+                <div style="display: flex; gap: 1.5rem;">
+                    <a href="learn.html">Learn</a>
+                    <a href="resources.html">Resources</a>
+                    <a href="marketplace.html">Marketplace</a>
+                    <a href="community.html">Community</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="supabase-client.js"></script>
+    <script src="script.js"></script>
+    <script>
+        const MODULE_SLUG = 'module-1-what-is-ai';
+
+        async function toggleProgress() {
+            const user = getCurrentUser();
+            if (!user) {
+                showToast('Sign in to track your progress!');
+                return;
+            }
+            const btn = document.getElementById('progress-btn');
+            const status = document.getElementById('progress-status');
+            const isComplete = btn.classList.contains('complete');
+
+            if (isComplete) {
+                await window.db.unmarkComplete(user.id, MODULE_SLUG);
+                btn.textContent = 'Mark as Complete';
+                btn.className = 'mark-btn incomplete';
+                status.textContent = 'Not started';
+            } else {
+                await window.db.markComplete(user.id, MODULE_SLUG, 'module');
+                btn.textContent = '✅ Completed';
+                btn.className = 'mark-btn complete';
+                status.textContent = 'Completed';
+            }
+        }
+
+        async function loadProgress() {
+            const user = getCurrentUser();
+            if (!user) return;
+            const progress = await window.db.getProgress(user.id);
+            const found = progress.find(p => p.content_slug === MODULE_SLUG);
+            if (found) {
+                const btn = document.getElementById('progress-btn');
+                btn.textContent = '✅ Completed';
+                btn.className = 'mark-btn complete';
+                document.getElementById('progress-status').textContent = 'Completed';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.authPromise.then(() => loadProgress()).catch(() => {});
+            // Sidebar scroll spy
+            const links = document.querySelectorAll('.lesson-sidebar a');
+            const sections = Array.from(links).map(a => {
+                const id = a.getAttribute('href')?.replace('#', '');
+                return id ? document.getElementById(id) : null;
+            }).filter(Boolean);
+            const spy = () => {
+                const scrollY = window.scrollY + 150;
+                let current = '';
+                sections.forEach(s => {
+                    if (s && s.offsetTop <= scrollY) current = s.id;
+                });
+                links.forEach(a => {
+                    a.classList.toggle('active', a.getAttribute('href') === `#${current}`);
+                });
+            };
+            window.addEventListener('scroll', spy, { passive: true });
+            spy();
+        });
+    </script>
+</body>
+
+</html>

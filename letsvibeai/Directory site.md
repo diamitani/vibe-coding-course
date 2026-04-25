@@ -1,0 +1,3 @@
+- events/meetups (local)
+- Courses (online/college)
+- Platforms (news, tech, etc)

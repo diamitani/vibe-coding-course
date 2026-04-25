@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brand Guidelines — LetsVibeAI Design System</title>
+  <meta name="description" content="Official brand guidelines, color palette, typography, and design system for LetsVibeAI.">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <style>
+    .brand-hero { padding: 7rem 0 3rem; text-align: center; }
+    .brand-hero h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 900; letter-spacing: -0.03em; margin-bottom: 1rem; }
+    .brand-hero p { color: var(--text-secondary); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+    .brand-section { padding: 3rem 0; border-top: 1px solid var(--border-subtle); }
+    .brand-section-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent-violet); margin-bottom: 0.5rem; }
+    .brand-section h2 { font-size: 1.75rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 1.5rem; }
+
+    /* Swatches */
+    .swatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
+    .swatch { border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-subtle); }
+    .swatch-color { height: 100px; }
+    .swatch-info { padding: 0.75rem 1rem; background: var(--bg-secondary); }
+    .swatch-info strong { display: block; font-size: 0.85rem; margin-bottom: 0.2rem; }
+    .swatch-info code { font-family: var(--font-mono); font-size: 0.78rem; color: var(--text-muted); }
+
+    /* Gradient strips */
+    .gradient-strip { height: 48px; border-radius: var(--radius-sm); margin-bottom: 0.75rem; }
+    .gradient-label { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.5rem; font-weight: 600; }
+
+    /* Type samples */
+    .type-sample { margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-subtle); }
+    .type-sample:last-child { border-bottom: none; }
+    .type-meta { font-size: 0.75rem; color: var(--text-muted); font-family: var(--font-mono); margin-top: 0.35rem; }
+
+    /* Component demos */
+    .demo-row { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; margin-bottom: 2rem; }
+    .demo-label { width: 100%; font-size: 0.8rem; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.25rem; }
+
+    /* Token table */
+    .token-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.85rem; }
+    .token-table th { text-align: left; padding: 0.6rem 1rem; background: var(--bg-secondary); color: var(--text-primary); font-weight: 600; }
+    .token-table th:first-child { border-radius: var(--radius-sm) 0 0 0; }
+    .token-table th:last-child { border-radius: 0 var(--radius-sm) 0 0; }
+    .token-table td { padding: 0.6rem 1rem; border-bottom: 1px solid var(--border-subtle); color: var(--text-secondary); }
+    .token-table td code { font-family: var(--font-mono); font-size: 0.78rem; color: var(--accent-cyan); }
+
+    /* Logo display */
+    .logo-display { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+    .logo-card { padding: 2rem; border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: center; min-height: 140px; }
+    .logo-card.dark-bg { background: var(--bg-primary); }
+    .logo-card.light-bg { background: #f0f0f5; }
+    .logo-card .logo-text { font-weight: 800; font-size: 1.5rem; letter-spacing: -0.02em; }
+    .logo-card .logo-text.gradient { background: var(--gradient-text); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .logo-card .logo-text.dark { color: #0a0a0f; }
+
+    /* Voice table */
+    .voice-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .voice-do, .voice-dont { padding: 1.25rem; border-radius: var(--radius-md); }
+    .voice-do { background: rgba(16,185,129,0.06); border: 1px solid rgba(16,185,129,0.15); }
+    .voice-dont { background: rgba(236,72,153,0.06); border: 1px solid rgba(236,72,153,0.15); }
+    .voice-do strong { color: var(--accent-emerald); }
+    .voice-dont strong { color: var(--accent-magenta); }
+    .voice-do p, .voice-dont p { font-size: 0.88rem; color: var(--text-secondary); margin-top: 0.4rem; }
+
+    @media (max-width: 720px) {
+      .swatch-grid { grid-template-columns: repeat(2, 1fr); }
+      .voice-grid { grid-template-columns: 1fr; }
+      .logo-display { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="ambient-bg"></div>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo" style="background:var(--gradient-text);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;">LetsVibeAI</a>
+      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="learn.html">Learn</a></li>
+        <li><a href="resources.html">Resources</a></li>
+        <li><a href="community.html">Community</a></li>
+        <li><a href="brand.html" class="active">Brand</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="page-content">
+    <div class="container">
+
+      <!-- HERO -->
+      <section class="brand-hero">
+        <span class="section-label">Design System v1.0</span>
+        <h1>Brand <span class="gradient-text">Guidelines</span></h1>
+        <p>The visual identity, design tokens, and component patterns that power every LetsVibeAI experience.</p>
+      </section>
+
+      <!-- MISSION -->
+      <section class="brand-section">
+        <span class="brand-section-label">Mission</span>
+        <h2>Help 1 million people build with AI</h2>
+        <p style="color:var(--text-secondary);max-width:700px;font-size:0.95rem;line-height:1.7;">Let's Vibe AI drives AI adoption through vibe coding — teaching fundamentals while giving people access to resources, platforms, and knowledge to build beautiful tools, systems, and businesses. Our goal is to partner with the United States to ensure every American can harness AI for their personal and professional growth.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:0.6rem;margin-top:1.5rem;">
+          <span class="tag">Approachable</span>
+          <span class="tag cyan">Empowering</span>
+          <span class="tag emerald">Technical</span>
+          <span class="tag magenta">Premium</span>
+          <span class="tag" style="background:rgba(245,158,11,0.1);color:#f59e0b;border-color:rgba(245,158,11,0.15);">Forward</span>
+        </div>
+      </section>
+
+      <!-- LOGO -->
+      <section class="brand-section">
+        <span class="brand-section-label">Logo</span>
+        <h2>Logo System</h2>
+        <div class="logo-display">
+          <div class="logo-card dark-bg">
+            <span class="logo-text gradient">LetsVibeAI</span>
+          </div>
+          <div class="logo-card dark-bg">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+              <defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#16c2b2"/><stop offset="100%" stop-color="#5da9ff"/></linearGradient></defs>
+              <rect width="64" height="64" rx="14" fill="#060f1d"/>
+              <path d="M16 18h10l7 18 7-18h10L36 50h-8z" fill="url(#g)"/>
+            </svg>
+          </div>
+          <div class="logo-card light-bg">
+            <span class="logo-text dark">LetsVibeAI</span>
+          </div>
+        </div>
+        <div style="margin-top:1.5rem;">
+          <p style="color:var(--text-secondary);font-size:0.88rem;"><strong style="color:var(--text-primary);">Clear space:</strong> Minimum ½ icon height on all sides. <strong style="color:var(--text-primary);">Min size:</strong> Icon 24px, Full logo 120px.</p>
+        </div>
+      </section>
+
+      <!-- COLORS -->
+      <section class="brand-section">
+        <span class="brand-section-label">Color</span>
+        <h2>Color Palette</h2>
+
+        <p class="demo-label" style="margin-bottom:1rem;">Accent Colors</p>
+        <div class="swatch-grid">
+          <div class="swatch"><div class="swatch-color" style="background:#8b5cf6;"></div><div class="swatch-info"><strong>Electric Violet</strong><code>#8B5CF6</code></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#06b6d4;"></div><div class="swatch-info"><strong>Cyan</strong><code>#06B6D4</code></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#10b981;"></div><div class="swatch-info"><strong>Emerald</strong><code>#10B981</code></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#ec4899;"></div><div class="swatch-info"><strong>Magenta</strong><code>#EC4899</code></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#f59e0b;"></div><div class="swatch-info"><strong>Amber</strong><code>#F59E0B</code></div></div>
+        </div>
+
+        <p class="demo-label" style="margin-top:2rem;margin-bottom:1rem;">Neutrals</p>
+        <div class="swatch-grid">
+          <div class="swatch"><div class="swatch-color" style="background:#0a0a0f;"></div><div class="swatch-info"><strong>Dark Primary</strong><code>#0A0A0F</code></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#111118;"></div><div class="swatch-info"><strong>Dark Secondary</strong><code>#111118</code></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#f0f0f5;"></div><div class="swatch-info"><strong>Light Text</strong><code>#F0F0F5</code></div></div>
+          <div class="swatch"><div class="swatch-color" style="background:#9494a8;"></div><div class="swatch-info"><strong>Muted Text</strong><code>#9494A8</code></div></div>
+        </div>
+
+        <p class="demo-label" style="margin-top:2rem;margin-bottom:1rem;">Gradients</p>
+        <p class="gradient-label">Hero Gradient</p>
+        <div class="gradient-strip" style="background:linear-gradient(135deg,#8b5cf6 0%,#06b6d4 50%,#ec4899 100%);"></div>
+        <p class="gradient-label">Text Gradient</p>
+        <div class="gradient-strip" style="background:linear-gradient(135deg,#c084fc,#22d3ee,#f472b6);"></div>
+        <p class="gradient-label">Card Gradient</p>
+        <div class="gradient-strip" style="background:linear-gradient(135deg,rgba(139,92,246,0.3),rgba(6,182,212,0.3));"></div>
+      </section>
+
+      <!-- TYPOGRAPHY -->
+      <section class="brand-section">
+        <span class="brand-section-label">Typography</span>
+        <h2>Type Scale</h2>
+
+        <div class="type-sample">
+          <div style="font-size:clamp(2.2rem,5vw,3.5rem);font-weight:900;letter-spacing:-0.03em;line-height:1.1;">Display Heading</div>
+          <div class="type-meta">Inter 900 · clamp(2.8rem, 6vw, 4.8rem) · -0.04em</div>
+        </div>
+        <div class="type-sample">
+          <h2 style="font-size:1.75rem;font-weight:800;letter-spacing:-0.02em;margin:0;border:none;padding:0;">Section Title — H2</h2>
+          <div class="type-meta">Inter 800 · clamp(1.75rem, 4vw, 2.75rem) · -0.02em</div>
+        </div>
+        <div class="type-sample">
+          <h3 style="font-size:1.25rem;font-weight:700;margin:0;">Card Title — H3</h3>
+          <div class="type-meta">Inter 700 · 1.25rem · -0.01em</div>
+        </div>
+        <div class="type-sample">
+          <p style="font-size:0.9375rem;color:var(--text-secondary);margin:0;">Body text renders in Inter 400 at 0.9375rem with generous 1.7 line-height for comfortable reading on dark backgrounds.</p>
+          <div class="type-meta">Inter 400 · 0.9375rem · normal</div>
+        </div>
+        <div class="type-sample">
+          <code style="font-family:var(--font-mono);font-size:0.875rem;color:var(--accent-cyan);">const vibeCode = await ai.build("something amazing");</code>
+          <div class="type-meta">JetBrains Mono 400 · 0.875rem · code blocks</div>
+        </div>
+      </section>
+
+      <!-- COMPONENTS -->
+      <section class="brand-section">
+        <span class="brand-section-label">Components</span>
+        <h2>UI Component Library</h2>
+
+        <p class="demo-label">Buttons</p>
+        <div class="demo-row">
+          <a class="btn btn-primary">Primary Action →</a>
+          <a class="btn btn-secondary">Secondary</a>
+          <a class="btn btn-secondary" style="background:transparent;">Ghost</a>
+        </div>
+
+        <p class="demo-label">Tags & Badges</p>
+        <div class="demo-row">
+          <span class="tag">Violet</span>
+          <span class="tag cyan">Cyan</span>
+          <span class="tag emerald">Emerald</span>
+          <span class="tag magenta">Magenta</span>
+          <span class="tag" style="background:rgba(245,158,11,0.1);color:#f59e0b;border-color:rgba(245,158,11,0.15);">Amber</span>
+        </div>
+
+        <p class="demo-label">Cards</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;">
+          <div class="card">
+            <div class="card-icon">🚀</div>
+            <h3>Feature Card</h3>
+            <p>Glass-morphism surface with gradient overlay on hover. Border glows violet.</p>
+          </div>
+          <div class="card">
+            <div class="card-icon">🎯</div>
+            <h3>Interactive Card</h3>
+            <p>Lifts 4px on hover with ambient glow shadow. Smooth 300ms transitions.</p>
+          </div>
+        </div>
+
+        <p class="demo-label" style="margin-top:2rem;">Form Inputs</p>
+        <div style="max-width:400px;">
+          <input type="text" class="form-input" placeholder="Text input example" style="margin-bottom:0.75rem;">
+          <input type="email" class="form-input" placeholder="email@example.com">
+        </div>
+
+        <p class="demo-label" style="margin-top:2rem;">Callouts</p>
+        <div class="callout" style="max-width:500px;">
+          <div class="callout-title">💡 Pro Tip</div>
+          <p>Use callouts for important context that supports the main content flow.</p>
+        </div>
+      </section>
+
+      <!-- SPACING -->
+      <section class="brand-section">
+        <span class="brand-section-label">Tokens</span>
+        <h2>Spacing & Radius</h2>
+        <table class="token-table">
+          <thead><tr><th>Token</th><th>Value</th><th>Pixels</th></tr></thead>
+          <tbody>
+            <tr><td><code>--space-xs</code></td><td>0.25rem</td><td>4px</td></tr>
+            <tr><td><code>--space-sm</code></td><td>0.5rem</td><td>8px</td></tr>
+            <tr><td><code>--space-md</code></td><td>1rem</td><td>16px</td></tr>
+            <tr><td><code>--space-lg</code></td><td>1.5rem</td><td>24px</td></tr>
+            <tr><td><code>--space-xl</code></td><td>2rem</td><td>32px</td></tr>
+            <tr><td><code>--space-2xl</code></td><td>3rem</td><td>48px</td></tr>
+            <tr><td><code>--space-3xl</code></td><td>4rem</td><td>64px</td></tr>
+            <tr><td><code>--space-4xl</code></td><td>6rem</td><td>96px</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- VOICE -->
+      <section class="brand-section">
+        <span class="brand-section-label">Voice</span>
+        <h2>Content Tone</h2>
+        <div class="voice-grid">
+          <div class="voice-do"><strong>✓ Do</strong><p>"AI helps you write faster"</p><p>"You can build this today"</p><p>"We'll walk you through it"</p><p>"New to AI? Start here."</p></div>
+          <div class="voice-dont"><strong>✗ Don't</strong><p>"Leverage LLM-powered NLG pipelines"</p><p>"Maybe try exploring some options"</p><p>"Refer to the documentation"</p><p>"For dummies"</p></div>
+        </div>
+      </section>
+
+      <!-- ANIMATION -->
+      <section class="brand-section">
+        <span class="brand-section-label">Motion</span>
+        <h2>Animation System</h2>
+        <table class="token-table">
+          <thead><tr><th>Pattern</th><th>Duration</th><th>Easing</th><th>Use</th></tr></thead>
+          <tbody>
+            <tr><td>Hover lift</td><td><code>300ms</code></td><td><code>ease-out</code></td><td>Buttons: -2px, Cards: -4px</td></tr>
+            <tr><td>Fade up</td><td><code>800ms</code></td><td><code>ease-out</code></td><td>Entry animations, staggered</td></tr>
+            <tr><td>Pulse</td><td><code>2s infinite</code></td><td><code>ease</code></td><td>Live indicators</td></tr>
+            <tr><td>Ambient float</td><td><code>20s infinite</code></td><td><code>ease-in-out</code></td><td>Background orbs</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer" style="background:var(--bg-secondary);padding:2rem;">
+    <div class="container" style="text-align:center;">
+      <p style="color:#5a5a72;font-size:0.82rem;">© 2025 LetsVibeAI. Brand Guidelines v1.0 — Single source of truth for all visual identity.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

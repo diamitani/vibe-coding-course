@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="220" viewBox="0 0 760 220" fill="none">
+<rect width="760" height="220" rx="28" fill="#0A1020"/>
+
+    <g transform="translate(10,10)">
+      <rect x="18" y="8" width="24" height="88" rx="12" fill="#5B5CF0" transform="rotate(-34 30 52)"/>
+      <rect x="56" y="8" width="24" height="54" rx="12" fill="#22C7B8" transform="rotate(34 68 35)"/>
+      <circle cx="74" cy="82" r="10" fill="#22C7B8"/>
+    </g>
+    
+<text x="150" y="115" font-family="Inter, DejaVu Sans, sans-serif" font-size="68" font-weight="700" fill="white">Let’s Vibe AI</text>
+</svg>

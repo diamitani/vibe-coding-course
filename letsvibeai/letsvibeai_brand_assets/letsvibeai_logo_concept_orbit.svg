@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="760" height="220" viewBox="0 0 760 220" fill="none">
+<rect width="760" height="220" fill="white"/>
+<g transform="translate(18,18)">
+<circle cx="82" cy="92" r="64" fill="none" stroke="#5B5CF0" stroke-width="12"/>
+<path d="M48 58 L82 126 L116 58" stroke="#22C7B8" stroke-width="18" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="125" cy="92" r="9" fill="#FF9B6B"/>
+</g>
+<text x="170" y="115" font-family="Inter, DejaVu Sans, sans-serif" font-size="68" font-weight="700" fill="#0A1020">Let’s Vibe AI</text>
+</svg>

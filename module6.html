@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 6 — Process Engineering | LetsVibeAI</title>
+    <meta name="description" content="Go beyond single prompts. Design standardized workflows that reliably produce high-quality results — the difference between casual and production vibe coding.">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .module-header { text-align: center; padding: 3rem 0; margin-bottom: 2rem; }
+        .module-header .module-badge { display: inline-block; padding: 0.35rem 1rem; border-radius: var(--radius-full); background: rgba(6, 182, 212, 0.1); color: var(--accent-cyan); font-size: 0.8rem; font-weight: 600; margin-bottom: 1rem; }
+        .module-header h1 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 0.75rem; }
+        .module-header p { color: var(--text-secondary); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+        .module-meta { display: flex; justify-content: center; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap; }
+        .module-meta span { font-size: 0.875rem; color: var(--text-muted); }
+        .lesson-layout { display: grid; grid-template-columns: 220px 1fr; gap: 2rem; align-items: start; }
+        @media (max-width: 768px) { .lesson-layout { grid-template-columns: 1fr; } }
+        .lesson-sidebar { position: sticky; top: 100px; }
+        .lesson-sidebar h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 1rem; }
+        .lesson-sidebar a { display: block; padding: 0.5rem 0.75rem; border-radius: var(--radius-sm); color: var(--text-secondary); font-size: 0.85rem; transition: all var(--duration-fast) var(--ease-out); margin-bottom: 0.25rem; }
+        .lesson-sidebar a:hover, .lesson-sidebar a.active { background: rgba(6, 182, 212, 0.08); color: var(--accent-cyan); }
+        .lesson-section { margin-bottom: 3rem; scroll-margin-top: 100px; }
+        .lesson-section h2 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-primary); }
+        .lesson-section h3 { font-size: 1.15rem; margin: 1.5rem 0 0.75rem; color: var(--text-primary); }
+        .lesson-section p { color: var(--text-secondary); line-height: 1.8; margin-bottom: 1rem; }
+        .lesson-section ul { margin: 0.5rem 0 1rem 1.5rem; color: var(--text-secondary); }
+        .lesson-section li { margin-bottom: 0.4rem; line-height: 1.6; }
+        .lesson-section .highlight-box { background: var(--bg-card); border-left: 3px solid var(--accent-cyan); padding: 1.25rem 1.5rem; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 1.5rem 0; }
+        .lesson-section .highlight-box.violet { border-left-color: var(--accent-violet); }
+        .lesson-section .highlight-box.magenta { border-left-color: var(--accent-magenta); }
+        .lesson-section .highlight-box.emerald { border-left-color: var(--accent-emerald); }
+        .lesson-section .highlight-box p:last-child { margin-bottom: 0; }
+        .module-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-subtle); }
+        .module-nav a { padding: 0.75rem 1.5rem; border-radius: var(--radius-md); font-weight: 600; font-size: 0.9rem; transition: all var(--duration-fast) var(--ease-out); }
+        .module-nav a.prev { color: var(--text-secondary); border: 1px solid var(--border-subtle); }
+        .module-nav a.prev:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+        .module-nav a.next { background: var(--accent-cyan); color: #fff; }
+        .module-nav a.next:hover { background: var(--accent-violet); }
+        .module-nav .back-to-learn { color: var(--text-muted); font-size: 0.8rem; }
+        .progress-controls { display: flex; align-items: center; gap: 1rem; margin-top: 2rem; padding: 1rem 1.5rem; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); }
+        .mark-btn { padding: 0.5rem 1.25rem; border-radius: var(--radius-full); border: none; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all var(--duration-fast) var(--ease-out); }
+        .mark-btn.complete { background: var(--accent-emerald); color: #fff; }
+        .mark-btn.complete:hover { background: #059669; }
+        .mark-btn.incomplete { background: var(--bg-card); color: var(--text-secondary); border: 1px solid var(--border-subtle); }
+        .mark-btn.incomplete:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+        .progress-status { font-size: 0.85rem; color: var(--text-muted); }
+        .exercise-box { background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(6, 182, 212, 0.08)); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.5rem; margin: 1.5rem 0; }
+        .exercise-box h3 { margin-top: 0; }
+        .exercise-box p { font-size: 0.9rem; }
+        .exercise-box .tag { display: inline-block; padding: 0.2rem 0.6rem; border-radius: var(--radius-full); font-size: 0.7rem; font-weight: 600; background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); margin-top: 0.5rem; }
+        .sop-template { background: var(--bg-secondary); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.5rem; font-size: 0.85rem; line-height: 1.6; margin: 1rem 0; }
+        .sop-template h4 { color: var(--accent-cyan); margin-bottom: 0.5rem; }
+        .sop-template ol { margin-left: 1.5rem; color: var(--text-secondary); }
+        .sop-template li { margin-bottom: 0.5rem; }
+        .workflow-diagram { display: flex; flex-direction: column; gap: 0.75rem; padding: 1.5rem; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); margin: 1.5rem 0; }
+        .wf-step { display: flex; align-items: center; gap: 1rem; padding: 0.75rem 1rem; background: var(--bg-secondary); border-radius: var(--radius-md); }
+        .wf-step .wf-num { width: 28px; height: 28px; border-radius: 50%; background: var(--accent-cyan); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }
+        .wf-step .wf-text { font-size: 0.85rem; color: var(--text-secondary); }
+        .wf-step .wf-label { font-weight: 600; color: var(--text-primary); }
+        .wf-arrow { text-align: center; color: var(--text-muted); font-size: 0.8rem; }
+    </style>
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">LetsVibeAI</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="learn.html">Learn</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="marketplace.html">Marketplace</a></li>
+                <li id="auth-nav-slot"></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="module-header">
+                <div class="module-badge">Module 6 of 6</div>
+                <h1>⚙️ Process Engineering</h1>
+                <p>Go beyond single prompts. Learn to design processes — standardized workflows that reliably produce high-quality results. The difference between casual vibe coding and production vibe coding.</p>
+                <div class="module-meta">
+                    <span>⏱ ~2-3 hours</span>
+                    <span>📊 Advanced</span>
+                    <span>💰 Free</span>
+                </div>
+            </div>
+
+            <div class="lesson-layout">
+                <aside class="lesson-sidebar">
+                    <h4>On this page</h4>
+                    <a href="#why-process">Why Processes Matter</a>
+                    <a href="#design">Designing Workflows</a>
+                    <a href="#documentation">Documentation & SOPs</a>
+                    <a href="#quality">Quality Control</a>
+                    <a href="#scaling">Scaling to Teams</a>
+                    <a href="#automation">Building Tools Around Processes</a>
+                    <a href="#master-plan">Your Master Plan</a>
+                    <a href="#exercises">Exercises</a>
+                </aside>
+
+                <div class="lesson-content">
+                    <section id="why-process" class="lesson-section">
+                        <h2>Why Processes Matter</h2>
+                        <p>Casual vibe coding works for one-off projects. You describe something, get a result, and move on. But when you're building real products — or working with a team — you need repeatable, reliable processes.</p>
+                        <p>The difference between casual and production vibe coding comes down to process:</p>
+                        <ul>
+                            <li><strong>Casual:</strong> Open a tool, describe what you want, accept the first result, ship it</li>
+                            <li><strong>Production:</strong> Follow a structured workflow: plan → spec → build → review → test → polish → document → deploy</li>
+                        </ul>
+                        <p>Processes ensure consistency. When you follow the same steps every time, you get predictable quality. You can also identify where things break and improve the process itself.</p>
+                        <div class="highlight-box">
+                            <p><strong>Process Engineering Principle:</strong> A good process makes it easy to do the right thing and hard to do the wrong thing. Design your AI workflows so that quality is the path of least resistance.</p>
+                        </div>
+                    </section>
+
+                    <section id="design" class="lesson-section">
+                        <h2>Designing Reproducible AI Workflows</h2>
+                        <p>A well-designed AI workflow has clear stages. Here's the production workflow we recommend:</p>
+
+                        <div class="workflow-diagram">
+                            <div class="wf-step">
+                                <div class="wf-num">1</div>
+                                <div class="wf-text"><span class="wf-label">Spec</span> — Write a clear specification of what you're building</div>
+                            </div>
+                            <div class="wf-arrow">↓</div>
+                            <div class="wf-step">
+                                <div class="wf-num">2</div>
+                                <div class="wf-text"><span class="wf-label">Architecture</span> — Design the structure before generating code</div>
+                            </div>
+                            <div class="wf-arrow">↓</div>
+                            <div class="wf-step">
+                                <div class="wf-num">3</div>
+                                <div class="wf-text"><span class="wf-label">Generate</span> — Use AI to produce the implementation</div>
+                            </div>
+                            <div class="wf-arrow">↓</div>
+                            <div class="wf-step">
+                                <div class="wf-num">4</div>
+                                <div class="wf-text"><span class="wf-label">Review</span> — Check the output against your spec and standards</div>
+                            </div>
+                            <div class="wf-arrow">↓</div>
+                            <div class="wf-step">
+                                <div class="wf-num">5</div>
+                                <div class="wf-text"><span class="wf-label">Test</span> — Verify it works in different scenarios</div>
+                            </div>
+                            <div class="wf-arrow">↓</div>
+                            <div class="wf-step">
+                                <div class="wf-num">6</div>
+                                <div class="wf-text"><span class="wf-label">Polish</span> — Refine design, performance, and edge cases</div>
+                            </div>
+                            <div class="wf-arrow">↓</div>
+                            <div class="wf-step">
+                                <div class="wf-num">7</div>
+                                <div class="wf-text"><span class="wf-label">Document</span> — Record key decisions and how to maintain</div>
+                            </div>
+                            <div class="wf-arrow">↓</div>
+                            <div class="wf-step">
+                                <div class="wf-num">8</div>
+                                <div class="wf-text"><span class="wf-label">Deploy</span> — Ship to production with confidence</div>
+                            </div>
+                        </div>
+
+                        <h3>Building Your Workflow</h3>
+                        <p>Start with this template and adapt it to your needs. The key is to be intentional about each stage rather than jumping straight to "Generate."</p>
+                        <p>For small projects, you might combine steps (Spec + Architecture, Review + Test). For large projects, each step should be a separate phase with dedicated prompts.</p>
+                    </section>
+
+                    <section id="documentation" class="lesson-section">
+                        <h2>Documentation and Standard Operating Procedures</h2>
+                        <p>Documentation is what separates a one-time hack from a repeatable process. Here's how to document your AI workflows:</p>
+
+                        <h3>What to Document</h3>
+                        <ul>
+                            <li><strong>The process itself:</strong> What are the steps? What tools are used at each step?</li>
+                            <li><strong>Prompt templates:</strong> Save effective prompts as reusable templates with placeholders for variables</li>
+                            <li><strong>Quality criteria:</strong> What does "good enough" look like for each deliverable?</li>
+                            <li><strong>Common fixes:</strong> When things go wrong, what are the standard fixes?</li>
+                            <li><strong>Decision log:</strong> Why did you make certain architecture or design choices?</li>
+                        </ul>
+
+                        <h3>SOP Template: Building a Landing Page with AI</h3>
+                        <div class="sop-template">
+                            <h4>Standard Operating Procedure: AI-Powered Landing Page</h4>
+                            <ol>
+                                <li><strong>Spec:</strong> Write a one-paragraph description of the company/product. Define target audience, key message, and conversion goal. Include brand colors (hex codes) and preferred fonts.</li>
+                                <li><strong>Architecture:</strong> Ask AI to generate a sitemap with section descriptions. Review and approve before proceeding.</li>
+                                <li><strong>Generate:</strong> Use the spec and approved architecture as context. Prompt: "Build a single-page landing page for [company]. Use this spec: [paste spec]. Architecture: [paste sitemap]. Tech: [specified stack]."</li>
+                                <li><strong>Review checklist:</strong> Is the message clear? Does it match the spec? Is the design consistent? Are all links working? Is it responsive?</li>
+                                <li><strong>Test:</strong> Check on mobile, tablet, and desktop. Verify form submission works. Check load time.</li>
+                                <li><strong>Polish:</strong> Ask AI for specific improvements based on review feedback. One improvement per prompt.</li>
+                                <li><strong>Deploy:</strong> Push to hosting. Verify live URL matches local preview.</li>
+                            </ol>
+                        </div>
+
+                        <div class="highlight-box violet">
+                            <p><strong>Pro Tip:</strong> Document as you go. Don't wait until the project is done. Write down prompts that worked well and patterns you discovered while they're fresh. Future you will thank present you.</p>
+                        </div>
+                    </section>
+
+                    <section id="quality" class="lesson-section">
+                        <h2>Quality Control and Validation</h2>
+                        <p>AI-generated code can have subtle bugs. Build quality control into your process:</p>
+                        <h3>Quality Gates</h3>
+                        <p>At each stage of your workflow, define specific criteria that must be met before moving to the next stage:</p>
+                        <ul>
+                            <li><strong>Spec Gate:</strong> Is the spec clear enough that someone else could build from it? If not, refine before generating.</li>
+                            <li><strong>Review Gate:</strong> Does the generated code match the spec? Are there obvious errors or security issues?</li>
+                            <li><strong>Test Gate:</strong> Does it work in all target browsers/devices? Are there console errors? Does it handle edge cases?</li>
+                            <li><strong>Deploy Gate:</strong> Has it been reviewed by someone else? Are all known issues resolved or documented?</li>
+                        </ul>
+                        <h3>Validation Techniques</h3>
+                        <ul>
+                            <li><strong>Run the code:</strong> Never ship AI-generated code without running it first</li>
+                            <li><strong>Test edge cases:</strong> Empty states, error states, maximum data, minimum data</li>
+                            <li><strong>Security scan:</strong> Check for XSS vulnerabilities, exposed credentials, insecure API calls</li>
+                            <li><strong>Performance check:</strong> Measure load time, bundle size, and runtime performance</li>
+                            <li><strong>Peer review:</strong> Have another person (or another AI) review the output</li>
+                        </ul>
+                        <div class="highlight-box magenta">
+                            <p><strong>Quality Mantra:</strong> Trust but verify. AI is incredibly capable, but it makes mistakes. Treat every AI-generated output as a first draft that needs review — not as a final product.</p>
+                        </div>
+                    </section>
+
+                    <section id="scaling" class="lesson-section">
+                        <h2>Scaling Vibe Coding to Teams</h2>
+                        <p>When multiple people are using AI to build the same product, you need additional process:</p>
+                        <h3>Shared Standards</h3>
+                        <ul>
+                            <li><strong>Common prompt library:</strong> Everyone uses the same prompt templates with consistent terminology</li>
+                            <li><strong>Style guide:</strong> Document how the AI should generate code (naming conventions, file structure, component patterns)</li>
+                            <li><strong>Review process:</strong> Establish who reviews AI-generated code before it enters the codebase</li>
+                        </ul>
+                        <h3>Version Control for AI</h3>
+                        <ul>
+                            <li><strong>Save prompts with code:</strong> In your git commits, include the prompts used to generate the code. This makes it reproducible.</li>
+                            <li><strong>Tag AI-generated code:</strong> Mark which files are AI-generated vs human-written for clarity</li>
+                            <li><strong>Prompt versioning:</strong> When you improve a prompt template, save the new version. Track which version was used for what.</li>
+                        </ul>
+                        <h3>Training and Onboarding</h3>
+                        <ul>
+                            <li><strong>Process documentation:</strong> New team members should be able to follow your SOPs to get productive quickly</li>
+                            <li><strong>Pair prompting:</strong> Like pair programming, but with AI. Two people review and refine prompts together.</li>
+                            <li><strong>Retrospectives:</strong> Regularly review what's working and what's not in your AI workflows</li>
+                        </ul>
+                    </section>
+
+                    <section id="automation" class="lesson-section">
+                        <h2>Building Tools Around Processes</h2>
+                        <p>Once you have solid processes, the next step is to automate them. This is where you build tools that codify your workflows:</p>
+                        <h3>Automation Ideas</h3>
+                        <ul>
+                            <li><strong>Prompt generators:</strong> Build a simple tool that takes your project details and generates the complete prompt chain</li>
+                            <li><strong>Quality checkers:</strong> Automate common validation tasks (link checking, responsive testing, performance budgets)</li>
+                            <li><strong>Documentation generators:</strong> Automatically generate documentation from AI prompts and outputs</li>
+                            <li><strong>Template systems:</strong> Create starter templates for common project types that include your established patterns</li>
+                        </ul>
+                        <h3>The Feedback Loop</h3>
+                        <p>The most important tool you can build is a feedback loop. After each project, capture:</p>
+                        <ul>
+                            <li>What worked well? (Keep doing this)</li>
+                            <li>What broke? (Fix the process)</li>
+                            <li>What was slow? (Automate or improve)</li>
+                            <li>What surprised you? (Update your mental model)</li>
+                        </ul>
+                        <div class="highlight-box emerald">
+                            <p><strong>The Ultimate Goal:</strong> Build a system where each project makes your next project faster and better. Your processes improve over time. Your prompt library grows. Your templates get more refined. The flywheel effect of process engineering.</p>
+                        </div>
+                    </section>
+
+                    <section id="master-plan" class="lesson-section">
+                        <h2>Your Master Plan</h2>
+                        <p>You've completed all 6 modules. Now it's time to put it all together into a personal master plan:</p>
+                        <div class="highlight-box">
+                            <p><strong>Your Vibe Coding Process:</strong></p>
+                            <ol>
+                                <li><strong>Define (Module 1-2):</strong> Understand what you're building and why. Apply the vibe coding mindset.</li>
+                                <li><strong>Choose tools (Module 3):</strong> Select the right tools for your project from your toolkit.</li>
+                                <li><strong>Chain prompts (Module 4):</strong> Break the project into a sequence of focused prompts.</li>
+                                <li><strong>Engineer context (Module 5):</strong> Structure each prompt with clear role, goal, context, and constraints.</li>
+                                <li><strong>Follow process (Module 6):</strong> Run through your workflow: spec → architecture → generate → review → test → polish → deploy.</li>
+                                <li><strong>Document & improve:</strong> Capture what worked and update your processes for next time.</li>
+                            </ol>
+                        </div>
+                        <p>This is the difference between someone who uses AI and someone who masters it. The mastery comes not from any individual prompt, but from the system you build around prompting.</p>
+                        <p>Now go build something amazing.</p>
+                    </section>
+
+                    <section id="exercises" class="lesson-section">
+                        <h2>Exercises</h2>
+
+                        <div class="exercise-box">
+                            <h3>📝 Exercise 1: Document Your Current Process</h3>
+                            <p>Write down how you currently build projects with AI. Be honest — even if there's no formal process, write down what you actually do. Then identify the gaps where adding structure would have the biggest impact. This baseline helps you measure improvement.</p>
+                            <span class="tag">~20 minutes</span>
+                        </div>
+
+                        <div class="exercise-box">
+                            <h3>🛠️ Exercise 2: Build an SOP</h3>
+                            <p>Create a Standard Operating Procedure for one type of project you build frequently (e.g., landing page, dashboard, API). Include: (1) step-by-step workflow, (2) prompt templates for each step, (3) quality gates, (4) common fixes for known issues. Share it with someone for feedback.</p>
+                            <span class="tag">~45 minutes</span>
+                        </div>
+
+                        <div class="exercise-box">
+                            <h3>✅ Exercise 3: Quality Gate Checklist</h3>
+                            <p>Create a quality gate checklist for AI-generated code. Include at least 10 items covering: functionality, design, performance, security, accessibility, and code quality. Use this checklist on your next 3 projects and refine it based on what you find.</p>
+                            <span class="tag">~30 minutes</span>
+                        </div>
+
+                        <div class="exercise-box">
+                            <h3>🚀 Exercise 4: Build a Project Using Your Full Process</h3>
+                            <p>Choose a project from the learning hub labs (marketing site, e-commerce store, or marketplace). Build it using your documented process from Exercise 1. Apply all 6 modules: define the problem, choose tools, chain prompts, engineer context, follow your SOP, and document what you learned.</p>
+                            <span class="tag">~4-8 hours</span>
+                        </div>
+
+                        <div class="exercise-box">
+                            <h3>🏁 Capstone: Your First Lab Project</h3>
+                            <p>You're ready to start building. Head over to the Projects tab in the Learning Hub and start <strong>Lab 1: Build a Marketing Website</strong>. This is your first hands-on project applying everything you've learned across all 6 modules. Good luck!</p>
+                            <a href="lab1.html" style="display: inline-block; margin-top: 0.75rem; color: var(--accent-cyan); font-weight: 600;">→ Start Lab 1: Build a Marketing Website</a>
+                        </div>
+                    </section>
+
+                    <div class="progress-controls">
+                        <button class="mark-btn incomplete" id="progress-btn" onclick="toggleProgress()">Mark as Complete</button>
+                        <span class="progress-status" id="progress-status">Not started</span>
+                    </div>
+
+                    <div class="module-nav">
+                        <a href="module5.html" class="prev">← Previous: Context Engineering</a>
+                        <a href="learn.html" class="back-to-learn">Back to Learning Hub</a>
+                        <a href="lab1.html" class="next" style="background: var(--accent-violet);">Start Lab 1 →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <p>LetsVibeAI &copy; 2025 — Built with AI</p>
+                <div style="display: flex; gap: 1.5rem;">
+                    <a href="learn.html">Learn</a>
+                    <a href="resources.html">Resources</a>
+                    <a href="marketplace.html">Marketplace</a>
+                    <a href="community.html">Community</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="supabase-client.js"></script>
+    <script src="script.js"></script>
+    <script>
+        const MODULE_SLUG = 'module-6-process-engineering';
+        async function toggleProgress() {
+            const user = getCurrentUser();
+            if (!user) { showToast('Sign in to track your progress!'); return; }
+            const btn = document.getElementById('progress-btn');
+            const status = document.getElementById('progress-status');
+            const isComplete = btn.classList.contains('complete');
+            if (isComplete) {
+                await window.db.unmarkComplete(user.id, MODULE_SLUG);
+                btn.textContent = 'Mark as Complete'; btn.className = 'mark-btn incomplete'; status.textContent = 'Not started';
+            } else {
+                await window.db.markComplete(user.id, MODULE_SLUG, 'module');
+                btn.textContent = '✅ Completed'; btn.className = 'mark-btn complete'; status.textContent = 'Completed';
+            }
+        }
+        async function loadProgress() {
+            const user = getCurrentUser();
+            if (!user) return;
+            const progress = await window.db.getProgress(user.id);
+            const found = progress.find(p => p.content_slug === MODULE_SLUG);
+            if (found) {
+                document.getElementById('progress-btn').textContent = '✅ Completed';
+                document.getElementById('progress-btn').className = 'mark-btn complete';
+                document.getElementById('progress-status').textContent = 'Completed';
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            window.authPromise.then(() => loadProgress()).catch(() => {});
+            const links = document.querySelectorAll('.lesson-sidebar a');
+            const sections = Array.from(links).map(a => { const id = a.getAttribute('href')?.replace('#', ''); return id ? document.getElementById(id) : null; }).filter(Boolean);
+            const spy = () => {
+                const scrollY = window.scrollY + 150;
+                let current = '';
+                sections.forEach(s => { if (s && s.offsetTop <= scrollY) current = s.id; });
+                links.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === `#${current}`); });
+            };
+            window.addEventListener('scroll', spy, { passive: true }); spy();
+        });
+    </script>
+</body>
+
+</html>

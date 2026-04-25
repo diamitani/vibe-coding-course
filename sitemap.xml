@@ -4,10 +4,7 @@
   <url>
     <loc>https://www.letsvibeai.com/</loc>
     <priority>1.0</priority>
-  </url>
-  <url>
-    <loc>https://www.letsvibeai.com/index.html</loc>
-    <priority>1.0</priority>
+    <changefreq>weekly</changefreq>
   </url>
 
   <!-- Learning & Resources Hubs -->
@@ -18,7 +15,7 @@
   </url>
   <url>
     <loc>https://www.letsvibeai.com/resources.html</loc>
-    <priority>0.8</priority>
+    <priority>0.85</priority>
     <changefreq>weekly</changefreq>
   </url>
 
@@ -34,34 +31,33 @@
     <changefreq>weekly</changefreq>
   </url>
 
+  <!-- Content -->
+  <url>
+    <loc>https://www.letsvibeai.com/news.html</loc>
+    <priority>0.75</priority>
+    <changefreq>daily</changefreq>
+  </url>
+
   <!-- User Pages -->
   <url>
     <loc>https://www.letsvibeai.com/auth.html</loc>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.letsvibeai.com/dashboard.html</loc>
-    <priority>0.75</priority>
+    <priority>0.7</priority>
     <changefreq>weekly</changefreq>
   </url>
   <url>
     <loc>https://www.letsvibeai.com/profile.html</loc>
-    <priority>0.7</priority>
+    <priority>0.6</priority>
     <changefreq>weekly</changefreq>
   </url>
 
   <!-- Deprecated Pages (In Archive) -->
-  <!-- These pages have been consolidated into the learning hubs -->
-  <!-- See /archive/ folder for reference -->
+  <!-- catalog.html → archived (marketplace.html replaces it) -->
   <!-- Old modules (module1-6.html) → learn.html -->
   <!-- Old labs (lab1-3.html) → learn.html -->
   <!-- Old tools.html → resources.html -->
-  <!-- Old news.html → resources.html -->
   <!-- Old showcase.html → community.html -->
-
-  <!-- Error Page -->
-  <url>
-    <loc>https://www.letsvibeai.com/error.html</loc>
-    <priority>0.5</priority>
-  </url>
 </urlset>

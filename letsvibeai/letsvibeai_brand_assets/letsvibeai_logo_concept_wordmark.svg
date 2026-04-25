@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="220" viewBox="0 0 820 220" fill="none">
+<rect width="820" height="220" fill="white"/>
+<text x="30" y="120" font-family="Inter, DejaVu Sans, sans-serif" font-size="74" font-weight="700" fill="#0A1020">Let’s</text>
+<text x="275" y="120" font-family="Inter, DejaVu Sans, sans-serif" font-size="74" font-weight="700" fill="#0A1020">Vibe</text>
+<text x="515" y="120" font-family="Inter, DejaVu Sans, sans-serif" font-size="74" font-weight="700" fill="#0A1020">AI</text>
+<path d="M235 62 Q210 62 210 86 V134 Q210 158 235 158" stroke="#5B5CF0" stroke-width="12" stroke-linecap="round" fill="none"/>
+<path d="M475 62 Q500 62 500 86 V134 Q500 158 475 158" stroke="#22C7B8" stroke-width="12" stroke-linecap="round" fill="none"/>
+<circle cx="118" cy="45" r="6" fill="#FF9B6B"/>
+</svg>

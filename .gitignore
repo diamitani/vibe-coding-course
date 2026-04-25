@@ -4,3 +4,11 @@ node_modules/
 *.log
 .vercel
 .gstack/
+*.mp4
+*.MOV
+*.zip
+*.pptx
+*.docx
+*.pdf
+*.xlsx
+*.mp3

@@ -1,0 +1,1 @@
+use this template to design a front end for my ai aggregate website letsvibeai.com. it consists of news articles, platforms and courses (youtube video tutorials library) on how to use ai to build anything iwth no coding experience. https://oma-educore.webflow.io/

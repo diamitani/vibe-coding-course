@@ -13,20 +13,17 @@
 <body>
   <div class="ambient-bg"></div>
 
-  <!-- Navigation -->
-  <nav class="nav" style="position: sticky; top: 0; z-index: 100;">
+  <nav class="nav">
     <div class="nav-inner">
-      <a href="index.html" class="nav-logo">
-        <span style="background: var(--gradient-text); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; font-size: 1.5rem;">LetsVibeAI</span>
-      </a>
+      <a href="index.html" class="nav-logo">LetsVibeAI</a>
       <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
-        <li><a href="catalog.html">Catalog</a></li>
-        <li><a href="marketplace.html" style="color: var(--text-primary);">Marketplace</a></li>
+        <li><a href="learn.html">Learn</a></li>
         <li><a href="resources.html">Resources</a></li>
         <li><a href="community.html">Community</a></li>
-        <li><a href="auth.html" class="btn btn-primary" style="padding: 0.5rem 1rem; margin-left: 0.5rem;">Sign In</a></li>
+        <li><a href="marketplace.html">Marketplace</a></li>
+        <li id="auth-nav-slot"></li>
       </ul>
     </div>
   </nav>
@@ -50,7 +47,7 @@
       </div>
 
       <!-- Products Grid -->
-      <div id="marketplace-grid" class="marketplace-grid" style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;">
+      <div id="marketplace-grid" class="marketplace-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1.5rem;">
         <!-- Products loaded dynamically -->
       </div>
     </div>

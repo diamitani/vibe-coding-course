@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 4 — Prompt Chaining | LetsVibeAI</title>
+    <meta name="description" content="Master the art of breaking complex requests into sequences of smaller prompts for better AI-generated code.">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .module-header { text-align: center; padding: 3rem 0; margin-bottom: 2rem; }
+        .module-header .module-badge { display: inline-block; padding: 0.35rem 1rem; border-radius: var(--radius-full); background: rgba(6, 182, 212, 0.1); color: var(--accent-cyan); font-size: 0.8rem; font-weight: 600; margin-bottom: 1rem; }
+        .module-header h1 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 0.75rem; }
+        .module-header p { color: var(--text-secondary); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+        .module-meta { display: flex; justify-content: center; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap; }
+        .module-meta span { font-size: 0.875rem; color: var(--text-muted); }
+        .lesson-layout { display: grid; grid-template-columns: 220px 1fr; gap: 2rem; align-items: start; }
+        @media (max-width: 768px) { .lesson-layout { grid-template-columns: 1fr; } }
+        .lesson-sidebar { position: sticky; top: 100px; }
+        .lesson-sidebar h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 1rem; }
+        .lesson-sidebar a { display: block; padding: 0.5rem 0.75rem; border-radius: var(--radius-sm); color: var(--text-secondary); font-size: 0.85rem; transition: all var(--duration-fast) var(--ease-out); margin-bottom: 0.25rem; }
+        .lesson-sidebar a:hover, .lesson-sidebar a.active { background: rgba(6, 182, 212, 0.08); color: var(--accent-cyan); }
+        .lesson-section { margin-bottom: 3rem; scroll-margin-top: 100px; }
+        .lesson-section h2 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-primary); }
+        .lesson-section h3 { font-size: 1.15rem; margin: 1.5rem 0 0.75rem; color: var(--text-primary); }
+        .lesson-section p { color: var(--text-secondary); line-height: 1.8; margin-bottom: 1rem; }
+        .lesson-section ul { margin: 0.5rem 0 1rem 1.5rem; color: var(--text-secondary); }
+        .lesson-section li { margin-bottom: 0.4rem; line-height: 1.6; }
+        .lesson-section .highlight-box { background: var(--bg-card); border-left: 3px solid var(--accent-cyan); padding: 1.25rem 1.5rem; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 1.5rem 0; }
+        .lesson-section .highlight-box.violet { border-left-color: var(--accent-violet); }
+        .lesson-section .highlight-box.magenta { border-left-color: var(--accent-magenta); }
+        .lesson-section .highlight-box.emerald { border-left-color: var(--accent-emerald); }
+        .lesson-section .highlight-box p:last-child { margin-bottom: 0; }
+        .module-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-subtle); }
+        .module-nav a { padding: 0.75rem 1.5rem; border-radius: var(--radius-md); font-weight: 600; font-size: 0.9rem; transition: all var(--duration-fast) var(--ease-out); }
+        .module-nav a.prev { color: var(--text-secondary); border: 1px solid var(--border-subtle); }
+        .module-nav a.prev:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+        .module-nav a.next { background: var(--accent-cyan); color: #fff; }
+        .module-nav a.next:hover { background: var(--accent-violet); }
+        .module-nav .back-to-learn { color: var(--text-muted); font-size: 0.8rem; }
+        .progress-controls { display: flex; align-items: center; gap: 1rem; margin-top: 2rem; padding: 1rem 1.5rem; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); }
+        .mark-btn { padding: 0.5rem 1.25rem; border-radius: var(--radius-full); border: none; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all var(--duration-fast) var(--ease-out); }
+        .mark-btn.complete { background: var(--accent-emerald); color: #fff; }
+        .mark-btn.complete:hover { background: #059669; }
+        .mark-btn.incomplete { background: var(--bg-card); color: var(--text-secondary); border: 1px solid var(--border-subtle); }
+        .mark-btn.incomplete:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+        .progress-status { font-size: 0.85rem; color: var(--text-muted); }
+        .exercise-box { background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(6, 182, 212, 0.08)); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.5rem; margin: 1.5rem 0; }
+        .exercise-box h3 { margin-top: 0; }
+        .exercise-box p { font-size: 0.9rem; }
+        .exercise-box .tag { display: inline-block; padding: 0.2rem 0.6rem; border-radius: var(--radius-full); font-size: 0.7rem; font-weight: 600; background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); margin-top: 0.5rem; }
+        .chaining-diagram { display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 2rem; flex-wrap: wrap; margin: 1.5rem 0; }
+        .chain-step { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1rem 1.5rem; text-align: center; min-width: 100px; }
+        .chain-step .step-num { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+        .chain-step .step-label { font-weight: 600; color: var(--accent-cyan); margin-top: 0.25rem; }
+        .chain-arrow { color: var(--text-muted); font-size: 1.5rem; }
+        .example-prompt { background: var(--bg-secondary); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem; font-family: var(--font-mono); font-size: 0.85rem; line-height: 1.6; margin: 1rem 0; overflow-x: auto; }
+        .example-prompt .comment { color: var(--text-muted); }
+        .example-prompt .command { color: var(--accent-emerald); }
+        .example-prompt .output { color: var(--accent-violet); }
+    </style>
+</head>
+
+<body>
+    <div class="ambient-bg"></div>
+    <nav class="nav">
+        <div class="nav-inner">
+            <a href="index.html" class="nav-logo">LetsVibeAI</a>
+            <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="learn.html">Learn</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="marketplace.html">Marketplace</a></li>
+                <li id="auth-nav-slot"></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="page-content">
+        <div class="container">
+            <div class="module-header">
+                <div class="module-badge">Module 4 of 6</div>
+                <h1>⛓️ Prompt Chaining</h1>
+                <p>Master the art of breaking complex requests into sequences of smaller prompts. Learn how prompt chaining leads to better results and more reliable AI-generated code.</p>
+                <div class="module-meta">
+                    <span>⏱ ~2-3 hours</span>
+                    <span>📊 Intermediate</span>
+                    <span>💰 Free</span>
+                </div>
+            </div>
+
+            <div class="lesson-layout">
+                <aside class="lesson-sidebar">
+                    <h4>On this page</h4>
+                    <a href="#why-chain">Why Chain?</a>
+                    <a href="#structure">Structuring Chains</a>
+                    <a href="#patterns">Chaining Patterns</a>
+                    <a href="#example">Real Example</a>
+                    <a href="#errors">Handling Failures</a>
+                    <a href="#tools">Tools for Chains</a>
+                    <a href="#exercises">Exercises</a>
+                </aside>
+
+                <div class="lesson-content">
+                    <section id="why-chain" class="lesson-section">
+                        <h2>Why Prompt Chaining Works Better Than One-Shot</h2>
+                        <p>Most beginners try to get everything in a single prompt: "Build me a complete e-commerce website with user authentication, product listings, shopping cart, checkout, and admin dashboard." This almost never works well.</p>
+                        <p>The problem is that AI models have limited attention spans — even with large context windows, quality degrades as the request becomes more complex. Prompt chaining solves this by breaking big requests into focused, manageable steps.</p>
+                        <h3>Why it works:</h3>
+                        <ul>
+                            <li><strong>Focused attention:</strong> Each prompt has one clear goal, so the model can focus 100% of its capabilities on that task.</li>
+                            <li><strong>Iterative refinement:</strong> You can review and adjust at each step rather than hoping the whole thing works at once.</li>
+                            <li><strong>Context seeding:</strong> Each step builds on the previous one, creating a chain of context that improves over time.</li>
+                            <li><strong>Error isolation:</strong> If something goes wrong, you know exactly which step failed and can fix it without restarting.</li>
+                            <li><strong>Consistency:</strong> A well-designed chain produces more consistent results than a one-shot prompt.</li>
+                        </ul>
+                        <div class="highlight-box">
+                            <p><strong>Rule of Thumb:</strong> If your prompt would take more than 30 seconds to read, it's probably too complex. Break it into a chain of 2-5 smaller prompts.</p>
+                        </div>
+                    </section>
+
+                    <section id="structure" class="lesson-section">
+                        <h2>Structuring Multi-Step Workflows</h2>
+                        <p>A well-structured chain follows a logical progression. Here's the general pattern:</p>
+
+                        <div class="chaining-diagram">
+                            <div class="chain-step">
+                                <div class="step-num">Step 1</div>
+                                <div class="step-label">Plan</div>
+                            </div>
+                            <div class="chain-arrow">→</div>
+                            <div class="chain-step">
+                                <div class="step-num">Step 2</div>
+                                <div class="step-label">Architecture</div>
+                            </div>
+                            <div class="chain-arrow">→</div>
+                            <div class="chain-step">
+                                <div class="step-num">Step 3</div>
+                                <div class="step-label">Build Component A</div>
+                            </div>
+                            <div class="chain-arrow">→</div>
+                            <div class="chain-step">
+                                <div class="step-num">Step 4</div>
+                                <div class="step-label">Build Component B</div>
+                            </div>
+                            <div class="chain-arrow">→</div>
+                            <div class="chain-step">
+                                <div class="step-num">Step 5</div>
+                                <div class="step-label">Integration</div>
+                            </div>
+                        </div>
+
+                        <h3>Step 1: Plan</h3>
+                        <p>Describe the overall goal. Let the AI help you break it down. Ask: "What are the components I need to build for a task management app?" This generates a roadmap.</p>
+                        <h3>Step 2: Architecture</h3>
+                        <p>Based on the plan, design the structure. "Create a file structure and component tree for the task management app. List each file and its responsibility."</p>
+                        <h3>Step 3-N: Build Components</h3>
+                        <p>Build each component individually. "Create the TaskCard component. It should display a task title, status, due date, and have a checkbox to mark complete."</p>
+                        <h3>Final Step: Integration</h3>
+                        <p>Connect everything together. "Now combine the TaskCard, TaskList, and AddTaskForm components into the main App component. Ensure data flows correctly between them."</p>
+                    </section>
+
+                    <section id="patterns" class="lesson-section">
+                        <h2>Real-World Chaining Patterns</h2>
+
+                        <h3>Pattern 1: The Decomposition Chain</h3>
+                        <p>Break a large project into smaller pieces, build each piece, then combine. Best for complex multi-page applications.</p>
+                        <ul>
+                            <li>Prompt 1: "Create a sitemap for a SaaS landing page with 5 sections"</li>
+                            <li>Prompt 2: "Build the hero section: headline, subheading, CTA buttons, and hero image"</li>
+                            <li>Prompt 3: "Build the features section: 3-column grid with icons and descriptions"</li>
+                            <li>Prompt 4: "Build the pricing section: 3-tier pricing cards with features list"</li>
+                            <li>Prompt 5: "Build the footer with links, social icons, and copyright"</li>
+                        </ul>
+
+                        <h3>Pattern 2: The Refinement Chain</h3>
+                        <p>Generate something rough, then polish it through successive prompts. Best for design and content.</p>
+                        <ul>
+                            <li>Prompt 1: "Generate a rough layout for a dashboard with 4 metric cards and a chart"</li>
+                            <li>Prompt 2: "Improve the visual hierarchy. Make the metrics more prominent and add spacing between sections"</li>
+                            <li>Prompt 3: "Add hover effects, transitions, and responsive breakpoints for mobile"</li>
+                            <li>Prompt 4: "Polish the color scheme to use a dark theme with purple accents"</li>
+                        </ul>
+
+                        <h3>Pattern 3: The Feedback Loop Chain</h3>
+                        <p>Build, test, fix. This mirrors how human developers work.</p>
+                        <ul>
+                            <li>Prompt 1: "Build a contact form with name, email, message fields and validation"</li>
+                            <li>Test: Submit the form with invalid data to find bugs</li>
+                            <li>Prompt 2: "Fix: the email validation isn't working. Here's the error: [paste error]. Fix the validation logic and add error messages"</li>
+                            <li>Prompt 3: "Now add a success state after submission. Show a thank you message and reset the form"</li>
+                        </ul>
+
+                        <div class="highlight-box violet">
+                            <p><strong>Pro Tip:</strong> When chaining, include the key output from the previous step as context for the next step. "Using the TaskCard component you built in the previous step, now build a TaskList that renders multiple TaskCards and handles the completed state."</p>
+                        </div>
+                    </section>
+
+                    <section id="example" class="lesson-section">
+                        <h2>Real Example: Building a Task Manager</h2>
+                        <p>Here's how a real project might look with prompt chaining:</p>
+
+                        <div class="example-prompt">
+                            <span class="comment">// Step 1: Plan</span><br>
+                            <span class="command">Prompt:</span> "I want to build a simple task manager app with React. What components and features should it have?"<br>
+                            <span class="output">→ AI suggests: TaskList, TaskCard, AddTaskForm, FilterBar, and basic state management</span>
+                        </div>
+
+                        <div class="example-prompt">
+                            <span class="comment">// Step 2: Build TaskCard</span><br>
+                            <span class="command">Prompt:</span> "Build a TaskCard component. Props: title, status (pending/in-progress/done), dueDate, onToggle. Show a checkbox, title, colored status badge, and due date. Style with Tailwind."<br>
+                            <span class="output">→ AI generates the TaskCard component with all specified features</span>
+                        </div>
+
+                        <div class="example-prompt">
+                            <span class="comment">// Step 3: Build AddTaskForm</span><br>
+                            <span class="command">Prompt:</span> "Build a form to add new tasks. Fields: title (required), dueDate (optional), status (default: pending). Validation: title cannot be empty. Call onSubmit prop with the new task data."<br>
+                            <span class="output">→ AI generates the AddTaskForm with validation</span>
+                        </div>
+
+                        <div class="example-prompt">
+                            <span class="comment">// Step 4: Integrate</span><br>
+                            <span class="command">Prompt:</span> "Now I have TaskCard and AddTaskForm. Build the main App component that uses useState to manage the task list, passes data to TaskCard, and handles adding new tasks from AddTaskForm."<br>
+                            <span class="output">→ AI integrates everything into a working app</span>
+                        </div>
+
+                        <div class="highlight-box emerald">
+                            <p><strong>Result:</strong> A working task manager built in 4 focused prompts, each taking 10-20 seconds to generate. Each step was reviewable and fixable independently.</p>
+                        </div>
+                    </section>
+
+                    <section id="errors" class="lesson-section">
+                        <h2>Handling Failures and Edge Cases</h2>
+                        <p>Even with good chaining, things go wrong. Here's how to handle it:</p>
+                        <ul>
+                            <li><strong>Pinpoint the failure:</strong> Is it the wrong component, wrong logic, or wrong integration? Isolate which step caused the issue.</li>
+                            <li><strong>Provide error context:</strong> "The TaskCard component isn't rendering the status badge correctly. Here's the current code and the expected behavior: [paste code + expected output]."</li>
+                            <li><strong>Use the "fix" pattern:</strong> "Fix the TaskCard status badge. The status 'done' should show a green badge, not red. Update the color mapping function."</li>
+                            <li><strong>Know when to rebuild:</strong> Sometimes a component goes wrong enough that it's faster to rebuild it with a clearer prompt than to debug the broken version.</li>
+                            <li><strong>Always test each link:</strong> Before moving to the next step in your chain, verify the current output works. "Does the TaskCard render correctly?" If yes, proceed. If no, fix before moving on.</li>
+                        </ul>
+                    </section>
+
+                    <section id="tools" class="lesson-section">
+                        <h2>Tools for Managing Chains</h2>
+                        <p>As your chains grow more complex, consider using tools designed for managing multi-step AI workflows:</p>
+                        <ul>
+                            <li><strong>Claude Projects / Custom GPTs:</strong> Set up a project with instructions for your chaining pattern. The AI remembers the pattern across sessions.</li>
+                            <li><strong>n8n / Make:</strong> Visual workflow automation tools that can chain AI prompts together with data processing between steps.</li>
+                            <li><strong>Cursor Composer:</strong> Allows multi-file edits in one go. Great for chaining within a codebase.</li>
+                            <li><strong>Claude Code / Aider:</strong> CLI agents that can follow multi-step instructions autonomously, handling the chaining internally.</li>
+                            <li><strong>Prompt libraries:</strong> Save your proven chain templates so you can reuse them. A good template saves hours on future projects.</li>
+                        </ul>
+                        <div class="highlight-box magenta">
+                            <p><strong>Remember:</strong> The goal of chaining isn't to create more work — it's to create better results. A chain of 5 focused prompts produces better code than one massive prompt, even if it takes slightly more total time.</p>
+                        </div>
+                    </section>
+
+                    <section id="exercises" class="lesson-section">
+                        <h2>Exercises</h2>
+
+                        <div class="exercise-box">
+                            <h3>📝 Exercise 1: One-Shot vs Chain</h3>
+                            <p>Give this one-shot prompt to an AI: "Build a complete personal portfolio website with about section, projects gallery, skills bar, and contact form." Note the result. Then break it into a 3-step chain and try again. Compare the quality and coherence of both approaches.</p>
+                            <span class="tag">~30 minutes</span>
+                        </div>
+
+                        <div class="exercise-box">
+                            <h3>🔄 Exercise 2: Design a Chain Workflow</h3>
+                            <p>Pick an app you want to build (simple landing page, to-do app, or calculator). Write out a 4-6 step prompt chain covering: plan, architecture, component 1, component 2, integration, polish. Each step should be a single, focused prompt. Execute the chain and document what changed between iterations.</p>
+                            <span class="tag">~45 minutes</span>
+                        </div>
+
+                        <div class="exercise-box">
+                            <h3>🔧 Exercise 3: Debug Through Chaining</h3>
+                            <p>Deliberately write a vague prompt and get a poor result. Then use a chain of 3 prompts to fix it: (1) Identify what's wrong, (2) Fix the specific issue, (3) Add polish. This mirrors real-world debugging workflow.</p>
+                            <span class="tag">~20 minutes</span>
+                        </div>
+
+                        <div class="exercise-box">
+                            <h3>📋 Exercise 4: Extract Chain Patterns</h3>
+                            <p>Look at a project you've already built or a project on this site. Reverse-engineer the prompt chain someone would need to build it. Write out the sequence of prompts, from planning to completion. This builds the skill of thinking in chains.</p>
+                            <span class="tag">~20 minutes</span>
+                        </div>
+                    </section>
+
+                    <div class="progress-controls">
+                        <button class="mark-btn incomplete" id="progress-btn" onclick="toggleProgress()">Mark as Complete</button>
+                        <span class="progress-status" id="progress-status">Not started</span>
+                    </div>
+
+                    <div class="module-nav">
+                        <a href="module3.html" class="prev">← Previous: The Toolkit</a>
+                        <a href="learn.html" class="back-to-learn">Back to Learning Hub</a>
+                        <a href="module5.html" class="next">Next: Context Engineering →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <p>LetsVibeAI &copy; 2025 — Built with AI</p>
+                <div style="display: flex; gap: 1.5rem;">
+                    <a href="learn.html">Learn</a>
+                    <a href="resources.html">Resources</a>
+                    <a href="marketplace.html">Marketplace</a>
+                    <a href="community.html">Community</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <script src="supabase-client.js"></script>
+    <script src="script.js"></script>
+    <script>
+        const MODULE_SLUG = 'module-4-prompt-chaining';
+        async function toggleProgress() {
+            const user = getCurrentUser();
+            if (!user) { showToast('Sign in to track your progress!'); return; }
+            const btn = document.getElementById('progress-btn');
+            const status = document.getElementById('progress-status');
+            const isComplete = btn.classList.contains('complete');
+            if (isComplete) {
+                await window.db.unmarkComplete(user.id, MODULE_SLUG);
+                btn.textContent = 'Mark as Complete'; btn.className = 'mark-btn incomplete'; status.textContent = 'Not started';
+            } else {
+                await window.db.markComplete(user.id, MODULE_SLUG, 'module');
+                btn.textContent = '✅ Completed'; btn.className = 'mark-btn complete'; status.textContent = 'Completed';
+            }
+        }
+        async function loadProgress() {
+            const user = getCurrentUser();
+            if (!user) return;
+            const progress = await window.db.getProgress(user.id);
+            const found = progress.find(p => p.content_slug === MODULE_SLUG);
+            if (found) {
+                document.getElementById('progress-btn').textContent = '✅ Completed';
+                document.getElementById('progress-btn').className = 'mark-btn complete';
+                document.getElementById('progress-status').textContent = 'Completed';
+            }
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            window.authPromise.then(() => loadProgress()).catch(() => {});
+            const links = document.querySelectorAll('.lesson-sidebar a');
+            const sections = Array.from(links).map(a => { const id = a.getAttribute('href')?.replace('#', ''); return id ? document.getElementById(id) : null; }).filter(Boolean);
+            const spy = () => {
+                const scrollY = window.scrollY + 150;
+                let current = '';
+                sections.forEach(s => { if (s && s.offsetTop <= scrollY) current = s.id; });
+                links.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === `#${current}`); });
+            };
+            window.addEventListener('scroll', spy, { passive: true }); spy();
+        });
+    </script>
+</body>
+
+</html>
