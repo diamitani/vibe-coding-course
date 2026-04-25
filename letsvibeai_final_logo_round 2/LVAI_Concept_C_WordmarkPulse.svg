@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="500" viewBox="0 0 1500 500">
+  <rect width="1500" height="500" fill="#FFFFFF"/>
+  <g transform="translate(70,145)">
+    <text x="0" y="110" font-family="Arial, Helvetica, sans-serif" font-size="112" font-weight="700" fill="#0B1020">Let’s</text>
+    <text x="320" y="110" font-family="Arial, Helvetica, sans-serif" font-size="112" font-weight="700" fill="#0B1020">Vibe</text>
+    <text x="655" y="110" font-family="Arial, Helvetica, sans-serif" font-size="112" font-weight="700" fill="#5B7CFF">AI</text>
+    <path d="M290 60 C330 20, 390 20, 430 60" fill="none" stroke="#7AF0C8" stroke-width="12" stroke-linecap="round"/>
+    <path d="M454 60 C494 20, 554 20, 594 60" fill="none" stroke="#7AF0C8" stroke-width="12" stroke-linecap="round"/>
+    <circle cx="620" cy="58" r="12" fill="#7AF0C8"/>
+    <text x="5" y="185" font-family="Arial, Helvetica, sans-serif" font-size="34" font-weight="400" fill="#6B7280" letter-spacing="0.5">A friendlier doorway into building with AI</text>
+  </g>
+</svg>

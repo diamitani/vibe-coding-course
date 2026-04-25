@@ -4,23 +4,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Module 2 — What is Vibe Coding | LetsVibeAI</title>
-    <meta name="description"
-        content="Learn what vibe coding is, where the term came from, and how prompt-driven development is changing the way we build software.">
+    <title>Module 2 — What is Vibe Coding? | LetsVibeAI</title>
+    <meta name="description" content="Learn the practice of building software by describing what you want in natural language and letting AI generate the code.">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .module-header { text-align: center; padding: 3rem 0; margin-bottom: 2rem; }
+        .module-header .module-badge { display: inline-block; padding: 0.35rem 1rem; border-radius: var(--radius-full); background: rgba(6, 182, 212, 0.1); color: var(--accent-cyan); font-size: 0.8rem; font-weight: 600; margin-bottom: 1rem; }
+        .module-header h1 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 0.75rem; }
+        .module-header p { color: var(--text-secondary); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+        .module-meta { display: flex; justify-content: center; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap; }
+        .module-meta span { font-size: 0.875rem; color: var(--text-muted); }
+        .lesson-layout { display: grid; grid-template-columns: 220px 1fr; gap: 2rem; align-items: start; }
+        @media (max-width: 768px) { .lesson-layout { grid-template-columns: 1fr; } }
+        .lesson-sidebar { position: sticky; top: 100px; }
+        .lesson-sidebar h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 1rem; }
+        .lesson-sidebar a { display: block; padding: 0.5rem 0.75rem; border-radius: var(--radius-sm); color: var(--text-secondary); font-size: 0.85rem; transition: all var(--duration-fast) var(--ease-out); margin-bottom: 0.25rem; }
+        .lesson-sidebar a:hover, .lesson-sidebar a.active { background: rgba(6, 182, 212, 0.08); color: var(--accent-cyan); }
+        .lesson-section { margin-bottom: 3rem; scroll-margin-top: 100px; }
+        .lesson-section h2 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-primary); }
+        .lesson-section h3 { font-size: 1.15rem; margin: 1.5rem 0 0.75rem; color: var(--text-primary); }
+        .lesson-section p { color: var(--text-secondary); line-height: 1.8; margin-bottom: 1rem; }
+        .lesson-section ul { margin: 0.5rem 0 1rem 1.5rem; color: var(--text-secondary); }
+        .lesson-section li { margin-bottom: 0.4rem; line-height: 1.6; }
+        .lesson-section .highlight-box { background: var(--bg-card); border-left: 3px solid var(--accent-cyan); padding: 1.25rem 1.5rem; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 1.5rem 0; }
+        .lesson-section .highlight-box.violet { border-left-color: var(--accent-violet); }
+        .lesson-section .highlight-box.magenta { border-left-color: var(--accent-magenta); }
+        .lesson-section .highlight-box.emerald { border-left-color: var(--accent-emerald); }
+        .lesson-section .highlight-box p:last-child { margin-bottom: 0; }
+        .module-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-subtle); }
+        .module-nav a { padding: 0.75rem 1.5rem; border-radius: var(--radius-md); font-weight: 600; font-size: 0.9rem; transition: all var(--duration-fast) var(--ease-out); }
+        .module-nav a.prev { color: var(--text-secondary); border: 1px solid var(--border-subtle); }
+        .module-nav a.prev:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+        .module-nav a.next { background: var(--accent-cyan); color: #fff; }
+        .module-nav a.next:hover { background: var(--accent-violet); }
+        .module-nav .back-to-learn { color: var(--text-muted); font-size: 0.8rem; }
+        .progress-controls { display: flex; align-items: center; gap: 1rem; margin-top: 2rem; padding: 1rem 1.5rem; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); }
+        .mark-btn { padding: 0.5rem 1.25rem; border-radius: var(--radius-full); border: none; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all var(--duration-fast) var(--ease-out); }
+        .mark-btn.complete { background: var(--accent-emerald); color: #fff; }
+        .mark-btn.complete:hover { background: #059669; }
+        .mark-btn.incomplete { background: var(--bg-card); color: var(--text-secondary); border: 1px solid var(--border-subtle); }
+        .mark-btn.incomplete:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+        .progress-status { font-size: 0.85rem; color: var(--text-muted); }
+        .key-takeaways { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin: 1.5rem 0; }
+        .takeaway-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem; }
+        .takeaway-card h4 { font-size: 0.9rem; margin-bottom: 0.5rem; color: var(--accent-cyan); }
+        .takeaway-card p { font-size: 0.85rem; margin: 0; }
+        .exercise-box { background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(6, 182, 212, 0.08)); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.5rem; margin: 1.5rem 0; }
+        .exercise-box h3 { margin-top: 0; }
+        .exercise-box p { font-size: 0.9rem; }
+        .exercise-box .tag { display: inline-block; padding: 0.2rem 0.6rem; border-radius: var(--radius-full); font-size: 0.7rem; font-weight: 600; background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); margin-top: 0.5rem; }
+        .comparison-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+        .comparison-table th, .comparison-table td { padding: 0.75rem 1rem; text-align: left; border-bottom: 1px solid var(--border-subtle); font-size: 0.9rem; }
+        .comparison-table th { color: var(--text-muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; background: var(--bg-card); }
+        .comparison-table td { color: var(--text-secondary); }
+        .comparison-table tr:hover td { background: var(--bg-card-hover); }
+    </style>
 </head>
 
 <body>
     <div class="ambient-bg"></div>
     <nav class="nav">
         <div class="nav-inner">
-            <a href="index.html" class="nav-logo">⚡ LetsVibeAI</a>
+            <a href="index.html" class="nav-logo">LetsVibeAI</a>
             <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="module1.html">Modules</a></li>
-                <li><a href="tools.html">Tools</a></li>
-                <li><a href="lab1.html">Labs</a></li>
+                <li><a href="learn.html">Learn</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="marketplace.html">Marketplace</a></li>
                 <li id="auth-nav-slot"></li>
             </ul>
         </div>
@@ -28,159 +80,201 @@
 
     <main class="page-content">
         <div class="container">
-            <div class="module-hero">
-                <span class="module-number">Module 2</span>
-                <h1>What is Vibe Coding?</h1>
-                <p>Vibe coding is the practice of building software by describing what you want in natural language and
-                    letting AI generate the code. It's a fundamental shift from writing code to directing AI — and it's
-                    reshaping who can build technology.</p>
+            <div class="module-header">
+                <div class="module-badge">Module 2 of 6</div>
+                <h1>🎯 What is Vibe Coding?</h1>
+                <p>Vibe coding is the practice of building software by describing what you want in natural language and letting AI generate the code. Learn how this fundamental shift is reshaping who can build technology.</p>
+                <div class="module-meta">
+                    <span>⏱ ~2 hours</span>
+                    <span>📊 Beginner</span>
+                    <span>💰 Free</span>
+                </div>
             </div>
 
-            <div class="module-body">
-                <aside class="sidebar">
-                    <ul class="sidebar-nav">
-                        <li><a href="#origin">Origin Story</a></li>
-                        <li><a href="#how-it-works">How It Works</a></li>
-                        <li><a href="#use-cases">Use Cases</a></li>
-                        <li><a href="#mindset">The Mindset Shift</a></li>
-                    </ul>
+            <div class="lesson-layout">
+                <aside class="lesson-sidebar">
+                    <h4>On this page</h4>
+                    <a href="#origin">Origin Story</a>
+                    <a href="#the-loop">The Vibe Coding Loop</a>
+                    <a href="#paradigm">Traditional vs Vibe Coding</a>
+                    <a href="#use-cases">Real-World Use Cases</a>
+                    <a href="#mindset">The Vibe Coding Mindset</a>
+                    <a href="#pitfalls">Common Pitfalls</a>
+                    <a href="#future">The Future</a>
+                    <a href="#exercises">Exercises</a>
                 </aside>
 
-                <div class="content">
-                    <h2 id="origin">Origin: Where the Term Came From</h2>
-                    <p>The term <strong>"vibe coding"</strong> was coined by <strong>Andrej Karpathy</strong>, former
-                        Director of AI at Tesla and co-founder of OpenAI, in a widely shared post in early 2025:</p>
-
-                    <div class="prompt-example">
-                        <div class="label prompt">Andrej Karpathy</div>
-                        <div class="prompt-text">
-                            "There's a new kind of coding I call 'vibe coding', where you fully give in to the vibes,
-                            embrace exponentials, and forget that the code even exists. It's not really coding — I just
-                            see stuff, say stuff, run stuff, and copy paste stuff, and it mostly works."
+                <div class="lesson-content">
+                    <section id="origin" class="lesson-section">
+                        <h2>Origin Story</h2>
+                        <p>The term "vibe coding" was coined by Andrej Karpathy, a pioneering AI researcher and former head of AI at Tesla and a founding member of OpenAI. In early 2025, he described a new way of programming where you "fully give in to the vibes, embrace exponentials, and forget that the code even exists."</p>
+                        <p>The idea resonated immediately because it captured something developers had been feeling: AI had crossed a threshold. It wasn't just an autocomplete anymore — it could understand intent, handle context, and generate entire applications from natural language descriptions.</p>
+                        <div class="highlight-box">
+                            <p><strong>Karpathy's Definition:</strong> "Vibe coding is a new kind of programming where you fully give in to the vibes, embrace exponentials, and forget that the code even exists. It's not about writing code — it's about describing what you want and watching it come to life."</p>
                         </div>
-                    </div>
+                        <p>The term spread quickly because it named something people were already experiencing. Developers using Cursor, Copilot, and ChatGPT to build software were finding that the bottleneck had shifted from "can I write this code?" to "can I describe what I want clearly enough?"</p>
+                    </section>
 
-                    <p>Karpathy captured something millions of people were already doing: <em>using AI assistants to
-                            build real software without manually writing traditional code.</em> The "vibe" part means
-                        you focus on the outcome — what you want to exist — and let AI handle the implementation
-                        details.</p>
+                    <section id="the-loop" class="lesson-section">
+                        <h2>The Vibe Coding Loop</h2>
+                        <p>Vibe coding follows a simple, iterative loop:</p>
+                        <h3>1. Describe → 2. Generate → 3. Review → 4. Refine → Repeat</h3>
+                        <p><strong>Describe:</strong> You tell the AI what you want in natural language. "Build me a landing page with a hero section, three feature cards, and a contact form." The more specific you are, the better the result.</p>
+                        <p><strong>Generate:</strong> The AI produces code — HTML, CSS, JavaScript, React components, or entire app structures. This happens in seconds.</p>
+                        <p><strong>Review:</strong> You look at what was generated. Does it look right? Does it work? Does it match your intent? This is where your judgment matters most.</p>
+                        <p><strong>Refine:</strong> You give feedback. "Make the hero section more dramatic. Use purple as the primary color. Center the form." The AI incorporates your feedback and generates an improved version.</p>
+                        <div class="highlight-box violet">
+                            <p><strong>Key Insight:</strong> The most important skill in vibe coding isn't writing code — it's giving clear, structured feedback. The best vibe coders are excellent communicators who can describe their vision with precision.</p>
+                        </div>
+                    </section>
 
-                    <h2 id="how-it-works">How Vibe Coding Works</h2>
-                    <p>At its core, vibe coding follows a simple loop:</p>
+                    <section id="paradigm" class="lesson-section">
+                        <h2>Traditional Development vs Vibe Coding</h2>
+                        <p>Understanding the difference helps you know when to use each approach:</p>
+                        <table class="comparison-table">
+                            <thead>
+                                <tr>
+                                    <th>Dimension</th>
+                                    <th>Traditional Coding</th>
+                                    <th>Vibe Coding</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Primary Skill</td>
+                                    <td>Syntax &amp; algorithms</td>
+                                    <td>Communication &amp; judgment</td>
+                                </tr>
+                                <tr>
+                                    <td>Speed to MVP</td>
+                                    <td>Days to weeks</td>
+                                    <td>Minutes to hours</td>
+                                </tr>
+                                <tr>
+                                    <td>Entry Barrier</td>
+                                    <td>High (months/years to learn)</td>
+                                    <td>Low (anyone can start)</td>
+                                </tr>
+                                <tr>
+                                    <td>Control</td>
+                                    <td>Full (every line written by you)</td>
+                                    <td>Shared (AI generates, you direct)</td>
+                                </tr>
+                                <tr>
+                                    <td>Debugging</td>
+                                    <td>Read code, find bug, fix</td>
+                                    <td>Describe the bug, AI fixes</td>
+                                </tr>
+                                <tr>
+                                    <td>Best For</td>
+                                    <td>Complex, performance-critical systems</td>
+                                    <td>Prototypes, tools, websites, apps</td>
+                                </tr>
+                                <tr>
+                                    <td>Learning Curve</td>
+                                    <td>Steep</td>
+                                    <td>Gentle</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="highlight-box magenta">
+                            <p><strong>Both approaches have their place.</strong> Vibe coding is ideal for building apps quickly, exploring ideas, and creating tools. Traditional coding is still essential for systems programming, performance optimization, and deep infrastructure. The best builders use both.</p>
+                        </div>
+                    </section>
 
-                    <ol>
-                        <li><strong>Describe</strong> — Tell the AI what you want in natural language</li>
-                        <li><strong>Generate</strong> — The AI produces code, designs, or functionality</li>
-                        <li><strong>Review</strong> — See the result (usually a live preview)</li>
-                        <li><strong>Refine</strong> — Adjust with follow-up prompts until it matches your vision</li>
-                    </ol>
+                    <section id="use-cases" class="lesson-section">
+                        <h2>Real-World Use Cases</h2>
+                        <p>Vibe coding is being used to build real, production software across many domains:</p>
+                        <h3>Marketing Websites & Landing Pages</h3>
+                        <p>The most common use case. Describe your brand, product, and design preferences, and get a fully functional website in minutes. Tools like Lovable and v0.dev excel here.</p>
+                        <h3>Internal Tools & Dashboards</h3>
+                        <p>Teams use vibe coding to quickly build admin panels, reporting dashboards, and workflow tools. These don't need to be perfect — they need to exist and solve a specific problem.</p>
+                        <h3>Prototypes & MVPs</h3>
+                        <p>Startups use vibe coding to validate ideas before investing in full engineering teams. A founder can build a working prototype in a weekend and use it to raise funding or test demand.</p>
+                        <h3>Personal Productivity Apps</h3>
+                        <p>Individuals build custom tools for their specific needs — expense trackers, habit managers, content schedulers, and more. Things that don't exist as off-the-shelf products but are easy to describe.</p>
+                        <h3>Learning & Education</h3>
+                        <p>Vibe coding is a powerful learning tool. You can ask AI to explain code, generate examples, and help you understand concepts by building them interactively.</p>
+                        <div class="highlight-box emerald">
+                            <p><strong>Real Examples:</strong> Landing pages for startups, internal HR tools at companies, personal portfolio sites, interactive data visualizations, booking systems, and even simple mobile apps — all built by non-developers using vibe coding tools.</p>
+                        </div>
+                    </section>
 
-                    <div class="prompt-example">
-                        <div class="label before">❌ Traditional Coding</div>
-                        <div class="prompt-text">
-                            // Open editor, create files, install dependencies...<br>
-                            const express = require('express');<br>
-                            const app = express();<br>
-                            app.get('/', (req, res) =&gt; {<br>
-                            &nbsp;&nbsp;res.send('&lt;h1&gt;Hello World&lt;/h1&gt;');<br>
-                            });<br>
-                            app.listen(3000);<br>
-                            // ...25 more files for a simple site
+                    <section id="mindset" class="lesson-section">
+                        <h2>The Vibe Coding Mindset</h2>
+                        <p>Adopting the vibe coding mindset requires a mental shift:</p>
+                        <ul>
+                            <li><strong>From "Can I code this?" to "Can I describe this?"</strong> — Your bottleneck shifts from technical skill to clarity of vision. The better you can articulate what you want, the better the result.</li>
+                            <li><strong>Embrace iteration.</strong> First results are never perfect. The magic happens in the second, third, and tenth iteration. Each refinement cycle takes seconds.</li>
+                            <li><strong>Learn to review.</strong> Your most valuable skill becomes the ability to evaluate what the AI produced. Does it look right? Is it functional? Does it align with your intent?</li>
+                            <li><strong>Stay curious.</strong> Try different approaches. Ask the AI to explain its code. Experiment with different tools. The field moves fast — what was impossible last week might work today.</li>
+                            <li><strong>Know when to dive deep.</strong> Sometimes you need to understand the code. When something isn't working, don't be afraid to look at the generated code and learn from it.</li>
+                        </ul>
+                    </section>
+
+                    <section id="pitfalls" class="lesson-section">
+                        <h2>Common Pitfalls</h2>
+                        <p>Avoid these common mistakes as you start your vibe coding journey:</p>
+                        <ul>
+                            <li><strong>Being too vague:</strong> "Make me a website" won't get good results. "Build a one-page marketing site for a SaaS product called FlowTrack that helps freelancers track invoices" will.</li>
+                            <li><strong>Accepting the first result:</strong> The first generation is rarely perfect. Expect to iterate 3-10 times for a polished result.</li>
+                            <li><strong>Not reviewing generated code:</strong> AI can make mistakes. Always review what was generated before deploying to production.</li>
+                            <li><strong>Going too big too fast:</strong> Start with a single page or feature. Build incrementally. Large, complex prompts produce unreliable results.</li>
+                            <li><strong>Forgetting the fundamentals:</strong> Understanding basic concepts (HTML structure, CSS styling, how databases work) makes you dramatically more effective even if AI writes the code.</li>
+                        </ul>
+                    </section>
+
+                    <section id="future" class="lesson-section">
+                        <h2>The Future of Software Development</h2>
+                        <p>Vibe coding isn't just a trend — it represents a fundamental shift in how software will be built:</p>
+                        <ul>
+                            <li><strong>Democratized creation:</strong> The number of people who can build software will expand from ~30 million developers to billions of people with ideas. Every professional will be able to create custom tools for their work.</li>
+                            <li><strong>New roles emerge:</strong> "Prompt Engineer," "AI Workflow Designer," "Vibe Architect" — new job descriptions built around directing AI rather than writing code.</li>
+                            <li><strong>Development velocity increases:</strong> Teams that adopt vibe coding alongside traditional practices will ship faster, experiment more, and build better products.</li>
+                            <li><strong>Quality bar rises:</strong> As building becomes easier, the differentiator shifts from "can you build it?" to "is it the right thing to build?" Strategy, design, and user empathy become more valuable than ever.</li>
+                        </ul>
+                        <div class="highlight-box">
+                            <p><strong>Bottom Line:</strong> Vibe coding doesn't replace software engineering — it expands who can participate. The future belongs to those who can think clearly, communicate precisely, and collaborate effectively with AI.</p>
+                        </div>
+                    </section>
+
+                    <section id="exercises" class="lesson-section">
+                        <h2>Exercises</h2>
+
+                        <div class="exercise-box">
+                            <h3>📝 Exercise 1: Describe an App</h3>
+                            <p>Pick a simple app you use regularly (a to-do list, a note-taking app, a calculator). Without opening any code editor, write a paragraph describing exactly what it does and how it should look. Be specific about layout, colors, features, and interactions. This is the core skill of vibe coding — clear description.</p>
+                            <span class="tag">~15 minutes</span>
                         </div>
 
-                        <div class="prompt-arrow">↓</div>
-
-                        <div class="label after">✅ Vibe Coding</div>
-                        <div class="prompt-text">
-                            "Build me a modern landing page for a SaaS product called FlowSync. It should have a hero
-                            section with a gradient background, feature cards, testimonials, and a pricing table. Use a
-                            dark theme with purple and cyan accents."
+                        <div class="exercise-box">
+                            <h3>🛠️ Exercise 2: First Vibe Coding Session</h3>
+                            <p>Open any vibe coding tool (ChatGPT with code generation, Claude, or a trial of Cursor/Lovable/v0). Take the description from Exercise 1 and ask the AI to build it. Review the output. What did it get right? What would you change? Iterate with the AI with at least 3 refinement rounds.</p>
+                            <span class="tag">~30 minutes</span>
                         </div>
-                    </div>
 
-                    <h2 id="use-cases">Real-World Use Cases</h2>
-                    <p>Vibe coding isn't just for making websites. People are using it to build real tools that solve
-                        real problems:</p>
-
-                    <h3>🌐 Website Building</h3>
-                    <p>The most common use case. Landing pages, portfolios, marketing sites, full web applications —
-                        described in plain English and generated in minutes.</p>
-
-                    <h3>📧 Email Automation</h3>
-                    <p>Build email senders, newsletter systems, automated follow-up sequences, and drip campaigns by
-                        describing the workflow you need.</p>
-
-                    <div class="prompt-example">
-                        <div class="label prompt">Example Prompt</div>
-                        <div class="prompt-text">"Create an email automation system that sends a welcome email when
-                            someone signs up, follows up 3 days later with a product guide, and then sends a discount
-                            code after 7 days if they haven't purchased."</div>
-                    </div>
-
-                    <h3>📅 Calendar & Drive Organization</h3>
-                    <p>Use AI to build tools that organize your Google Calendar, sort Drive files into folders, create
-                        meeting summaries, and automate scheduling workflows.</p>
-
-                    <h3>📊 Data Dashboards</h3>
-                    <p>Describe the metrics you care about and AI builds interactive dashboards with charts, filters,
-                        and real-time data visualizations.</p>
-
-                    <h3>🤖 Internal Tools</h3>
-                    <p>CRMs, project trackers, inventory systems, approval workflows — the kind of tools businesses
-                        spend thousands on can be vibe-coded in an afternoon.</p>
-
-                    <h2 id="mindset">The Mindset Shift</h2>
-                    <p>Vibe coding requires a different way of thinking than traditional development:</p>
-
-                    <div class="cards-grid cards-grid-2" style="margin: var(--space-xl) 0;">
-                        <div class="card">
-                            <h3>Traditional Developer</h3>
-                            <ul>
-                                <li>Thinks in syntax and APIs</li>
-                                <li>Writes code line by line</li>
-                                <li>Solves problems through code</li>
-                                <li>Values technical expertise</li>
-                                <li>Builds bottom-up</li>
-                            </ul>
+                        <div class="exercise-box">
+                            <h3>💬 Exercise 3: Compare Describe → Generate</h3>
+                            <p>Give the same description to two different AI tools. Compare the results. Which tool produced a better result? Why do you think that is? Note any differences in how each tool interpreted your description. This helps you learn which tools fit different tasks.</p>
+                            <span class="tag">~20 minutes</span>
                         </div>
-                        <div class="card">
-                            <h3>Vibe Coder</h3>
-                            <ul>
-                                <li>Thinks in outcomes and descriptions</li>
-                                <li>Writes prompts and refines results</li>
-                                <li>Solves problems through communication</li>
-                                <li>Values clarity and specificity</li>
-                                <li>Builds top-down</li>
-                            </ul>
+
+                        <div class="exercise-box">
+                            <h3>🔍 Exercise 4: Review Someone Else's Code</h3>
+                            <p>Find a simple website or app built by someone else. Describe it as if you were going to ask an AI to build it. Then ask an AI to generate it from your description. Compare the result to the original. What details did you miss? This sharpens your descriptive ability.</p>
+                            <span class="tag">~20 minutes</span>
                         </div>
+                    </section>
+
+                    <div class="progress-controls">
+                        <button class="mark-btn incomplete" id="progress-btn" onclick="toggleProgress()">Mark as Complete</button>
+                        <span class="progress-status" id="progress-status">Not started</span>
                     </div>
 
-                    <div class="callout tip">
-                        <div class="callout-title">✅ Key Takeaway</div>
-                        <p>The best vibe coders aren't necessarily the best programmers. They're the best
-                            <em>communicators</em> — people who can clearly and specifically describe what they want to
-                            create.</p>
-                    </div>
-
-                    <p>In the next module, we'll explore the actual tools you'll use to vibe code — from hosted builders
-                        like Lovable and Bolt to powerful CLI agents like Claude Code and Antigravity.</p>
-
-                    <div id="mark-complete-section" style="margin:2rem 0;padding:1.5rem;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;text-align:center;">
-                        <button id="mark-complete-btn" class="btn btn-primary" onclick="toggleComplete()" style="min-width:200px;">
-                            Mark as Complete
-                        </button>
-                        <p id="complete-status" style="display:none;color:var(--accent-emerald);margin-top:0.75rem;font-size:0.875rem;"></p>
-                    </div>
-
-                    <div class="page-nav">
-                        <a href="module1.html">
-                            <span class="nav-label">← Previous</span>
-                            <span class="nav-title">What is AI</span>
-                        </a>
-                        <a href="module3.html" class="next">
-                            <span class="nav-label">Next →</span>
-                            <span class="nav-title">The Vibe Coding Toolkit</span>
-                        </a>
+                    <div class="module-nav">
+                        <a href="module1.html" class="prev">← Previous: What is AI?</a>
+                        <a href="learn.html" class="back-to-learn">Back to Learning Hub</a>
+                        <a href="module3.html" class="next">Next: The Toolkit →</a>
                     </div>
                 </div>
             </div>
@@ -189,51 +283,63 @@
 
     <footer class="footer">
         <div class="container">
-            <p>⚡ LetsVibeAI &copy; 2025</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <p>LetsVibeAI &copy; 2025 — Built with AI</p>
+                <div style="display: flex; gap: 1.5rem;">
+                    <a href="learn.html">Learn</a>
+                    <a href="resources.html">Resources</a>
+                    <a href="marketplace.html">Marketplace</a>
+                    <a href="community.html">Community</a>
+                </div>
+            </div>
         </div>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="supabase-client.js"></script>
     <script src="script.js"></script>
     <script>
-    const CONTENT_SLUG = 'module2';
-    const CONTENT_TYPE = 'module';
+        const MODULE_SLUG = 'module-2-what-is-vibe-coding';
 
-    async function toggleComplete() {
-        await window.authPromise;
-        const user = getCurrentUser();
-        if (!user) { window.location.href = 'auth.html'; return; }
-
-        const btn = document.getElementById('mark-complete-btn');
-        const status = document.getElementById('complete-status');
-        const progress = await window.db.getProgress(user.id);
-        const isComplete = progress.some(p => p.content_slug === CONTENT_SLUG);
-
-        if (isComplete) {
-            await window.db.unmarkComplete(user.id, CONTENT_SLUG);
-            btn.textContent = 'Mark as Complete';
-            btn.style.background = '';
-            status.style.display = 'none';
-        } else {
-            await window.db.markComplete(user.id, CONTENT_SLUG, CONTENT_TYPE);
-            btn.textContent = 'Completed \u2713';
-            btn.style.background = 'var(--accent-emerald)';
-            status.textContent = 'Great work! Keep going.';
-            status.style.display = 'block';
+        async function toggleProgress() {
+            const user = getCurrentUser();
+            if (!user) { showToast('Sign in to track your progress!'); return; }
+            const btn = document.getElementById('progress-btn');
+            const status = document.getElementById('progress-status');
+            const isComplete = btn.classList.contains('complete');
+            if (isComplete) {
+                await window.db.unmarkComplete(user.id, MODULE_SLUG);
+                btn.textContent = 'Mark as Complete'; btn.className = 'mark-btn incomplete'; status.textContent = 'Not started';
+            } else {
+                await window.db.markComplete(user.id, MODULE_SLUG, 'module');
+                btn.textContent = '✅ Completed'; btn.className = 'mark-btn complete'; status.textContent = 'Completed';
+            }
         }
-    }
 
-    document.addEventListener('DOMContentLoaded', async () => {
-        await window.authPromise;
-        const user = getCurrentUser();
-        if (!user) return;
-
-        const progress = await window.db.getProgress(user.id);
-        if (progress.some(p => p.content_slug === CONTENT_SLUG)) {
-            document.getElementById('mark-complete-btn').textContent = 'Completed \u2713';
-            document.getElementById('mark-complete-btn').style.background = 'var(--accent-emerald)';
+        async function loadProgress() {
+            const user = getCurrentUser();
+            if (!user) return;
+            const progress = await window.db.getProgress(user.id);
+            const found = progress.find(p => p.content_slug === MODULE_SLUG);
+            if (found) {
+                document.getElementById('progress-btn').textContent = '✅ Completed';
+                document.getElementById('progress-btn').className = 'mark-btn complete';
+                document.getElementById('progress-status').textContent = 'Completed';
+            }
         }
-    });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            window.authPromise.then(() => loadProgress()).catch(() => {});
+            const links = document.querySelectorAll('.lesson-sidebar a');
+            const sections = Array.from(links).map(a => { const id = a.getAttribute('href')?.replace('#', ''); return id ? document.getElementById(id) : null; }).filter(Boolean);
+            const spy = () => {
+                const scrollY = window.scrollY + 150;
+                let current = '';
+                sections.forEach(s => { if (s && s.offsetTop <= scrollY) current = s.id; });
+                links.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === `#${current}`); });
+            };
+            window.addEventListener('scroll', spy, { passive: true }); spy();
+        });
     </script>
 </body>
 

@@ -482,7 +482,9 @@
             <div class="resources-tabs">
                 <button class="resources-tab-btn active" data-tab="tools" onclick="switchResourcesTab('tools', this)">🛠️ Tools</button>
                 <button class="resources-tab-btn" data-tab="news" onclick="switchResourcesTab('news', this)">📰 News Radar</button>
-                <button class="resources-tab-btn" data-tab="content" onclick="switchResourcesTab('content', this)">🤝 Content & Affiliates</button>
+                <button class="resources-tab-btn" data-tab="videos" onclick="switchResourcesTab('videos', this)">📺 Video Library</button>
+                <button class="resources-tab-btn" data-tab="events" onclick="switchResourcesTab('events', this)">📅 Events</button>
+                <button class="resources-tab-btn" data-tab="content" onclick="switchResourcesTab('content', this)">🤝 Content Hub</button>
                 <button class="resources-tab-btn" data-tab="workspace" onclick="switchResourcesTab('workspace', this)">💻 Workspace</button>
             </div>
 
@@ -524,11 +526,26 @@
                     </div>
                     <div class="cards-grid cards-grid-2" id="news-source-groups"></div>
                 </div>
+            </div>
 
-                <div style="text-align: center; margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                    <a href="resources.html#content" class="btn btn-primary">Open Content System →</a>
-                    <a href="news.html" class="btn btn-secondary">View Full News Archive →</a>
+            <!-- Tab: Videos -->
+            <div id="videos" class="resources-tab-content">
+                <div class="section-header" style="margin-bottom: 2rem;">
+                    <span class="section-label">Media Hub</span>
+                    <h2 class="section-title">Video Library</h2>
+                    <p class="section-desc">Tutorials, tool reviews, and build-along sessions to help you master AI engineering.</p>
                 </div>
+                <div class="cards-grid cards-grid-3" id="videos-grid"></div>
+            </div>
+
+            <!-- Tab: Events -->
+            <div id="events" class="resources-tab-content">
+                <div class="section-header" style="margin-bottom: 2rem;">
+                    <span class="section-label">Discovery</span>
+                    <h2 class="section-title">AI Events & Meetups</h2>
+                    <p class="section-desc">Connect with the community at local meetups, global conferences, and virtual hackathons.</p>
+                </div>
+                <div class="cards-grid cards-grid-2" id="events-grid"></div>
             </div>
 
             <!-- Tab 3: Content -->
@@ -587,52 +604,18 @@
             <!-- Tab 4: Workspace -->
             <div id="workspace" class="resources-tab-content">
                 <div class="workspace-intro">
-                    <h2>Prompt Lab & Interactive Workspace</h2>
-                    <p>Use these tools and templates to refine your AI prompts, test ideas, and collaborate with the community.</p>
+                    <h2>Vibe-Coding Workspace</h2>
+                    <p>Your central mission control for learning, building, and generating AI-assisted products.</p>
                 </div>
 
-                <div class="workspace-grid">
-                    <div class="workspace-card">
-                        <div class="workspace-card-icon">📝</div>
-                        <h3 class="workspace-card-title">Prompt Editor</h3>
-                        <p class="workspace-card-desc">Write and refine your prompts with syntax highlighting, templates, and suggestions. Test them against Claude, GPT-4, and more.</p>
-                    </div>
-
-                    <div class="workspace-card">
-                        <div class="workspace-card-icon">🎨</div>
-                        <h3 class="workspace-card-title">Design Kit</h3>
-                        <p class="workspace-card-desc">Generate design prompts for Midjourney, DALL-E, or other image generators. Include color palettes, composition guides, and style references.</p>
-                    </div>
-
-                    <div class="workspace-card">
-                        <div class="workspace-card-icon">⚙️</div>
-                        <h3 class="workspace-card-title">Process Templates</h3>
-                        <p class="workspace-card-desc">Pre-built workflows for common tasks: landing pages, e-commerce, dashboards, automation, and more. Customize and deploy instantly.</p>
-                    </div>
-
-                    <div class="workspace-card">
-                        <div class="workspace-card-icon">🔗</div>
-                        <h3 class="workspace-card-title">Integration Builder</h3>
-                        <p class="workspace-card-desc">Connect your AI tools, databases, and APIs. Build custom workflows without writing code using Make, n8n, or Zapier.</p>
-                    </div>
-
-                    <div class="workspace-card">
-                        <div class="workspace-card-icon">📊</div>
-                        <h3 class="workspace-card-title">Performance Monitor</h3>
-                        <p class="workspace-card-desc">Track your AI projects: load times, performance metrics, user analytics, and quality indicators all in one dashboard.</p>
-                    </div>
-
-                    <div class="workspace-card">
-                        <div class="workspace-card-icon">👥</div>
-                        <h3 class="workspace-card-title">Collaborate</h3>
-                        <p class="workspace-card-desc">Share prompts, processes, and projects with your team. Fork community workflows, leave feedback, and contribute improvements.</p>
-                    </div>
+                <div class="workspace-grid" id="workspace-grid">
+                    <!-- Rendered by JS from CONTENT_HUB_DATA.workspaceSpecs -->
                 </div>
 
                 <div style="background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 2rem; text-align: center;">
-                    <h3 style="color: var(--text-primary); margin-bottom: 1rem;">Ready to Get Started?</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">Access the full prompt lab and interactive workspace with your LetsVibeAI account.</p>
-                    <a href="prompt-lab.html" class="btn btn-primary">Open Prompt Lab →</a>
+                    <h3 style="color: var(--text-primary); margin-bottom: 1rem;">Unlock Full Power</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">The full workspace integrates Claude 3.5 Sonnet and your Supabase data for a personalized experience.</p>
+                    <a href="index.html#auth" class="btn btn-primary">Sign In to Initialize →</a>
                 </div>
             </div>
         </div>
@@ -664,7 +647,8 @@
             monetizationLanes: [],
             partnerTracks: [],
             dailyGuide: { sections: [], workflow: [], distribution: [], deck: '' },
-            stats: { toolCount: 0, sourceCount: 0, newsletterCount: 0, partnerCount: 0 }
+            stats: { toolCount: 0, sourceCount: 0, newsletterCount: 0, partnerCount: 0 },
+            workspaceSpecs: {}
         };
 
         let activeToolCategory = 'all';
@@ -786,66 +770,151 @@
         }
 
         function renderContentHub() {
-            document.getElementById('hub-kpis').innerHTML = `
-        <div class="hub-kpi"><strong>${contentHub.stats.toolCount}+</strong><span>Tools in the directory</span></div>
-        <div class="hub-kpi"><strong>${contentHub.stats.sourceCount}+</strong><span>Feeds, pages, and communities</span></div>
-        <div class="hub-kpi"><strong>${contentHub.stats.newsletterCount}+</strong><span>Newsletter operators to track</span></div>
-        <div class="hub-kpi"><strong>${contentHub.stats.partnerCount}</strong><span>High-fit partner targets</span></div>
-      `;
+            const kpis = document.getElementById('hub-kpis');
+            if (kpis) {
+                kpis.innerHTML = `
+            <div class="hub-kpi"><strong>${contentHub.stats.toolCount}+</strong><span>Tools in the directory</span></div>
+            <div class="hub-kpi"><strong>${contentHub.stats.sourceCount}+</strong><span>Feeds, pages, and communities</span></div>
+            <div class="hub-kpi"><strong>${contentHub.stats.newsletterCount}+</strong><span>Newsletter operators to track</span></div>
+            <div class="hub-kpi"><strong>${contentHub.stats.partnerCount}</strong><span>High-fit partner targets</span></div>
+          `;
+            }
 
-            document.getElementById('daily-guide-deck').textContent = contentHub.dailyGuide.deck;
+            const dailyGuideDeck = document.getElementById('daily-guide-deck');
+            if (dailyGuideDeck) dailyGuideDeck.textContent = contentHub.dailyGuide.deck;
 
-            document.getElementById('briefing-sections').innerHTML = contentHub.dailyGuide.sections.map(section => `
-        <article class="briefing-card">
-          <span class="briefing-meta">${section[1]}</span>
-          <h4>${section[0]}</h4>
-          <p>${section[2]}</p>
-        </article>`).join('');
+            const briefingSections = document.getElementById('briefing-sections');
+            if (briefingSections) {
+                briefingSections.innerHTML = contentHub.dailyGuide.sections.map(section => `
+            <article class="briefing-card">
+              <span class="briefing-meta">${section[1]}</span>
+              <h4>${section[0]}</h4>
+              <p>${section[2]}</p>
+            </article>`).join('');
+            }
 
-            document.getElementById('briefing-workflow').innerHTML = contentHub.dailyGuide.workflow.map(step => `
-        <article class="timeline-card">
-          <span class="briefing-meta">${step[0]}</span>
-          <h4>${step[1]}</h4>
-        </article>`).join('');
+            const briefingWorkflow = document.getElementById('briefing-workflow');
+            if (briefingWorkflow) {
+                briefingWorkflow.innerHTML = contentHub.dailyGuide.workflow.map(step => `
+            <article class="timeline-card">
+              <span class="briefing-meta">${step[0]}</span>
+              <h4>${step[1]}</h4>
+            </article>`).join('');
+            }
 
-            document.getElementById('briefing-distribution').innerHTML = contentHub.dailyGuide.distribution.map(item => `
-        <div class="distribution-item">${item}</div>`).join('');
+            const briefingDistribution = document.getElementById('briefing-distribution');
+            if (briefingDistribution) {
+                briefingDistribution.innerHTML = contentHub.dailyGuide.distribution.map(item => `
+            <div class="distribution-item">${item}</div>`).join('');
+            }
 
-            document.getElementById('monetization-lanes').innerHTML = contentHub.monetizationLanes.map(lane => `
-        <article class="card fade-in">
-          <div class="card-icon">${lane.icon}</div>
-          <h3>${lane.title}</h3>
-          <p>${lane.copy}</p>
-        </article>`).join('');
+            const monetizationLanes = document.getElementById('monetization-lanes');
+            if (monetizationLanes) {
+                monetizationLanes.innerHTML = contentHub.monetizationLanes.map(lane => `
+            <article class="card fade-in">
+              <div class="card-icon">${lane.icon}</div>
+              <h3>${lane.title}</h3>
+              <p>${lane.copy}</p>
+            </article>`).join('');
+            }
 
-            document.getElementById('partner-tracks').innerHTML = contentHub.partnerTracks.map(track => `
-        <a href="${track.url}" target="_blank" rel="noopener" class="partner-card">
-          <h4>${track.name}</h4>
-          <p>${track.angle}</p>
-          <small>Use for transparent affiliate, co-marketing, education, or sponsor opportunities when available.</small>
-        </a>`).join('');
+            const partnerTracks = document.getElementById('partner-tracks');
+            if (partnerTracks) {
+                partnerTracks.innerHTML = contentHub.partnerTracks.map(track => `
+            <a href="${track.url}" target="_blank" rel="noopener" class="partner-card">
+              <h4>${track.name}</h4>
+              <p>${track.angle}</p>
+              <small>Use for transparent affiliate, co-marketing, education, or sponsor opportunities when available.</small>
+            </a>`).join('');
+            }
 
-            document.getElementById('source-groups').innerHTML = contentHub.sourceGroups.map(group => `
-        <section class="source-group-card">
-          <span class="section-label" style="margin-bottom:0.5rem;">${group.icon} ${group.title}</span>
-          <p>${group.intro}</p>
-          <div class="source-list">
-            ${group.items.map(item => `
-              <article class="source-link-card">
-                <a href="${item.url}" target="_blank" rel="noopener">${item.name}</a>
-                <p>${item.angle}</p>
-              </article>`).join('')}
-          </div>
-        </section>`).join('');
+            const sourceGroups = document.getElementById('source-groups');
+            if (sourceGroups) {
+                sourceGroups.innerHTML = contentHub.sourceGroups.map(group => `
+            <section class="source-group-card">
+              <span class="section-label" style="margin-bottom:0.5rem;">${group.icon} ${group.title}</span>
+              <p>${group.intro}</p>
+              <div class="source-list">
+                ${group.items.map(item => `
+                  <article class="source-link-card">
+                    <a href="${item.url}" target="_blank" rel="noopener">${item.name}</a>
+                    <p>${item.angle}</p>
+                  </article>`).join('')}
+              </div>
+            </section>`).join('');
+            }
+        }
+
+        function renderEvents() {
+            const grid = document.getElementById('events-grid');
+            if (!grid) return;
+            grid.innerHTML = contentHub.eventGroups.map(group => `
+                <article class="card fade-in">
+                    <span class="section-label" style="margin-bottom: 0.75rem;">${group.icon} ${group.title}</span>
+                    <p style="margin-bottom: 1rem;">${group.intro}</p>
+                    <div style="display:grid;gap:0.75rem;">
+                        ${group.items.map(item => `
+                            <a href="${item.url}" target="_blank" rel="noopener" style="display:block;padding:0.85rem 1rem;background:rgba(255,255,255,0.02);border:1px solid var(--border-subtle);border-radius:var(--radius-md);">
+                                <strong style="color:var(--text-primary);display:block;margin-bottom:0.25rem;">${item.name}</strong>
+                                <span style="color:var(--text-secondary);font-size:0.85rem;">${item.angle}</span>
+                            </a>
+                        `).join('')}
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        function renderVideos() {
+            const grid = document.getElementById('videos-grid');
+            if (!grid) return;
+            grid.innerHTML = contentHub.videoLibrary.map(group => `
+                <article class="card fade-in">
+                    <span class="section-label" style="margin-bottom: 0.75rem;">${group.icon} ${group.title}</span>
+                    <div style="display:grid;gap:0.75rem;margin-top:1rem;">
+                        ${group.items.map(item => `
+                            <a href="${item.url}" target="_blank" rel="noopener" style="display:block;padding:1rem;background:rgba(255,255,255,0.02);border:1px solid var(--border-subtle);border-radius:var(--radius-md);text-decoration:none;">
+                                <div style="font-size:1.5rem;margin-bottom:0.5rem;">▶️</div>
+                                <strong style="color:var(--text-primary);display:block;margin-bottom:0.4rem;">${item.name}</strong>
+                                <span style="color:var(--text-secondary);font-size:0.85rem;">${item.angle}</span>
+                            </a>
+                        `).join('')}
+                    </div>
+                </article>
+            `).join('');
+        }
+
+        function renderWorkspace() {
+            const grid = document.getElementById('workspace-grid');
+            if (!grid) return;
+            const specs = contentHub.workspaceSpecs;
+            const icons = { tutor: '🤖', knowledgebase: '📚', copilot: '🛠️', outputs: '📤', promptBuilder: '📝', documentBuilder: '📄' };
+            
+            grid.innerHTML = Object.keys(specs).map(key => {
+                const spec = specs[key];
+                return `
+                    <div class="workspace-card" onclick="alert('${spec.name} integration coming soon!')">
+                        <div class="workspace-card-icon">${icons[key] || '🚀'}</div>
+                        <h3 class="workspace-card-title">${spec.name}</h3>
+                        <p class="workspace-card-desc">${spec.desc}</p>
+                        <ul style="list-style:none;padding:0;margin:1rem 0 0;display:flex;flex-wrap:wrap;gap:0.5rem;">
+                            ${spec.features.map(f => `<li class="tag" style="font-size:0.65rem;padding:0.2rem 0.5rem;">${f}</li>`).join('')}
+                        </ul>
+                    </div>
+                `;
+            }).join('');
         }
 
         document.addEventListener('DOMContentLoaded', () => {
             renderCoverageRadar();
             renderNewsSourceGroups();
             renderContentHub();
+            renderEvents();
+            renderVideos();
+            renderWorkspace();
             filterTools('all');
 
-            const initialTab = ['tools', 'news', 'content', 'workspace'].includes(location.hash.replace('#', ''))
+            const validTabs = ['tools', 'news', 'videos', 'events', 'content', 'workspace'];
+            const initialTab = validTabs.includes(location.hash.replace('#', ''))
                 ? location.hash.replace('#', '')
                 : 'tools';
             switchResourcesTab(initialTab, document.querySelector(`.resources-tab-btn[data-tab="${initialTab}"]`), false);

@@ -429,16 +429,154 @@ window.CONTENT_HUB_DATA = (() => {
     ]
   };
 
+  const eventGroups = [
+    {
+      id: 'meetups',
+      icon: '📍',
+      title: 'AI Meetups & Local Groups',
+      intro: 'Find your local AI community and build in person.',
+      items: mapLinks([
+        ['SF AI Meetup', 'https://meetup.com', 'San Francisco - Largest AI builder community.'],
+        ['NY AI Hackers', 'https://meetup.com', 'New York - Focus on LLM engineering and agents.'],
+        ['London AI Network', 'https://meetup.com', 'London - European AI ecosystem hub.'],
+        ['Austin AI Builders', 'https://meetup.com', 'Austin - Growing hub for applied AI.']
+      ])
+    },
+    {
+      id: 'conferences',
+      icon: '🎫',
+      title: 'AI Conferences & Summits',
+      intro: 'Major industry events for networking and deep dives.',
+      items: mapLinks([
+        ['AI Engineer Summit', 'https://ai.engineer', 'San Francisco - For developers building with LLMs.'],
+        ['NeurIPS', 'https://neurips.cc', 'Global - The premier academic AI research conference.'],
+        ['ODSC', 'https://odsc.com', 'Global - Data science and applied AI focus.'],
+        ['Config AI', 'https://figma.com/config', 'Virtual - Design and AI integration focus.']
+      ])
+    }
+  ];
+
+  const videoLibrary = [
+    {
+      id: 'tutorials',
+      icon: '🎓',
+      title: 'Step-by-Step Tutorials',
+      items: mapLinks([
+        ['Getting Started with Cursor', 'https://youtube.com', 'Complete guide to the AI-first IDE.'],
+        ['Build a RAG App in 10 Mins', 'https://youtube.com', 'Using LangChain and Supabase.'],
+        ['Prompt Engineering Masterclass', 'https://youtube.com', 'Master the art of the perfect prompt.']
+      ])
+    },
+    {
+      id: 'reviews',
+      icon: '🔍',
+      title: 'Tool & Model Reviews',
+      items: mapLinks([
+        ['Claude 3.5 Sonnet vs GPT-4o', 'https://youtube.com', 'Detailed coding benchmark results.'],
+        ['Lovable vs v0.dev', 'https://youtube.com', 'Which hosted builder is right for you?'],
+        ['Windsurf IDE First Look', 'https://youtube.com', 'Exploring the new agentic IDE.']
+      ])
+    }
+  ];
+
+  const workspaceSpecs = {
+    tutor: {
+      name: 'AI Tutor',
+      desc: 'Context-aware chat assistant for your learning journey.',
+      features: ['Claude-powered reasoning', 'Student history context', 'Lab-specific hints']
+    },
+    knowledgebase: {
+      name: 'Knowledgebase',
+      desc: 'Central repository of platform docs and industry knowledge.',
+      features: ['Searchable docs', 'Technical references', 'Industry glossary']
+    },
+    copilot: {
+      name: 'Lab Copilot',
+      desc: 'Real-time assistant for building your projects.',
+      features: ['Pair programming', 'Real-time feedback', 'Code walkthroughs']
+    },
+    outputs: {
+      name: 'Outputs & Library',
+      desc: 'Personal gallery of your generated documents and assets.',
+      features: ['Asset management', 'One-click share', 'Version history']
+    },
+    promptBuilder: {
+      name: 'Prompt Builder',
+      desc: 'Structured environment for designing complex prompt chains.',
+      features: ['Modular chains', 'Test playground', 'Instruction architect']
+    },
+    documentBuilder: {
+      name: 'Document Builder',
+      desc: 'AI-assisted generation of PRDs, Sitemaps, and Plans.',
+      features: ['Smart templates', 'Export to PDF/MD', 'Context engineering']
+    }
+  };
+
+  const externalCourseDirectory = [
+    {
+      name: 'AI for Everyone',
+      provider: 'DeepLearning.AI',
+      url: 'https://www.deeplearning.ai/courses/ai-for-everyone/',
+      level: 'Foundational',
+      price: 'Free',
+      desc: 'A non-technical introduction to AI concepts, strategy, and business impact.',
+      icon: '🎓'
+    },
+    {
+      name: 'Generative AI with LLMs',
+      provider: 'DeepLearning.AI',
+      url: 'https://www.coursera.org/learn/generative-ai-with-llms',
+      level: 'Advanced',
+      price: 'Paid',
+      desc: 'Technical deep dive into transformer architectures, fine-tuning, and RAG.',
+      icon: '🧠'
+    },
+    {
+      name: 'CS224N: Natural Language Processing',
+      provider: 'Stanford University',
+      url: 'https://web.stanford.edu/class/cs224n/',
+      level: 'Advanced',
+      price: 'Free',
+      desc: 'Deep learning for NLP, covering word vectors, RNNs, and Transformers.',
+      icon: '🏛️'
+    },
+    {
+      name: 'Prompt Engineering for Developers',
+      provider: 'OpenAI / DeepLearning.AI',
+      url: 'https://www.deeplearning.ai/short-courses/chatgpt-prompt-engineering-for-developers/',
+      level: 'Intermediate',
+      price: 'Free',
+      desc: 'Practical prompt engineering patterns for building LLM-powered apps.',
+      icon: '📝'
+    },
+    {
+      name: 'AI Engineering Specialization',
+      provider: 'DeepLearning.AI',
+      url: 'https://www.coursera.org/specializations/ai-engineering',
+      level: 'Advanced',
+      price: 'Paid',
+      desc: 'Building and deploying AI agents and production-ready RAG systems.',
+      icon: '⚙️'
+    }
+  ];
+
   const stats = {
     toolCount: tools.length,
     sourceCount: sourceGroups.reduce((sum, group) => sum + group.items.length, 0),
     newsletterCount: sourceGroups.find((group) => group.id === 'newsletters').items.length,
-    partnerCount: partnerTracks.length
+    partnerCount: partnerTracks.length,
+    eventCount: eventGroups.reduce((sum, group) => sum + group.items.length, 0),
+    videoCount: videoLibrary.reduce((sum, group) => sum + group.items.length, 0),
+    courseCount: externalCourseDirectory.length
   };
 
   return {
     tools,
     sourceGroups,
+    eventGroups,
+    videoLibrary,
+    workspaceSpecs,
+    externalCourseDirectory,
     coverageRadar,
     monetizationLanes,
     partnerTracks,

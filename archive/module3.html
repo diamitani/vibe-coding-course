@@ -4,23 +4,78 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Module 3 — The Vibe Coding Toolkit | LetsVibeAI</title>
-    <meta name="description"
-        content="Explore the best AI-powered tools for vibe coding: Lovable, v0.dev, Replit, Bolt.new, Claude Code, Codex, Antigravity and more.">
+    <title>Module 3 — The Toolkit | LetsVibeAI</title>
+    <meta name="description" content="Explore and compare AI-powered vibe coding tools. Learn which tools fit different workflows and build styles.">
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .module-header { text-align: center; padding: 3rem 0; margin-bottom: 2rem; }
+        .module-header .module-badge { display: inline-block; padding: 0.35rem 1rem; border-radius: var(--radius-full); background: rgba(6, 182, 212, 0.1); color: var(--accent-cyan); font-size: 0.8rem; font-weight: 600; margin-bottom: 1rem; }
+        .module-header h1 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 0.75rem; }
+        .module-header p { color: var(--text-secondary); font-size: 1.05rem; max-width: 600px; margin: 0 auto; }
+        .module-meta { display: flex; justify-content: center; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap; }
+        .module-meta span { font-size: 0.875rem; color: var(--text-muted); }
+        .lesson-layout { display: grid; grid-template-columns: 220px 1fr; gap: 2rem; align-items: start; }
+        @media (max-width: 768px) { .lesson-layout { grid-template-columns: 1fr; } }
+        .lesson-sidebar { position: sticky; top: 100px; }
+        .lesson-sidebar h4 { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 1rem; }
+        .lesson-sidebar a { display: block; padding: 0.5rem 0.75rem; border-radius: var(--radius-sm); color: var(--text-secondary); font-size: 0.85rem; transition: all var(--duration-fast) var(--ease-out); margin-bottom: 0.25rem; }
+        .lesson-sidebar a:hover, .lesson-sidebar a.active { background: rgba(6, 182, 212, 0.08); color: var(--accent-cyan); }
+        .lesson-section { margin-bottom: 3rem; scroll-margin-top: 100px; }
+        .lesson-section h2 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--text-primary); }
+        .lesson-section h3 { font-size: 1.15rem; margin: 1.5rem 0 0.75rem; color: var(--text-primary); }
+        .lesson-section p { color: var(--text-secondary); line-height: 1.8; margin-bottom: 1rem; }
+        .lesson-section ul { margin: 0.5rem 0 1rem 1.5rem; color: var(--text-secondary); }
+        .lesson-section li { margin-bottom: 0.4rem; line-height: 1.6; }
+        .lesson-section .highlight-box { background: var(--bg-card); border-left: 3px solid var(--accent-cyan); padding: 1.25rem 1.5rem; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 1.5rem 0; }
+        .lesson-section .highlight-box.violet { border-left-color: var(--accent-violet); }
+        .lesson-section .highlight-box.magenta { border-left-color: var(--accent-magenta); }
+        .lesson-section .highlight-box.emerald { border-left-color: var(--accent-emerald); }
+        .lesson-section .highlight-box p:last-child { margin-bottom: 0; }
+        .module-nav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border-subtle); }
+        .module-nav a { padding: 0.75rem 1.5rem; border-radius: var(--radius-md); font-weight: 600; font-size: 0.9rem; transition: all var(--duration-fast) var(--ease-out); }
+        .module-nav a.prev { color: var(--text-secondary); border: 1px solid var(--border-subtle); }
+        .module-nav a.prev:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+        .module-nav a.next { background: var(--accent-cyan); color: #fff; }
+        .module-nav a.next:hover { background: var(--accent-violet); }
+        .module-nav .back-to-learn { color: var(--text-muted); font-size: 0.8rem; }
+        .tool-category { margin-bottom: 2.5rem; }
+        .tool-category h3 { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1rem; }
+        .tool-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+        .tool-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.5rem; transition: all var(--duration-fast) var(--ease-out); }
+        .tool-card:hover { border-color: var(--accent-cyan); transform: translateY(-2px); box-shadow: 0 4px 20px rgba(6, 182, 212, 0.1); }
+        .tool-card h4 { font-size: 1rem; margin-bottom: 0.5rem; color: var(--text-primary); }
+        .tool-card .tool-desc { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.75rem; line-height: 1.6; }
+        .tool-card .tool-tags { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+        .tool-card .tool-tags span { font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: var(--radius-full); background: rgba(139, 92, 246, 0.1); color: var(--accent-violet); }
+        .tool-card .tool-tags span.cyan { background: rgba(6, 182, 212, 0.1); color: var(--accent-cyan); }
+        .tool-card .tool-tags span.emerald { background: rgba(16, 185, 129, 0.1); color: var(--accent-emerald); }
+        .tool-card .tool-link { display: inline-block; margin-top: 0.75rem; font-size: 0.8rem; color: var(--accent-cyan); }
+        .progress-controls { display: flex; align-items: center; gap: 1rem; margin-top: 2rem; padding: 1rem 1.5rem; background: var(--bg-card); border-radius: var(--radius-lg); border: 1px solid var(--border-subtle); }
+        .mark-btn { padding: 0.5rem 1.25rem; border-radius: var(--radius-full); border: none; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: all var(--duration-fast) var(--ease-out); }
+        .mark-btn.complete { background: var(--accent-emerald); color: #fff; }
+        .mark-btn.complete:hover { background: #059669; }
+        .mark-btn.incomplete { background: var(--bg-card); color: var(--text-secondary); border: 1px solid var(--border-subtle); }
+        .mark-btn.incomplete:hover { border-color: var(--accent-cyan); color: var(--accent-cyan); }
+        .progress-status { font-size: 0.85rem; color: var(--text-muted); }
+        .exercise-box { background: linear-gradient(135deg, rgba(139, 92, 246, 0.08), rgba(6, 182, 212, 0.08)); border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); padding: 1.5rem; margin: 1.5rem 0; }
+        .exercise-box h3 { margin-top: 0; }
+        .exercise-box p { font-size: 0.9rem; }
+        .exercise-box .tag { display: inline-block; padding: 0.2rem 0.6rem; border-radius: var(--radius-full); font-size: 0.7rem; font-weight: 600; background: rgba(16, 185, 129, 0.15); color: var(--accent-emerald); margin-top: 0.5rem; }
+    </style>
 </head>
 
 <body>
     <div class="ambient-bg"></div>
     <nav class="nav">
         <div class="nav-inner">
-            <a href="index.html" class="nav-logo">⚡ LetsVibeAI</a>
+            <a href="index.html" class="nav-logo">LetsVibeAI</a>
             <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="module1.html">Modules</a></li>
-                <li><a href="tools.html">Tools</a></li>
-                <li><a href="lab1.html">Labs</a></li>
+                <li><a href="learn.html">Learn</a></li>
+                <li><a href="resources.html">Resources</a></li>
+                <li><a href="community.html">Community</a></li>
+                <li><a href="marketplace.html">Marketplace</a></li>
                 <li id="auth-nav-slot"></li>
             </ul>
         </div>
@@ -28,281 +83,262 @@
 
     <main class="page-content">
         <div class="container">
-            <div class="module-hero">
-                <span class="module-number">Module 3</span>
-                <h1>The Vibe Coding Toolkit</h1>
-                <p>The ecosystem of AI-powered development tools is exploding. In this module, we'll explore the major
-                    categories, deep-dive into each tool, and help you pick the right ones for your workflow.</p>
+            <div class="module-header">
+                <div class="module-badge">Module 3 of 6</div>
+                <h1>🛠️ The Toolkit</h1>
+                <p>There are dozens of AI-powered tools for vibe coding. Learn which tools fit different workflows and build styles. Compare Lovable, v0.dev, Replit, Bolt.new, Cursor, and many more.</p>
+                <div class="module-meta">
+                    <span>⏱ ~3 hours</span>
+                    <span>📊 All Levels</span>
+                    <span>💰 Free</span>
+                </div>
             </div>
 
-            <div class="module-body">
-                <aside class="sidebar">
-                    <ul class="sidebar-nav">
-                        <li><a href="#categories">Categories</a></li>
-                        <li><a href="#hosted-builders">Hosted Builders</a></li>
-                        <li><a href="#ai-agents">AI Agents & IDEs</a></li>
-                        <li><a href="#comparison">Comparison</a></li>
-                        <li><a href="#choosing">Choosing a Tool</a></li>
-                    </ul>
+            <div class="lesson-layout">
+                <aside class="lesson-sidebar">
+                    <h4>On this page</h4>
+                    <a href="#overview">Tool Categories</a>
+                    <a href="#hosted-builders">Hosted Builders</a>
+                    <a href="#ai-ides">AI IDEs</a>
+                    <a href="#cli-agents">CLI Agents</a>
+                    <a href="#backend">Backend Services</a>
+                    <a href="#deploy">Deployment Platforms</a>
+                    <a href="#choosing">Choosing Your Stack</a>
+                    <a href="#exercises">Exercises</a>
                 </aside>
 
-                <div class="content">
-                    <h2 id="categories">Tool Categories</h2>
-                    <p>Vibe coding tools fall into three main categories, each suited for different workflows and skill
-                        levels:</p>
+                <div class="lesson-content">
+                    <section id="overview" class="lesson-section">
+                        <h2>Tool Categories</h2>
+                        <p>Vibe coding tools fall into several categories, each with different strengths. Most builders use a combination of tools from multiple categories:</p>
+                        <ul>
+                            <li><strong>Hosted Builders</strong> — Browser-based platforms where you describe your app and it builds live. Best for standalone projects and rapid prototyping.</li>
+                            <li><strong>AI IDEs</strong> — Code editors with AI deeply integrated. Best when you want more control and need to work with existing codebases.</li>
+                            <li><strong>CLI Agents</strong> — Terminal-based AI that can read, write, and refactor your code. Best for backend work and complex refactoring.</li>
+                            <li><strong>Backend Services</strong> — Managed infrastructure that handles databases, auth, and storage so you focus on features.</li>
+                            <li><strong>Deployment Platforms</strong> — One-click hosting for your vibe-coded projects.</li>
+                        </ul>
+                    </section>
 
-                    <div class="cards-grid" style="margin: var(--space-xl) 0;">
-                        <div class="card">
-                            <div class="card-icon">🌐</div>
-                            <h3>Hosted App Builders</h3>
-                            <p>Browser-based tools with visual previews. Describe your app, see it built live, and
-                                deploy with one click. Best for beginners and rapid prototyping.</p>
+                    <section id="hosted-builders" class="lesson-section">
+                        <h2>Hosted Builders</h2>
+                        <p>These are the easiest way to get started. No setup, no installation — just describe your idea and watch it build.</p>
+
+                        <div class="tool-grid">
+                            <div class="tool-card">
+                                <h4>Lovable</h4>
+                                <p class="tool-desc">The leading hosted vibe coding platform. Describe your app in natural language and get a full-stack application with a visual editor. Best for marketing sites, SaaS apps, and MVPs.</p>
+                                <div class="tool-tags"><span>Hosted</span><span class="cyan">Beginner</span><span class="emerald">Full-Stack</span></div>
+                                <a href="https://lovable.dev" target="_blank" class="tool-link">Visit Lovable →</a>
+                            </div>
+                            <div class="tool-card">
+                                <h4>v0.dev</h4>
+                                <p class="tool-desc">Vercel's AI-powered UI generator. Excellent for generating React components and pages from text descriptions. Produces production-quality code with Tailwind CSS.</p>
+                                <div class="tool-tags"><span>Hosted</span><span class="cyan">Beginner</span><span class="emerald">React</span></div>
+                                <a href="https://v0.dev" target="_blank" class="tool-link">Visit v0.dev →</a>
+                            </div>
+                            <div class="tool-card">
+                                <h4>Bolt.new</h4>
+                                <p class="tool-desc">StackBlitz's AI coding environment. Build full-stack apps in your browser with instant preview. Supports popular frameworks like React, Vue, Angular, and Svelte.</p>
+                                <div class="tool-tags"><span>Hosted</span><span class="cyan">Beginner</span><span class="emerald">Full-Stack</span></div>
+                                <a href="https://bolt.new" target="_blank" class="tool-link">Visit Bolt.new →</a>
+                            </div>
+                            <div class="tool-card">
+                                <h4>Replit Agent</h4>
+                                <p class="tool-desc">Replit's AI agent that builds and deploys apps directly in the browser. Great for collaborative projects and rapid prototyping with built-in hosting.</p>
+                                <div class="tool-tags"><span>Hosted</span><span class="cyan">Beginner</span><span class="emerald">Collaborative</span></div>
+                                <a href="https://replit.com" target="_blank" class="tool-link">Visit Replit →</a>
+                            </div>
+                            <div class="tool-card">
+                                <h4>Framer AI</h4>
+                                <p class="tool-desc">AI-powered website builder with a visual canvas. Best for design-forward marketing sites and portfolios where visual polish matters most.</p>
+                                <div class="tool-tags"><span>Hosted</span><span class="cyan">Beginner</span><span class="emerald">Design</span></div>
+                                <a href="https://framer.com" target="_blank" class="tool-link">Visit Framer AI →</a>
+                            </div>
+                            <div class="tool-card">
+                                <h4>Webflow + AI</h4>
+                                <p class="tool-desc">Professional-grade visual web development platform with AI assistance. Best for complex, production marketing sites with custom interactions.</p>
+                                <div class="tool-tags"><span>Hosted</span><span class="emerald">Professional</span><span class="emerald">Visual</span></div>
+                                <a href="https://webflow.com" target="_blank" class="tool-link">Visit Webflow →</a>
+                            </div>
                         </div>
-                        <div class="card">
-                            <div class="card-icon">💻</div>
-                            <h3>AI-Powered IDEs</h3>
-                            <p>Full development environments enhanced with AI. Write prompts inside your editor, see
-                                changes in real time. Best for mid-level users.</p>
+                    </section>
+
+                    <section id="ai-ides" class="lesson-section">
+                        <h2>AI IDEs</h2>
+                        <p>For when you need more control. AI IDEs combine the power of a full code editor with integrated AI assistance.</p>
+
+                        <div class="tool-grid">
+                            <div class="tool-card">
+                                <h4>Cursor</h4>
+                                <p class="tool-desc">The most popular AI-first code editor. Built on VS Code with deep AI integration. Features inline editing, multi-file refactoring, and an AI chat that understands your entire codebase.</p>
+                                <div class="tool-tags"><span>IDE</span><span>VS Code Fork</span><span class="emerald">Most Popular</span></div>
+                                <a href="https://cursor.sh" target="_blank" class="tool-link">Visit Cursor →</a>
+                            </div>
+                            <div class="tool-card">
+                                <h4>GitHub Copilot</h4>
+                                <p class="tool-desc">Microsoft's AI pair programmer. Integrates into VS Code, JetBrains, and other editors. Excellent for inline code completion and chat-based assistance.</p>
+                                <div class="tool-tags"><span>IDE</span><span>Extension</span><span class="emerald">Microsoft</span></div>
+                                <a href="https://github.com/features/copilot" target="_blank" class="tool-link">Visit Copilot →</a>
+                            </div>
+                            <div class="tool-card">
+                                <h4>Windsurf</h4>
+                                <p class="tool-desc">Codeium's AI-native IDE. Features a "cascade" mode where AI can autonomously perform multi-step development tasks across your codebase.</p>
+                                <div class="tool-tags"><span>IDE</span><span>AI-Native</span><span class="emerald">Autonomous</span></div>
+                                <a href="https://codeium.com/windsurf" target="_blank" class="tool-link">Visit Windsurf →</a>
+                            </div>
+                            <div class="tool-card">
+                                <h4>Continue.dev</h4>
+                                <p class="tool-desc">Open-source AI code assistant. Plugs into VS Code and JetBrains. Supports multiple AI providers and local models. Fully customizable and free.</p>
+                                <div class="tool-tags"><span>IDE</span><span>Open Source</span><span class="emerald">Free</span></div>
+                                <a href="https://continue.dev" target="_blank" class="tool-link">Visit Continue →</a>
+                            </div>
                         </div>
-                        <div class="card">
-                            <div class="card-icon">⌨️</div>
-                            <h3>CLI Agents</h3>
-                            <p>Terminal-based AI that reads your codebase and makes changes directly. Maximum power and
-                                control. Best for advanced workflows.</p>
+
+                        <div class="highlight-box">
+                            <p><strong>Recommendation:</strong> Start with Cursor if you want the most polished AI IDE experience. It has the best balance of features, performance, and AI integration.</p>
                         </div>
+                    </section>
+
+                    <section id="cli-agents" class="lesson-section">
+                        <h2>CLI Agents</h2>
+                        <p>Terminal-based AI agents are powerful for backend development, refactoring, and working with complex codebases. They operate directly on your file system.</p>
+
+                        <div class="tool-grid">
+                            <div class="tool-card">
+                                <h4>Claude Code</h4>
+                                <p class="tool-desc">Anthropic's CLI agent. Excels at complex reasoning, multi-file changes, and understanding code architecture. Best for backend and full-stack work.</p>
+                                <div class="tool-tags"><span>CLI</span><span class="emerald">Anthropic</span><span class="emerald">Best Reasoning</span></div>
+                                <a href="https://docs.anthropic.com/en/docs/claude-code/overview" target="_blank" class="tool-link">Learn More →</a>
+                            </div>
+                            <div class="tool-card">
+                                <h4>Aider</h4>
+                                <p class="tool-desc">Open-source AI coding assistant in your terminal. Works with any LLM (GPT-4, Claude, local models). Excellent git integration with automatic commit messages.</p>
+                                <div class="tool-tags"><span>CLI</span><span>Open Source</span><span class="emerald">Any LLM</span></div>
+                                <a href="https://aider.chat" target="_blank" class="tool-link">Visit Aider →</a>
+                            </div>
+                            <div class="tool-card">
+                                <h4>OpenCode / Codex CLI</h4>
+                                <p class="tool-desc">OpenAI's open-source CLI agent. Sandboxed execution environment. Good for experimenting with different models and building custom agent workflows.</p>
+                                <div class="tool-tags"><span>CLI</span><span>Open Source</span><span class="emerald">OpenAI</span></div>
+                                <a href="https://github.com/openai/codex" target="_blank" class="tool-link">View on GitHub →</a>
+                            </div>
+                        </div>
+
+                        <div class="highlight-box violet">
+                            <p><strong>When to use CLI agents:</strong> They excel at tasks that require understanding your full codebase — refactoring, adding features, fixing bugs across multiple files. They're less ideal for visual design work.</p>
+                        </div>
+                    </section>
+
+                    <section id="backend" class="lesson-section">
+                        <h2>Backend Services</h2>
+                        <p>These handle the infrastructure so you can focus on building features. Essential for any app that needs users, data, or storage.</p>
+
+                        <div class="tool-grid">
+                            <div class="tool-card">
+                                <h4>Supabase</h4>
+                                <p class="tool-desc">Open-source Firebase alternative. Provides PostgreSQL database, authentication, real-time subscriptions, storage, and Edge Functions. The most popular backend for vibe coding.</p>
+                                <div class="tool-tags"><span>Backend</span><span>Open Source</span><span class="emerald">PostgreSQL</span></div>
+                                <a href="https://supabase.com" target="_blank" class="tool-link">Visit Supabase →</a>
+                            </div>
+                            <div class="tool-card">
+                                <h4>Firebase</h4>
+                                <p class="tool-desc">Google's managed backend platform. NoSQL database, auth, hosting, and serverless functions. Great for prototyping but can get expensive at scale.</p>
+                                <div class="tool-tags"><span>Backend</span><span>Google</span><span class="emerald">NoSQL</span></div>
+                                <a href="https://firebase.google.com" target="_blank" class="tool-link">Visit Firebase →</a>
+                            </div>
+                            <div class="tool-card">
+                                <h4>Convex</h4>
+                                <p class="tool-desc">Reactive backend-as-a-service. TypeScript-native with real-time sync, ACID transactions, and schema validation built in. Excellent developer experience.</p>
+                                <div class="tool-tags"><span>Backend</span><span>TypeScript</span><span class="emerald">Real-time</span></div>
+                                <a href="https://convex.dev" target="_blank" class="tool-link">Visit Convex →</a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="deploy" class="lesson-section">
+                        <h2>Deployment Platforms</h2>
+                        <p>Once your app is built, you need to put it on the internet. These platforms make deployment one-click simple.</p>
+
+                        <div class="tool-grid">
+                            <div class="tool-card">
+                                <h4>Vercel</h4>
+                                <p class="tool-desc">The most popular deployment platform for frontend apps. One-click deploy from GitHub, automatic SSL, edge functions, and preview deployments for every branch.</p>
+                                <div class="tool-tags"><span>Deploy</span><span class="emerald">Frontend</span><span class="emerald">Edge</span></div>
+                                <a href="https://vercel.com" target="_blank" class="tool-link">Visit Vercel →</a>
+                            </div>
+                            <div class="tool-card">
+                                <h4>Netlify</h4>
+                                <p class="tool-desc">Similar to Vercel with a focus on static sites and serverless functions. Excellent form handling, split testing, and deployment previews.</p>
+                                <div class="tool-tags"><span>Deploy</span><span class="emerald">Static Sites</span><span class="emerald">Forms</span></div>
+                                <a href="https://netlify.com" target="_blank" class="tool-link">Visit Netlify →</a>
+                            </div>
+                            <div class="tool-card">
+                                <h4>Railway</h4>
+                                <p class="tool-desc">Full-stack deployment platform. Deploy databases, backend services, and frontends with a single command. Great for containerized applications.</p>
+                                <div class="tool-tags"><span>Deploy</span><span class="emerald">Full-Stack</span><span class="emerald">Containers</span></div>
+                                <a href="https://railway.app" target="_blank" class="tool-link">Visit Railway →</a>
+                            </div>
+                            <div class="tool-card">
+                                <h4>Fly.io</h4>
+                                <p class="tool-desc">Deploy Docker containers close to your users. Excellent for backend services and databases. Global edge deployment with low latency.</p>
+                                <div class="tool-tags"><span>Deploy</span><span class="emerald">Docker</span><span class="emerald">Edge</span></div>
+                                <a href="https://fly.io" target="_blank" class="tool-link">Visit Fly.io →</a>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section id="choosing" class="lesson-section">
+                        <h2>Choosing Your Stack</h2>
+                        <p>Your tool choice depends on what you're building:</p>
+                        <h3>For Beginners (No Code Experience)</h3>
+                        <p>Start with <strong>Lovable</strong> or <strong>v0.dev</strong> for the frontend and <strong>Supabase</strong> for the backend. This combination handles 90% of what you'll want to build. No terminal or code editor needed.</p>
+                        <h3>For Intermediates (Some Technical Knowledge)</h3>
+                        <p>Use <strong>Cursor</strong> as your editor with <strong>GitHub Copilot</strong> for inline completions. Add <strong>Claude Code</strong> or <strong>Aider</strong> for complex refactoring. Deploy on <strong>Vercel</strong>.</p>
+                        <h3>For Experienced Developers</h3>
+                        <p>Combine <strong>Claude Code</strong> (or <strong>Aider</strong>) in the terminal with <strong>Cursor</strong> for editing. Use <strong>Supabase</strong> for backend, and deploy on <strong>Railway</strong> or <strong>Fly.io</strong>.</p>
+                        <div class="highlight-box magenta">
+                            <p><strong>Pro Tip:</strong> Don't try to learn everything at once. Pick one tool from each category and master it. The best stack is the one you actually use to build things.</p>
+                        </div>
+                    </section>
+
+                    <section id="exercises" class="lesson-section">
+                        <h2>Exercises</h2>
+
+                        <div class="exercise-box">
+                            <h3>🛠️ Exercise 1: Tool Comparison</h3>
+                            <p>Pick two hosted builders (e.g., Lovable and v0.dev). Give each the same prompt: "Build a one-page landing page for a productivity app called FocusFlow." Compare the results in terms of design quality, code structure, and ease of iteration.</p>
+                            <span class="tag">~45 minutes</span>
+                        </div>
+
+                        <div class="exercise-box">
+                            <h3>🔧 Exercise 2: IDE Setup</h3>
+                            <p>Install Cursor (or Windsurf). Open an existing project or create a new one. Use the AI chat to ask three questions about your code: "What does this project do?", "How is the routing structured?", "What are potential improvements?"</p>
+                            <span class="tag">~30 minutes</span>
+                        </div>
+
+                        <div class="exercise-box">
+                            <h3>🔄 Exercise 3: CLI Agent Trial</h3>
+                            <p>Install Claude Code or Aider. Give it a task: "Add a dark mode toggle to this HTML page" or "Create a new API endpoint that returns user data." Observe how the CLI agent approaches the task differently from a hosted builder.</p>
+                            <span class="tag">~30 minutes</span>
+                        </div>
+
+                        <div class="exercise-box">
+                            <h3>📋 Exercise 4: Stack Plan</h3>
+                            <p>Write down your current skill level and what you want to build next. Based on this module, choose one tool from each category (builder/IDE, backend, deploy) that fits your needs. Explain why you chose each one.</p>
+                            <span class="tag">~15 minutes</span>
+                        </div>
+                    </section>
+
+                    <div class="progress-controls">
+                        <button class="mark-btn incomplete" id="progress-btn" onclick="toggleProgress()">Mark as Complete</button>
+                        <span class="progress-status" id="progress-status">Not started</span>
                     </div>
 
-                    <h2 id="hosted-builders">Hosted App Builders</h2>
-
-                    <div class="cards-grid" style="margin: var(--space-xl) 0;">
-                        <div class="tool-card">
-                            <div class="tool-name">Lovable</div>
-                            <div class="tool-category">Hosted Builder</div>
-                            <div class="tool-desc">Lovable is an AI full-stack app builder. Describe your project in
-                                natural language and Lovable generates a complete application with frontend, backend,
-                                database, and authentication. It uses React + Supabase under the hood and gives you a
-                                live preview as it builds.</div>
-                            <div class="tool-tags">
-                                <span class="tag">Full-Stack</span>
-                                <span class="tag cyan">Supabase</span>
-                                <span class="tag emerald">One-Click Deploy</span>
-                            </div>
-                        </div>
-
-                        <div class="tool-card">
-                            <div class="tool-name">v0.dev</div>
-                            <div class="tool-category">Hosted Builder · by Vercel</div>
-                            <div class="tool-desc">v0 generates production-ready UI components from text descriptions.
-                                Built by Vercel, it outputs React + Tailwind code that's ready to drop into any Next.js
-                                project. Ideal for front-end design and component generation.</div>
-                            <div class="tool-tags">
-                                <span class="tag">UI Components</span>
-                                <span class="tag cyan">React</span>
-                                <span class="tag magenta">Tailwind</span>
-                            </div>
-                        </div>
-
-                        <div class="tool-card">
-                            <div class="tool-name">Bolt.new</div>
-                            <div class="tool-category">Hosted Builder · by StackBlitz</div>
-                            <div class="tool-desc">Bolt.new gives you an instant full-stack development environment in
-                                the browser. Powered by WebContainers, it runs Node.js entirely in your browser — no
-                                server needed. Describe your app and watch it get built in real time with instant
-                                previews.</div>
-                            <div class="tool-tags">
-                                <span class="tag">Full-Stack</span>
-                                <span class="tag cyan">WebContainers</span>
-                                <span class="tag emerald">No Server</span>
-                            </div>
-                        </div>
-
-                        <div class="tool-card">
-                            <div class="tool-name">Replit</div>
-                            <div class="tool-category">AI IDE · Cloud-Based</div>
-                            <div class="tool-desc">Replit combines a cloud IDE with an AI agent that can build entire
-                                applications from a description. It handles the development environment, hosting, and
-                                deployment — making it the most "all-in-one" option available. Great for both learning
-                                and production.</div>
-                            <div class="tool-tags">
-                                <span class="tag">All-in-One</span>
-                                <span class="tag cyan">Cloud IDE</span>
-                                <span class="tag magenta">Built-in Hosting</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h2 id="ai-agents">AI Agents &amp; CLI Tools</h2>
-
-                    <div class="cards-grid" style="margin: var(--space-xl) 0;">
-                        <div class="tool-card">
-                            <div class="tool-name">Claude Code</div>
-                            <div class="tool-category">CLI Agent · by Anthropic</div>
-                            <div class="tool-desc">Claude Code is Anthropic's agentic coding tool that lives in your
-                                terminal. It reads your entire codebase, understands project structure, and makes
-                                multi-file changes directly. Powerful for complex projects where you need deep context
-                                awareness.</div>
-                            <div class="tool-tags">
-                                <span class="tag">Terminal</span>
-                                <span class="tag cyan">Multi-File</span>
-                                <span class="tag emerald">Deep Context</span>
-                            </div>
-                        </div>
-
-                        <div class="tool-card">
-                            <div class="tool-name">Codex</div>
-                            <div class="tool-category">CLI Agent · by OpenAI</div>
-                            <div class="tool-desc">OpenAI's Codex is a cloud-based coding agent that runs tasks in a
-                                sandboxed environment. It can read your repository, execute code, run tests, and submit
-                                pull requests. Designed for integration into professional development workflows.</div>
-                            <div class="tool-tags">
-                                <span class="tag">Sandboxed</span>
-                                <span class="tag cyan">GitHub Integration</span>
-                                <span class="tag magenta">Pull Requests</span>
-                            </div>
-                        </div>
-
-                        <div class="tool-card">
-                            <div class="tool-name">OpenCode</div>
-                            <div class="tool-category">CLI Agent · Open Source</div>
-                            <div class="tool-desc">OpenCode is an open-source terminal-based AI coding assistant. It's
-                                provider-agnostic, meaning you can plug in any LLM (OpenAI, Anthropic, local models).
-                                Great for developers who want full control and transparency over their tooling.</div>
-                            <div class="tool-tags">
-                                <span class="tag emerald">Open Source</span>
-                                <span class="tag">Any LLM</span>
-                                <span class="tag cyan">Transparent</span>
-                            </div>
-                        </div>
-
-                        <div class="tool-card">
-                            <div class="tool-name">Antigravity</div>
-                            <div class="tool-category">Agentic IDE · by Google DeepMind</div>
-                            <div class="tool-desc">Antigravity is Google DeepMind's advanced agentic coding assistant.
-                                It operates inside an IDE with full access to terminal, browser, and file system. It
-                                plans, executes, and verifies changes — making it one of the most powerful agentic tools
-                                available.</div>
-                            <div class="tool-tags">
-                                <span class="tag magenta">Agentic</span>
-                                <span class="tag">Browser + Terminal</span>
-                                <span class="tag emerald">Full IDE</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h2 id="comparison">Tool Comparison</h2>
-
-                    <div style="overflow-x:auto;">
-                        <table class="comparison-table">
-                            <thead>
-                                <tr>
-                                    <th>Tool</th>
-                                    <th>Type</th>
-                                    <th>Best For</th>
-                                    <th>Skill Level</th>
-                                    <th>Pricing</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td><strong>Lovable</strong></td>
-                                    <td>Hosted Builder</td>
-                                    <td>Full-stack apps, MVPs</td>
-                                    <td>Beginner</td>
-                                    <td>Free tier + paid plans</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>v0.dev</strong></td>
-                                    <td>UI Generator</td>
-                                    <td>UI components, design</td>
-                                    <td>Beginner–Mid</td>
-                                    <td>Free tier + paid</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Bolt.new</strong></td>
-                                    <td>Hosted Builder</td>
-                                    <td>Full-stack prototypes</td>
-                                    <td>Beginner</td>
-                                    <td>Free tier + paid</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Replit</strong></td>
-                                    <td>Cloud IDE</td>
-                                    <td>All-in-one development</td>
-                                    <td>Beginner–Mid</td>
-                                    <td>Free tier + paid</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Claude Code</strong></td>
-                                    <td>CLI Agent</td>
-                                    <td>Complex codebases</td>
-                                    <td>Mid–Advanced</td>
-                                    <td>API usage</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Codex</strong></td>
-                                    <td>CLI Agent</td>
-                                    <td>PR workflows, testing</td>
-                                    <td>Mid–Advanced</td>
-                                    <td>API usage</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>OpenCode</strong></td>
-                                    <td>CLI Agent</td>
-                                    <td>Open-source, custom setups</td>
-                                    <td>Advanced</td>
-                                    <td>Free (+ LLM costs)</td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Antigravity</strong></td>
-                                    <td>Agentic IDE</td>
-                                    <td>Complex projects, full agent</td>
-                                    <td>All levels</td>
-                                    <td>Varies</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <h2 id="choosing">How to Choose the Right Tool</h2>
-                    <p>There's no single "best" tool — it depends on your goals, skill level, and what you're building:
-                    </p>
-
-                    <ul>
-                        <li><strong>Just getting started?</strong> → Start with <strong>Lovable</strong> or
-                            <strong>Bolt.new</strong>. They have the gentlest learning curve.</li>
-                        <li><strong>Want beautiful UI?</strong> → Use <strong>v0.dev</strong> for component design, then
-                            bring the code into your project.</li>
-                        <li><strong>Need everything in one place?</strong> → <strong>Replit</strong> covers IDE,
-                            hosting, and deployment.</li>
-                        <li><strong>Working on an existing codebase?</strong> → <strong>Claude Code</strong> or
-                            <strong>Antigravity</strong> can read your whole project and make intelligent changes.</li>
-                        <li><strong>Want maximum control?</strong> → <strong>OpenCode</strong> is fully open source and
-                            works with any model.</li>
-                    </ul>
-
-                    <div class="callout tip">
-                        <div class="callout-title">💡 Pro Tip</div>
-                        <p>Don't commit to just one tool. Expert vibe coders often <strong>chain tools together</strong>
-                            — use v0 to generate a component, Lovable to scaffold the app, and Claude Code to refine the
-                            details.</p>
-                    </div>
-
-                    <div id="mark-complete-section" style="margin:2rem 0;padding:1.5rem;background:var(--bg-card);border:1px solid var(--border-subtle);border-radius:12px;text-align:center;">
-                        <button id="mark-complete-btn" class="btn btn-primary" onclick="toggleComplete()" style="min-width:200px;">
-                            Mark as Complete
-                        </button>
-                        <p id="complete-status" style="display:none;color:var(--accent-emerald);margin-top:0.75rem;font-size:0.875rem;"></p>
-                    </div>
-
-                    <div class="page-nav">
-                        <a href="module2.html">
-                            <span class="nav-label">← Previous</span>
-                            <span class="nav-title">What is Vibe Coding</span>
-                        </a>
-                        <a href="module4.html" class="next">
-                            <span class="nav-label">Next →</span>
-                            <span class="nav-title">Prompt Chaining</span>
-                        </a>
+                    <div class="module-nav">
+                        <a href="module2.html" class="prev">← Previous: What is Vibe Coding?</a>
+                        <a href="learn.html" class="back-to-learn">Back to Learning Hub</a>
+                        <a href="module4.html" class="next">Next: Prompt Chaining →</a>
                     </div>
                 </div>
             </div>
@@ -311,51 +347,60 @@
 
     <footer class="footer">
         <div class="container">
-            <p>⚡ LetsVibeAI &copy; 2025</p>
+            <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <p>LetsVibeAI &copy; 2025 — Built with AI</p>
+                <div style="display: flex; gap: 1.5rem;">
+                    <a href="learn.html">Learn</a>
+                    <a href="resources.html">Resources</a>
+                    <a href="marketplace.html">Marketplace</a>
+                    <a href="community.html">Community</a>
+                </div>
+            </div>
         </div>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <script src="supabase-client.js"></script>
     <script src="script.js"></script>
     <script>
-    const CONTENT_SLUG = 'module3';
-    const CONTENT_TYPE = 'module';
-
-    async function toggleComplete() {
-        await window.authPromise;
-        const user = getCurrentUser();
-        if (!user) { window.location.href = 'auth.html'; return; }
-
-        const btn = document.getElementById('mark-complete-btn');
-        const status = document.getElementById('complete-status');
-        const progress = await window.db.getProgress(user.id);
-        const isComplete = progress.some(p => p.content_slug === CONTENT_SLUG);
-
-        if (isComplete) {
-            await window.db.unmarkComplete(user.id, CONTENT_SLUG);
-            btn.textContent = 'Mark as Complete';
-            btn.style.background = '';
-            status.style.display = 'none';
-        } else {
-            await window.db.markComplete(user.id, CONTENT_SLUG, CONTENT_TYPE);
-            btn.textContent = 'Completed \u2713';
-            btn.style.background = 'var(--accent-emerald)';
-            status.textContent = 'Great work! Keep going.';
-            status.style.display = 'block';
+        const MODULE_SLUG = 'module-3-the-toolkit';
+        async function toggleProgress() {
+            const user = getCurrentUser();
+            if (!user) { showToast('Sign in to track your progress!'); return; }
+            const btn = document.getElementById('progress-btn');
+            const status = document.getElementById('progress-status');
+            const isComplete = btn.classList.contains('complete');
+            if (isComplete) {
+                await window.db.unmarkComplete(user.id, MODULE_SLUG);
+                btn.textContent = 'Mark as Complete'; btn.className = 'mark-btn incomplete'; status.textContent = 'Not started';
+            } else {
+                await window.db.markComplete(user.id, MODULE_SLUG, 'module');
+                btn.textContent = '✅ Completed'; btn.className = 'mark-btn complete'; status.textContent = 'Completed';
+            }
         }
-    }
-
-    document.addEventListener('DOMContentLoaded', async () => {
-        await window.authPromise;
-        const user = getCurrentUser();
-        if (!user) return;
-
-        const progress = await window.db.getProgress(user.id);
-        if (progress.some(p => p.content_slug === CONTENT_SLUG)) {
-            document.getElementById('mark-complete-btn').textContent = 'Completed \u2713';
-            document.getElementById('mark-complete-btn').style.background = 'var(--accent-emerald)';
+        async function loadProgress() {
+            const user = getCurrentUser();
+            if (!user) return;
+            const progress = await window.db.getProgress(user.id);
+            const found = progress.find(p => p.content_slug === MODULE_SLUG);
+            if (found) {
+                document.getElementById('progress-btn').textContent = '✅ Completed';
+                document.getElementById('progress-btn').className = 'mark-btn complete';
+                document.getElementById('progress-status').textContent = 'Completed';
+            }
         }
-    });
+        document.addEventListener('DOMContentLoaded', () => {
+            window.authPromise.then(() => loadProgress()).catch(() => {});
+            const links = document.querySelectorAll('.lesson-sidebar a');
+            const sections = Array.from(links).map(a => { const id = a.getAttribute('href')?.replace('#', ''); return id ? document.getElementById(id) : null; }).filter(Boolean);
+            const spy = () => {
+                const scrollY = window.scrollY + 150;
+                let current = '';
+                sections.forEach(s => { if (s && s.offsetTop <= scrollY) current = s.id; });
+                links.forEach(a => { a.classList.toggle('active', a.getAttribute('href') === `#${current}`); });
+            };
+            window.addEventListener('scroll', spy, { passive: true }); spy();
+        });
     </script>
 </body>
 
