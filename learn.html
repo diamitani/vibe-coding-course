@@ -314,12 +314,12 @@
                     <div class="stat-label">Projects</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-value">Free</div>
-                    <div class="stat-label">Cost</div>
+                    <div class="stat-value" id="course-count-stat">5+</div>
+                    <div class="stat-label">Courses Indexed</div>
                 </div>
                 <div class="stat">
-                    <div class="stat-value">~20h</div>
-                    <div class="stat-label">Total Time</div>
+                    <div class="stat-value">Free</div>
+                    <div class="stat-label">Most Courses</div>
                 </div>
             </div>
 
@@ -720,7 +720,13 @@
             }
             
             if (tabName === 'courses') {
-                loadCourses().then(() => renderCourses());
+                loadCourses().then(() => {
+                    renderCourses();
+                    const stat = document.getElementById('course-count-stat');
+                    if (stat && courseDirectory.length > 5) {
+                        stat.textContent = courseDirectory.length + '+';
+                    }
+                });
             }
         }
 
