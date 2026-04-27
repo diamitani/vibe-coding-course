@@ -1,0 +1,7 @@
+/node_modules
+/dist
+/output/*.mp4
+/public/voiceover/*.wav
+/public/voiceover_manifest.json
+/public/script_manifest.json
+.DS_Store

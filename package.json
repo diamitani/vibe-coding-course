@@ -5,7 +5,8 @@
   "main": "script.js",
   "scripts": {
     "dev": "vercel dev",
-    "deploy": "vercel --prod"
+    "deploy": "vercel --prod",
+    "generate-pdfs": "node scripts/generate-pdfs.js"
   },
   "repository": {
     "type": "git",
@@ -17,5 +18,9 @@
   "bugs": {
     "url": "https://github.com/diamitani/vibe-coding-course/issues"
   },
-  "homepage": "https://github.com/diamitani/vibe-coding-course#readme"
+  "homepage": "https://github.com/diamitani/vibe-coding-course#readme",
+  "dependencies": {
+    "marked": "^18.0.2",
+    "puppeteer": "^24.42.0"
+  }
 }

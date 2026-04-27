@@ -1,0 +1,1 @@
+export { GTMEmailVideo } from "./Composition";
