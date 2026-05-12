@@ -661,7 +661,7 @@
       e.preventDefault();
       const email = document.getElementById('newsletter-email').value;
       try {
-        await window.db.subscribeNewsletter(email);
+        await window.db.addSubscriber(email);
         document.getElementById('newsletter-success').style.display = 'block';
         e.target.reset();
       } catch (err) {

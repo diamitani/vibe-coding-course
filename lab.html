@@ -56,8 +56,8 @@
         <!-- Left: Instructions & Copilot -->
         <aside class="lab-panel panel-instructions">
             <div class="panel-tabs">
-                <button class="panel-tab-btn active" onclick="switchPanelTab('instructions')">Instructions</button>
-                <button class="panel-tab-btn" onclick="switchPanelTab('copilot')">AI Copilot</button>
+                <button class="panel-tab-btn active" onclick="switchPanelTab('instructions', this)">Instructions</button>
+                <button class="panel-tab-btn" onclick="switchPanelTab('copilot', this)">AI Copilot</button>
             </div>
             <div id="instructions-content" class="panel-content">
                 <div id="lab-guide"></div>
@@ -132,9 +132,9 @@
             }
         }
 
-        function switchPanelTab(tab) {
+        function switchPanelTab(tab, btnElement) {
             document.querySelectorAll('.panel-tab-btn').forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            if (btnElement) btnElement.classList.add('active');
             document.getElementById('instructions-content').style.display = tab === 'instructions' ? 'block' : 'none';
             document.getElementById('copilot-content').style.display = tab === 'copilot' ? 'block' : 'none';
         }

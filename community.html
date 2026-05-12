@@ -252,9 +252,9 @@
 
             <!-- Tabs -->
             <div class="community-tabs">
-                <button class="community-tab-btn active" onclick="switchCommunityTab('members')">👥 Members</button>
-                <button class="community-tab-btn" onclick="switchCommunityTab('projects')">🎨 Projects</button>
-                <button class="community-tab-btn" onclick="switchCommunityTab('featured')">⭐ Featured</button>
+                <button class="community-tab-btn active" onclick="switchCommunityTab('members', this)">👥 Members</button>
+                <button class="community-tab-btn" onclick="switchCommunityTab('projects', this)">🎨 Projects</button>
+                <button class="community-tab-btn" onclick="switchCommunityTab('featured', this)">⭐ Featured</button>
             </div>
 
             <!-- Tab 1: Members -->
@@ -400,7 +400,7 @@
         }
 
         // Tab switching
-        function switchCommunityTab(tabName) {
+        function switchCommunityTab(tabName, btnElement) {
             // Hide all tabs
             document.querySelectorAll('.community-tab-content').forEach(tab => {
                 tab.classList.remove('active');
@@ -415,7 +415,7 @@
             document.getElementById(tabName).classList.add('active');
 
             // Mark button as active
-            event.target.classList.add('active');
+            if (btnElement) btnElement.classList.add('active');
 
             // Trigger render for specific tab
             if (tabName === 'projects') {

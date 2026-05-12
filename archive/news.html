@@ -306,7 +306,7 @@
       btn.disabled = true;
 
       try {
-        const result = await window.db.subscribeNewsletter(email);
+        const result = await window.db.addSubscriber(email);
         if (result.error) throw result.error;
         
         document.getElementById('newsletter-form').style.display = 'none';
@@ -324,7 +324,7 @@
 
     async function subscribeEmail(email) {
       try {
-        await window.db.subscribeNewsletter(email);
+        await window.db.addSubscriber(email);
         alert('Thanks for subscribing! Check your inbox.');
       } catch (err) {
         const list = JSON.parse(localStorage.getItem('newsletter_subscribers') || '[]');
