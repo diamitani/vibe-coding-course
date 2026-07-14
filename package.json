@@ -1,26 +1,21 @@
 {
-  "name": "vibe-coding-course",
-  "version": "1.0.0",
-  "description": "A comprehensive course website on vibe coding — building software with AI-powered tools and prompt engineering.",
-  "main": "script.js",
+  "name": "letsvibeai",
+  "version": "2.0.0",
+  "private": true,
   "scripts": {
-    "dev": "vercel dev",
-    "deploy": "vercel --prod",
-    "generate-pdfs": "node scripts/generate-pdfs.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/diamitani/vibe-coding-course.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/diamitani/vibe-coding-course/issues"
-  },
-  "homepage": "https://github.com/diamitani/vibe-coding-course#readme",
   "dependencies": {
-    "marked": "^18.0.2",
-    "puppeteer": "^24.42.0"
+    "next": "^15.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.7.0"
   }
 }
