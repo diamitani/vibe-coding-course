@@ -26,7 +26,7 @@ export function Sidebar() {
         </Link>
         <Link href="/tracks" className={`nav-item ${isActive('/tracks') && !pathname.includes('/track/') ? 'active' : ''}`}>
           <span className="nav-item-icon">☰</span>Learning Tracks
-          <span className="nav-item-badge">3</span>
+          <span className="nav-item-badge">4</span>
         </Link>
         <Link href="/directory" className={`nav-item ${isActive('/directory') ? 'active' : ''}`}>
           <span className="nav-item-icon">📂</span>Resource Directory
